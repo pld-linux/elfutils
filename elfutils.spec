@@ -1,7 +1,7 @@
 Summary:	A collection of utilities and DSOs to handle compiled objects.
 Name:		elfutils
 Version:	0.76
-Release:	6
+Release:	7
 License:	GPL
 Group:		Development/Tools
 #URL: file://home/devel/drepper
@@ -110,8 +110,8 @@ rm -rf ${RPM_BUILD_ROOT}
 %exclude %{_libdir}/libelf-*.so
 
 %files devel
-%doc libdwarf/AVAILABLE
 %defattr(644,root,root,755)
+%doc libdwarf/AVAILABLE
 %{_includedir}/*
 %{_libdir}/lib*.so
 %exclude %{_libdir}/lib*-*.so
