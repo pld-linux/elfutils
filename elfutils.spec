@@ -2,7 +2,7 @@ Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl):	Zestaw narzêdzi i bibliotek do obs³ugi skompilowanych obiektów
 Name:		elfutils
 Version:	0.76
-Release:	8
+Release:	9
 License:	OSL 1.0 (http://www.opensource.org/licenses/osl.php)
 Group:		Development/Tools
 Source0:	ftp://sunsite.icm.edu.pl:21/vol/rzm7/linux-sunsite/distributions/gentoo/distfiles/%{name}-%{version}.tar.gz
