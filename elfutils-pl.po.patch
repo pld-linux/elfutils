@@ -81,9 +81,9 @@ diff -Nur elfutils-0.76.orig/libasm-po/pl.po elfutils-0.76/libasm-po/pl.po
 +#: libasm/asm_error.c:149
 +msgid "Unknown error"
 +msgstr "Nieznany b³±d"
-diff -Nur elfutils-0.76.orig/libdwarf-po/pl.po elfutils-0.76/libdwarf-po/pl.po
---- elfutils-0.76.orig/libdwarf-po/pl.po	1970-01-01 01:00:00.000000000 +0100
-+++ elfutils-0.76/libdwarf-po/pl.po	2003-04-22 22:28:05.000000000 +0200
+diff -Nur elfutils-0.76.orig/libdw-po/pl.po elfutils-0.76/libdw-po/pl.po
+--- elfutils-0.76.orig/libdw-po/pl.po	1970-01-01 01:00:00.000000000 +0100
++++ elfutils-0.76/libdw-po/pl.po	2003-04-22 22:28:05.000000000 +0200
 @@ -0,0 +1,127 @@
 +# Polish translation for elfutils/libdwarf.
 +# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
