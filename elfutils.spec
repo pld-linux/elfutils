@@ -17,7 +17,7 @@ Patch1:		%{name}-debian-manpages.patch
 Patch2:		%{name}-alpha-stat.patch
 #URL:		file://home/devel/drepper
 BuildRequires:	autoconf >= 2.59
-BuildRequires:	automake >= 1.7
+BuildRequires:	automake >= 1:1.7
 BuildRequires:	gcc >= 3.2
 BuildRequires:	gettext-devel
 %ifarch alpha amd64 ia64 ppc64 s390x sparc64
