@@ -2,7 +2,7 @@ Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl):	Zestaw narzêdzi i bibliotek do obs³ugi skompilowanych obiektów
 Name:		elfutils
 Version:	0.94
-Release:	0.2
+Release:	1
 License:	OSL 1.0 (http://www.opensource.org/licenses/osl.php)
 Group:		Development/Tools
 # http://download.fedora.redhat.com/pub/fedora/linux/core/development/i386/SRPMS/elfutils-0.94-2.1.src.rpm
@@ -113,7 +113,7 @@ programowalny interfejs asemblera.
 
 %prep
 %setup -q
-#patch0 -p1
+%patch0 -p1
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -144,13 +144,12 @@ install -d $RPM_BUILD_ROOT%{_mandir}/man1
 
 install debian/man/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
 
-#%find_lang libelf
-#%find_lang libasm
-#%find_lang libdw
-#%find_lang libebl
-#%find_lang %{name}
-#cat libasm.lang libdw.lang libebl.lang >> %{name}.lang
-touch %{name}.lang
+%find_lang libelf
+%find_lang libasm
+%find_lang libdw
+%find_lang libebl
+%find_lang %{name}
+cat libasm.lang libdw.lang libebl.lang >> %{name}.lang
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -161,8 +160,7 @@ rm -rf $RPM_BUILD_ROOT
 %post	libelf -p /sbin/ldconfig
 %postun	libelf -p /sbin/ldconfig
 
-%files
-# -f %{name}.lang
+%files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc AUTHORS COPYING NEWS NOTES README THANKS TODO
 %attr(755,root,root) %{_bindir}/*
@@ -181,8 +179,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libebl.a
 %{_includedir}/*
 
-%files libelf
-# -f libelf.lang
+%files libelf -f libelf.lang
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libelf-*.so
 
