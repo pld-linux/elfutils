@@ -20,6 +20,10 @@ BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake >= 1.7
 BuildRequires:	gcc >= 3.2
 BuildRequires:	gettext-devel
+%ifarch alpha amd64 ia64 ppc64 s390x sparc64
+# PR*FAST{8,16} in <inttypes.h> were broken for 64-bit archs in older versions
+BuildRequires:	glibc-devel >= 6:2.3.4
+%endif
 BuildRequires:	libltdl-devel
 BuildRequires:	perl-tools-pod
 BuildRequires:	sharutils
