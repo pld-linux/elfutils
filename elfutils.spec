@@ -138,7 +138,11 @@ programowalny interfejs asemblera.
 
 %{__make}
 %{__make} -C debian/man
-%{?with_tests:%{__make} -C tests check}
+%if %{with tests}
+# $ORIGIN used in RPATH needs /proc to work - workaround it using LD_LIBRARY_PATH
+LD_LIBRARY_PATH=../libasm:../libdw:../libebl:../libelf \
+%{__make} -C tests check
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
