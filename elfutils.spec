@@ -8,7 +8,7 @@ Group:		Development/Tools
 Source0:	%{name}-%{version}.tar.gz
 Patch0:		%{name}-pl.po.patch
 #URL:		file://home/devel/drepper
-BuildRequires:	autoconf
+BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake
 BuildRequires:	gcc >= 3.2
 BuildRequires:	gettext-devel
