@@ -9,7 +9,7 @@ Source0:	%{name}-%{version}.tar.gz
 Patch0:		%{name}-pl.po.patch
 #URL:		file://home/devel/drepper
 BuildRequires:	autoconf >= 2.54
-BuildRequires:	automake
+BuildRequires:	automake >= 1.7
 BuildRequires:	gcc >= 3.2
 BuildRequires:	gettext-devel
 BuildRequires:  libltdl-devel
