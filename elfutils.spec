@@ -16,9 +16,9 @@ Patch0:		%{name}-pl.po.patch
 Patch1:		%{name}-debian-manpages.patch
 Patch2:		%{name}-alpha-stat.patch
 #URL:		file://home/devel/drepper
-BuildRequires:	autoconf >= 2.54
+BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1.7
-BuildRequires:	gcc >= 3.2
+#BuildRequires:	gcc >= 3.2
 BuildRequires:	gettext-devel
 %ifarch alpha amd64 ia64 ppc64 s390x sparc64
 # PR*FAST{8,16} in <inttypes.h> were broken for 64-bit archs in older versions
