@@ -11,6 +11,7 @@ Source0:	%{name}-%{version}.tar.gz
 Patch0:		%{name}-pl.po.patch
 Patch1:		%{name}-debian-manpages.patch
 Patch2:		%{name}-alpha-stat.patch
+Patch3:		%{name}-gcc34.patch
 #URL:		file://home/devel/drepper
 BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake >= 1.7
@@ -115,6 +116,7 @@ programowalny interfejs asemblera.
 #patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 %{__gettextize}
@@ -159,7 +161,8 @@ rm -rf $RPM_BUILD_ROOT
 %post	libelf -p /sbin/ldconfig
 %postun	libelf -p /sbin/ldconfig
 
-%files -f %{name}.lang
+%files
+# -f %{name}.lang
 %defattr(644,root,root,755)
 %doc AUTHORS COPYING NEWS NOTES README THANKS TODO
 %attr(755,root,root) %{_bindir}/*
@@ -178,7 +181,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libebl.a
 %{_includedir}/*
 
-%files libelf -f libelf.lang
+%files libelf
+# -f libelf.lang
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libelf-*.so
 
