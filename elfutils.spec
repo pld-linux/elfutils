@@ -129,8 +129,8 @@ programowalny interfejs asemblera.
 	--enable-shared
 
 %{__make}
-
 %{__make} -C debian/man
+%{__make} -C tests check
 
 %install
 rm -rf $RPM_BUILD_ROOT
