@@ -3,7 +3,7 @@ Summary(pl):	Zestaw narzêdzi i bibliotek do obs³ugi skompilowanych obiektów
 Name:		elfutils
 Version:	0.76
 Release:	8
-License:	GPL
+License:	OSL 1.0 (http://www.opensource.org/licenses/osl.php)
 Group:		Development/Tools
 Source0:	ftp://sunsite.icm.edu.pl:21/vol/rzm7/linux-sunsite/distributions/gentoo/distfiles/%{name}-%{version}.tar.gz
 # Source0-md5: 51adf608642cd5fd6a4e3f25545b3c42
