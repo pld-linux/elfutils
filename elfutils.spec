@@ -139,7 +139,8 @@ programowalny interfejs asemblera.
 %{__make}
 %{__make} -C debian/man
 %if %{with tests}
-# $ORIGIN used in RPATH needs /proc to work - workaround it using LD_LIBRARY_PATH
+# $ORIGIN used in RPATH needs /proc to work - workaround it using LD_LIBRARY_PATH;
+# ../libelf is needed also to use proper libelf by ../src/elflint during tests
 LD_LIBRARY_PATH=../libasm:../libdw:../libebl:../libelf \
 %{__make} -C tests check
 %endif
