@@ -1,7 +1,7 @@
 Summary:	A collection of utilities and DSOs to handle compiled objects.
 Name:		elfutils
 Version:	0.76
-Release:	4
+Release:	5
 License:	GPL
 Group:		Development/Tools
 #URL: file://home/devel/drepper
@@ -48,6 +48,22 @@ writing ELF files on a high level. Third party programs depend on this
 package to read internals of ELF files. The programs of the elfutils
 package use it also to generate new ELF files.
 
+%package static
+Summary:	Development libraries to handle compiled objects - static.
+Group:		Development/Tools
+Obsoletes:	libelf-devel
+Requires:	elfutils-devel = %{version}-%{release}
+
+%description static
+The elfutils-static package contains the static libraries to create
+applications for handling compiled objects. libelf allows you to
+access the internals of the ELF object file format, so you can see the
+different sections of an ELF file. libebl provides some higher-level
+ELF access functionality. libdwarf provides access to the DWARF
+debugging information. libasm provides a programmable assembler
+interface.
+
+
 %prep
 %setup -q
 
@@ -64,26 +80,11 @@ package use it also to generate new ELF files.
 rm -rf $RPM_BUILD_ROOT
 install -d ${RPM_BUILD_ROOT}%{_prefix}
 
-#make check
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 chmod +x ${RPM_BUILD_ROOT}%{_prefix}/%{_lib}/lib*.so*
 chmod +x ${RPM_BUILD_ROOT}%{_prefix}/%{_lib}/elfutils/lib*.so*
-
-
-# XXX Nuke unpackaged files
-{ cd ${RPM_BUILD_ROOT}
-  rm -f .%{_bindir}/eu-ld
-  rm -f .%{_includedir}/elfutils/libasm.h
-  rm -f .%{_includedir}/elfutils/libdw.h
-  rm -f .%{_includedir}/elfutils/libdwarf.h
-  rm -f .%{_libdir}/libasm-%{version}.so
-  rm -f .%{_libdir}/libasm.a
-  rm -f .%{_libdir}/libdw-%{version}.so
-  rm -f .%{_libdir}/libdw.a
-  rm -f .%{_libdir}/libdwarf.a
-}
 
 #%%check
 #make check
@@ -101,44 +102,24 @@ rm -rf ${RPM_BUILD_ROOT}
 
 %files
 %defattr(644,root,root,755)
-%doc README TODO libdwarf/AVAILABLE
-%attr(755,root,root) %{_bindir}/eu-elflint
-#%{_bindir}/eu-ld
-%attr(755,root,root) %{_bindir}/eu-nm
-%attr(755,root,root) %{_bindir}/eu-readelf
-%attr(755,root,root) %{_bindir}/eu-size
-%attr(755,root,root) %{_bindir}/eu-strip
-#%{_libdir}/libasm-%{version}.so
-%{_libdir}/libebl-%{version}.so
-#%{_libdir}/libdw-%{version}.so
-%{_libdir}/libdwarf-%{version}.so
-#%{_libdir}/libasm*.so.*
-%{_libdir}/libebl*.so.*
-#%{_libdir}/libdw*.so.*
-%{_libdir}/libdwarf*.so.*
+%doc README TODO
+%attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_libdir}/lib*-*.so
 %dir %{_libdir}/elfutils
-%{_libdir}/elfutils/lib*.so
+%attr(755,root,root) %{_libdir}/elfutils/lib*.so
+%exclude %{_libdir}/libelf-*.so
 
 %files devel
+%doc libdwarf/AVAILABLE
 %defattr(644,root,root,755)
-%{_includedir}/dwarf.h
-%{_includedir}/libelf.h
-%{_includedir}/gelf.h
-%{_includedir}/nlist.h
-%dir %{_includedir}/elfutils
-%{_includedir}/elfutils/elf-knowledge.h
-%{_includedir}/elfutils/libebl.h
-#%{_libdir}/libasm.a
-%{_libdir}/libebl.a
-%{_libdir}/libelf.a
-#%{_libdir}/libdw.a
-#%{_libdir}/libasm.so
-%{_libdir}/libebl.so
-%{_libdir}/libelf.so
-#%{_libdir}/libdw.so
-#%{_libdir}/libdwarf.so
+%{_includedir}/*
+%{_libdir}/lib*.so
+%exclude %{_libdir}/lib*-*.so
 
 %files libelf
 %defattr(644,root,root,755)
-%{_libdir}/libelf-%{version}.so
-%{_libdir}/libelf*.so.*
+%{_libdir}/libelf-*.so
+
+%files static
+%defattr(644,root,root,755)
+%{_libdir}/lib*.a
