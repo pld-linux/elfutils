@@ -2,14 +2,18 @@ Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl):	Zestaw narzêdzi i bibliotek do obs³ugi skompilowanych obiektów
 Name:		elfutils
 Version:	0.76
-Release:	7
+Release:	8
 License:	GPL
 Group:		Development/Tools
 Source0:	%{name}-%{version}.tar.gz
+Patch0:		%{name}-pl.po.patch
 #URL:		file://home/devel/drepper
+BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRequires:	gcc >= 3.2
-BuildRequires:	sharutils
+BuildRequires:	gettext-devel
 BuildRequires:  libltdl-devel
+BuildRequires:	sharutils
 Requires:	elfutils-libelf = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -103,6 +107,7 @@ programowalny interfejs asemblera.
 
 %prep
 %setup -q
+%patch -p1
 
 %build
 %{__aclocal}
@@ -113,18 +118,27 @@ programowalny interfejs asemblera.
 	--program-prefix=%{_programprefix} \
 	--enable-shared
 
+%{__make}
+
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d ${RPM_BUILD_ROOT}%{_prefix}
+install -d $RPM_BUILD_ROOT%{_prefix}
 
+# *OBJEXT must be passed to workaround problem with messed gettext,
+# which doesn't like *-po dir names
 %{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT
+	DESTDIR=$RPM_BUILD_ROOT \
+	CATOBJEXT=.gmo INSTOBJEXT=.mo
 
-chmod +x ${RPM_BUILD_ROOT}%{_prefix}/%{_lib}/lib*.so*
-chmod +x ${RPM_BUILD_ROOT}%{_prefix}/%{_lib}/elfutils/lib*.so*
+chmod +x $RPM_BUILD_ROOT%{_prefix}/%{_lib}/lib*.so*
+chmod +x $RPM_BUILD_ROOT%{_prefix}/%{_lib}/elfutils/lib*.so*
 
-#%%check
-#make check
+%find_lang libelf
+%find_lang libasm
+%find_lang libdwarf
+%find_lang libebl
+%find_lang %{name}
+cat libasm.lang libdwarf.lang libebl.lang >> %{name}.lang
 
 %clean
 rm -rf ${RPM_BUILD_ROOT}
@@ -135,7 +149,7 @@ rm -rf ${RPM_BUILD_ROOT}
 %post	libelf -p /sbin/ldconfig
 %postun	libelf -p /sbin/ldconfig
 
-%files
+%files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc README TODO
 %attr(755,root,root) %{_bindir}/*
@@ -151,7 +165,7 @@ rm -rf ${RPM_BUILD_ROOT}
 %{_libdir}/lib*.so
 %exclude %{_libdir}/lib*-*.so
 
-%files libelf
+%files libelf -f libelf.lang
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libelf-*.so
 
