@@ -62,7 +62,7 @@ udostêpnia programowalny interfejs asemblera.
 Summary:	Library to read and write ELF files
 Summary(pl):	Biblioteki do odczytu i zapisu plików ELF
 Group:		Libraries
-Obsoletes:	libelf
+#Obsoletes:	libelf
 
 %description libelf
 The elfutils-libelf package provides a DSO which allows reading and
