@@ -6,7 +6,7 @@ Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl):	Zestaw narzêdzi i bibliotek do obs³ugi skompilowanych obiektów
 Name:		elfutils
 Version:	0.95
-Release:	1
+Release:	2
 License:	OSL 1.0 (http://www.opensource.org/licenses/osl.php)
 Group:		Development/Tools
 # http://download.fedora.redhat.com/pub/fedora/linux/core/development/i386/SRPMS/
@@ -22,6 +22,7 @@ BuildRequires:	gcc >= 3.2
 BuildRequires:	gettext-devel
 %ifarch alpha amd64 ia64 ppc64 s390x sparc64
 # PR*FAST{8,16} in <inttypes.h> were broken for 64-bit archs in older versions
+# also needed for nanosecond timestamps on alpha
 BuildRequires:	glibc-devel >= 6:2.3.4
 %endif
 BuildRequires:	libltdl-devel
@@ -122,9 +123,7 @@ programowalny interfejs asemblera.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-# to be removed || updated after switching to glibc 2.3.4
-# (alpha stat64() with nsec fields was added in linux-2.6.4/glibc-2.3.4,
-#  I don't know if elfutils knows how to use it)
+# no nanosecond timestamps on sparc64 yet (alpha has them now)
 %patch2 -p1
 
 %build
