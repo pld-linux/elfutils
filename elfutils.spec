@@ -1,6 +1,7 @@
-
+#
+# Conditional build:
 %bcond_without tests	# do not perform tests
-
+#
 Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl):	Zestaw narzêdzi i bibliotek do obs³ugi skompilowanych obiektów
 Name:		elfutils
@@ -23,7 +24,7 @@ BuildRequires:	gettext-devel
 BuildRequires:	libltdl-devel
 BuildRequires:	perl-tools-pod
 BuildRequires:	sharutils
-Requires:	elfutils-libelf = %{version}-%{release}
+Requires:	%{name}-libelf = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_programprefix	eu-
@@ -50,8 +51,8 @@ specyficznych dla architektury.
 Summary:	Development part of libraries to handle compiled objects
 Summary(pl):	Czê¶æ programistyczna bibliotek do obs³ugi skompilowanych obiektów
 Group:		Development/Libraries
+Requires:	%{name} = %{version}-%{release}
 Obsoletes:	libelf-devel
-Requires:	elfutils = %{version}-%{release}
 
 %description devel
 The elfutils-devel package contains the development part of libraries
@@ -93,8 +94,8 @@ pakietu elfutils u¿ywaj± jej tak¿e do generowania nowych plików ELF.
 Summary:	Static libraries to handle compiled objects
 Summary(pl):	Statyczne biblioteki do obs³ugi skompilowanych obiektów
 Group:		Development/Libraries
+Requires:	%{name}-devel = %{version}-%{release}
 Obsoletes:	libelf-static
-Requires:	elfutils-devel = %{version}-%{release}
 
 %description static
 The elfutils-static package contains the static libraries to create
@@ -118,6 +119,9 @@ programowalny interfejs asemblera.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+# to be removed || updated after switching to glibc 2.3.4
+# (alpha stat64() with nsec fields was added in linux-2.6.4/glibc-2.3.4,
+#  I don't know if elfutils knows how to use it)
 %patch2 -p1
 %patch3 -p1
 
@@ -131,6 +135,9 @@ programowalny interfejs asemblera.
 	--program-prefix=%{_programprefix} \
 	--enable-shared
 
+# make check depends on test-nlist not stripped
+%{__perl} -pi -e 's/^(LDFLAGS =.*)-s/$1/' tests/Makefile
+
 %{__make}
 %{__make} -C debian/man
 %{?with_tests:%{__make} -C tests check}
@@ -143,14 +150,18 @@ install -d $RPM_BUILD_ROOT%{_mandir}/man1
 # which doesn't like *-po dir names
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
-	CATOBJEXT=.gmo INSTOBJEXT=.mo
+	CATOBJEXT=.gmo \
+	INSTOBJEXT=.mo
 
 install debian/man/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
 
 %find_lang libelf
 %find_lang libasm
 %find_lang libdw
-%find_lang libebl
+# currently there is no localizable messages in libebl
+#%find_lang libebl
+:>libebl.lang
+rm -f $RPM_BUILD_ROOT%{_datadir}/locale/pl/LC_MESSAGES/libebl.mo
 %find_lang %{name}
 cat libasm.lang libdw.lang libebl.lang >> %{name}.lang
 
