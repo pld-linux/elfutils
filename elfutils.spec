@@ -112,7 +112,7 @@ programowalny interfejs asemblera.
 
 %prep
 %setup -q
-%patch0 -p1
+#patch0 -p1
 %patch1 -p1
 %patch2 -p1
 
@@ -142,12 +142,13 @@ install -d $RPM_BUILD_ROOT%{_mandir}/man1
 
 install debian/man/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
 
-%find_lang libelf
-%find_lang libasm
-%find_lang libdwarf
-%find_lang libebl
-%find_lang %{name}
-cat libasm.lang libdwarf.lang libebl.lang >> %{name}.lang
+#%find_lang libelf
+#%find_lang libasm
+#%find_lang libdw
+#%find_lang libebl
+#%find_lang %{name}
+#cat libasm.lang libdw.lang libebl.lang >> %{name}.lang
+touch %{name}.lang
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -164,17 +165,15 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_libdir}/libasm-*.so
 %attr(755,root,root) %{_libdir}/libdw-*.so
-%attr(755,root,root) %{_libdir}/libdwarf-*.so
 %dir %{_libdir}/elfutils
 %attr(755,root,root) %{_libdir}/elfutils/lib*.so
 %{_mandir}/man1/*.1*
 
 %files devel
 %defattr(644,root,root,755)
-%doc libdwarf/AVAILABLE doc/elfutils.sgml
+%doc doc/elfutils.sgml
 %attr(755,root,root) %{_libdir}/libasm.so
 %attr(755,root,root) %{_libdir}/libdw.so
-%attr(755,root,root) %{_libdir}/libdwarf.so
 %attr(755,root,root) %{_libdir}/libelf.so
 %{_libdir}/libebl.a
 %{_includedir}/*
@@ -187,5 +186,4 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/libasm.a
 %{_libdir}/libdw.a
-%{_libdir}/libdwarf.a
 %{_libdir}/libelf.a
