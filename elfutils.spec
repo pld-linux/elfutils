@@ -1,13 +1,13 @@
 Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl):	Zestaw narzêdzi i bibliotek do obs³ugi skompilowanych obiektów
 Name:		elfutils
-Version:	0.89
-Release:	5
+Version:	0.94
+Release:	0.1
 License:	OSL 1.0 (http://www.opensource.org/licenses/osl.php)
 Group:		Development/Tools
-# from ftp://download.fedora.redhat.com:/pub/fedora/linux/core/development/SRPMS/%{name}-%{version}-*.src.rpm
+# http://download.fedora.redhat.com/pub/fedora/linux/core/development/i386/SRPMS/elfutils-0.94-2.1.src.rpm
 Source0:	%{name}-%{version}.tar.gz
-# Source0-md5:	a690778e93e4b04eb531c6a3ef0ad23a
+# Source0-md5:	de39e0af6b82b30d48e5d69b75aa2e0b
 Patch0:		%{name}-pl.po.patch
 Patch1:		%{name}-debian-manpages.patch
 Patch2:		%{name}-alpha-stat.patch
