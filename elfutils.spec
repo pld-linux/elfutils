@@ -5,7 +5,7 @@ Version:	0.76
 Release:	8
 License:	GPL
 Group:		Development/Tools
-Source0:	%{name}-%{version}.tar.gz
+Source0:	ftp://sunsite.icm.edu.pl:21/vol/rzm7/linux-sunsite/distributions/gentoo/distfiles/%{name}-%{version}.tar.gz
 # Source0-md5: 51adf608642cd5fd6a4e3f25545b3c42
 Patch0:		%{name}-pl.po.patch
 #URL:		file://home/devel/drepper
