@@ -1,0 +1,37 @@
+--- elfutils-0.94/libelf/dl-hash.h.orig	2003-12-25 19:31:59.000000000 +0100
++++ elfutils-0.94/libelf/dl-hash.h	2004-04-01 17:29:43.935109336 +0200
+@@ -26,28 +26,28 @@
+ __attribute__ ((__pure__))
+ _dl_elf_hash (const char *name)
+ {
+-  unsigned int hash = (unsigned int) *((const unsigned char *) name)++;
++  unsigned int hash = (unsigned int) *(const unsigned char *)name++;
+   if (*name != '\0')
+     {
+       hash = ((hash << 4)
+-	      + (unsigned int) *((const unsigned char *) name)++);
++	      + (unsigned int) *(const unsigned char *)name++);
+       if (*name != '\0')
+ 	{
+ 	  hash = ((hash << 4)
+-		  + (unsigned int) *((const unsigned char *) name)++);
++		  + (unsigned int) *(const unsigned char *)name++);
+ 	  if (*name != '\0')
+ 	    {
+ 	      hash = ((hash << 4)
+-		      + (unsigned int) *((const unsigned char *) name)++);
++		      + (unsigned int) *(const unsigned char *)name++);
+ 	      if (*name != '\0')
+ 		{
+ 		  hash = ((hash << 4)
+-			  + (unsigned int) *((const unsigned char *) name)++);
++			  + (unsigned int) *(const unsigned char *)name++);
+ 		  while (*name != '\0')
+ 		    {
+ 		      unsigned int hi;
+ 		      hash = ((hash << 4)
+-			      + (unsigned int) *((const unsigned char *) name)++);
++			      + (unsigned int) *(const unsigned char *)name++);
+ 		      hi = hash & 0xf0000000;
+ 
+ 		      /* The algorithm specified in the ELF ABI is as
