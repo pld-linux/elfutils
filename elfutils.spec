@@ -1,3 +1,6 @@
+
+%bcond_without tests	# do not perform tests
+
 Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl):	Zestaw narzêdzi i bibliotek do obs³ugi skompilowanych obiektów
 Name:		elfutils
@@ -130,7 +133,7 @@ programowalny interfejs asemblera.
 
 %{__make}
 %{__make} -C debian/man
-%{__make} -C tests check
+%{?with_tests:%{__make} -C tests check}
 
 %install
 rm -rf $RPM_BUILD_ROOT
