@@ -4,7 +4,7 @@
  
        /* If we have to preserve the timestamp, we need it in the
  	 format utimes() understands.  */
-+#if !defined(__alpha__) && !defined(__sparc__)
++#if !(defined(__sparc__) && defined(__arch64__))
        TIMESPEC_TO_TIMEVAL (&tv[0], &pre_st.st_atim);
        TIMESPEC_TO_TIMEVAL (&tv[1], &pre_st.st_mtim);
 +#else
