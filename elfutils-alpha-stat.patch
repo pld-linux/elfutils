@@ -1,0 +1,19 @@
+--- elfutils-0.89/src/strip.c.orig	2003-09-26 06:01:49.000000000 +0000
++++ elfutils-0.89/src/strip.c	2004-01-16 11:58:12.000000000 +0000
+@@ -265,8 +265,16 @@
+ 
+       /* If we have to preserve the timestamp, we need it in the
+ 	 format utimes() understands.  */
++#ifndef __alpha__
+       TIMESPEC_TO_TIMEVAL (&tv[0], &pre_st.st_atim);
+       TIMESPEC_TO_TIMEVAL (&tv[1], &pre_st.st_mtim);
++#else
++      /* there is no ns-precition stat on alpha(?) */
++      tv[0].tv_sec = pre_st.st_atime;
++      tv[0].tv_usec = 0;
++      tv[1].tv_sec = pre_st.st_mtime;
++      tv[1].tv_usec = 0;
++#endif
+     }
+ 
+   /* Open the file.  */
