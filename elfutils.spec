@@ -1,6 +1,6 @@
 #
 # Conditional build:
-%bcond_without tests	# do not perform tests
+%bcond_without	tests	# do not perform tests
 #
 Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl):	Zestaw narzêdzi i bibliotek do obs³ugi skompilowanych obiektów
