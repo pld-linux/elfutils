@@ -111,6 +111,7 @@ programowalny interfejs asemblera.
 %patch -p1
 
 %build
+%{__gettextize}
 %{__aclocal}
 %{__autoheader}
 %{__automake}
