@@ -5,17 +5,16 @@
 Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl):	Zestaw narzêdzi i bibliotek do obs³ugi skompilowanych obiektów
 Name:		elfutils
-Version:	0.94
+Version:	0.95
 Release:	1
 License:	OSL 1.0 (http://www.opensource.org/licenses/osl.php)
 Group:		Development/Tools
-# http://download.fedora.redhat.com/pub/fedora/linux/core/development/i386/SRPMS/elfutils-0.94-2.1.src.rpm
+# http://download.fedora.redhat.com/pub/fedora/linux/core/development/i386/SRPMS/
 Source0:	%{name}-%{version}.tar.gz
-# Source0-md5:	de39e0af6b82b30d48e5d69b75aa2e0b
+# Source0-md5:	dc8e8f6af735e90ec7e6a0ca99851bff
 Patch0:		%{name}-pl.po.patch
 Patch1:		%{name}-debian-manpages.patch
 Patch2:		%{name}-alpha-stat.patch
-Patch3:		%{name}-gcc34.patch
 #URL:		file://home/devel/drepper
 BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake >= 1.7
@@ -123,7 +122,6 @@ programowalny interfejs asemblera.
 # (alpha stat64() with nsec fields was added in linux-2.6.4/glibc-2.3.4,
 #  I don't know if elfutils knows how to use it)
 %patch2 -p1
-%patch3 -p1
 
 %build
 %{__gettextize}
@@ -150,20 +148,14 @@ install -d $RPM_BUILD_ROOT%{_mandir}/man1
 # which doesn't like *-po dir names
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
+	MKINSTALLDIRS=$(pwd)/config/mkinstalldirs \
 	CATOBJEXT=.gmo \
 	INSTOBJEXT=.mo
 
 install debian/man/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
 
 %find_lang libelf
-%find_lang libasm
-%find_lang libdw
-# currently there is no localizable messages in libebl
-#%find_lang libebl
-:>libebl.lang
-rm -f $RPM_BUILD_ROOT%{_datadir}/locale/pl/LC_MESSAGES/libebl.mo
 %find_lang %{name}
-cat libasm.lang libdw.lang libebl.lang >> %{name}.lang
 
 %clean
 rm -rf $RPM_BUILD_ROOT
