@@ -6,14 +6,14 @@ Release:	8
 License:	OSL 1.0 (http://www.opensource.org/licenses/osl.php)
 Group:		Development/Tools
 Source0:	ftp://sunsite.icm.edu.pl:21/vol/rzm7/linux-sunsite/distributions/gentoo/distfiles/%{name}-%{version}.tar.gz
-# Source0-md5: 51adf608642cd5fd6a4e3f25545b3c42
+# Source0-md5:	51adf608642cd5fd6a4e3f25545b3c42
 Patch0:		%{name}-pl.po.patch
 #URL:		file://home/devel/drepper
 BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake >= 1.7
 BuildRequires:	gcc >= 3.2
 BuildRequires:	gettext-devel
-BuildRequires:  libltdl-devel
+BuildRequires:	libltdl-devel
 BuildRequires:	sharutils
 Requires:	elfutils-libelf = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
