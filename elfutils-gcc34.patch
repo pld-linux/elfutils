@@ -36,8 +36,8 @@
  
  		      /* The algorithm specified in the ELF ABI is as
 --- elfutils-0.94/libelf/gelf_xlate.c.orig	2003-12-25 19:42:38.000000000 +0100
-+++ elfutils-0.94/libelf/gelf_xlate.c	2004-04-01 18:13:11.864643784 +0200
-@@ -67,25 +67,18 @@
++++ elfutils-0.94/libelf/gelf_xlate.c	2004-04-01 18:28:55.347212632 +0200
+@@ -67,20 +67,19 @@
  #define INLINE2(Bytes, FName, TName) \
    INLINE3 (Bytes, FName, TName)
  #define INLINE3(Bytes, FName, TName) \
@@ -52,7 +52,10 @@
 -	    LEN##Bytes##_SWAP ((word##Bytes##_t *) ptr);		      \
 -	  ((word##Bytes##_t *) ptr)++;					      \
 -	}								      \
-+          *dest++ = LEN##Bytes##_SWAP(ptr++);				      \
++      {									      \
++    	*dest++ = LEN##Bytes##_SWAP(ptr);				      \
++        ++ptr;								      \
++      }									      \
      else								      \
        {									      \
 -	word##Bytes##_t *tdest = (word##Bytes##_t *) dest + n;		      \
@@ -60,11 +63,5 @@
 +	word##Bytes##_t *tdest = dest + n;				      \
 +	const word##Bytes##_t *tptr = ptr + n;				      \
  	while (n-- > 0)							      \
--	  {								      \
--	    --tptr;							      \
--	    *--tdest = LEN##Bytes##_SWAP (tptr);			      \
--	  }								      \
-+	    *--tdest = LEN##Bytes##_SWAP(--tptr);			      \
-       }									      \
-  }									      \
- 									      \
+ 	  {								      \
+ 	    --tptr;							      \
