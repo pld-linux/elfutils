@@ -35,3 +35,36 @@
  		      hi = hash & 0xf0000000;
  
  		      /* The algorithm specified in the ELF ABI is as
+--- elfutils-0.94/libelf/gelf_xlate.c.orig	2003-12-25 19:42:38.000000000 +0100
++++ elfutils-0.94/libelf/gelf_xlate.c	2004-04-01 18:13:11.864643784 +0200
+@@ -67,25 +67,18 @@
+ #define INLINE2(Bytes, FName, TName) \
+   INLINE3 (Bytes, FName, TName)
+ #define INLINE3(Bytes, FName, TName) \
+-  static void FName (void *dest, const void *ptr, size_t len, int encode)     \
++  static void FName (word##Bytes##_t *dest, const word##Bytes##_t *ptr, size_t len, int encode)     \
+   {									      \
+     size_t n = len / sizeof (TName);					      \
+     if (dest < ptr)							      \
+       while (n-- > 0)							      \
+-	{								      \
+-          *((word##Bytes##_t *) dest)++ =				      \
+-	    LEN##Bytes##_SWAP ((word##Bytes##_t *) ptr);		      \
+-	  ((word##Bytes##_t *) ptr)++;					      \
+-	}								      \
++          *dest++ = LEN##Bytes##_SWAP(ptr++);				      \
+     else								      \
+       {									      \
+-	word##Bytes##_t *tdest = (word##Bytes##_t *) dest + n;		      \
+-	const word##Bytes##_t *tptr = (const word##Bytes##_t *) ptr + n;      \
++	word##Bytes##_t *tdest = dest + n;				      \
++	const word##Bytes##_t *tptr = ptr + n;				      \
+ 	while (n-- > 0)							      \
+-	  {								      \
+-	    --tptr;							      \
+-	    *--tdest = LEN##Bytes##_SWAP (tptr);			      \
+-	  }								      \
++	    *--tdest = LEN##Bytes##_SWAP(--tptr);			      \
+       }									      \
+  }									      \
+ 									      \
