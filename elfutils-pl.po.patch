@@ -17,14 +17,14 @@ diff -Nur elfutils-0.76.orig/libasm-po/pl.po elfutils-0.76/libasm-po/pl.po
 +# Polish translation for elfutils/libasm.
 +# Copyright (C) 2003 THE PACKAGE'S COPYRIGHT HOLDER
 +# This file is distributed under the same license as the elfutils package.
-+# Jakub Bogusz <qboosh@pld.org.pl>, 2003.
++# Jakub Bogusz <qboosh@pld-linux.org>, 2003.
 +#
 +msgid ""
 +msgstr ""
 +"Project-Id-Version: elfutils/libasm 0.76\n"
 +"POT-Creation-Date: 2003-02-05 17:48-0800\n"
 +"PO-Revision-Date: 2003-04-22 22:02+0200\n"
-+"Last-Translator: Jakub Bogusz <qboosh@pld.org.pl>\n"
++"Last-Translator: Jakub Bogusz <qboosh@pld-linux.org>\n"
 +"Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
 +"MIME-Version: 1.0\n"
 +"Content-Type: text/plain; charset=iso-8859-2\n"
@@ -88,14 +88,14 @@ diff -Nur elfutils-0.76.orig/libdwarf-po/pl.po elfutils-0.76/libdwarf-po/pl.po
 +# Polish translation for elfutils/libdwarf.
 +# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 +# This file is distributed under the same license as the elfutils package.
-+# Jakub Bogusz <qboosh@pld.org.pl>, 2003.
++# Jakub Bogusz <qboosh@pld-linux.org>, 2003.
 +#
 +msgid ""
 +msgstr ""
 +"Project-Id-Version: elfutils/libdwarf 0.76\n"
 +"POT-Creation-Date: 2002-11-28 17:17-0800\n"
 +"PO-Revision-Date: 2003-04-22 22:09+0200\n"
-+"Last-Translator: Jakub Bogusz <qboosh@pld.org.pl>\n"
++"Last-Translator: Jakub Bogusz <qboosh@pld-linux.org>\n"
 +"Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
 +"MIME-Version: 1.0\n"
 +"Content-Type: text/plain; charset=iso-8859-2\n"
@@ -219,14 +219,14 @@ diff -Nur elfutils-0.76.orig/libebl-po/pl.po elfutils-0.76/libebl-po/pl.po
 +# Polish translation for elfutils/libebl.
 +# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 +# This file is distributed under the same license as the elfutils package.
-+# Jakub Bogusz <qboosh@pld.org.pl>, 2003.
++# Jakub Bogusz <qboosh@pld-linux.org>, 2003.
 +#
 +msgid ""
 +msgstr ""
 +"Project-Id-Version: elfutils/libebl 0.76\n"
 +"POT-Creation-Date: 2002-11-28 17:17-0800\n"
 +"PO-Revision-Date: 2003-04-22 22:29+0200\n"
-+"Last-Translator: Jakub Bogusz <qboosh@pld.org.pl>\n"
++"Last-Translator: Jakub Bogusz <qboosh@pld-linux.org>\n"
 +"Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
 +"MIME-Version: 1.0\n"
 +"Content-Type: text/plain; charset=iso-8859-2\n"
@@ -242,15 +242,15 @@ diff -Nur elfutils-0.76.orig/libelf-po/pl.po elfutils-0.76/libelf-po/pl.po
 +# Polish translation for elfutils/libelf.
 +# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 +# This file is distributed under the same license as the elfutils package.
-+# Jakub Bogusz <qboosh@pld.org.pl>, 2003.
++# Jakub Bogusz <qboosh@pld-linux.org>, 2003.
 +#
 +msgid ""
 +msgstr ""
-+"Project-Id-Version: PACKAGE VERSION\n"
++"Project-Id-Version: elfutils/libelf 0.76\n"
 +"POT-Creation-Date: 2003-02-10 23:34-0800\n"
-+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-+"Language-Team: LANGUAGE <LL@li.org>\n"
++"PO-Revision-Date: 2003-04-22 22:02+0200\n"
++"Last-Translator: Jakub Bogusz <qboosh@pld-linux.org>\n"
++"Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
 +"MIME-Version: 1.0\n"
 +"Content-Type: text/plain; charset=iso-8859-2\n"
 +"Content-Transfer-Encoding: 8bit\n"
@@ -417,14 +417,14 @@ diff -Nur elfutils-0.76.orig/po/pl.po elfutils-0.76/po/pl.po
 +# Polish translation for elfutils.
 +# Copyright (C) YEAR Red Hat, Inc.
 +# This file is distributed under the same license as the elfutils package.
-+# Jakub Bogusz <qboosh@pld.org.pl>, 2003.
++# Jakub Bogusz <qboosh@pld-linux.org>, 2003.
 +#
 +msgid ""
 +msgstr ""
 +"Project-Id-Version: elfutils 0.76\n"
 +"POT-Creation-Date: 2003-02-19 13:48-0800\n"
 +"PO-Revision-Date: 2003-04-22 22:42+0200\n"
-+"Last-Translator: Jakub Bogusz <qboosh@pld.org.pl>\n"
++"Last-Translator: Jakub Bogusz <qboosh@pld-linux.org>\n"
 +"Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
 +"MIME-Version: 1.0\n"
 +"Content-Type: text/plain; charset=iso-8859-2\n"

@@ -1,24 +1,27 @@
 Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl):	Zestaw narzêdzi i bibliotek do obs³ugi skompilowanych obiektów
 Name:		elfutils
-Version:	0.76
-Release:	9
+Version:	0.89
+Release:	3
 License:	OSL 1.0 (http://www.opensource.org/licenses/osl.php)
 Group:		Development/Tools
-Source0:	ftp://sunsite.icm.edu.pl:21/vol/rzm7/linux-sunsite/distributions/gentoo/distfiles/%{name}-%{version}.tar.gz
-# Source0-md5:	51adf608642cd5fd6a4e3f25545b3c42
+# from ftp://download.fedora.redhat.com:/pub/fedora/linux/core/development/SRPMS/%{name}-%{version}-*.src.rpm
+Source0:	%{name}-%{version}.tar.gz
+# Source0-md5:	a690778e93e4b04eb531c6a3ef0ad23a
 Patch0:		%{name}-pl.po.patch
+Patch1:		%{name}-debian-manpages.patch
 #URL:		file://home/devel/drepper
 BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake >= 1.7
 BuildRequires:	gcc >= 3.2
 BuildRequires:	gettext-devel
 BuildRequires:	libltdl-devel
+BuildRequires:	perl-tools-pod
 BuildRequires:	sharutils
 Requires:	elfutils-libelf = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define _programprefix eu-
+%define		_programprefix	eu-
 
 %description
 Elfutils is a collection of utilities, including ld (a linker), nm
@@ -108,7 +111,8 @@ programowalny interfejs asemblera.
 
 %prep
 %setup -q
-%patch -p1
+%patch0 -p1
+%patch1 -p1
 
 %build
 %{__gettextize}
@@ -122,9 +126,11 @@ programowalny interfejs asemblera.
 
 %{__make}
 
+%{__make} -C debian/man
+
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_prefix}
+install -d $RPM_BUILD_ROOT%{_mandir}/man1
 
 # *OBJEXT must be passed to workaround problem with messed gettext,
 # which doesn't like *-po dir names
@@ -132,8 +138,7 @@ install -d $RPM_BUILD_ROOT%{_prefix}
 	DESTDIR=$RPM_BUILD_ROOT \
 	CATOBJEXT=.gmo INSTOBJEXT=.mo
 
-chmod +x $RPM_BUILD_ROOT%{_prefix}/%{_lib}/lib*.so*
-chmod +x $RPM_BUILD_ROOT%{_prefix}/%{_lib}/elfutils/lib*.so*
+install debian/man/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
 
 %find_lang libelf
 %find_lang libasm
@@ -143,7 +148,7 @@ chmod +x $RPM_BUILD_ROOT%{_prefix}/%{_lib}/elfutils/lib*.so*
 cat libasm.lang libdwarf.lang libebl.lang >> %{name}.lang
 
 %clean
-rm -rf ${RPM_BUILD_ROOT}
+rm -rf $RPM_BUILD_ROOT
 
 %post	-p /sbin/ldconfig
 %postun	-p /sbin/ldconfig
@@ -153,19 +158,24 @@ rm -rf ${RPM_BUILD_ROOT}
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc README TODO
+%doc AUTHORS COPYING NEWS NOTES README THANKS TODO
 %attr(755,root,root) %{_bindir}/*
-%attr(755,root,root) %{_libdir}/lib*-*.so
+%attr(755,root,root) %{_libdir}/libasm-*.so
+%attr(755,root,root) %{_libdir}/libdw-*.so
+%attr(755,root,root) %{_libdir}/libdwarf-*.so
 %dir %{_libdir}/elfutils
 %attr(755,root,root) %{_libdir}/elfutils/lib*.so
-%exclude %{_libdir}/libelf-*.so
+%{_mandir}/man1/*.1*
 
 %files devel
 %defattr(644,root,root,755)
-%doc libdwarf/AVAILABLE
+%doc libdwarf/AVAILABLE doc/elfutils.sgml
+%attr(755,root,root) %{_libdir}/libasm.so
+%attr(755,root,root) %{_libdir}/libdw.so
+%attr(755,root,root) %{_libdir}/libdwarf.so
+%attr(755,root,root) %{_libdir}/libelf.so
+%{_libdir}/libebl.a
 %{_includedir}/*
-%{_libdir}/lib*.so
-%exclude %{_libdir}/lib*-*.so
 
 %files libelf -f libelf.lang
 %defattr(644,root,root,755)
@@ -173,4 +183,7 @@ rm -rf ${RPM_BUILD_ROOT}
 
 %files static
 %defattr(644,root,root,755)
-%{_libdir}/lib*.a
+%{_libdir}/libasm.a
+%{_libdir}/libdw.a
+%{_libdir}/libdwarf.a
+%{_libdir}/libelf.a

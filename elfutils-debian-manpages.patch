@@ -1,0 +1,673 @@
+--- elfutils-0.84.orig/debian/man/strip.pod
++++ elfutils-0.84/debian/man/strip.pod
+@@ -0,0 +1,65 @@
++=head1 NAME
++
++eu-strip - Discard symbols from object files
++
++=head1 SYNOPSIS
++
++eu-strip [OPTION...] [FILE...]
++
++=head1 OPTIONS
++
++=head2 Output selection:
++
++=over 8
++
++=item B<-f I<FILE>>
++
++Extract the removed sections into I<FILE>
++
++
++=item B<-o I<FILE>>
++
++Place stripped output into I<FILE>
++
++=back
++
++=head2 Output options:
++
++=over 8
++
++=item B<-g, --strip-debug>
++
++Remove all debugging symbols
++
++=item B<-p, --preserve-dates>
++
++Copy modified/access timestamps to the output
++
++=item B<--permissive>
++
++Relax a few rules to handle slightly broken ELF files
++
++=item B<--remove-comment>
++
++Remove .comment section
++
++=item B<-?, --help>
++
++Ask for help
++
++=item B<--usage>
++
++Give a short usage message
++
++=item B<-V, --version>
++
++Print program version
++
++=back
++
++=head1 AUTHOR
++
++Report bugs to <drepper@redhat.com>.
++
++This manual page written by Andrew Stribblehill for Debian but may be
++freely used by anyone.
+--- elfutils-0.84.orig/debian/man/elflint.pod
++++ elfutils-0.84/debian/man/elflint.pod
+@@ -0,0 +1,49 @@
++=head1 NAME
++
++eu-elflint - Pedantic checker of ELF files
++
++=head1 SYNOPSIS
++
++eu-elflint [OPTION...] FILE...
++
++=head1 DESCRIPTION
++
++Pedantic checking of ELF files compliance with gABI/psABI spec.
++
++=head1 OPTIONS
++
++=over 8
++
++=item B<--gnu-ld>
++
++Binary has been created with GNU ld and is therefore known to be
++broken in certain ways
++
++=item B<-q, --quiet>
++
++Do not print anything if successful
++
++=item B<--strict>
++
++Be extremely strict, flag level 2 features.
++
++=item B<-?, --help>
++
++Ask for help
++
++=item B<--usage>
++
++Give a short usage message
++
++=item B<-V, --version>
++
++Print program version
++
++=back
++
++=head1 AUTHOR
++
++Report bugs to <drepper@redhat.com>.
++
++This manual page written by Andrew Stribblehill for Debian but may be
++freely used by anyone.
+--- elfutils-0.84.orig/debian/man/ld.pod
++++ elfutils-0.84/debian/man/ld.pod
+@@ -0,0 +1,220 @@
++=head1 NAME
++
++eu-ld - Combine object and archive files
++
++=head1 SYNOPSIS
++
++eu-ld [OPTION...] [FILE]...
++
++=head1 OPTIONS
++
++=over 8
++
++=item B<-(>
++
++Start a group.
++
++=item B<-)>
++
++End a group.
++
++=item B<-B dynamic>
++
++Prefer linking against shared libraries.
++
++=item B<-B local>
++
++Causes symbol not assigned to a version be reduced to local.
++
++=item B<-B static>
++
++Do not link against shared libraries.
++
++=item B<-c FILE>
++
++Use linker script in FILE.
++
++=item B<-e, --entry=ADDRESS>
++
++Set entry point address.
++
++=item B<-E, --export-dynamic>
++
++Export all dynamic symbols.
++
++=item B<--gc-sections> 
++
++Remove unused sections.
++
++=item B<-G, --shared> 
++
++Generate dynamic shared object.
++
++=item B<-h, --soname=NAME>
++
++Set soname of shared object.
++
++=item B<-i>
++
++Ignore LD_LIBRARY_PATH environment variable.
++
++=item B<-I, --dynamic-linker=NAME>
++
++Set the dynamic linker name.
++
++=item B<-L PATH>
++
++Add PATH to list of directories files are searched in.
++
++=item B<-m, --emulation=NAME>
++
++Set emulation to NAME.
++
++=item B<--no-gc-sections>
++
++Don't remove unused sections.
++
++=item B<--no-whole-archive>
++
++Stop including the whole arhives in the output.
++
++=item B<-o, --output=FILE>
++
++Place output in FILE.
++
++=item B<-O[LEVEL]>
++
++Set optimization level to LEVEL.
++
++=item B<--pagesize=SIZE>
++
++Assume pagesize for the target system to be SIZE.
++
++=item B<-Q y | n>
++
++Add/suppress addition indentifying link-editor to
++.comment section
++
++=item B<--runpath=PATH>
++
++Set runtime DSO search path.
++
++=item B<--runpath-link=PATH>
++
++Set link time DSO search path.
++
++=item B<-r>
++
++Generate relocatable object.
++
++=item B<-s, --strip-all>
++
++Strip all symbols.
++
++=item B<-S, --strip-debug>
++
++Strip debugging symbols.
++
++=item B<-t, --trace> 
++
++Trace file opens.
++
++=item B<-v, --verbose>
++
++Verbose messages.
++
++=item B<--version-script=FILE>
++
++Read version information from FILE.
++
++=item B<--whole-archive>
++
++Include whole archives in the output from now on.
++
++=item B<-z allextract>
++
++Same as --whole-archive.
++
++=item B<-z combreloc | nocombreloc>
++
++Do/do not combine relocation sections.
++
++=item B<-z defaultextract>
++
++Default rules of extracting from archive; weak
++references are not enough.
++
++=item B<-z defs | nodefs>
++
++Disallow/allow undefined symbols in DSOs.
++
++=item B<-z ignore | record>
++
++Ignore/record dependencies on unused DSOs.
++
++=item B<-z initfirst>
++
++Mark object to be initialized first.
++
++=item B<-z lazyload | nolazyload>
++
++Enable/disable lazy-loading flag for following
++dependencies.
++
++=item B<-z muldefs>
++
++Allow multiple definitions; first is used.
++
++=item B<-z nodefaultlib>
++
++Object is marked to not use default search path at
++runtime.
++
++=item B<-z nodelete>
++
++Object cannot be unloaded at runtime.
++
++=item B<-z nodlopen> 
++
++Mark object as not loadable with 'dlopen'.
++
++=item B<-z now> 
++
++Relocation will not be processed lazily.
++
++=item B<-z origin> 
++
++Object requires immediate handling of $ORIGIN.
++
++=item B<-z systemlibrary>
++
++Generated DSO will be a system library.
++
++=item B<-z weakextract>
++
++Weak references cause extraction from archive.
++
++=item B<-?, --help>
++
++Give this help list
++
++=item B<--usage>
++
++Give a short usage message
++
++=item B<-V, --version>
++
++Print program version
++
++=back
++
++Mandatory or optional arguments to long options are also mandatory or optional
++for any corresponding short options.
++
++=head1 AUTHOR
++
++Report bugs to <drepper@redhat.com>.
++
++This manual page written by Andrew Stribblehill for Debian but may be
++freely used by anyone.
++
+--- elfutils-0.84.orig/debian/man/nm.pod
++++ elfutils-0.84/debian/man/nm.pod
+@@ -0,0 +1,121 @@
++=head1 NAME
++
++eu-nm - List symbols from ELF files
++
++=head1 SYNOPSIS
++
++eu-nm [OPTION...] [FILE...]
++
++=head1 OPTIONS
++
++=head2 Output selection:
++
++=over 8
++
++=item B<-a, --debug-syms>
++
++Display debugger-only symbols
++
++=item B<--defined-only>
++
++Display only defined symbols
++
++=item B<-D, --dynamic>
++
++Display dynamic symbols instead of normal symbols
++
++=item B<-g, --extern-only>
++
++Display only external symbols
++
++=item B<-s, --print-armap>
++
++Include index for symbols from archive members
++
++=item B<-u, --undefined-only>
++
++Display only undefined symbols
++
++=back
++
++=head2 Output format:
++
++=over 8
++
++=item B<-A, --print-file-name>
++
++Print name of the input file before every symbol
++
++=item B<-B>
++
++Same as --format=bsd
++
++=item B<-f, --format=I<FORMAT>>
++
++Use the output format I<FORMAT>.  I<FORMAT> can be `bsd', `sysv' or
++`posix'.  The default is `sysv'.
++
++=item B<--mark-weak>
++
++Mark weak symbols
++
++=item B<-P, --portability>
++
++Same as --format=posix
++
++=item B<-S, --print-size>
++
++Print size of defined symbols
++
++=item B<-t, --radix=RADIX>
++
++Use RADIX for printing symbol values
++
++=back
++
++=head2 Output options:
++
++=over 8
++
++=item B<-n, --numeric-sort>
++
++Sort symbols numerically by address
++
++=item B<-p, --no-sort>
++
++Do not sort the symbols
++
++=item B<-r, --reverse-sort>
++
++Reverse the sense of the sort
++
++=back
++
++
++=head2 Miscellaneous:
++
++=over 8
++
++=item B<-?, --help>
++
++Ask for help
++
++=item B<--usage>
++
++Give a short usage message
++
++=item B<-V, --version>
++
++Print program version
++
++=back
++
++Mandatory or optional arguments to long options are also mandatory or
++optional for any corresponding short options.
++
++=head1 AUTHOR
++
++Report bugs to <drepper@redhat.com>.
++
++This manual page written by Andrew Stribblehill for Debian but may be
++freely used by anyone.
+--- elfutils-0.84.orig/debian/man/readelf.pod
++++ elfutils-0.84/debian/man/readelf.pod
+@@ -0,0 +1,87 @@
++=head1 NAME
++
++eu-readelf - Print information from ELF file in human-readable form.
++
++=head1 SYNOPSIS
++
++eu-readelf [OPTION...] FILE...
++
++=head2 Output selection:
++
++=over 8
++
++=item B<-a, --all>
++
++Equivalent to: -h -l
++
++=item B<-d, --dynamic>
++
++Display the dynamic segment
++
++=item B<-h, --file-header>
++
++Display the ELF file header
++
++=item B<-I, --histogram>
++
++Display histogram of bucket list lengths
++
++=item B<-l, --program-headers>
++
++Display the program headers
++
++=item B<-n, --notes>
++
++Display the core notes
++
++=item B<-r, --relocs>
++
++Display relocations
++
++=item B<-s, --symbols>
++
++Display the symbol table
++
++=item B<-S, --section-headers>
++
++Display the sections' header
++
++=item B<-V, --version-info>
++
++Display versioning information
++
++=item B<-w, --debug-dump[=I<SECTION>]>
++
++Display DWARF section content. I<SECTION> can be one of abbrev, aranges, frame,
++info, loc, line, pubnames, or str.
++
++=back
++
++=head2 Miscellaneous:
++
++=over 8
++
++=item B<-?, --help>
++
++Ask for help
++
++=item B<--usage>
++
++Give a short usage message
++
++=item B<-V, --version>
++
++Print program version
++
++=back
++
++Mandatory or optional arguments to long options are also mandatory or
++optional for any corresponding short options.
++
++=head1 AUTHOR
++
++Report bugs to <drepper@redhat.com>.
++
++This manual page written by Andrew Stribblehill for Debian but may be
++freely used by anyone.
++
+--- elfutils-0.84.orig/debian/man/size.pod
++++ elfutils-0.84/debian/man/size.pod
+@@ -0,0 +1,82 @@
++=head1 NAME
++
++eu-size List section sizes of FILEs (a.out by default).
++
++=head1 SYNOPSIS
++
++size [OPTION...] [FILE...]
++
++
++=head1 OPTIONS
++
++=head2 Output format:
++
++=over 8
++
++=item B<-A>
++
++Same as `--format=sysv'
++
++=item B<-B>
++
++Same as `--format=bsd'
++
++=item B<-d>
++
++Same as `--radix=10'
++
++=item B<--format=FORMAT>
++
++Use the output format FORMAT.  FORMAT can be `bsd' or `sysv'.  The
++default is `bsd'.
++
++=item B<-f>
++
++Similar to `--format=sysv' output but in one line
++
++=item B<-o>
++
++Same as `--radix=8'
++
++=item B<--radix=RADIX>
++
++Use RADIX for printing symbol values
++
++=item B<-x>
++
++Same as `--radix=16'
++
++=back
++
++=head2 Output options:
++
++=over 8
++
++=item B<-F>
++
++Print size and permission flags for loadable segments
++
++=item B<-t, --totals>
++
++Display the total sizes (bsd only)
++
++=item B<-?, --help>
++
++Ask for help
++
++=item B<--usage>
++
++Give a short usage message
++
++=item B<-V, --version>
++
++Print program version
++
++=back
++
++=head1 AUTHOR
++
++Report bugs to <drepper@redhat.com>.
++
++This manual page written by Andrew Stribblehill for Debian but may be
++freely used by anyone.
+--- elfutils-0.84.orig/debian/man/Makefile
++++ elfutils-0.84/debian/man/Makefile
+@@ -0,0 +1,28 @@
++#! /usr/bin/make
++#
++# Makefile for manpages
++
++POD2MAN=/usr/bin/pod2man
++PODFLAGS=
++
++MAN1=eu-elflint.1 eu-nm.1 eu-size.1 eu-ld.1 eu-readelf.1 eu-strip.1
++MAN=$(MAN1)
++
++all: man1
++
++man1: SECTION=1
++man1: $(MAN1)
++
++eu-%.1: %.pod
++	podchecker $<
++	$(POD2MAN) \
++	  --name=eu-$(basename $<) \
++	  --release="elfutils" \
++	  --center="User Commands" \
++	  --section=$(SECTION) \
++	  $(PODFLAGS) $< > $@
++
++clean:
++	rm -f $(MAN) *~
++
++.PHONY: all man1 clean
