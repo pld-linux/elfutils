@@ -9,6 +9,7 @@ Source0:	%{name}-%{version}.tar.gz
 #URL:		file://home/devel/drepper
 BuildRequires:	gcc >= 3.2
 BuildRequires:	sharutils
+BuildRequires:  libltdl-devel
 Requires:	elfutils-libelf = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
