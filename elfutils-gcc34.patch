@@ -1,5 +1,129 @@
---- elfutils-0.94/libelf/dl-hash.h.orig	2003-12-25 19:31:59.000000000 +0100
-+++ elfutils-0.94/libelf/dl-hash.h	2004-04-01 17:29:43.935109336 +0200
+diff -uNr elfutils-0.94.orig/libdw/dwarf_getloclist.c elfutils-0.94/libdw/dwarf_getloclist.c
+--- elfutils-0.94.orig/libdw/dwarf_getloclist.c	2004-01-09 09:39:54.000000000 +0100
++++ elfutils-0.94/libdw/dwarf_getloclist.c	2004-04-02 14:14:37.667598440 +0200
+@@ -177,7 +177,7 @@
+ 	  if (unlikely (data >= end_data))
+ 	    goto invalid;
+ 
+-	  newloc->number = *((int8_t *) data)++;
++	  newloc->number = *(int8_t *)data++;
+ 	  break;
+ 
+ 	case DW_OP_const2u:
+diff -uNr elfutils-0.94.orig/libdw/dwarf_getsrclines.c elfutils-0.94/libdw/dwarf_getsrclines.c
+--- elfutils-0.94.orig/libdw/dwarf_getsrclines.c	2004-01-12 01:30:17.000000000 +0100
++++ elfutils-0.94/libdw/dwarf_getsrclines.c	2004-04-02 14:14:35.850874624 +0200
+@@ -149,7 +149,7 @@
+       uint_fast8_t default_is_stmt = *linep++;
+ 
+       /* Now the line base.  */
+-      int_fast8_t line_base = *((int_fast8_t *) linep)++;
++      int_fast8_t line_base = *(int_fast8_t *)linep++;
+ 
+       /* And the line range.  */
+       uint_fast8_t line_range = *linep++;
+diff -uNr elfutils-0.94.orig/libdw/memory-access.h elfutils-0.94/libdw/memory-access.h
+--- elfutils-0.94.orig/libdw/memory-access.h	2004-01-16 18:43:30.000000000 +0100
++++ elfutils-0.94/libdw/memory-access.h	2004-04-02 14:17:02.641559048 +0200
+@@ -23,19 +23,19 @@
+ /* Number decoding macros.  See 7.6 Variable Length Data.  */
+ #define get_uleb128(var, addr) \
+   do {									      \
+-    unsigned char __b = *((const unsigned char *) addr)++;		      \
++    unsigned char __b = *(const unsigned char *)addr++;			      \
+     var = __b & 0x7f;							      \
+     if (__b & 0x80)							      \
+       {									      \
+-	__b = *((const unsigned char *) addr)++;			      \
++	__b = *(const unsigned char *)addr++;				      \
+ 	var |= (__b & 0x7f) << 7;					      \
+ 	if (__b & 0x80)							      \
+ 	  {								      \
+-	    __b = *((const unsigned char *) addr)++;			      \
++	    __b = *(const unsigned char *)addr++;			      \
+ 	    var |= (__b & 0x7f) << 14;					      \
+ 	    if (__b & 0x80)						      \
+ 	      {								      \
+-		__b = *((const unsigned char *) addr)++;		      \
++		__b = *(const unsigned char *)addr++;			      \
+ 		var |= (__b & 0x7f) << 21;				      \
+ 		if (__b & 0x80)						      \
+ 		  /* Other implementation set VALUE to UINT_MAX in this	      \
+@@ -49,7 +49,7 @@
+ /* The signed case is a big more complicated.  */
+ #define get_sleb128(var, addr) \
+   do {									      \
+-    unsigned char __b = *((const unsigned char *) addr)++;		      \
++    unsigned char __b = *(const unsigned char *)addr++;			      \
+     int32_t __res = __b & 0x7f;						      \
+     if ((__b & 0x80) == 0)						      \
+       {									      \
+@@ -58,7 +58,7 @@
+       }									      \
+     else								      \
+       {									      \
+-	__b = *((const unsigned char *) addr)++;			      \
++	__b = *(const unsigned char *)addr++;				      \
+ 	__res |= (__b & 0x7f) << 7;					      \
+ 	if ((__b & 0x80) == 0)						      \
+ 	  {								      \
+@@ -67,7 +67,7 @@
+ 	  }								      \
+ 	else								      \
+ 	  {								      \
+-	    __b = *((const unsigned char *) addr)++;			      \
++	    __b = *(const unsigned char *)addr++;			      \
+ 	    __res |= (__b & 0x7f) << 14;				      \
+ 	    if ((__b & 0x80) == 0)					      \
+ 	      {								      \
+@@ -76,7 +76,7 @@
+ 	      }								      \
+ 	    else							      \
+ 	      {								      \
+-		__b = *((const unsigned char *) addr)++;		      \
++		__b = *(const unsigned char *)addr++;			      \
+ 		__res |= (__b & 0x7f) << 21;				      \
+ 		if ((__b & 0x80) == 0)					      \
+ 		  {							      \
+@@ -202,29 +202,29 @@
+ 
+ #define read_2ubyte_unaligned_inc(Dbg, Addr) \
+   ({ uint16_t t_ = read_2ubyte_unaligned (Dbg, Addr);			      \
+-     ++((const uint16_t *) (Addr));					      \
++     (Addr) += sizeof(uint16_t *);					      \
+      t_; })
+ #define read_2sbyte_unaligned_inc(Dbg, Addr) \
+   ({ int16_t t_ = read_2sbyte_unaligned (Dbg, Addr);			      \
+-     ++((const int16_t *) (Addr));					      \
++     (Addr) += sizeof(int16_t *);					      \
+      t_; })
+ 
+ #define read_4ubyte_unaligned_inc(Dbg, Addr) \
+   ({ uint32_t t_ = read_4ubyte_unaligned (Dbg, Addr);			      \
+-     ++((const uint32_t *) (Addr));					      \
++     (Addr) += sizeof(uint32_t *);					      \
+      t_; })
+ #define read_4sbyte_unaligned_inc(Dbg, Addr) \
+   ({ int32_t t_ = read_4sbyte_unaligned (Dbg, Addr);			      \
+-     ++((const int32_t *) (Addr));					      \
++     (Addr) += sizeof(int32_t *);					      \
+      t_; })
+ 
+ #define read_8ubyte_unaligned_inc(Dbg, Addr) \
+   ({ uint64_t t_ = read_8ubyte_unaligned (Dbg, Addr);			      \
+-     ++((const uint64_t *) (Addr));					      \
++     (Addr) += sizeof(uint64_t *);					      \
+      t_; })
+ #define read_8sbyte_unaligned_inc(Dbg, Addr) \
+   ({ int64_t t_ = read_8sbyte_unaligned (Dbg, Addr);			      \
+-     ++((const int64_t *) (Addr));					      \
++     (Addr) += sizeof(int64_t *);					      \
+      t_; })
+ 
+ #endif	/* memory-access.h */
+diff -uNr elfutils-0.94.orig/libelf/dl-hash.h elfutils-0.94/libelf/dl-hash.h
+--- elfutils-0.94.orig/libelf/dl-hash.h	2003-12-25 19:31:59.000000000 +0100
++++ elfutils-0.94/libelf/dl-hash.h	2004-04-02 14:15:11.725420864 +0200
 @@ -26,28 +26,28 @@
  __attribute__ ((__pure__))
  _dl_elf_hash (const char *name)
@@ -35,25 +159,96 @@
  		      hi = hash & 0xf0000000;
  
  		      /* The algorithm specified in the ELF ABI is as
---- elfutils-0.94/libelf/gelf_xlate.c.orig	2003-12-25 19:42:38.000000000 +0100
-+++ elfutils-0.94/libelf/gelf_xlate.c	2004-04-01 22:22:51.450400608 +0200
-@@ -71,12 +71,15 @@
-   {									      \
-     size_t n = len / sizeof (TName);					      \
+diff -uNr elfutils-0.94.orig/libelf/gelf_xlate.c elfutils-0.94/libelf/gelf_xlate.c
+--- elfutils-0.94.orig/libelf/gelf_xlate.c	2003-12-25 19:42:38.000000000 +0100
++++ elfutils-0.94/libelf/gelf_xlate.c	2004-04-02 14:16:48.045777944 +0200
+@@ -73,9 +73,10 @@
      if (dest < ptr)							      \
--      while (n-- > 0)							      \
-+      {									      \
-+	word##Bytes##_t *tdest = (word##Bytes##_t *)dest,		      \
-+	    		*tptr = (word##Bytes##_t *)ptr;			      \
-+	while (n-- > 0)							      \
+       while (n-- > 0)							      \
  	{								      \
 -          *((word##Bytes##_t *) dest)++ =				      \
--	    LEN##Bytes##_SWAP ((word##Bytes##_t *) ptr);		      \
++          *((word##Bytes##_t *)dest) =					      \
+ 	    LEN##Bytes##_SWAP ((word##Bytes##_t *) ptr);		      \
 -	  ((word##Bytes##_t *) ptr)++;					      \
-+          *tdest++ = LEN##Bytes##_SWAP (tptr);				      \
-+	  ++tptr;					  		      \
++	  dest += sizeof(word##Bytes##_t *);				      \
++	  ptr += sizeof(word##Bytes##_t *);				      \
  	}								      \
-+      }									      \
      else								      \
        {									      \
- 	word##Bytes##_t *tdest = (word##Bytes##_t *) dest + n;		      \
+diff -uNr elfutils-0.94.orig/src/ldgeneric.c elfutils-0.94/src/ldgeneric.c
+--- elfutils-0.94.orig/src/ldgeneric.c	2003-08-18 01:49:51.000000000 +0200
++++ elfutils-0.94/src/ldgeneric.c	2004-04-02 14:15:18.573379816 +0200
+@@ -2449,9 +2449,8 @@
+     ld_state.outfname = "a.out";
+ 
+   size_t outfname_len = strlen (ld_state.outfname);
+-  char *tempfname = (char *) ld_state.tempfname
+-    = (char *) obstack_alloc (&ld_state.smem,
+-			      outfname_len + sizeof (".XXXXXX"));
++  char *tempfname = ld_state.tempfname
++    = obstack_alloc (&ld_state.smem, outfname_len + sizeof (".XXXXXX"));
+ 
+   int fd;
+   int try = 0;
+diff -uNr elfutils-0.94.orig/src/ld.h elfutils-0.94/src/ld.h
+--- elfutils-0.94.orig/src/ld.h	2003-08-12 08:46:39.000000000 +0200
++++ elfutils-0.94/src/ld.h	2004-04-02 14:15:18.562381488 +0200
+@@ -752,7 +752,7 @@
+   /* Name of the output file.  */
+   const char *outfname;
+   /* Name of the temporary file we initially create.  */
+-  const char *tempfname;
++  char *tempfname;
+   /* File descriptor opened for the output file.  */
+   int outfd;
+   /* The ELF descriptor for the output file.  */
+diff -uNr elfutils-0.94.orig/src/readelf.c elfutils-0.94/src/readelf.c
+--- elfutils-0.94.orig/src/readelf.c	2004-01-16 10:29:37.000000000 +0100
++++ elfutils-0.94/src/readelf.c	2004-04-02 14:16:44.674290488 +0200
+@@ -2974,7 +2974,7 @@
+   Dwarf_Word offset = 0;
+   while (len-- > 0)
+     {
+-      size_t op = *((unsigned char *) data)++;
++      size_t op = *(unsigned char *)data++;
+ 
+       switch (op)
+ 	{
+@@ -3004,7 +3004,7 @@
+ 	case DW_OP_const1u:
+ 	  printf ("           %*s [%4" PRIuMAX "] %s %" PRIu8 "\n",
+ 		  (int) (20 + level * 2), "", (uintmax_t) offset,
+-		  known[op] ?: "???", *((uint8_t *) data)++);
++		  known[op] ?: "???", *(uint8_t *)data++);
+ 	  --len;
+ 	  offset += 2;
+ 	  break;
+@@ -3039,7 +3039,7 @@
+ 	case DW_OP_const1s:
+ 	  printf ("           %*s [%4" PRIuMAX "] %s %" PRId8 "\n",
+ 		  (int) (20 + level * 2), "", (uintmax_t) offset,
+-		  known[op] ?: "???", *((int8_t *) data)++);
++		  known[op] ?: "???", *(int8_t *)data++);
+ 	  --len;
+ 	  offset += 2;
+ 	  break;
+@@ -3090,7 +3090,7 @@
+ 	case DW_OP_consts:;
+ 	  start = data;
+ 	  unsigned int sleb;
+-	  get_sleb128 (sleb, ((unsigned char *) data));
++	  get_sleb128 (sleb, (unsigned char *)data);
+ 	  printf ("           %*s [%4" PRIuMAX "] %s %d\n",
+ 		  (int) (20 + level * 2), "", (uintmax_t) offset,
+ 		  known[op] ?: "???", sleb);
+@@ -3100,8 +3100,8 @@
+ 
+ 	case DW_OP_bregx:
+ 	  start = data;
+-	  get_uleb128 (uleb, ((unsigned char *) data));
+-	  get_sleb128 (sleb, ((unsigned char *) data));
++	  get_uleb128 (uleb, (unsigned char *)data);
++	  get_sleb128 (sleb, (unsigned char *)data);
+ 	  printf ("           %*s [%4" PRIuMAX "] %s %u %d\n",
+ 		  (int) (20 + level * 2), "", (uintmax_t) offset,
+ 		  known[op] ?: "???", uleb, sleb);
