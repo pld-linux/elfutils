@@ -1,7 +1,7 @@
 Summary:	A collection of utilities and DSOs to handle compiled objects.
 Name:		elfutils
 Version:	0.76
-Release:	5
+Release:	6
 License:	GPL
 Group:		Development/Tools
 #URL: file://home/devel/drepper
@@ -51,7 +51,7 @@ package use it also to generate new ELF files.
 %package static
 Summary:	Development libraries to handle compiled objects - static.
 Group:		Development/Tools
-Obsoletes:	libelf-devel
+Obsoletes:	libelf-static
 Requires:	elfutils-devel = %{version}-%{release}
 
 %description static
