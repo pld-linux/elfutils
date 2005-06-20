@@ -6,7 +6,7 @@ Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl):	Zestaw narzêdzi i bibliotek do obs³ugi skompilowanych obiektów
 Name:		elfutils
 Version:	0.108
-Release:	1
+Release:	2
 License:	OSL 1.0 (http://www.opensource.org/licenses/osl.php)
 Group:		Development/Tools
 # http://download.fedora.redhat.com/pub/fedora/linux/core/development/i386/SRPMS/
@@ -136,6 +136,11 @@ programowalny interfejs asemblera.
 %{__autoheader}
 %{__automake}
 %{__autoconf}
+
+# Turn off optimization on sparc to avoid Bus error with some tests
+%ifarch sparc
+CFLAGS="%{rpmcflags} -O0" ; export CFLAGS
+%endif
 %configure \
 	--program-prefix=%{_programprefix} \
 	--enable-shared
