@@ -1,5 +1,3 @@
-# TODO
-# - security  http://security.gentoo.org/glsa/glsa-200506-01.xml
 #
 # Conditional build:
 %bcond_without	tests	# do not perform tests
@@ -7,16 +5,18 @@
 Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl):	Zestaw narzêdzi i bibliotek do obs³ugi skompilowanych obiektów
 Name:		elfutils
-Version:	0.97
-Release:	2
+Version:	0.108
+Release:	1
 License:	OSL 1.0 (http://www.opensource.org/licenses/osl.php)
 Group:		Development/Tools
 # http://download.fedora.redhat.com/pub/fedora/linux/core/development/i386/SRPMS/
 Source0:	%{name}-%{version}.tar.gz
-# Source0-md5:	41c3e3c918acef6cbf77519c6f10793e
+# Source0-md5:	fd318a634c8f67c7ac8a975f16965cc3
 Patch0:		%{name}-pl.po.patch
 Patch1:		%{name}-debian-manpages.patch
-Patch2:		%{name}-alpha-stat.patch
+Patch2:		%{name}-portability.patch
+Patch3:		%{name}-bswap.patch
+Patch4:		%{name}-robustify.patch
 #URL:		file://home/devel/drepper
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.7
@@ -126,11 +126,12 @@ programowalny interfejs asemblera.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-# no nanosecond timestamps on sparc64 yet (alpha has them now)
 %patch2 -p1
+%patch3 -p1
+%patch4 -p1
 
 %build
-%{__gettextize}
+#%%{__gettextize}
 %{__aclocal}
 %{__autoheader}
 %{__automake}
@@ -153,7 +154,7 @@ LD_LIBRARY_PATH=../libasm:../libdw:../libebl:../libelf \
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_mandir}/man1
+install -d $RPM_BUILD_ROOT{%{_mandir}/man1,/%{_lib}}
 
 # *OBJEXT must be passed to workaround problem with messed gettext,
 # which doesn't like *-po dir names
@@ -164,6 +165,10 @@ install -d $RPM_BUILD_ROOT%{_mandir}/man1
 	INSTOBJEXT=.mo
 
 install debian/man/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
+
+mv $RPM_BUILD_ROOT%{_libdir}/libelf-*.so $RPM_BUILD_ROOT/%{_lib}/
+ln -sf /%{_lib}/$(cd $RPM_BUILD_ROOT/%{_lib} ; echo libelf-*.so) \
+        $RPM_BUILD_ROOT%{_libdir}/libelf.so
 
 %find_lang libelf
 %find_lang %{name}
@@ -189,7 +194,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-%doc doc/elfutils.sgml
+#%doc doc/elfutils.sgml
 %attr(755,root,root) %{_libdir}/libasm.so
 %attr(755,root,root) %{_libdir}/libdw.so
 %attr(755,root,root) %{_libdir}/libelf.so
@@ -198,7 +203,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files libelf -f libelf.lang
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libelf-*.so
+%attr(755,root,root) /%{_lib}/libelf-*.so
 
 %files static
 %defattr(644,root,root,755)
