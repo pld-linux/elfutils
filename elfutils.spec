@@ -6,7 +6,7 @@ Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl):	Zestaw narzêdzi i bibliotek do obs³ugi skompilowanych obiektów
 Name:		elfutils
 Version:	0.108
-Release:	2
+Release:	3
 License:	OSL 1.0 (http://www.opensource.org/licenses/osl.php)
 Group:		Development/Tools
 # http://download.fedora.redhat.com/pub/fedora/linux/core/development/i386/SRPMS/
@@ -169,7 +169,7 @@ install -d $RPM_BUILD_ROOT{%{_mandir}/man1,/%{_lib}}
 
 install debian/man/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
 
-mv $RPM_BUILD_ROOT%{_libdir}/libelf-*.so $RPM_BUILD_ROOT/%{_lib}/
+mv $RPM_BUILD_ROOT%{_libdir}/libelf-*.so $RPM_BUILD_ROOT/%{_lib}
 ln -sf /%{_lib}/$(cd $RPM_BUILD_ROOT/%{_lib} ; echo libelf-*.so) \
         $RPM_BUILD_ROOT%{_libdir}/libelf.so
 
@@ -197,7 +197,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-#%doc doc/elfutils.sgml
 %attr(755,root,root) %{_libdir}/libasm.so
 %attr(755,root,root) %{_libdir}/libdw.so
 %attr(755,root,root) %{_libdir}/libelf.so
