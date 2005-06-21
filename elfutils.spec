@@ -17,6 +17,7 @@ Patch1:		%{name}-debian-manpages.patch
 Patch2:		%{name}-portability.patch
 Patch3:		%{name}-bswap.patch
 Patch4:		%{name}-robustify.patch
+Patch5:		%{name}-align.patch
 #URL:		file://home/devel/drepper
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.7
@@ -129,6 +130,7 @@ programowalny interfejs asemblera.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 #%%{__gettextize}
@@ -137,10 +139,6 @@ programowalny interfejs asemblera.
 %{__automake}
 %{__autoconf}
 
-# Turn off optimization on sparc to avoid Bus error with some tests
-%ifarch sparc
-CFLAGS="%{rpmcflags} -O0" ; export CFLAGS
-%endif
 %configure \
 	--program-prefix=%{_programprefix} \
 	--enable-shared
