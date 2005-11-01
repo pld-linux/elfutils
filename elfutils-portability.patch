@@ -1,6 +1,6 @@
 --- elfutils/ChangeLog
 +++ elfutils/ChangeLog
-@@ -23,6 +23,17 @@
+@@ -29,6 +29,17 @@
  	* Makefile.am (all_SUBDIRS): Add libdwfl.
  	* configure.ac: Write libdwfl/Makefile.
  
@@ -274,7 +274,7 @@
  libcpu_i386_a_SOURCES = i386_dis.c
 --- elfutils/libdw/ChangeLog
 +++ elfutils/libdw/ChangeLog
-@@ -140,6 +140,11 @@
+@@ -239,6 +239,11 @@
  
  2005-05-31  Roland McGrath  <roland@redhat.com>
  
@@ -305,7 +305,7 @@
  
 --- elfutils/libdw/Makefile.in
 +++ elfutils/libdw/Makefile.in
-@@ -207,6 +207,7 @@ SHELL = @SHELL@
+@@ -206,6 +206,7 @@ SHELL = @SHELL@
  STRIP = @STRIP@
  USE_NLS = @USE_NLS@
  VERSION = 1
@@ -313,7 +313,7 @@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@
  ac_ct_CC = @ac_ct_CC@
-@@ -249,9 +250,9 @@ sharedstatedir = @sharedstatedir@
+@@ -248,9 +249,9 @@ sharedstatedir = @sharedstatedir@
  sysconfdir = @sysconfdir@
  target_alias = @target_alias@
  @MUDFLAP_FALSE@AM_CFLAGS = -Wall -Werror -Wshadow -Wunused -Wformat=2 \
@@ -327,7 +327,7 @@
  						       $(COMPILE)))
 --- elfutils/libdwfl/ChangeLog
 +++ elfutils/libdwfl/ChangeLog
-@@ -192,6 +192,11 @@
+@@ -210,6 +210,11 @@
  
  2005-07-21  Roland McGrath  <roland@redhat.com>
  
@@ -433,7 +433,7 @@
  modules = i386 sh x86_64 ia64 alpha arm sparc ppc ppc64
 --- elfutils/libelf/ChangeLog
 +++ elfutils/libelf/ChangeLog
-@@ -86,6 +86,11 @@
+@@ -91,6 +91,11 @@
  	If section content hasn't been read yet, do it before looking for the
  	block size.  If no section data present, infer size of section header.
  
@@ -541,7 +541,7 @@
  ac_ct_CC = @ac_ct_CC@
 --- elfutils/src/ChangeLog
 +++ elfutils/src/ChangeLog
-@@ -216,6 +216,11 @@
+@@ -220,6 +220,11 @@
  	* readelf.c (print_debug_loc_section): Fix indentation for larger
  	address size.
  
@@ -666,7 +666,7 @@
  cannot set access and modification date of '%s'"), fname);
 --- elfutils/tests/ChangeLog
 +++ elfutils/tests/ChangeLog
-@@ -161,6 +161,11 @@
+@@ -181,6 +181,11 @@
  	* Makefile.am (TESTS): Add run-elflint-test.sh.
  	(EXTRA_DIST): Add run-elflint-test.sh and testfile18.bz2.
  
@@ -698,7 +698,7 @@
  endif
 --- elfutils/tests/Makefile.in
 +++ elfutils/tests/Makefile.in
-@@ -287,6 +287,7 @@ SHELL = @SHELL@
+@@ -291,6 +291,7 @@ SHELL = @SHELL@
  STRIP = @STRIP@
  USE_NLS = @USE_NLS@
  VERSION = @VERSION@
@@ -706,7 +706,7 @@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@
  ac_ct_CC = @ac_ct_CC@
-@@ -328,10 +329,10 @@ sbindir = @sbindir@
+@@ -332,10 +333,10 @@ sbindir = @sbindir@
  sharedstatedir = @sharedstatedir@
  sysconfdir = @sysconfdir@
  target_alias = @target_alias@
