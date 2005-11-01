@@ -1,0 +1,31 @@
+--- elfutils-0.115/src/elflint.c.orig	2005-10-31 19:29:49.455859000 +0100
++++ elfutils-0.115/src/elflint.c	2005-10-31 22:40:58.172349544 +0100
+@@ -3125,6 +3125,7 @@
+ 
+       if (phdr->p_type >= PT_NUM && phdr->p_type != PT_GNU_EH_FRAME
+ 	  && phdr->p_type != PT_GNU_STACK && phdr->p_type != PT_GNU_RELRO
++	  && phdr->p_type != PT_PAX_FLAGS
+ 	  /* Check for a known machine-specific type.  */
+ 	  && ebl_segment_type_name (ebl, phdr->p_type, NULL, 0) == NULL)
+ 	ERROR (gettext ("\
+--- elfutils-0.115/libelf/elf.h.orig	2005-08-07 09:53:25.000000000 +0200
++++ elfutils-0.115/libelf/elf.h	2005-10-31 22:39:47.125150360 +0100
+@@ -568,6 +568,7 @@
+ #define PT_GNU_EH_FRAME	0x6474e550	/* GCC .eh_frame_hdr segment */
+ #define PT_GNU_STACK	0x6474e551	/* Indicates stack executability */
+ #define PT_GNU_RELRO	0x6474e552	/* Read-only after relocation */
++#define PT_PAX_FLAGS	0x65041580	/* PaX flags */
+ #define PT_LOSUNW	0x6ffffffa
+ #define PT_SUNWBSS	0x6ffffffa	/* Sun Specific segment */
+ #define PT_SUNWSTACK	0x6ffffffb	/* Stack segment */
+--- elfutils-0.115/libebl/eblsegmenttypename.c.orig	2005-07-26 07:01:10.000000000 +0200
++++ elfutils-0.115/libebl/eblsegmenttypename.c	2005-10-31 22:40:18.018453864 +0100
+@@ -54,6 +54,8 @@
+ 	res = "GNU_STACK";
+       else if (segment == PT_GNU_RELRO)
+ 	res = "GNU_RELRO";
++      else if (segment == PT_PAX_FLAGS)
++	res = "PAX_FLAGS";
+       else if (segment == PT_SUNWBSS)
+ 	res = "SUNWBSS";
+       else if (segment == PT_SUNWSTACK)
