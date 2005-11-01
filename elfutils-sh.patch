@@ -1,0 +1,42 @@
+--- elfutils-0.115/tests/run-addrscopes.sh.orig	2005-08-31 17:11:19.000000000 +0200
++++ elfutils-0.115/tests/run-addrscopes.sh	2005-10-31 19:29:07.202282984 +0100
+@@ -16,7 +16,7 @@
+ bunzip2 -c $srcdir/testfile22.bz2 > testfile22 2>/dev/null || exit 77
+ 
+ LD_LIBRARY_PATH=../libdw:../libebl:../libelf${LD_LIBRARY_PATH:+:}$LD_LIBRARY_PATH \
+-  ./addrscopes -e testfile22 0x8048353 >& addrscopes-test.out || :
++  ./addrscopes -e testfile22 0x8048353 > addrscopes-test.out 2>&1 || :
+ 
+ diff -Bbu addrscopes-test.out - <<\EOF
+ 0x8048353:
+@@ -32,7 +32,7 @@
+ bunzip2 -c $srcdir/testfile24.bz2 > testfile24 2>/dev/null || exit 77
+ 
+ LD_LIBRARY_PATH=../libdw:../libebl:../libelf${LD_LIBRARY_PATH:+:}$LD_LIBRARY_PATH \
+-  ./addrscopes -e testfile24 0x804834e >& addrscopes-test.out || :
++  ./addrscopes -e testfile24 0x804834e > addrscopes-test.out 2>&1 || :
+ 
+ diff -Bbu addrscopes-test.out - <<\EOF
+ 0x804834e:
+--- elfutils-0.115/tests/run-elflint-test.sh.orig	2005-08-31 17:07:53.000000000 +0200
++++ elfutils-0.115/tests/run-elflint-test.sh	2005-10-31 19:28:55.617044208 +0100
+@@ -17,7 +17,7 @@
+ bunzip2 -c $srcdir/testfile18.bz2 > testfile18 2>/dev/null || exit 77
+ 
+ LD_LIBRARY_PATH=../libebl:../libelf${LD_LIBRARY_PATH:+:}$LD_LIBRARY_PATH \
+-  ../src/elflint --gnu-ld testfile18 >& elflint-test.out || :
++  ../src/elflint --gnu-ld testfile18 > elflint-test.out 2>&1 || :
+ 
+ diff -u elflint-test.out - <<"EOF"
+ section [ 8] '.rela.dyn': relocation 1: copy relocation against symbol of type FUNC
+--- elfutils-0.115/tests/run-funcscopes.sh.orig	2005-08-31 17:08:10.000000000 +0200
++++ elfutils-0.115/tests/run-funcscopes.sh	2005-10-31 19:28:49.485976272 +0100
+@@ -16,7 +16,7 @@
+ bunzip2 -c $srcdir/testfile25.bz2 > testfile25 2>/dev/null || exit 77
+ 
+ LD_LIBRARY_PATH=../libdw:../libebl:../libelf${LD_LIBRARY_PATH:+:}$LD_LIBRARY_PATH \
+-  ./funcscopes -e testfile25 incr >& funcscopes-test.out || :
++  ./funcscopes -e testfile25 incr > funcscopes-test.out 2>&1 || :
+ 
+ diff -Bbu funcscopes-test.out - <<\EOF
+ testfile25: 0x8048000 .. 0x8049528
