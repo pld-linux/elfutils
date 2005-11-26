@@ -20,6 +20,7 @@ Patch3:		%{name}-robustify.patch
 Patch4:		%{name}-align.patch
 Patch5:		%{name}-sh.patch
 Patch6:		%{name}-paxflags.patch
+Patch7:		%{name}-alpha.patch
 #URL:		file://home/devel/drepper
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.7
@@ -134,6 +135,7 @@ programowalny interfejs asemblera.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 %build
 #%%{__gettextize}
