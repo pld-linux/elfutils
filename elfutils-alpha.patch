@@ -1,0 +1,370 @@
+2005-11-26  Jakub Bogusz  <qboosh at pld-linux dot org>
+
+	* src/elflint.c (valid_e_machine) Add EM_ALPHA to valid machines.
+	  (check_hash): Support hash bucket size of 8 on alpha and s390x.
+	  (check_sections): Support arch-specific section flags.
+	* libebl/alpha_symbol.c: Update, including:
+	  (reloc_map_table) Include appear field.
+	  (alpha_reloc_type_name) Updated for new reloc_map_table.
+	  (alpha_reloc_type_check) Likewise.
+	  (alpha_reloc_valid_use) New function.
+	  (alpha_reloc_simple_type) Likewise.
+	* libebl/alpha_init.c (alpha_init): Initialize reloc_valid_use and
+	  reloc_simple_type fields.
+	* libebl/libebl_alpha.h: Add alpha_reloc_valid_use and
+	  alpha_reloc_simple_type functions.
+	* libebl/Makefile.am: Link libebl_alpha.so with libelf.
+	* libelf/elf32_getshdr.c: Fix assert condition; handle unaligned
+	  section header with same endianess properly.
+
+--- elfutils-0.116/src/elflint.c.orig	2005-11-26 10:28:00.000000000 +0100
++++ elfutils-0.116/src/elflint.c	2005-11-26 14:01:18.000000000 +0100
+@@ -331,7 +331,7 @@
+     EM_68HC16, EM_68HC11, EM_68HC08, EM_68HC05, EM_SVX, EM_ST19, EM_VAX,
+     EM_CRIS, EM_JAVELIN, EM_FIREPATH, EM_ZSP, EM_MMIX, EM_HUANY, EM_PRISM,
+     EM_AVR, EM_FR30, EM_D10V, EM_D30V, EM_V850, EM_M32R, EM_MN10300,
+-    EM_MN10200, EM_PJ, EM_OPENRISC, EM_ARC_A5, EM_XTENSA
++    EM_MN10200, EM_PJ, EM_OPENRISC, EM_ARC_A5, EM_XTENSA, EM_ALPHA
+   };
+ #define nvalid_e_machine \
+   (sizeof (valid_e_machine) / sizeof (valid_e_machine[0]))
+@@ -1664,6 +1664,16 @@
+ section [%2d] '%s': hash table not for dynamic symbol table\n"),
+ 	   idx, section_name (ebl, idx));
+ 
++  bool bighash = 
++    (ehdr->e_machine == EM_ALPHA) ||
++      ((ehdr->e_machine == EM_S390) && (ehdr->e_ident[EI_CLASS] == ELFCLASS64));
++
++  if (bighash) {
++    if (shdr->sh_entsize != 8) /* alpha and s390x use non-standard hash bucket size of 8 */
++      ERROR (gettext ("\
++section [%2d] '%s': entry size is not 8\n"),
++	     idx, section_name (ebl, idx));
++  } else
+   if (shdr->sh_entsize != sizeof (Elf32_Word))
+     ERROR (gettext ("\
+ section [%2d] '%s': entry size does not match Elf32_Word\n"),
+@@ -1681,8 +1691,15 @@
+       return;
+     }
+ 
+-  Elf32_Word nbucket = ((Elf32_Word *) data->d_buf)[0];
+-  Elf32_Word nchain = ((Elf32_Word *) data->d_buf)[1];
++  uint64_t nbucket, nchain;
++
++  if (bighash) {
++    nbucket = ((Elf64_Xword *) data->d_buf)[0];
++    nchain = ((Elf64_Xword *) data->d_buf)[1];
++  } else {
++    nbucket = ((Elf32_Word *) data->d_buf)[0];
++    nchain = ((Elf32_Word *) data->d_buf)[1];
++  }
+ 
+   if (shdr->sh_size < (2 + nbucket + nchain) * shdr->sh_entsize)
+     ERROR (gettext ("\
+@@ -1694,29 +1711,41 @@
+     {
+       size_t symsize = symshdr->sh_size / symshdr->sh_entsize;
+       size_t cnt;
+-      Elf32_Word *buf, *end;
++      void *buf, *end;
++      uint64_t val;
+ 
+       if (nchain < symshdr->sh_size / symshdr->sh_entsize)
+ 	ERROR (gettext ("section [%2d] '%s': chain array not large enough\n"),
+ 	       idx, section_name (ebl, idx));
+ 
++      if (bighash) {
++        buf = ((Elf64_Xword *) data->d_buf) + 2;
++        end = (Elf64_Xword *) ((char *) data->d_buf + shdr->sh_size);
++      } else {
+       buf = ((Elf32_Word *) data->d_buf) + 2;
+       end = (Elf32_Word *) ((char *) data->d_buf + shdr->sh_size);
+-      for (cnt = 2; cnt < 2 + nbucket; ++cnt)
++      }
++      for (cnt = 2; cnt < 2 + nbucket; ++cnt) {
+ 	if (buf >= end)
+ 	  return;
+-	else if (*buf++ >= symsize)
++	val = bighash ? *(Elf64_Xword *)buf : *(Elf32_Word *)buf;
++	if (val >= symsize)
+ 	  ERROR (gettext ("\
+ section [%2d] '%s': hash bucket reference %zu out of bounds\n"),
+ 		 idx, section_name (ebl, idx), cnt - 2);
++	buf += bighash ? 8 : sizeof(Elf32_Word);
++      }
+ 
+-      for (; cnt < 2 + nbucket + nchain; ++cnt)
++      for (; cnt < 2 + nbucket + nchain; ++cnt) {
+ 	if (buf >= end)
+ 	  return;
+-	else if (*buf++ >= symsize)
++	val = bighash ? *(Elf64_Xword *)buf : *(Elf32_Word *)buf;
++	if (val >= symsize)
+ 	  ERROR (gettext ("\
+ section [%2d] '%s': hash chain reference %zu out of bounds\n"),
+ 		 idx, section_name (ebl, idx), cnt - 2 - nbucket);
++	  buf += bighash ? 8 : sizeof(Elf32_Word);
++      }
+     }
+ }
+ 
+@@ -2744,9 +2773,30 @@
+ 	       cnt, section_name (ebl, cnt),
+ 	       (int) shdr->sh_type);
+ 
+-#define ALL_SH_FLAGS (SHF_WRITE | SHF_ALLOC | SHF_EXECINSTR | SHF_MERGE \
++#define GALL_SH_FLAGS (SHF_WRITE | SHF_ALLOC | SHF_EXECINSTR | SHF_MERGE \
+ 		      | SHF_STRINGS | SHF_INFO_LINK | SHF_LINK_ORDER \
+ 		      | SHF_OS_NONCONFORMING | SHF_GROUP | SHF_TLS)
++      uint64_t ALL_SH_FLAGS = GALL_SH_FLAGS; /* generic */
++      switch (ehdr->e_machine) {
++	case EM_MIPS:
++	  ALL_SH_FLAGS |= SHF_MIPS_GPREL | SHF_MIPS_MERGE | SHF_MIPS_ADDR |
++	    SHF_MIPS_STRINGS | SHF_MIPS_NOSTRIP | SHF_MIPS_LOCAL |
++	    SHF_MIPS_NAMES | SHF_MIPS_NODUPE;
++	  break;
++	case EM_PARISC:
++	  ALL_SH_FLAGS |= SHF_PARISC_SHORT | SHF_PARISC_HUGE | SHF_PARISC_SBP;
++	  break;
++	case EM_ALPHA:
++	  ALL_SH_FLAGS |= SHF_ALPHA_GPREL;
++	  break;
++	case EM_ARM:
++	  ALL_SH_FLAGS |= SHF_ARM_ENTRYSECT | SHF_ARM_COMDEF;
++	  break;
++	case EM_IA_64:
++	  ALL_SH_FLAGS |= SHF_IA_64_SHORT | SHF_IA_64_NORECOV;
++	  break;
++      }
++
+       if (shdr->sh_flags & ~ALL_SH_FLAGS)
+ 	ERROR (gettext ("section [%2zu] '%s' contains unknown flag(s)"
+ 			" %#" PRIx64 "\n"),
+--- elfutils-0.116/libebl/alpha_symbol.c.orig	2005-08-07 09:59:17.000000000 +0200
++++ elfutils-0.116/libebl/alpha_symbol.c	2005-11-26 14:41:48.000000000 +0100
+@@ -16,6 +16,7 @@
+ # include <config.h>
+ #endif
+ 
++#include <assert.h>
+ #include <elf.h>
+ #include <stddef.h>
+ 
+@@ -31,41 +32,45 @@
+ 
+ 
+ /* Relocation mapping table.  */
+-static const char *reloc_map_table[] =
++static struct
++{
++  const char *name;
++  enum { both = 0, rel = 1, exec = 2 } appear;
++} reloc_map_table[] =
+   {
+-    [R_ALPHA_NONE] = "R_ALPHA_NONE",
+-    [R_ALPHA_REFLONG] = "R_ALPHA_REFLONG",
+-    [R_ALPHA_REFQUAD] = "R_ALPHA_REFQUAD",
+-    [R_ALPHA_GPREL32] = "R_ALPHA_GPREL32",
+-    [R_ALPHA_LITERAL] = "R_ALPHA_LITERAL",
+-    [R_ALPHA_LITUSE] = "R_ALPHA_LITUSE",
+-    [R_ALPHA_GPDISP] = "R_ALPHA_GPDISP",
+-    [R_ALPHA_BRADDR] = "R_ALPHA_BRADDR",
+-    [R_ALPHA_HINT] = "R_ALPHA_HINT",
+-    [R_ALPHA_SREL16] = "R_ALPHA_SREL16",
+-    [R_ALPHA_SREL32] = "R_ALPHA_SREL32",
+-    [R_ALPHA_SREL64] = "R_ALPHA_SREL64",
+-    [R_ALPHA_GPRELHIGH] = "R_ALPHA_GPRELHIGH",
+-    [R_ALPHA_GPRELLOW] = "R_ALPHA_GPRELLOW",
+-    [R_ALPHA_GPREL16] = "R_ALPHA_GPREL16",
+-    [R_ALPHA_COPY] = "R_ALPHA_COPY",
+-    [R_ALPHA_GLOB_DAT] = "R_ALPHA_GLOB_DAT",
+-    [R_ALPHA_JMP_SLOT] = "R_ALPHA_JMP_SLOT",
+-    [R_ALPHA_RELATIVE] = "R_ALPHA_RELATIVE",
+-    [R_ALPHA_TLS_GD_HI] = "R_ALPHA_TLS_GD_HI",
+-    [R_ALPHA_TLSGD] = "R_ALPHA_TLSGD",
+-    [R_ALPHA_TLS_LDM] = "R_ALPHA_TLS_LDM",
+-    [R_ALPHA_DTPMOD64] = "R_ALPHA_DTPMOD64",
+-    [R_ALPHA_GOTDTPREL] = "R_ALPHA_GOTDTPREL",
+-    [R_ALPHA_DTPREL64] = "R_ALPHA_DTPREL64",
+-    [R_ALPHA_DTPRELHI] = "R_ALPHA_DTPRELHI",
+-    [R_ALPHA_DTPRELLO] = "R_ALPHA_DTPRELLO",
+-    [R_ALPHA_DTPREL16] = "R_ALPHA_DTPREL16",
+-    [R_ALPHA_GOTTPREL] = "R_ALPHA_GOTTPREL",
+-    [R_ALPHA_TPREL64] = "R_ALPHA_TPREL64",
+-    [R_ALPHA_TPRELHI] = "R_ALPHA_TPRELHI",
+-    [R_ALPHA_TPRELLO] = "R_ALPHA_TPRELLO",
+-    [R_ALPHA_TPREL16] = "R_ALPHA_TPREL16"
++    [R_ALPHA_NONE] = { "R_ALPHA_NONE", both },
++    [R_ALPHA_REFLONG] = { "R_ALPHA_REFLONG", both },
++    [R_ALPHA_REFQUAD] = { "R_ALPHA_REFQUAD", both },
++    [R_ALPHA_GPREL32] = { "R_ALPHA_GPREL32", rel },
++    [R_ALPHA_LITERAL] = { "R_ALPHA_LITERAL", rel },
++    [R_ALPHA_LITUSE] = { "R_ALPHA_LITUSE", rel },
++    [R_ALPHA_GPDISP] = { "R_ALPHA_GPDISP", rel },
++    [R_ALPHA_BRADDR] = { "R_ALPHA_BRADDR", rel },
++    [R_ALPHA_HINT] = { "R_ALPHA_HINT", rel },
++    [R_ALPHA_SREL16] = { "R_ALPHA_SREL16", rel },
++    [R_ALPHA_SREL32] = { "R_ALPHA_SREL32", rel },
++    [R_ALPHA_SREL64] = { "R_ALPHA_SREL64", rel },
++    [R_ALPHA_GPRELHIGH] = { "R_ALPHA_GPRELHIGH", rel },
++    [R_ALPHA_GPRELLOW] = { "R_ALPHA_GPRELLOW", rel },
++    [R_ALPHA_GPREL16] = { "R_ALPHA_GPREL16", rel },
++    [R_ALPHA_COPY] = { "R_ALPHA_COPY", exec },
++    [R_ALPHA_GLOB_DAT] = { "R_ALPHA_GLOB_DAT", exec },
++    [R_ALPHA_JMP_SLOT] = { "R_ALPHA_JMP_SLOT", exec },
++    [R_ALPHA_RELATIVE] = { "R_ALPHA_RELATIVE", exec },
++    [R_ALPHA_TLS_GD_HI] = { "R_ALPHA_TLS_GD_HI", rel },
++    [R_ALPHA_TLSGD] = { "R_ALPHA_TLSGD", rel },
++    [R_ALPHA_TLS_LDM] = { "R_ALPHA_TLS_LDM", rel },
++    [R_ALPHA_DTPMOD64] = { "R_ALPHA_DTPMOD64", exec },
++    [R_ALPHA_GOTDTPREL] = { "R_ALPHA_GOTDTPREL", rel },
++    [R_ALPHA_DTPREL64] = { "R_ALPHA_DTPREL64", exec },
++    [R_ALPHA_DTPRELHI] = { "R_ALPHA_DTPRELHI", rel },
++    [R_ALPHA_DTPRELLO] = { "R_ALPHA_DTPRELLO", rel },
++    [R_ALPHA_DTPREL16] = { "R_ALPHA_DTPREL16", rel },
++    [R_ALPHA_GOTTPREL] = { "R_ALPHA_GOTTPREL", rel },
++    [R_ALPHA_TPREL64] = { "R_ALPHA_TPREL64", exec },
++    [R_ALPHA_TPRELHI] = { "R_ALPHA_TPRELHI", rel },
++    [R_ALPHA_TPRELLO] = { "R_ALPHA_TPRELLO", rel },
++    [R_ALPHA_TPREL16] = { "R_ALPHA_TPREL16", rel }
+   };
+ 
+ 
+@@ -74,12 +79,10 @@
+ alpha_reloc_type_name (int type, char *buf __attribute__ ((unused)),
+ 		       size_t len __attribute__ ((unused)))
+ {
+-  if (type < 0
+-      || ((size_t) type
+-	  >= sizeof (reloc_map_table) / sizeof (reloc_map_table[0])))
++  if (type < 0 || type >= R_ALPHA_NUM)
+     return NULL;
+ 
+-  return reloc_map_table[type];
++  return reloc_map_table[type].name;
+ }
+ 
+ 
+@@ -87,10 +90,43 @@
+ bool
+ alpha_reloc_type_check (int type)
+ {
+-  return (type >= R_ALPHA_NONE
+-	  && ((size_t) type
+-	      < sizeof (reloc_map_table) / sizeof (reloc_map_table[0]))
+-	  && reloc_map_table[type] != NULL) ? true : false;
++  return (type >= R_ALPHA_NONE && type < R_ALPHA_NUM
++	  && reloc_map_table[type].name != NULL) ? true : false;
++}
++
++/* Check for correct relocation type use.  */
++bool
++alpha_reloc_valid_use (Elf *elf, int type)
++{
++  if (type < R_ALPHA_NONE || type >= R_ALPHA_NUM
++      || reloc_map_table[type].name == NULL)
++    return false;
++
++  Elf64_Ehdr *ehdr = elf64_getehdr (elf);
++  assert (ehdr != NULL);
++  if (reloc_map_table[type].appear == rel)
++    return ehdr->e_type == ET_REL;
++
++  if (reloc_map_table[type].appear == exec)
++    return ehdr->e_type != ET_REL;
++
++  assert (reloc_map_table[type].appear == both);
++  return true;
++}
++
++/* Check for the simple reloc types.  */
++Elf_Type
++alpha_reloc_simple_type (Elf *elf __attribute__ ((unused)), int type)
++{
++  switch (type)
++    {
++    case R_ALPHA_REFLONG:
++      return ELF_T_WORD;
++    case R_ALPHA_REFQUAD:
++      return ELF_T_XWORD;
++    default:
++      return ELF_T_NUM;
++    }
+ }
+ 
+ 
+--- elfutils-0.116/libebl/Makefile.am.orig	2005-11-26 10:28:00.000000000 +0100
++++ elfutils-0.116/libebl/Makefile.am	2005-11-26 12:52:21.000000000 +0100
+@@ -120,7 +120,7 @@
+ libebl_alpha.so: libebl_alpha_pic.a libebl_alpha.map
+ 	$(LINK) -shared -o $@ -Wl,--whole-archive,$<,--no-whole-archive \
+ 		-Wl,--version-script,$(srcdir)/libebl_alpha.map \
+-		-Wl,-z,defs $(libmudflap)
++		-Wl,-z,defs $(libelf) $(libmudflap)
+ 	$(textrel_check)
+ 
+ 
+--- elfutils-0.116/libebl/alpha_init.c.orig	2005-08-07 09:58:18.000000000 +0200
++++ elfutils-0.116/libebl/alpha_init.c	2005-11-26 11:34:19.000000000 +0100
+@@ -34,6 +34,8 @@
+   eh->name = "Alpha";
+   eh->reloc_type_name = alpha_reloc_type_name;
+   eh->reloc_type_check = alpha_reloc_type_check;
++  eh->reloc_valid_use = alpha_reloc_valid_use;
++  eh->reloc_simple_type = alpha_reloc_simple_type;
+   eh->dynamic_tag_name = alpha_dynamic_tag_name;
+   eh->dynamic_tag_check = alpha_dynamic_tag_check;
+   eh->copy_reloc_p = alpha_copy_reloc_p;
+--- elfutils-0.116/libebl/libebl_alpha.h.orig	2005-08-07 09:59:53.000000000 +0200
++++ elfutils-0.116/libebl/libebl_alpha.h	2005-11-26 12:49:21.000000000 +0100
+@@ -31,6 +31,12 @@
+ /* Check relocation type.  */
+ extern bool alpha_reloc_type_check (int type);
+ 
++/* Check relocation type use.  */
++extern bool alpha_reloc_valid_use (Elf *elf, int type);
++
++/* Check for the simple reloc types.  */
++extern Elf_Type alpha_reloc_simple_type (Elf *elf, int type);
++
+ /* Name of dynamic tag.  */
+ extern const char *alpha_dynamic_tag_name (int64_t tag, char *buf, size_t len);
+ 
+--- elfutils-0.116/libelf/elf32_getshdr.c.orig	2005-11-26 10:28:00.000000000 +0100
++++ elfutils-0.116/libelf/elf32_getshdr.c	2005-11-26 20:52:02.000000000 +0100
+@@ -91,8 +91,8 @@
+ 	  /* All the data is already mapped.  If we could use it
+ 	     directly this would already have happened.  */
+ 	  assert (ehdr->e_ident[EI_DATA] != MY_ELFDATA
+-		  || (! ALLOW_UNALIGNED
+-		      && (ehdr->e_shoff
++		  || ((! ALLOW_UNALIGNED)
++		      && ((uintptr_t) ((char *) elf->map_address + elf->start_offset + ehdr->e_shoff)
+ 			  & (__alignof__ (ElfW2(LIBELFBITS,Shdr)) - 1)) != 0));
+ 
+ 	  /* First see whether the information in the ELF header is
+@@ -106,9 +106,12 @@
+ 	    }
+ 
+ 	  /* Now copy the data and at the same time convert the byte
+-	     order.  */
++	     order, if needed.  */
++	  if (ehdr->e_ident[EI_DATA] == MY_ELFDATA)
++	    memcpy (shdr, ((char*) elf->map_address + elf->start_offset + ehdr->e_shoff), size);
++	  else {
+ 	  if (ALLOW_UNALIGNED
+-	      || (ehdr->e_shoff
++	      || ((uintptr_t) ((char *) elf->map_address + elf->start_offset + ehdr->e_shoff)
+ 		  & (__alignof__ (ElfW2(LIBELFBITS,Shdr)) - 1)) == 0)
+ 	    notcvt = (ElfW2(LIBELFBITS,Shdr) *)
+ 	      ((char *) elf->map_address
+@@ -134,6 +137,7 @@
+ 	      CONVERT_TO (shdr[cnt].sh_addralign, notcvt[cnt].sh_addralign);
+ 	      CONVERT_TO (shdr[cnt].sh_entsize, notcvt[cnt].sh_entsize);
+ 	    }
++	  }
+ 	}
+       else if (likely (elf->fildes != -1))
+ 	{
