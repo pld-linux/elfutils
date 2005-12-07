@@ -1,0 +1,11 @@
+--- elfutils-0.116/src/elflint.c~	2005-12-07 16:16:59.000000000 +0100
++++ elfutils-0.116/src/elflint.c	2005-12-07 16:28:49.000000000 +0100
+@@ -1743,7 +1743,7 @@
+ 	if (val >= symsize)
+ 	  ERROR (gettext ("\
+ section [%2d] '%s': hash chain reference %zu out of bounds\n"),
+-		 idx, section_name (ebl, idx), cnt - 2 - nbucket);
++		 idx, section_name (ebl, idx), cnt - 2 - (size_t)nbucket);
+ 	  buf += bighash ? 8 : sizeof(Elf32_Word);
+       }
+     }
