@@ -1,6 +1,104 @@
+--- elfutils/backends/ChangeLog
++++ elfutils/backends/ChangeLog
+@@ -19,6 +19,11 @@
+ 	* sparc_init.c: Likewise.
+ 	* x86_64_init.c: Likewise.
+ 
++2005-11-22  Roland McGrath  <roland@redhat.com>
++
++	* Makefile.am (LD_AS_NEEDED): New variable, substituted by configure.
++	(libebl_%.so rule): Use it in place of -Wl,--as-needed.
++
+ 2005-11-19  Roland McGrath  <roland@redhat.com>
+ 
+ 	* ppc64_reloc.def: REL30 -> ADDR30.
+@@ -41,6 +46,9 @@
+ 	* Makefile.am (uninstall): Don't try to remove $(pkgincludedir).
+ 	(CLEANFILES): Add libebl_$(m).so.
+ 
++	* Makefile.am (WEXTRA): New variable, substituted by configure.
++	(AM_CFLAGS): Use it in place of -Wextra.
++
+ 	* ppc_reloc.def: Update bits per Alan Modra <amodra@bigpond.net.au>.
+ 	* ppc64_reloc.def: Likewise.
+ 
+--- elfutils/backends/Makefile.am
++++ elfutils/backends/Makefile.am
+@@ -13,12 +13,14 @@
+ ## 3001 King Ranch Road, Ukiah, CA 95482.
+ ##
+ DEFS = -D_GNU_SOURCE -DHAVE_CONFIG_H -DOBJDIR=\"$(shell pwd)\"
++WEXTRA = @WEXTRA@
++LD_AS_NEEDED = @LD_AS_NEEDED@
+ if MUDFLAP
+ AM_CFLAGS = -fmudflap
+ else
+ AM_CFLAGS =
+ endif
+-AM_CFLAGS += -fpic -Wall -Wshadow -Werror -Wunused -Wextra -Wformat=2 \
++AM_CFLAGS += -fpic -Wall -Wshadow -Werror -Wunused $(WEXTRA) -Wformat=2 \
+ 	     -std=gnu99
+ INCLUDES = -I$(srcdir) -I$(top_srcdir)/libebl \
+ 	   -I$(top_srcdir)/libelf -I$(top_srcdir)/libdw \
+@@ -51,7 +53,7 @@ textrel_check = if readelf -d $@ | fgrep
+ libebl_%.so: libebl_%_pic.a libebl_%.map $(libelf) $(libdw)
+ 	$(LINK) -shared -o $@ -Wl,--whole-archive,$<,--no-whole-archive \
+ 		-Wl,--version-script,$(word 2,$^) \
+-		-Wl,-z,defs -Wl,--as-needed $(libelf) $(libdw) $(libmudflap)
++		-Wl,-z,defs $(LD_AS_NEEDED) $(libelf) $(libdw) $(libmudflap)
+ 	$(textrel_check)
+ 
+ libebl_%.map: Makefile
+--- elfutils/backends/Makefile.in
++++ elfutils/backends/Makefile.in
+@@ -159,6 +159,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+ INSTALL_SCRIPT = @INSTALL_SCRIPT@
+ INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+ LDFLAGS = @LDFLAGS@
++LD_AS_NEEDED = @LD_AS_NEEDED@
+ LEX = @LEX@
+ LEXLIB = @LEXLIB@
+ LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
+@@ -194,6 +195,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+ TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
+ USE_NLS = @USE_NLS@
+ VERSION = @VERSION@
++WEXTRA = @WEXTRA@
+ XGETTEXT = @XGETTEXT@
+ YACC = @YACC@
+ ac_ct_CC = @ac_ct_CC@
+@@ -236,9 +238,9 @@ sharedstatedir = @sharedstatedir@
+ sysconfdir = @sysconfdir@
+ target_alias = @target_alias@
+ @MUDFLAP_FALSE@AM_CFLAGS = -fpic -Wall -Wshadow -Werror -Wunused \
+-@MUDFLAP_FALSE@	-Wextra -Wformat=2 -std=gnu99
++@MUDFLAP_FALSE@	$(WEXTRA) -Wformat=2 -std=gnu99
+ @MUDFLAP_TRUE@AM_CFLAGS = -fmudflap -fpic -Wall -Wshadow -Werror \
+-@MUDFLAP_TRUE@	-Wunused -Wextra -Wformat=2 -std=gnu99
++@MUDFLAP_TRUE@	-Wunused $(WEXTRA) -Wformat=2 -std=gnu99
+ INCLUDES = -I$(srcdir) -I$(top_srcdir)/libebl \
+ 	   -I$(top_srcdir)/libelf -I$(top_srcdir)/libdw \
+ 	   -I$(top_srcdir)/lib -I..
+@@ -594,7 +596,7 @@ uninstall-am: uninstall-info-am
+ libebl_%.so: libebl_%_pic.a libebl_%.map $(libelf) $(libdw)
+ 	$(LINK) -shared -o $@ -Wl,--whole-archive,$<,--no-whole-archive \
+ 		-Wl,--version-script,$(word 2,$^) \
+-		-Wl,-z,defs -Wl,--as-needed $(libelf) $(libdw) $(libmudflap)
++		-Wl,-z,defs $(LD_AS_NEEDED) $(libelf) $(libdw) $(libmudflap)
+ 	$(textrel_check)
+ 
+ libebl_%.map: Makefile
 --- elfutils/ChangeLog
 +++ elfutils/ChangeLog
-@@ -29,6 +29,17 @@
+@@ -1,3 +1,7 @@
++2005-11-22  Roland McGrath  <roland@redhat.com>
++
++	* configure.ac: Check for --as-needed linker option.
++
+ 2005-11-18  Roland McGrath  <roland@redhat.com>
+ 
+ 	* Makefile.am (DISTCHECK_CONFIGURE_FLAGS): New variable.
+@@ -45,6 +49,17 @@
  	* Makefile.am (all_SUBDIRS): Add libdwfl.
  	* configure.ac: Write libdwfl/Makefile.
  
@@ -20,8 +118,16 @@
  	* configure.ac [AH_BOTTOM] (INTDECL, _INTDECL): New macros.
 --- elfutils/config/Makefile.in
 +++ elfutils/config/Makefile.in
-@@ -113,6 +113,7 @@ SHELL = @SHELL@
- STRIP = @STRIP@
+@@ -84,6 +84,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+ INSTALL_SCRIPT = @INSTALL_SCRIPT@
+ INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+ LDFLAGS = @LDFLAGS@
++LD_AS_NEEDED = @LD_AS_NEEDED@
+ LEX = @LEX@
+ LEXLIB = @LEXLIB@
+ LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
+@@ -119,6 +120,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+ TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = @VERSION@
 +WEXTRA = @WEXTRA@
@@ -30,16 +136,16 @@
  ac_ct_CC = @ac_ct_CC@
 --- elfutils/configure
 +++ elfutils/configure
-@@ -276,7 +276,7 @@ PACKAGE_STRING='Red Hat elfutils 0.115'
+@@ -276,7 +276,7 @@ PACKAGE_STRING='Red Hat elfutils 0.118'
  PACKAGE_BUGREPORT='http://bugzilla.redhat.com/bugzilla/'
  
  ac_unique_file="libelf/libelf.h"
--ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM mkdir_p AWK SET_MAKE am__leading_dot AMTAR am__tar am__untar MODVERSION build build_cpu build_vendor build_os host host_cpu host_vendor host_os CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE RANLIB ac_ct_RANLIB YACC LEX LEXLIB LEX_OUTPUT_ROOT LOCALEDIR DATADIRNAME NATIVE_LD_TRUE NATIVE_LD_FALSE base_cpu MUDFLAP_TRUE MUDFLAP_FALSE GPROF_TRUE GPROF_FALSE GCOV_TRUE GCOV_FALSE BUILD_STATIC_TRUE BUILD_STATIC_FALSE LIBEBL_SUBDIR USE_NLS MKINSTALLDIRS MSGFMT GMSGFMT XGETTEXT MSGMERGE LIBOBJS LTLIBOBJS'
-+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM mkdir_p AWK SET_MAKE am__leading_dot AMTAR am__tar am__untar MODVERSION build build_cpu build_vendor build_os host host_cpu host_vendor host_os CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE RANLIB ac_ct_RANLIB YACC LEX LEXLIB LEX_OUTPUT_ROOT WEXTRA LOCALEDIR DATADIRNAME NATIVE_LD_TRUE NATIVE_LD_FALSE base_cpu MUDFLAP_TRUE MUDFLAP_FALSE GPROF_TRUE GPROF_FALSE GCOV_TRUE GCOV_FALSE BUILD_STATIC_TRUE BUILD_STATIC_FALSE LIBEBL_SUBDIR USE_NLS MKINSTALLDIRS MSGFMT GMSGFMT XGETTEXT MSGMERGE LIBOBJS LTLIBOBJS'
+-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM mkdir_p AWK SET_MAKE am__leading_dot AMTAR am__tar am__untar MODVERSION build build_cpu build_vendor build_os host host_cpu host_vendor host_os CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE RANLIB ac_ct_RANLIB YACC LEX LEXLIB LEX_OUTPUT_ROOT LOCALEDIR DATADIRNAME NATIVE_LD_TRUE NATIVE_LD_FALSE base_cpu MUDFLAP_TRUE MUDFLAP_FALSE GPROF_TRUE GPROF_FALSE GCOV_TRUE GCOV_FALSE BUILD_STATIC_TRUE BUILD_STATIC_FALSE TESTS_RPATH_TRUE TESTS_RPATH_FALSE LIBEBL_SUBDIR HAVE_LIBASM_TRUE HAVE_LIBASM_FALSE STANDALONE_TRUE STANDALONE_FALSE USE_NLS MKINSTALLDIRS MSGFMT GMSGFMT XGETTEXT MSGMERGE LIBOBJS LTLIBOBJS'
++ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM mkdir_p AWK SET_MAKE am__leading_dot AMTAR am__tar am__untar MODVERSION build build_cpu build_vendor build_os host host_cpu host_vendor host_os CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE RANLIB ac_ct_RANLIB YACC LEX LEXLIB LEX_OUTPUT_ROOT WEXTRA LD_AS_NEEDED LOCALEDIR DATADIRNAME NATIVE_LD_TRUE NATIVE_LD_FALSE base_cpu MUDFLAP_TRUE MUDFLAP_FALSE GPROF_TRUE GPROF_FALSE GCOV_TRUE GCOV_FALSE BUILD_STATIC_TRUE BUILD_STATIC_FALSE TESTS_RPATH_TRUE TESTS_RPATH_FALSE LIBEBL_SUBDIR HAVE_LIBASM_TRUE HAVE_LIBASM_FALSE STANDALONE_TRUE STANDALONE_FALSE USE_NLS MKINSTALLDIRS MSGFMT GMSGFMT XGETTEXT MSGMERGE LIBOBJS LTLIBOBJS'
  ac_subst_files=''
  
  # Initialize some variables set by options.
-@@ -3384,6 +3384,58 @@ echo "$as_me: error: gcc with C99 suppor
+@@ -3385,6 +3385,92 @@ echo "$as_me: error: gcc with C99 suppor
  fi
  
  
@@ -95,20 +201,55 @@
 +fi
 +
 +
++echo "$as_me:$LINENO: checking for --as-needed linker option" >&5
++echo $ECHO_N "checking for --as-needed linker option... $ECHO_C" >&6
++if test "${ac_cv_as_needed+set}" = set; then
++  echo $ECHO_N "(cached) $ECHO_C" >&6
++else
++  cat > conftest.c <<EOF
++int main (void) { return 0; }
++EOF
++if { ac_try='${CC-cc} $CFLAGS $CPPFLAGS $LDFLAGS
++			    -fPIC -shared -o conftest.so conftest.c
++			    -Wl,--as-needed 1>&5'
++  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
++  (eval $ac_try) 2>&5
++  ac_status=$?
++  echo "$as_me:$LINENO: \$? = $ac_status" >&5
++  (exit $ac_status); }; }
++then
++  ac_cv_as_needed=yes
++else
++  ac_cv_as_needed=no
++fi
++rm -f conftest*
++fi
++echo "$as_me:$LINENO: result: $ac_cv_as_needed" >&5
++echo "${ECHO_T}$ac_cv_as_needed" >&6
++if test "x$ac_cv_as_needed" = xyes; then
++  LD_AS_NEEDED=-Wl,--as-needed
++else
++  LD_AS_NEEDED=
++fi
++
++
++
++
  LOCALEDIR=$datadir
  
  cat >>confdefs.h <<_ACEOF
-@@ -4925,6 +4977,7 @@ s,@YACC@,$YACC,;t t
+@@ -4987,6 +5073,8 @@ s,@YACC@,$YACC,;t t
  s,@LEX@,$LEX,;t t
  s,@LEXLIB@,$LEXLIB,;t t
  s,@LEX_OUTPUT_ROOT@,$LEX_OUTPUT_ROOT,;t t
 +s,@WEXTRA@,$WEXTRA,;t t
++s,@LD_AS_NEEDED@,$LD_AS_NEEDED,;t t
  s,@LOCALEDIR@,$LOCALEDIR,;t t
  s,@DATADIRNAME@,$DATADIRNAME,;t t
  s,@NATIVE_LD_TRUE@,$NATIVE_LD_TRUE,;t t
 --- elfutils/configure.ac
 +++ elfutils/configure.ac
-@@ -69,6 +69,15 @@ CFLAGS="$old_CFLAGS"])
+@@ -69,6 +69,34 @@ CFLAGS="$old_CFLAGS"])
  AS_IF([test "x$ac_cv_c99" != xyes],
        AC_MSG_ERROR([gcc with C99 support required]))
  
@@ -120,6 +261,25 @@
 +CFLAGS="$old_CFLAGS"])
 +AC_SUBST(WEXTRA)
 +AS_IF([test "x$ac_cv_cc_wextra" = xyes], [WEXTRA=-Wextra], [WEXTRA=-W])
++
++AC_CACHE_CHECK([for --as-needed linker option],
++	       ac_cv_as_needed, [dnl
++cat > conftest.c <<EOF
++int main (void) { return 0; }
++EOF
++if AC_TRY_COMMAND([${CC-cc} $CFLAGS $CPPFLAGS $LDFLAGS
++			    -fPIC -shared -o conftest.so conftest.c
++			    -Wl,--as-needed 1>&AS_MESSAGE_LOG_FD])
++then
++  ac_cv_as_needed=yes
++else
++  ac_cv_as_needed=no
++fi
++rm -f conftest*])
++AS_IF([test "x$ac_cv_as_needed" = xyes],
++      [LD_AS_NEEDED=-Wl,--as-needed], [LD_AS_NEEDED=])
++AC_SUBST(LD_AS_NEEDED)
++
 +
  LOCALEDIR=$datadir
  AC_SUBST(LOCALEDIR)
@@ -157,15 +317,23 @@
  noinst_LIBRARIES = libeu.a
 --- elfutils/lib/Makefile.in
 +++ elfutils/lib/Makefile.in
-@@ -135,6 +135,7 @@ SHELL = @SHELL@
- STRIP = @STRIP@
+@@ -106,6 +106,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+ INSTALL_SCRIPT = @INSTALL_SCRIPT@
+ INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+ LDFLAGS = @LDFLAGS@
++LD_AS_NEEDED = @LD_AS_NEEDED@
+ LEX = @LEX@
+ LEXLIB = @LEXLIB@
+ LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
+@@ -141,6 +142,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+ TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = @VERSION@
 +WEXTRA = @WEXTRA@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@
  ac_ct_CC = @ac_ct_CC@
-@@ -177,9 +178,9 @@ sharedstatedir = @sharedstatedir@
+@@ -183,9 +185,9 @@ sharedstatedir = @sharedstatedir@
  sysconfdir = @sysconfdir@
  target_alias = @target_alias@
  @MUDFLAP_FALSE@AM_CFLAGS = -fpic -Wall -Wshadow -Werror -Wunused \
@@ -179,7 +347,7 @@
  libeu_a_SOURCES = xstrdup.c xstrndup.c xmalloc.c next_prime.c \
 --- elfutils/libasm/ChangeLog
 +++ elfutils/libasm/ChangeLog
-@@ -24,6 +24,11 @@
+@@ -28,6 +28,11 @@
  	* asm_error.c: Add new error ASM_E_IOERROR.
  	* libasmP.h: Add ASM_E_IOERROR definition.
  
@@ -205,20 +373,28 @@
  endif
 -AM_CFLAGS += -std=gnu99 -Wall -Wshadow -Werror -Wunused -Wextra -Wformat=2
 +AM_CFLAGS += -std=gnu99 -Wall -Wshadow -Werror -Wunused $(WEXTRA) -Wformat=2
- INCLUDES = -I. -I$(srcdir) -I.. -I$(top_srcdir)/libelf -I$(top_srcdir)/libebl \
+ INCLUDES = -I. -I$(srcdir) -I.. \
+ 	   -I$(top_srcdir)/libelf -I$(top_srcdir)/libebl -I$(top_srcdir)/libdw\
  	   -I$(top_srcdir)/lib
- GCC_INCLUDE = -I$(shell $(CC) -print-file-name=include)
 --- elfutils/libasm/Makefile.in
 +++ elfutils/libasm/Makefile.in
-@@ -167,6 +167,7 @@ SHELL = @SHELL@
- STRIP = @STRIP@
+@@ -138,6 +138,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+ INSTALL_SCRIPT = @INSTALL_SCRIPT@
+ INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+ LDFLAGS = @LDFLAGS@
++LD_AS_NEEDED = @LD_AS_NEEDED@
+ LEX = @LEX@
+ LEXLIB = @LEXLIB@
+ LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
+@@ -173,6 +174,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+ TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = 1
 +WEXTRA = @WEXTRA@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@
  ac_ct_CC = @ac_ct_CC@
-@@ -209,9 +210,9 @@ sharedstatedir = @sharedstatedir@
+@@ -215,9 +217,9 @@ sharedstatedir = @sharedstatedir@
  sysconfdir = @sysconfdir@
  target_alias = @target_alias@
  @MUDFLAP_FALSE@AM_CFLAGS = -std=gnu99 -Wall -Wshadow -Werror -Wunused \
@@ -227,9 +403,9 @@
  @MUDFLAP_TRUE@AM_CFLAGS = -fmudflap -std=gnu99 -Wall -Wshadow -Werror \
 -@MUDFLAP_TRUE@	-Wunused -Wextra -Wformat=2
 +@MUDFLAP_TRUE@	-Wunused $(WEXTRA) -Wformat=2
- INCLUDES = -I. -I$(srcdir) -I.. -I$(top_srcdir)/libelf -I$(top_srcdir)/libebl \
+ INCLUDES = -I. -I$(srcdir) -I.. \
+ 	   -I$(top_srcdir)/libelf -I$(top_srcdir)/libebl -I$(top_srcdir)/libdw\
  	   -I$(top_srcdir)/lib
- 
 --- elfutils/libcpu/ChangeLog
 +++ elfutils/libcpu/ChangeLog
 @@ -1,3 +1,8 @@
@@ -255,15 +431,23 @@
  noinst_LIBRARIES = libcpu_i386.a
 --- elfutils/libcpu/Makefile.in
 +++ elfutils/libcpu/Makefile.in
-@@ -130,6 +130,7 @@ SHELL = @SHELL@
- STRIP = @STRIP@
+@@ -101,6 +101,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+ INSTALL_SCRIPT = @INSTALL_SCRIPT@
+ INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+ LDFLAGS = @LDFLAGS@
++LD_AS_NEEDED = @LD_AS_NEEDED@
+ LEX = @LEX@
+ LEXLIB = @LEXLIB@
+ LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
+@@ -136,6 +137,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+ TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = @VERSION@
 +WEXTRA = @WEXTRA@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@
  ac_ct_CC = @ac_ct_CC@
-@@ -171,7 +172,7 @@ sbindir = @sbindir@
+@@ -177,7 +179,7 @@ sbindir = @sbindir@
  sharedstatedir = @sharedstatedir@
  sysconfdir = @sysconfdir@
  target_alias = @target_alias@
@@ -274,7 +458,7 @@
  libcpu_i386_a_SOURCES = i386_dis.c
 --- elfutils/libdw/ChangeLog
 +++ elfutils/libdw/ChangeLog
-@@ -239,6 +239,11 @@
+@@ -251,6 +251,11 @@
  
  2005-05-31  Roland McGrath  <roland@redhat.com>
  
@@ -288,7 +472,7 @@
  
 --- elfutils/libdw/Makefile.am
 +++ elfutils/libdw/Makefile.am
-@@ -13,12 +13,13 @@
+@@ -13,6 +13,7 @@
  ## 3001 King Ranch Road, Ukiah, CA 95482.
  ##
  DEFS = -D_GNU_SOURCE -DHAVE_CONFIG_H -DIS_LIBDW
@@ -296,7 +480,9 @@
  if MUDFLAP
  AM_CFLAGS = -fmudflap
  else
- AM_CFLAGS =
+@@ -21,7 +22,7 @@ endif
+ if BUILD_STATIC
+ AM_CFLAGS += -fpic
  endif
 -AM_CFLAGS += -Wall -Werror -Wshadow -Wunused -Wformat=2 -Wextra -std=gnu99
 +AM_CFLAGS += -Wall -Werror -Wshadow -Wunused -Wformat=2 $(WEXTRA) -std=gnu99
@@ -305,29 +491,38 @@
  
 --- elfutils/libdw/Makefile.in
 +++ elfutils/libdw/Makefile.in
-@@ -206,6 +206,7 @@ SHELL = @SHELL@
- STRIP = @STRIP@
+@@ -178,6 +178,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+ INSTALL_SCRIPT = @INSTALL_SCRIPT@
+ INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+ LDFLAGS = @LDFLAGS@
++LD_AS_NEEDED = @LD_AS_NEEDED@
+ LEX = @LEX@
+ LEXLIB = @LEXLIB@
+ LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
+@@ -213,6 +214,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+ TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = 1
 +WEXTRA = @WEXTRA@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@
  ac_ct_CC = @ac_ct_CC@
-@@ -248,9 +249,9 @@ sharedstatedir = @sharedstatedir@
+@@ -255,9 +257,10 @@ sharedstatedir = @sharedstatedir@
  sysconfdir = @sysconfdir@
  target_alias = @target_alias@
- @MUDFLAP_FALSE@AM_CFLAGS = -Wall -Werror -Wshadow -Wunused -Wformat=2 \
--@MUDFLAP_FALSE@	-Wextra -std=gnu99
-+@MUDFLAP_FALSE@	$(WEXTRA) -std=gnu99
- @MUDFLAP_TRUE@AM_CFLAGS = -fmudflap -Wall -Werror -Wshadow -Wunused \
--@MUDFLAP_TRUE@	-Wformat=2 -Wextra -std=gnu99
-+@MUDFLAP_TRUE@	-Wformat=2 $(WEXTRA) -std=gnu99
+ @MUDFLAP_FALSE@AM_CFLAGS = $(am__append_1) -Wall -Werror -Wshadow \
+-@MUDFLAP_FALSE@	-Wunused -Wformat=2 -Wextra -std=gnu99
++@MUDFLAP_FALSE@	-Wunused -Wformat=2 $(WEXTRA) -std=gnu99
+ @MUDFLAP_TRUE@AM_CFLAGS = -fmudflap $(am__append_1) -Wall -Werror \
+-@MUDFLAP_TRUE@	-Wshadow -Wunused -Wformat=2 -Wextra -std=gnu99
++@MUDFLAP_TRUE@	-Wshadow -Wunused -Wformat=2 $(WEXTRA) \
++@MUDFLAP_TRUE@	-std=gnu99
  INCLUDES = -I. -I$(srcdir) -I$(srcdir)/../libelf -I.. -I$(srcdir)/../lib
  COMPILE.os = $(filter-out -fprofile-arcs, $(filter-out -ftest-coverage, \
  						       $(COMPILE)))
 --- elfutils/libdwfl/ChangeLog
 +++ elfutils/libdwfl/ChangeLog
-@@ -210,6 +210,11 @@
+@@ -245,6 +245,11 @@
  
  2005-07-21  Roland McGrath  <roland@redhat.com>
  
@@ -358,15 +553,23 @@
  VERSION = 1
 --- elfutils/libdwfl/Makefile.in
 +++ elfutils/libdwfl/Makefile.in
-@@ -163,6 +163,7 @@ SHELL = @SHELL@
- STRIP = @STRIP@
+@@ -136,6 +136,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+ INSTALL_SCRIPT = @INSTALL_SCRIPT@
+ INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+ LDFLAGS = @LDFLAGS@
++LD_AS_NEEDED = @LD_AS_NEEDED@
+ LEX = @LEX@
+ LEXLIB = @LEXLIB@
+ LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
+@@ -171,6 +172,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+ TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = 1
 +WEXTRA = @WEXTRA@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@
  ac_ct_CC = @ac_ct_CC@
-@@ -205,9 +206,9 @@ sharedstatedir = @sharedstatedir@
+@@ -213,9 +215,9 @@ sharedstatedir = @sharedstatedir@
  sysconfdir = @sysconfdir@
  target_alias = @target_alias@
  @MUDFLAP_FALSE@AM_CFLAGS = -Wall -Werror -Wshadow -Wunused -Wformat=2 \
@@ -380,7 +583,7 @@
  
 --- elfutils/libebl/ChangeLog
 +++ elfutils/libebl/ChangeLog
-@@ -152,6 +152,11 @@
+@@ -400,6 +400,11 @@
  	* Makefile.am (libebl_*_so_SOURCES): Set to $(*_SRCS) so dependency
  	tracking works right.
  
@@ -408,18 +611,26 @@
 +AM_CFLAGS += -fpic -Wall -Wshadow -Werror -Wunused $(WEXTRA) -Wformat=2 \
  	     -std=gnu99
  
- INCLUDES = -I$(srcdir) -I$(top_srcdir)/libelf -I$(top_srcdir)/lib -I..
+ INCLUDES = -I$(srcdir) -I$(top_srcdir)/libelf -I$(top_srcdir)/libdw \
 --- elfutils/libebl/Makefile.in
 +++ elfutils/libebl/Makefile.in
-@@ -258,6 +258,7 @@ SHELL = @SHELL@
- STRIP = @STRIP@
+@@ -131,6 +131,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+ INSTALL_SCRIPT = @INSTALL_SCRIPT@
+ INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+ LDFLAGS = @LDFLAGS@
++LD_AS_NEEDED = @LD_AS_NEEDED@
+ LEX = @LEX@
+ LEXLIB = @LEXLIB@
+ LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
+@@ -166,6 +167,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+ TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = 1
 +WEXTRA = @WEXTRA@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@
  ac_ct_CC = @ac_ct_CC@
-@@ -300,9 +301,9 @@ sharedstatedir = @sharedstatedir@
+@@ -208,9 +210,9 @@ sharedstatedir = @sharedstatedir@
  sysconfdir = @sysconfdir@
  target_alias = @target_alias@
  @MUDFLAP_FALSE@AM_CFLAGS = -fpic -Wall -Wshadow -Werror -Wunused \
@@ -428,12 +639,12 @@
  @MUDFLAP_TRUE@AM_CFLAGS = -fmudflap -fpic -Wall -Wshadow -Werror \
 -@MUDFLAP_TRUE@	-Wunused -Wextra -Wformat=2 -std=gnu99
 +@MUDFLAP_TRUE@	-Wunused $(WEXTRA) -Wformat=2 -std=gnu99
- INCLUDES = -I$(srcdir) -I$(top_srcdir)/libelf -I$(top_srcdir)/lib -I..
- lib_LIBRARIES = libebl.a
- modules = i386 sh x86_64 ia64 alpha arm sparc ppc ppc64
+ INCLUDES = -I$(srcdir) -I$(top_srcdir)/libelf -I$(top_srcdir)/libdw \
+ 	   -I$(top_srcdir)/lib -I..
+ 
 --- elfutils/libelf/ChangeLog
 +++ elfutils/libelf/ChangeLog
-@@ -91,6 +91,11 @@
+@@ -103,6 +103,11 @@
  	If section content hasn't been read yet, do it before looking for the
  	block size.  If no section data present, infer size of section header.
  
@@ -498,15 +709,23 @@
  @MUDFLAP_FALSE@noinst_PROGRAMS = $(am__EXEEXT_1)
  @MUDFLAP_TRUE@am_libelf_pic_a_OBJECTS =
  subdir = libelf
-@@ -210,6 +210,7 @@ SHELL = @SHELL@
- STRIP = @STRIP@
+@@ -181,6 +181,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+ INSTALL_SCRIPT = @INSTALL_SCRIPT@
+ INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+ LDFLAGS = @LDFLAGS@
++LD_AS_NEEDED = @LD_AS_NEEDED@
+ LEX = @LEX@
+ LEXLIB = @LEXLIB@
+ LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
+@@ -216,6 +217,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+ TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = 1
 +WEXTRA = @WEXTRA@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@
  ac_ct_CC = @ac_ct_CC@
-@@ -252,10 +253,10 @@ sharedstatedir = @sharedstatedir@
+@@ -258,10 +260,10 @@ sharedstatedir = @sharedstatedir@
  sysconfdir = @sysconfdir@
  target_alias = @target_alias@
  @MUDFLAP_FALSE@AM_CFLAGS = $(am__append_1) -Wall -Wshadow -Werror \
@@ -521,8 +740,16 @@
  GCC_INCLUDE = -I$(shell $(CC) -print-file-name=include)
 --- elfutils/m4/Makefile.in
 +++ elfutils/m4/Makefile.in
-@@ -111,6 +111,7 @@ SHELL = @SHELL@
- STRIP = @STRIP@
+@@ -82,6 +82,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+ INSTALL_SCRIPT = @INSTALL_SCRIPT@
+ INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+ LDFLAGS = @LDFLAGS@
++LD_AS_NEEDED = @LD_AS_NEEDED@
+ LEX = @LEX@
+ LEXLIB = @LEXLIB@
+ LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
+@@ -117,6 +118,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+ TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = @VERSION@
 +WEXTRA = @WEXTRA@
@@ -531,8 +758,16 @@
  ac_ct_CC = @ac_ct_CC@
 --- elfutils/Makefile.in
 +++ elfutils/Makefile.in
-@@ -135,6 +135,7 @@ SHELL = @SHELL@
- STRIP = @STRIP@
+@@ -106,6 +106,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+ INSTALL_SCRIPT = @INSTALL_SCRIPT@
+ INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+ LDFLAGS = @LDFLAGS@
++LD_AS_NEEDED = @LD_AS_NEEDED@
+ LEX = @LEX@
+ LEXLIB = @LEXLIB@
+ LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
+@@ -141,6 +142,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+ TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = @VERSION@
 +WEXTRA = @WEXTRA@
@@ -541,7 +776,7 @@
  ac_ct_CC = @ac_ct_CC@
 --- elfutils/src/ChangeLog
 +++ elfutils/src/ChangeLog
-@@ -220,6 +220,11 @@
+@@ -236,6 +236,11 @@
  	* readelf.c (print_debug_loc_section): Fix indentation for larger
  	address size.
  
@@ -589,15 +824,23 @@
  INCLUDES = -I$(srcdir) -I$(srcdir)/../libelf -I$(srcdir)/../libebl \
 --- elfutils/src/Makefile.in
 +++ elfutils/src/Makefile.in
-@@ -221,6 +221,7 @@ SHELL = @SHELL@
- STRIP = @STRIP@
+@@ -192,6 +192,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+ INSTALL_SCRIPT = @INSTALL_SCRIPT@
+ INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+ LDFLAGS = @LDFLAGS@
++LD_AS_NEEDED = @LD_AS_NEEDED@
+ LEX = @LEX@
+ LEXLIB = @LEXLIB@
+ LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
+@@ -227,6 +228,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+ TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = @VERSION@
 +WEXTRA = @WEXTRA@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@ -d
  ac_ct_CC = @ac_ct_CC@
-@@ -265,12 +266,12 @@ target_alias = @target_alias@
+@@ -271,12 +273,12 @@ target_alias = @target_alias@
  @MUDFLAP_FALSE@AM_CFLAGS = -Wall -Wshadow -std=gnu99 \
  @MUDFLAP_FALSE@	$(native_ld_cflags) $(if \
  @MUDFLAP_FALSE@	$($(*F)_no_Werror),,-Werror) $(if \
@@ -666,7 +909,7 @@
  cannot set access and modification date of '%s'"), fname);
 --- elfutils/tests/ChangeLog
 +++ elfutils/tests/ChangeLog
-@@ -181,6 +181,11 @@
+@@ -316,6 +316,11 @@
  	* Makefile.am (TESTS): Add run-elflint-test.sh.
  	(EXTRA_DIST): Add run-elflint-test.sh and testfile18.bz2.
  
@@ -689,24 +932,32 @@
 -AM_CFLAGS = -Wall -Werror -Wextra -std=gnu99 -fmudflap\
 +AM_CFLAGS = -Wall -Werror $(WEXTRA) -std=gnu99 -fmudflap\
  	    $(if $($(*F)_no_Wformat),-Wno-format,-Wformat=2)
- AM_LDFLAGS = -Wl,-rpath,\$$ORIGIN/../libebl
+ BUILD_RPATH = \$$ORIGIN/../backends
  else
 -AM_CFLAGS = -Wall -Werror -Wextra -std=gnu99 \
 +AM_CFLAGS = -Wall -Werror $(WEXTRA) -std=gnu99 \
  	    $(if $($(*F)_no_Wformat),-Wno-format,-Wformat=2)
- AM_LDFLAGS = -Wl,-rpath,\$$ORIGIN/../libasm:\$$ORIGIN/../libdw:\$$ORIGIN/../libebl:\$$ORIGIN/../libelf
+ BUILT_RPATH = \$$ORIGIN/../libasm:\$$ORIGIN/../libdw:\$$ORIGIN/../backends:\$$ORIGIN/../libelf
  endif
 --- elfutils/tests/Makefile.in
 +++ elfutils/tests/Makefile.in
-@@ -291,6 +291,7 @@ SHELL = @SHELL@
- STRIP = @STRIP@
+@@ -283,6 +283,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+ INSTALL_SCRIPT = @INSTALL_SCRIPT@
+ INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+ LDFLAGS = @LDFLAGS@
++LD_AS_NEEDED = @LD_AS_NEEDED@
+ LEX = @LEX@
+ LEXLIB = @LEXLIB@
+ LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
+@@ -318,6 +319,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+ TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = @VERSION@
 +WEXTRA = @WEXTRA@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@
  ac_ct_CC = @ac_ct_CC@
-@@ -332,10 +333,10 @@ sbindir = @sbindir@
+@@ -359,10 +361,10 @@ sbindir = @sbindir@
  sharedstatedir = @sharedstatedir@
  sysconfdir = @sysconfdir@
  target_alias = @target_alias@
@@ -718,4 +969,4 @@
 +@MUDFLAP_TRUE@AM_CFLAGS = -Wall -Werror $(WEXTRA) -std=gnu99 -fmudflap\
  @MUDFLAP_TRUE@	    $(if $($(*F)_no_Wformat),-Wno-format,-Wformat=2)
  
- @MUDFLAP_FALSE@AM_LDFLAGS = -Wl,-rpath,\$$ORIGIN/../libasm:\$$ORIGIN/../libdw:\$$ORIGIN/../libebl:\$$ORIGIN/../libelf
+ @MUDFLAP_TRUE@BUILD_RPATH = \$$ORIGIN/../backends
