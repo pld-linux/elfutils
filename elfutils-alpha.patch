@@ -1,10 +1,10 @@
-2005-11-26  Jakub Bogusz  <qboosh at pld-linux dot org>
+2006-02-05  Jakub Bogusz  <qboosh at pld-linux dot org>
 
 	* src/elflint.c (valid_e_machine) Add EM_ALPHA to valid machines.
 	  (check_hash): Support hash bucket size of 8 on alpha and s390x.
 	  (check_sections): Support arch-specific section flags.
-	* libelf/elf32_getshdr.c: Fix assert condition; handle unaligned
-	  section header with same endianess properly.
+	* libelf/elf32_getshdr.c: Handle unaligned section header with same
+          endianess properly.
 
 --- elfutils-0.116/src/elflint.c.orig	2005-11-26 10:28:00.000000000 +0100
 +++ elfutils-0.116/src/elflint.c	2005-11-26 14:01:18.000000000 +0100
@@ -131,20 +131,9 @@
        if (shdr->sh_flags & ~ALL_SH_FLAGS)
  	ERROR (gettext ("section [%2zu] '%s' contains unknown flag(s)"
  			" %#" PRIx64 "\n"),
---- elfutils-0.116/libelf/elf32_getshdr.c.orig	2005-11-26 10:28:00.000000000 +0100
-+++ elfutils-0.116/libelf/elf32_getshdr.c	2005-11-26 20:52:02.000000000 +0100
-@@ -91,8 +91,8 @@
- 	  /* All the data is already mapped.  If we could use it
- 	     directly this would already have happened.  */
- 	  assert (ehdr->e_ident[EI_DATA] != MY_ELFDATA
--		  || (! ALLOW_UNALIGNED
--		      && (ehdr->e_shoff
-+		  || ((! ALLOW_UNALIGNED)
-+		      && ((uintptr_t) ((char *) elf->map_address + elf->start_offset + ehdr->e_shoff)
- 			  & (__alignof__ (ElfW2(LIBELFBITS,Shdr)) - 1)) != 0));
- 
- 	  /* First see whether the information in the ELF header is
-@@ -106,9 +106,12 @@
+--- elfutils-0.119/libelf/elf32_getshdr.c.orig	2006-02-05 18:17:07.948304250 +0100
++++ elfutils-0.119/libelf/elf32_getshdr.c	2006-02-05 18:26:52.836857500 +0100
+@@ -107,7 +107,10 @@
  	    }
  
  	  /* Now copy the data and at the same time convert the byte
@@ -154,12 +143,9 @@
 +	    memcpy (shdr, ((char*) elf->map_address + elf->start_offset + ehdr->e_shoff), size);
 +	  else {
  	  if (ALLOW_UNALIGNED
--	      || (ehdr->e_shoff
-+	      || ((uintptr_t) ((char *) elf->map_address + elf->start_offset + ehdr->e_shoff)
- 		  & (__alignof__ (ElfW2(LIBELFBITS,Shdr)) - 1)) == 0)
- 	    notcvt = (ElfW2(LIBELFBITS,Shdr) *)
- 	      ((char *) elf->map_address
-@@ -134,6 +137,7 @@
+ 	      || (((uintptr_t) elf->map_address + elf->start_offset
+ 		   + ehdr->e_shoff)
+@@ -136,6 +139,7 @@
  	      CONVERT_TO (shdr[cnt].sh_addralign, notcvt[cnt].sh_addralign);
  	      CONVERT_TO (shdr[cnt].sh_entsize, notcvt[cnt].sh_entsize);
  	    }
