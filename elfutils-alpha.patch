@@ -1,10 +1,13 @@
-2006-02-05  Jakub Bogusz  <qboosh at pld-linux dot org>
+2006-04-16  Jakub Bogusz  <qboosh at pld-linux dot org>
 
 	* src/elflint.c (valid_e_machine) Add EM_ALPHA to valid machines.
 	  (check_hash): Support hash bucket size of 8 on alpha and s390x.
 	  (check_sections): Support arch-specific section flags.
 	* libelf/elf32_getshdr.c: Handle unaligned section header with same
           endianess properly.
+	* backends/alpha_init.c: Add register_name hook.
+	* backends/alpha_regs.c: New file.
+	* backends/Makefile.am: Add alpha_regs.c.
 
 --- elfutils-0.116/src/elflint.c.orig	2005-11-26 10:28:00.000000000 +0100
 +++ elfutils-0.116/src/elflint.c	2005-11-26 14:01:18.000000000 +0100
@@ -153,3 +156,108 @@
  	}
        else if (likely (elf->fildes != -1))
  	{
+--- elfutils-0.120/backends/alpha_init.c.orig	2006-04-05 00:17:36.000000000 +0200
++++ elfutils-0.120/backends/alpha_init.c	2006-04-16 13:11:08.819218500 +0200
+@@ -54,6 +54,7 @@
+   HOOK (eh, dynamic_tag_check);
+   HOOK (eh, reloc_simple_type);
+   HOOK (eh, return_value_location);
++  HOOK (eh, register_name);
+ 
+   return MODVERSION;
+ }
+--- elfutils-0.120/backends/alpha_regs.c.orig	1970-01-01 01:00:00.000000000 +0100
++++ elfutils-0.120/backends/alpha_regs.c	2006-04-16 13:10:15.947914250 +0200
+@@ -0,0 +1,81 @@
++/* Register names and numbers for ALPHA DWARF.
++   Based on i386_regs.c, Copyright (C) 2005 Red Hat, Inc.
++   This file is part of Red Hat elfutils.
++
++   Red Hat elfutils is free software; you can redistribute it and/or modify
++   it under the terms of the GNU General Public License as published by the
++   Free Software Foundation; version 2 of the License.
++
++   Red Hat elfutils is distributed in the hope that it will be useful, but
++   WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   General Public License for more details.
++
++   You should have received a copy of the GNU General Public License along
++   with Red Hat elfutils; if not, write to the Free Software Foundation,
++   Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301 USA.
++
++   Red Hat elfutils is an included package of the Open Invention Network.
++   An included package of the Open Invention Network is a package for which
++   Open Invention Network licensees cross-license their patents.  No patent
++   license is granted, either expressly or impliedly, by designation as an
++   included package.  Should you wish to participate in the Open Invention
++   Network licensing program, please visit www.openinventionnetwork.com
++   <http://www.openinventionnetwork.com>.  */
++
++#ifdef HAVE_CONFIG_H
++# include <config.h>
++#endif
++
++#include <string.h>
++
++#define BACKEND alpha_
++#include "libebl_CPU.h"
++
++ssize_t
++alpha_register_name (Ebl *ebl __attribute__ ((unused)),
++		    int regno, char *name, size_t namelen,
++		    const char **prefix, const char **setname)
++{
++  if (name == NULL)
++    return 33;
++
++  if (regno < 0 || regno > 64 || namelen < 5)
++    return -1;
++
++  *prefix = "%";
++  if (regno < 32)
++    *setname = "integer";
++  else if (regno < 64)
++    *setname = "fp";
++  else
++    *setname = "pc";
++
++  switch (regno)
++    {
++      static const char *alpharegs[] =
++	{
++	  "v0", "t0", "t1", "t2", "t3", "t4", "t5", "t6",
++	  "t7", "s0", "s1", "s2", "s3", "s4", "s5", "s6",
++	  "a0", "a1", "a2", "a3", "a4", "a5", "t8", "t9",
++	  "t10","t11","ra", "t12","at", "gp", "sp", "zero",
++	  "fv0","fv1","fs0","fs1","fs2","fs3","fs4","fs5",
++	  "fs6","fs7","ft0","ft1","ft2","ft3","ft4","ft5",
++	  "fa0","fa1","fa2","fa3","fa4","fa5","ft6","ft7",
++	  "ft8","ft9","ft10","ft11","ft12","ft13","ft14","fzero",
++	  "pc"
++	};
++
++    case 0 ... 64:
++      strcpy(name, alpharegs[regno]);
++      namelen = strlen(name);
++      break;
++
++    default:
++      name[0] = '\0';
++      *setname = NULL;
++      return 0;
++    }
++
++  return namelen;
++}
+--- elfutils-0.120/backends/Makefile.am.orig	2006-04-16 13:15:56.425192000 +0200
++++ elfutils-0.120/backends/Makefile.am	2006-04-16 13:28:26.928096250 +0200
+@@ -90,7 +90,7 @@
+ libebl_ia64_pic_a_SOURCES = $(ia64_SRCS)
+ am_libebl_ia64_pic_a_OBJECTS = $(ia64_SRCS:.c=.os)
+ 
+-alpha_SRCS = alpha_init.c alpha_symbol.c alpha_retval.c
++alpha_SRCS = alpha_init.c alpha_symbol.c alpha_retval.c alpha_regs.c
+ libebl_alpha_pic_a_SOURCES = $(alpha_SRCS)
+ am_libebl_alpha_pic_a_OBJECTS = $(alpha_SRCS:.c=.os)
+ 
