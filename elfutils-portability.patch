@@ -1,6 +1,6 @@
 --- elfutils/backends/ChangeLog
 +++ elfutils/backends/ChangeLog
-@@ -19,6 +19,11 @@
+@@ -47,6 +47,11 @@
  	* sparc_init.c: Likewise.
  	* x86_64_init.c: Likewise.
  
@@ -12,7 +12,7 @@
  2005-11-19  Roland McGrath  <roland@redhat.com>
  
  	* ppc64_reloc.def: REL30 -> ADDR30.
-@@ -41,6 +46,9 @@
+@@ -69,6 +74,9 @@
  	* Makefile.am (uninstall): Don't try to remove $(pkgincludedir).
  	(CLEANFILES): Add libebl_$(m).so.
  
@@ -24,8 +24,8 @@
  
 --- elfutils/backends/Makefile.am
 +++ elfutils/backends/Makefile.am
-@@ -13,12 +13,14 @@
- ## 3001 King Ranch Road, Ukiah, CA 95482.
+@@ -25,12 +25,14 @@
+ ## <http://www.openinventionnetwork.com>.
  ##
  DEFS = -D_GNU_SOURCE -DHAVE_CONFIG_H -DOBJDIR=\"$(shell pwd)\"
 +WEXTRA = @WEXTRA@
@@ -40,7 +40,7 @@
  	     -std=gnu99
  INCLUDES = -I$(srcdir) -I$(top_srcdir)/libebl \
  	   -I$(top_srcdir)/libelf -I$(top_srcdir)/libdw \
-@@ -51,7 +53,7 @@ textrel_check = if readelf -d $@ | fgrep
+@@ -63,7 +65,7 @@ textrel_check = if readelf -d $@ | fgrep
  libebl_%.so: libebl_%_pic.a libebl_%.map $(libelf) $(libdw)
  	$(LINK) -shared -o $@ -Wl,--whole-archive,$<,--no-whole-archive \
  		-Wl,--version-script,$(word 2,$^) \
@@ -51,7 +51,7 @@
  libebl_%.map: Makefile
 --- elfutils/backends/Makefile.in
 +++ elfutils/backends/Makefile.in
-@@ -159,6 +159,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+@@ -160,6 +160,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
  INSTALL_SCRIPT = @INSTALL_SCRIPT@
  INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
  LDFLAGS = @LDFLAGS@
@@ -59,7 +59,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -194,6 +195,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+@@ -195,6 +196,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
  TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = @VERSION@
@@ -67,7 +67,7 @@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@
  ac_ct_CC = @ac_ct_CC@
-@@ -236,9 +238,9 @@ sharedstatedir = @sharedstatedir@
+@@ -237,9 +239,9 @@ sharedstatedir = @sharedstatedir@
  sysconfdir = @sysconfdir@
  target_alias = @target_alias@
  @MUDFLAP_FALSE@AM_CFLAGS = -fpic -Wall -Wshadow -Werror -Wunused \
@@ -79,7 +79,7 @@
  INCLUDES = -I$(srcdir) -I$(top_srcdir)/libebl \
  	   -I$(top_srcdir)/libelf -I$(top_srcdir)/libdw \
  	   -I$(top_srcdir)/lib -I..
-@@ -594,7 +596,7 @@ uninstall-am: uninstall-info-am
+@@ -597,7 +599,7 @@ uninstall-am: uninstall-info-am
  libebl_%.so: libebl_%_pic.a libebl_%.map $(libelf) $(libdw)
  	$(LINK) -shared -o $@ -Wl,--whole-archive,$<,--no-whole-archive \
  		-Wl,--version-script,$(word 2,$^) \
@@ -136,7 +136,7 @@
  ac_ct_CC = @ac_ct_CC@
 --- elfutils/configure
 +++ elfutils/configure
-@@ -276,7 +276,7 @@ PACKAGE_STRING='Red Hat elfutils 0.118'
+@@ -276,7 +276,7 @@ PACKAGE_STRING='Red Hat elfutils 0.120'
  PACKAGE_BUGREPORT='http://bugzilla.redhat.com/bugzilla/'
  
  ac_unique_file="libelf/libelf.h"
@@ -286,7 +286,7 @@
  AC_DEFINE_UNQUOTED(LOCALEDIR, "$LOCALEDIR")
 --- elfutils/lib/ChangeLog
 +++ elfutils/lib/ChangeLog
-@@ -12,6 +12,11 @@
+@@ -16,6 +16,11 @@
  	* Makefile.am (libeu_a_SOURCES): Add it.
  	* system.h: Declare crc32_file.
  
@@ -300,8 +300,8 @@
  	* Makefile.am: Use -ffunction-sections for xmalloc.c.
 --- elfutils/lib/Makefile.am
 +++ elfutils/lib/Makefile.am
-@@ -16,12 +16,13 @@
- ## Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+@@ -25,12 +25,13 @@
+ ## <http://www.openinventionnetwork.com>.
  ##
  DEFS = -D_GNU_SOURCE -DHAVE_CONFIG_H
 +WEXTRA = @WEXTRA@
@@ -317,7 +317,7 @@
  noinst_LIBRARIES = libeu.a
 --- elfutils/lib/Makefile.in
 +++ elfutils/lib/Makefile.in
-@@ -106,6 +106,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+@@ -105,6 +105,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
  INSTALL_SCRIPT = @INSTALL_SCRIPT@
  INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
  LDFLAGS = @LDFLAGS@
@@ -325,7 +325,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -141,6 +142,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+@@ -140,6 +141,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
  TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = @VERSION@
@@ -333,7 +333,7 @@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@
  ac_ct_CC = @ac_ct_CC@
-@@ -183,9 +185,9 @@ sharedstatedir = @sharedstatedir@
+@@ -182,9 +184,9 @@ sharedstatedir = @sharedstatedir@
  sysconfdir = @sysconfdir@
  target_alias = @target_alias@
  @MUDFLAP_FALSE@AM_CFLAGS = -fpic -Wall -Wshadow -Werror -Wunused \
@@ -344,7 +344,7 @@
 +@MUDFLAP_TRUE@	-Wunused $(WEXTRA) $($(*F)_CFLAGS)
  INCLUDES = -I$(srcdir)/../libelf -I..
  noinst_LIBRARIES = libeu.a
- libeu_a_SOURCES = xstrdup.c xstrndup.c xmalloc.c next_prime.c \
+ libeu_a_SOURCES = xstrndup.c xmalloc.c next_prime.c \
 --- elfutils/libasm/ChangeLog
 +++ elfutils/libasm/ChangeLog
 @@ -28,6 +28,11 @@
@@ -361,8 +361,8 @@
  	* Makefile.am (AM_CFLAGS): Add -Wunused -Wextra -Wformat=2.
 --- elfutils/libasm/Makefile.am
 +++ elfutils/libasm/Makefile.am
-@@ -13,12 +13,13 @@
- ## 3001 King Ranch Road, Ukiah, CA 95482.
+@@ -25,12 +25,13 @@
+ ## <http://www.openinventionnetwork.com>.
  ##
  DEFS = -D_GNU_SOURCE -DHAVE_CONFIG_H
 +WEXTRA = @WEXTRA@
@@ -419,8 +419,8 @@
  	* Makefile (AM_CFLAGS): Add -Wunused -Wextra -Wformat=2.
 --- elfutils/libcpu/Makefile.am
 +++ elfutils/libcpu/Makefile.am
-@@ -13,7 +13,8 @@
- ## 3001 King Ranch Road, Ukiah, CA 95482.
+@@ -25,7 +25,8 @@
+ ## <http://www.openinventionnetwork.com>.
  ##
  DEFS = -D_GNU_SOURCE -DHAVE_CONFIG_H
 -AM_CFLAGS = -Wall -Wshadow -Werror -Wextra -Wformat=2 -Wunused
@@ -458,7 +458,7 @@
  libcpu_i386_a_SOURCES = i386_dis.c
 --- elfutils/libdw/ChangeLog
 +++ elfutils/libdw/ChangeLog
-@@ -251,6 +251,11 @@
+@@ -276,6 +276,11 @@
  
  2005-05-31  Roland McGrath  <roland@redhat.com>
  
@@ -472,15 +472,15 @@
  
 --- elfutils/libdw/Makefile.am
 +++ elfutils/libdw/Makefile.am
-@@ -13,6 +13,7 @@
- ## 3001 King Ranch Road, Ukiah, CA 95482.
+@@ -25,6 +25,7 @@
+ ## <http://www.openinventionnetwork.com>.
  ##
  DEFS = -D_GNU_SOURCE -DHAVE_CONFIG_H -DIS_LIBDW
 +WEXTRA = @WEXTRA@
  if MUDFLAP
  AM_CFLAGS = -fmudflap
  else
-@@ -21,7 +22,7 @@ endif
+@@ -33,7 +34,7 @@ endif
  if BUILD_STATIC
  AM_CFLAGS += -fpic
  endif
@@ -522,7 +522,7 @@
  						       $(COMPILE)))
 --- elfutils/libdwfl/ChangeLog
 +++ elfutils/libdwfl/ChangeLog
-@@ -245,6 +245,11 @@
+@@ -268,6 +268,11 @@
  
  2005-07-21  Roland McGrath  <roland@redhat.com>
  
@@ -536,8 +536,8 @@
  	* test2.c (main): Check sscanf result to quiet warning.
 --- elfutils/libdwfl/Makefile.am
 +++ elfutils/libdwfl/Makefile.am
-@@ -15,12 +15,13 @@
- ## 3001 King Ranch Road, Ukiah, CA 95482.
+@@ -27,12 +27,13 @@
+ ## <http://www.openinventionnetwork.com>.
  ##
  DEFS = -D_GNU_SOURCE -DHAVE_CONFIG_H
 +WEXTRA = @WEXTRA@
@@ -597,8 +597,8 @@
  	* libebl_x86_64.map: Add x86_64_core_note.
 --- elfutils/libebl/Makefile.am
 +++ elfutils/libebl/Makefile.am
-@@ -13,12 +13,13 @@
- ## 3001 King Ranch Road, Ukiah, CA 95482.
+@@ -25,12 +25,13 @@
+ ## <http://www.openinventionnetwork.com>.
  ##
  DEFS = -D_GNU_SOURCE -DHAVE_CONFIG_H -DOBJDIR=\"$(shell pwd)\"
 +WEXTRA = @WEXTRA@
@@ -644,7 +644,7 @@
  
 --- elfutils/libelf/ChangeLog
 +++ elfutils/libelf/ChangeLog
-@@ -103,6 +103,11 @@
+@@ -130,6 +130,11 @@
  	If section content hasn't been read yet, do it before looking for the
  	block size.  If no section data present, infer size of section header.
  
@@ -658,7 +658,7 @@
  	* elf.h: Update again.
 --- elfutils/libelf/common.h
 +++ elfutils/libelf/common.h
-@@ -122,7 +122,7 @@ libelf_release_all (Elf *elf)
+@@ -155,7 +155,7 @@ libelf_release_all (Elf *elf)
    (Var) = (sizeof (Var) == 1						      \
  	   ? (unsigned char) (Var)					      \
  	   : (sizeof (Var) == 2						      \
@@ -667,7 +667,7 @@
  	      : (sizeof (Var) == 4					      \
  		 ? bswap_32 (Var)					      \
  		 : bswap_64 (Var))))
-@@ -131,7 +131,7 @@ libelf_release_all (Elf *elf)
+@@ -164,7 +164,7 @@ libelf_release_all (Elf *elf)
    (Dst) = (sizeof (Var) == 1						      \
  	   ? (unsigned char) (Var)					      \
  	   : (sizeof (Var) == 2						      \
@@ -678,15 +678,15 @@
  		 : bswap_64 (Var))))
 --- elfutils/libelf/Makefile.am
 +++ elfutils/libelf/Makefile.am
-@@ -16,6 +16,7 @@
- ## Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+@@ -25,6 +25,7 @@
+ ## <http://www.openinventionnetwork.com>.
  ##
  DEFS = -D_GNU_SOURCE -DHAVE_CONFIG_H
 +WEXTRA = @WEXTRA@
  if MUDFLAP
  AM_CFLAGS = -fmudflap
  else
-@@ -24,7 +25,10 @@ endif
+@@ -33,7 +34,10 @@ endif
  if BUILD_STATIC
  AM_CFLAGS += -fpic
  endif
@@ -776,7 +776,7 @@
  ac_ct_CC = @ac_ct_CC@
 --- elfutils/src/ChangeLog
 +++ elfutils/src/ChangeLog
-@@ -236,6 +236,11 @@
+@@ -261,6 +261,11 @@
  	* readelf.c (print_debug_loc_section): Fix indentation for larger
  	address size.
  
@@ -790,7 +790,7 @@
  	* readelf.c (print_debug_line_section): Print section offset of each
 --- elfutils/src/findtextrel.c
 +++ elfutils/src/findtextrel.c
-@@ -476,7 +476,11 @@ ptrcompare (const void *p1, const void *
+@@ -488,7 +488,11 @@ ptrcompare (const void *p1, const void *
  
  
  static void
@@ -805,7 +805,7 @@
  {
 --- elfutils/src/Makefile.am
 +++ elfutils/src/Makefile.am
-@@ -14,6 +14,7 @@
+@@ -26,6 +26,7 @@
  ##
  DEFS = -D_GNU_SOURCE -DHAVE_CONFIG_H $(YYDEBUG) \
         -DSRCDIR=\"$(shell cd $(srcdir);pwd)\" -DOBJDIR=\"$(shell pwd)\"
@@ -813,7 +813,7 @@
  if MUDFLAP
  AM_CFLAGS = -fmudflap
  else
-@@ -21,7 +22,7 @@ AM_CFLAGS =
+@@ -33,7 +34,7 @@ AM_CFLAGS =
  endif
  AM_CFLAGS += -Wall -Wshadow -std=gnu99 $(native_ld_cflags) \
  	     $(if $($(*F)_no_Werror),,-Werror) \
@@ -857,7 +857,7 @@
  	   -I$(srcdir)/../libdw -I$(srcdir)/../libdwfl \
 --- elfutils/src/strip.c
 +++ elfutils/src/strip.c
-@@ -40,6 +40,12 @@
+@@ -52,6 +52,12 @@
  #include <libebl.h>
  #include <system.h>
  
@@ -870,7 +870,7 @@
  
  /* Name and version of program.  */
  static void print_version (FILE *stream, struct argp_state *state);
-@@ -288,8 +294,18 @@ process_file (const char *fname)
+@@ -300,8 +306,18 @@ process_file (const char *fname)
  
        /* If we have to preserve the timestamp, we need it in the
  	 format utimes() understands.  */
@@ -889,7 +889,7 @@
      }
  
    /* Open the file.  */
-@@ -1679,7 +1695,7 @@ handle_elf (int fd, Elf *elf, const char
+@@ -1691,7 +1707,7 @@ handle_elf (int fd, Elf *elf, const char
    /* If requested, preserve the timestamp.  */
    if (tvp != NULL)
      {
@@ -898,7 +898,7 @@
  	{
  	  error (0, errno, gettext ("\
  cannot set access and modification date of '%s'"),
-@@ -1736,7 +1752,7 @@ handle_ar (int fd, Elf *elf, const char 
+@@ -1748,7 +1764,7 @@ handle_ar (int fd, Elf *elf, const char 
  
    if (tvp != NULL)
      {
@@ -909,7 +909,7 @@
  cannot set access and modification date of '%s'"), fname);
 --- elfutils/tests/ChangeLog
 +++ elfutils/tests/ChangeLog
-@@ -316,6 +316,11 @@
+@@ -373,6 +373,11 @@
  	* Makefile.am (TESTS): Add run-elflint-test.sh.
  	(EXTRA_DIST): Add run-elflint-test.sh and testfile18.bz2.
  
@@ -923,8 +923,8 @@
  	* get-files.c (main): Use correct format specifier.
 --- elfutils/tests/Makefile.am
 +++ elfutils/tests/Makefile.am
-@@ -13,12 +13,13 @@
- ## 3001 King Ranch Road, Ukiah, CA 95482.
+@@ -25,12 +25,13 @@
+ ## <http://www.openinventionnetwork.com>.
  ##
  DEFS = -DHAVE_CONFIG_H -D_GNU_SOURCE
 +WEXTRA = @WEXTRA@
@@ -941,7 +941,7 @@
  endif
 --- elfutils/tests/Makefile.in
 +++ elfutils/tests/Makefile.in
-@@ -283,6 +283,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+@@ -289,6 +289,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
  INSTALL_SCRIPT = @INSTALL_SCRIPT@
  INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
  LDFLAGS = @LDFLAGS@
@@ -949,7 +949,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -318,6 +319,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+@@ -324,6 +325,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
  TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = @VERSION@
@@ -957,7 +957,7 @@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@
  ac_ct_CC = @ac_ct_CC@
-@@ -359,10 +361,10 @@ sbindir = @sbindir@
+@@ -365,10 +367,10 @@ sbindir = @sbindir@
  sharedstatedir = @sharedstatedir@
  sysconfdir = @sysconfdir@
  target_alias = @target_alias@
