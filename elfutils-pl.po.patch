@@ -192,19 +192,19 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +#: libelf/elf_error.c:250
 +msgid "invalid offset"
 +msgstr "b³êdny offset"
---- elfutils-0.120/po/pl.po.orig	1970-01-01 01:00:00.000000000 +0100
-+++ elfutils-0.120/po/pl.po	2006-04-16 13:14:50.957101250 +0200
-@@ -0,0 +1,3827 @@
+--- elfutils-0.121/po/pl.po.orig	1970-01-01 01:00:00.000000000 +0100
++++ elfutils-0.121/po/pl.po	2006-07-01 22:08:55.112502500 +0200
+@@ -0,0 +1,3861 @@
 +# Polish translation for elfutils.
 +# This file is distributed under the same license as the elfutils package.
 +# Jakub Bogusz <qboosh@pld-linux.org>, 2003-2006.
 +#
 +msgid ""
 +msgstr ""
-+"Project-Id-Version: elfutils 0.120\n"
++"Project-Id-Version: elfutils 0.121\n"
 +"Report-Msgid-Bugs-To: \n"
-+"POT-Creation-Date: 2006-04-04 20:24-0700\n"
-+"PO-Revision-Date: 2006-04-16 13:13+0200\n"
++"POT-Creation-Date: 2006-06-14 20:26-0700\n"
++"PO-Revision-Date: 2006-07-01 22:01+0200\n"
 +"Last-Translator: Jakub Bogusz <qboosh@pld-linux.org>\n"
 +"Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
 +"MIME-Version: 1.0\n"
@@ -225,7 +225,7 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +msgid "out of memory"
 +msgstr "brak pamiêci"
 +
-+#: libasm/asm_error.c:122 src/ldgeneric.c:2486
++#: libasm/asm_error.c:122 src/ldgeneric.c:2550
 +#, c-format
 +msgid "cannot create output file"
 +msgstr "nie mo¿na utworzyæ pliku wyj¶ciowego"
@@ -238,7 +238,7 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +msgid "cannot change mode of output file"
 +msgstr "nie mo¿na zmieniæ uprawnieñ pliku wyj¶ciowego"
 +
-+#: libasm/asm_error.c:125 src/ldgeneric.c:6258
++#: libasm/asm_error.c:125 src/ldgeneric.c:6357
 +#, c-format
 +msgid "cannot rename output file"
 +msgstr "nie mo¿na zmieniæ nazwy pliku wyj¶ciowego"
@@ -504,7 +504,7 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +msgstr "Autorem jest %s.\n"
 +
 +#: src/nm.c:363 src/size.c:301 src/strip.c:430 src/strip.c:465
-+#: src/ldgeneric.c:1605 src/findtextrel.c:227 src/elfcmp.c:554
++#: src/ldgeneric.c:1674 src/findtextrel.c:227 src/elfcmp.c:554
 +#: src/ranlib.c:300 src/strings.c:183
 +#, c-format
 +msgid "cannot open '%s'"
@@ -735,7 +735,7 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +msgid "cannot create EBL handle"
 +msgstr "nie mo¿na utworzyæ uchwytu EBL"
 +
-+#: src/readelf.c:481 src/strip.c:540 src/ldgeneric.c:604 src/ldgeneric.c:1038
++#: src/readelf.c:481 src/strip.c:540 src/ldgeneric.c:615 src/ldgeneric.c:1082
 +#, c-format
 +msgid "cannot determine number of sections: %s"
 +msgstr "nie mo¿na okre¶liæ liczby sekcji: %s"
@@ -794,8 +794,8 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +
 +#: src/readelf.c:559
 +#, c-format
-+msgid "  Version:                           %hhd %s\n"
-+msgstr "  Wersja:                            %hhd %s\n"
++msgid "  Ident Version:                     %hhd %s\n"
++msgstr "  Wersja Ident:                      %hhd %s\n"
 +
 +#: src/readelf.c:561 src/readelf.c:578
 +msgid "(current)"
@@ -1996,260 +1996,284 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +msgid "cannot set access and modification date of '%s'"
 +msgstr "nie mo¿na ustawiæ czasu dostêpu i modyfikacji '%s'"
 +
-+#: src/ld.c:86
++#: src/ld.c:85
++msgid "Input File Control:"
++msgstr "Sterowanie plikiem wej¶ciowym:"
++
++#: src/ld.c:87
 +msgid "Include whole archives in the output from now on."
 +msgstr "Do³±czanie ca³ych archiwów na wyj¶ciu od teraz."
 +
-+#: src/ld.c:88
++#: src/ld.c:89
 +msgid "Stop including the whole arhives in the output."
 +msgstr "Koniec do³±czania ca³ych archiwów na wyj¶ciu."
 +
-+#: src/ld.c:90 src/ld.c:132 src/ld.c:140
++#: src/ld.c:90 src/ld.c:104 src/ld.c:178
 +msgid "FILE"
 +msgstr "PLIK"
 +
-+#: src/ld.c:90
-+msgid "Place output in FILE."
-+msgstr "Umieszczenie wyj¶cia w PLIKU."
-+
-+#: src/ld.c:92
-+msgid "LEVEL"
-+msgstr "POZIOM"
-+
-+#: src/ld.c:93
-+msgid "Set optimization level to LEVEL."
-+msgstr "Ustawienie poziomu optymalizacji na POZIOM."
-+
-+#: src/ld.c:95
-+msgid "Verbose messages."
-+msgstr "Szczegó³owe komunikaty."
-+
-+#: src/ld.c:96
-+msgid "Trace file opens."
-+msgstr "¦ledzenie otwierania plików."
-+
-+#: src/ld.c:98
-+msgid "Trade speed for less memory usage"
-+msgstr "Po¶wiêcenie szybko¶ci dla mniejszego zu¿ycia pamiêci"
-+
-+#: src/ld.c:102
-+msgid "Object is marked to not use default search path at runtime."
-+msgstr "Oznaczenie obiektu, aby nie u¿ywa³ domy¶lnej ¶cie¿ki przeszukiwañ."
-+
-+#: src/ld.c:104
-+msgid "Same as --whole-archive."
-+msgstr "To samo co --whole-archive."
-+
-+#: src/ld.c:105
-+msgid "Default rules of extracting from archive; weak references are not enough."
-+msgstr "Domy¶lne regu³y wyci±gania z archiwum; s³abe odwo³ania nie wystarczaj±."
-+
-+#: src/ld.c:109
-+msgid "Weak references cause extraction from archive."
-+msgstr "S³abe odwo³ania powoduj± wyci±gniêcie z archiwum."
-+
-+#: src/ld.c:111
-+msgid "Allow multiple definitions; first is used."
-+msgstr "Zezwolenie na wielokrotne definicje; u¿ywana jest pierwsza."
-+
-+#: src/ld.c:113
-+msgid "Disallow/allow undefined symbols in DSOs."
-+msgstr "Nie zezwalanie/zezwalanie na niezdefiniowane symbole w DSO."
-+
-+#: src/ld.c:116
-+msgid "Object requires immediate handling of $ORIGIN."
-+msgstr "Obiekt wymaga bezpo¶redniego obs³u¿enia $ORIGIN."
-+
-+#: src/ld.c:118
-+msgid "Relocation will not be processed lazily."
-+msgstr "Relokacje nie bêd± przeprowadzane leniwie."
-+
-+#: src/ld.c:120
-+msgid "Object cannot be unloaded at runtime."
-+msgstr "Obiekt nie mo¿e byæ od³adowany w czasie dzia³ania."
-+
-+#: src/ld.c:122
-+msgid "Mark object to be initialized first."
-+msgstr "Oznaczenie obiektu, aby by³ inicjowany pierwszy."
-+
-+#: src/ld.c:124
-+msgid "Enable/disable lazy-loading flag for following dependencies."
-+msgstr "W³±czenie/wy³±czenie flagi leniwego ³adowania dla nastêpnych zale¿no¶ci."
-+
-+#: src/ld.c:126
-+msgid "Mark object as not loadable with 'dlopen'."
-+msgstr "Oznaczenie obiektu jako nie ³adowalnego przez 'dlopen'."
-+
-+#: src/ld.c:128
-+msgid "Ignore/record dependencies on unused DSOs."
-+msgstr "Zignorowanie/zapisanie zale¿no¶ci od nieu¿ywanych DSO."
-+
-+#: src/ld.c:130
-+msgid "Generated DSO will be a system library."
-+msgstr "Generowany DSO bêdzie bibliotek± systemow±."
-+
-+#: src/ld.c:134
++#: src/ld.c:91
 +msgid "Start a group."
 +msgstr "Rozpoczêcie grupy."
 +
-+#: src/ld.c:135
++#: src/ld.c:92
 +msgid "End a group."
 +msgstr "Zakoñczenie grupy."
 +
-+#: src/ld.c:137
++#: src/ld.c:93
 +msgid "PATH"
 +msgstr "¦CIE¯KA"
 +
-+#: src/ld.c:138
++#: src/ld.c:94
 +msgid "Add PATH to list of directories files are searched in."
 +msgstr "Dodanie ¦CIE¯KI do listy katalogów, w których s± szukane pliki."
 +
-+#: src/ld.c:140
-+msgid "Use linker script in FILE."
-+msgstr "U¿ycie skryptu linkera z PLIKU."
++#: src/ld.c:96
++msgid "Only set DT_NEEDED for following dynamic libs if actually used"
++msgstr "Ustawianie DT_NEEDED dla nastêpuj±cych bibliotek dynamicznych tylko je¶li s± u¿ywane"
 +
-+#: src/ld.c:142
-+msgid "ADDRESS"
-+msgstr "ADRES"
++#: src/ld.c:98
++msgid "Always set DT_NEEDED for following dynamic libs"
++msgstr "Ustawianie zawsze DT_NEEDED dla nastêpuj±cych bibliotek dynamicznych"
 +
-+#: src/ld.c:142
-+msgid "Set entry point address."
-+msgstr "Ustawienie adresu punktu wej¶ciowego."
-+
-+#: src/ld.c:146
-+msgid "Do not link against shared libraries."
-+msgstr "Nie linkowanie z bibliotekami dzielonymi."
-+
-+#: src/ld.c:149
-+msgid "Prefer linking against shared libraries."
-+msgstr "Preferowanie linkowania z bibliotekami dzielonymi."
-+
-+#: src/ld.c:151
-+msgid "Export all dynamic symbols."
-+msgstr "Eksportowanie wszystkich symboli dynamicznych."
-+
-+#: src/ld.c:153
-+msgid "Strip all symbols."
-+msgstr "Okrojenie wszystkich symboli."
-+
-+#: src/ld.c:154
-+msgid "Strip debugging symbols."
-+msgstr "Okrojenie symboli debugowych."
-+
-+#: src/ld.c:157
-+msgid "Assume pagesize for the target system to be SIZE."
-+msgstr "Przyjêcie dla systemu docelowego rozmiaru strony ROZMIAR."
-+
-+#: src/ld.c:162
-+msgid "Set runtime DSO search path."
-+msgstr "Ustawienie ¶cie¿ki poszukiwania DSO w czasie dzia³ania."
-+
-+#: src/ld.c:165
-+msgid "Set link time DSO search path."
-+msgstr "Ustawienie ¶cie¿ki poszukiwania DSO w czasie linkowania."
-+
-+#: src/ld.c:167
++#: src/ld.c:100
 +msgid "Ignore LD_LIBRARY_PATH environment variable."
 +msgstr "Zignorowanie zmiennej ¶rodowiskowej LD_LIBRARY_PATH."
 +
-+#: src/ld.c:171
-+msgid "Read version information from FILE."
-+msgstr "Odczytanie informacji o wersji z PLIKU."
++#: src/ld.c:103
++msgid "Output File Control:"
++msgstr "Sterowanie plikiem wyj¶ciowym:"
 +
-+#: src/ld.c:173
-+msgid "Set emulation to NAME."
-+msgstr "Ustawienie emulacji na NAZWÊ"
++#: src/ld.c:104
++msgid "Place output in FILE."
++msgstr "Umieszczenie wyj¶cia w PLIKU."
 +
-+#: src/ld.c:175
++#: src/ld.c:107
++msgid "Object is marked to not use default search path at runtime."
++msgstr "Oznaczenie obiektu, aby nie u¿ywa³ domy¶lnej ¶cie¿ki przeszukiwañ."
++
++#: src/ld.c:109
++msgid "Same as --whole-archive."
++msgstr "To samo co --whole-archive."
++
++#: src/ld.c:110
++msgid "Default rules of extracting from archive; weak references are not enough."
++msgstr "Domy¶lne regu³y wyci±gania z archiwum; s³abe odwo³ania nie wystarczaj±."
++
++#: src/ld.c:114
++msgid "Weak references cause extraction from archive."
++msgstr "S³abe odwo³ania powoduj± wyci±gniêcie z archiwum."
++
++#: src/ld.c:116
++msgid "Allow multiple definitions; first is used."
++msgstr "Zezwolenie na wielokrotne definicje; u¿ywana jest pierwsza."
++
++#: src/ld.c:118
++msgid "Disallow/allow undefined symbols in DSOs."
++msgstr "Nie zezwalanie/zezwalanie na niezdefiniowane symbole w DSO."
++
++#: src/ld.c:121
++msgid "Object requires immediate handling of $ORIGIN."
++msgstr "Obiekt wymaga bezpo¶redniego obs³u¿enia $ORIGIN."
++
++#: src/ld.c:123
++msgid "Relocation will not be processed lazily."
++msgstr "Relokacje nie bêd± przeprowadzane leniwie."
++
++#: src/ld.c:125
++msgid "Object cannot be unloaded at runtime."
++msgstr "Obiekt nie mo¿e byæ od³adowany w czasie dzia³ania."
++
++#: src/ld.c:127
++msgid "Mark object to be initialized first."
++msgstr "Oznaczenie obiektu, aby by³ inicjowany pierwszy."
++
++#: src/ld.c:129
++msgid "Enable/disable lazy-loading flag for following dependencies."
++msgstr "W³±czenie/wy³±czenie flagi leniwego ³adowania dla nastêpnych zale¿no¶ci."
++
++#: src/ld.c:131
++msgid "Mark object as not loadable with 'dlopen'."
++msgstr "Oznaczenie obiektu jako nie ³adowalnego przez 'dlopen'."
++
++#: src/ld.c:133
++msgid "Ignore/record dependencies on unused DSOs."
++msgstr "Zignorowanie/zapisanie zale¿no¶ci od nieu¿ywanych DSO."
++
++#: src/ld.c:135
++msgid "Generated DSO will be a system library."
++msgstr "Generowany DSO bêdzie bibliotek± systemow±."
++
++#: src/ld.c:136
++msgid "ADDRESS"
++msgstr "ADRES"
++
++#: src/ld.c:136
++msgid "Set entry point address."
++msgstr "Ustawienie adresu punktu wej¶ciowego."
++
++#: src/ld.c:139
++msgid "Do not link against shared libraries."
++msgstr "Nie linkowanie z bibliotekami dzielonymi."
++
++#: src/ld.c:142
++msgid "Prefer linking against shared libraries."
++msgstr "Preferowanie linkowania z bibliotekami dzielonymi."
++
++#: src/ld.c:143
++msgid "Export all dynamic symbols."
++msgstr "Eksportowanie wszystkich symboli dynamicznych."
++
++#: src/ld.c:144
++msgid "Strip all symbols."
++msgstr "Okrojenie wszystkich symboli."
++
++#: src/ld.c:145
++msgid "Strip debugging symbols."
++msgstr "Okrojenie symboli debugowych."
++
++#: src/ld.c:147
++msgid "Assume pagesize for the target system to be SIZE."
++msgstr "Przyjêcie dla systemu docelowego rozmiaru strony ROZMIAR."
++
++#: src/ld.c:149
++msgid "Set runtime DSO search path."
++msgstr "Ustawienie ¶cie¿ki poszukiwania DSO w czasie dzia³ania."
++
++#: src/ld.c:152
++msgid "Set link time DSO search path."
++msgstr "Ustawienie ¶cie¿ki poszukiwania DSO w czasie linkowania."
++
++#: src/ld.c:153
 +msgid "Generate dynamic shared object."
 +msgstr "Generowanie dynamicznego obiektu dzielonego (DSO)."
 +
-+#: src/ld.c:176
++#: src/ld.c:154
 +msgid "Generate relocatable object."
 +msgstr "Generowanie obiektu relokowalnego."
 +
-+#: src/ld.c:180
++#: src/ld.c:157
 +msgid "Causes symbol not assigned to a version be reduced to local."
 +msgstr "Ograniczenie zasiêgu symboli nie przypisanych do wersji do lokalnego."
 +
-+#: src/ld.c:182
++#: src/ld.c:158
 +msgid "Remove unused sections."
 +msgstr "Usuniêcie nieu¿ywanych sekcji."
 +
-+#: src/ld.c:185
++#: src/ld.c:161
 +msgid "Don't remove unused sections."
 +msgstr "Nie usuwanie nieu¿ywanych sekcji."
 +
-+#: src/ld.c:187
++#: src/ld.c:162
 +msgid "Set soname of shared object."
 +msgstr "Ustawienie soname obiektu dzielonego."
 +
-+#: src/ld.c:188
++#: src/ld.c:163
 +msgid "Set the dynamic linker name."
 +msgstr "Ustawienie nazwy dynamicznego linkera."
 +
-+#: src/ld.c:192
++#: src/ld.c:166
 +msgid "Add/suppress addition indentifying link-editor to .comment section"
 +msgstr "Dodanie/pominiêcie dodawania identyfikacji edytora linkowania do sekcji .comment"
 +
-+#: src/ld.c:197
++#: src/ld.c:169
++msgid "Create .eh_frame_hdr section"
++msgstr "Tworzenie sekcji .eh_frame_hdr"
++
++#: src/ld.c:171
++msgid "Linker Operation Control:"
++msgstr "Sterowanie operacjami linkera:"
++
++#: src/ld.c:172
++msgid "Verbose messages."
++msgstr "Szczegó³owe komunikaty."
++
++#: src/ld.c:173
++msgid "Trace file opens."
++msgstr "¦ledzenie otwierania plików."
++
++#: src/ld.c:175
++msgid "Trade speed for less memory usage"
++msgstr "Po¶wiêcenie szybko¶ci dla mniejszego zu¿ycia pamiêci"
++
++#: src/ld.c:176
++msgid "LEVEL"
++msgstr "POZIOM"
++
++#: src/ld.c:177
++msgid "Set optimization level to LEVEL."
++msgstr "Ustawienie poziomu optymalizacji na POZIOM."
++
++#: src/ld.c:178
++msgid "Use linker script in FILE."
++msgstr "U¿ycie skryptu linkera z PLIKU."
++
++#: src/ld.c:181
 +msgid "Select to get parser debug information"
 +msgstr "Wybranie pobrania informacji debugowych parsera"
 +
-+#: src/ld.c:204
++#: src/ld.c:184
++msgid "Read version information from FILE."
++msgstr "Odczytanie informacji o wersji z PLIKU."
++
++#: src/ld.c:185
++msgid "Set emulation to NAME."
++msgstr "Ustawienie emulacji na NAZWÊ"
++
++#: src/ld.c:191
 +msgid "Combine object and archive files."
 +msgstr "£±czenie plików obiektów i archiwów."
 +
-+#: src/ld.c:207
++#: src/ld.c:194
 +msgid "[FILE]..."
 +msgstr "[PLIK]..."
 +
-+#: src/ld.c:336
++#: src/ld.c:323
 +#, c-format
 +msgid "At least one input file needed"
 +msgstr "Potrzebny jest przynajmniej jeden plik wej¶ciowy"
 +
-+#: src/ld.c:347
++#: src/ld.c:334
 +#, c-format
 +msgid "error while preparing linking"
 +msgstr "b³±d podczas przygotowywania linkowania"
 +
-+#: src/ld.c:354
++#: src/ld.c:341
 +#, c-format
 +msgid "cannot open linker script '%s'"
 +msgstr "nie mo¿na otworzyæ skryptu linkera '%s'"
 +
-+#: src/ld.c:395
++#: src/ld.c:382
 +#, c-format
 +msgid "-( without matching -)"
 +msgstr "-( bez pasuj±cego -)"
 +
-+#: src/ld.c:520 src/ld.c:558
++#: src/ld.c:507 src/ld.c:545
 +#, c-format
 +msgid "only one option of -G and -r is allowed"
 +msgstr "dopuszczalna jest tylko jedna z opcji -G i -r"
 +
-+#: src/ld.c:542
++#: src/ld.c:529
 +#, c-format
 +msgid "more than one '-m' parameter"
 +msgstr "podano wiêcej ni¿ jeden parametr '-m'"
 +
-+#: src/ld.c:552 src/ld.c:923
++#: src/ld.c:539 src/ld.c:925
 +#, c-format
 +msgid "unknown option `-%c %s'"
 +msgstr "nieznana opcja `-%c %s'"
 +
-+#: src/ld.c:594
++#: src/ld.c:581
 +#, c-format
 +msgid "invalid page size value '%s': ignored"
 +msgstr "b³êdna warto¶æ rozmiaru strony '%s': zignorowano"
 +
-+#: src/ld.c:704
++#: src/ld.c:697
 +#, c-format
 +msgid "More than one output file name given."
 +msgstr "Podano wiêcej ni¿ jeden plik wyj¶ciowy."
 +
-+#: src/ld.c:721
++#: src/ld.c:714
 +#, c-format
 +msgid "Invalid optimization level `%s'"
 +msgstr "B³êdny poziom optymalizacji `%s'"
@@ -2264,319 +2288,319 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +msgid "-) without matching -("
 +msgstr "-) bez pasuj±cego -("
 +
-+#: src/ld.c:952
++#: src/ld.c:958
 +#, c-format
 +msgid "unknown option '-%c %s'"
 +msgstr "nieznana opcja '-%c %s'"
 +
-+#: src/ld.c:1056
++#: src/ld.c:1062
 +#, c-format
 +msgid "could not find input file to determine output file format"
 +msgstr "nie mo¿na znale¼æ pliku wej¶ciowego, aby okre¶liæ format pliku wyj¶ciowego"
 +
-+#: src/ld.c:1058
++#: src/ld.c:1064
 +#, c-format
 +msgid "try again with an appropriate '-m' parameter"
 +msgstr "proszê spróbowaæ jeszcze raz z odpowiednim parametrem '-m'"
 +
-+#: src/ld.c:1350
++#: src/ld.c:1357
 +#, c-format
 +msgid "cannot read version script '%s'"
 +msgstr "nie mo¿na odczytaæ skryptu wersji '%s'"
 +
-+#: src/ld.c:1416 src/ld.c:1455
++#: src/ld.c:1423 src/ld.c:1462
 +#, c-format
 +msgid "duplicate definition of '%s' in linker script"
 +msgstr "powtórzona definicja '%s' w skrypcie linkera"
 +
-+#: src/ldgeneric.c:191 src/ldgeneric.c:4476
++#: src/ldgeneric.c:202 src/ldgeneric.c:4541
 +#, c-format
 +msgid "cannot create string table"
 +msgstr "nie mo¿na utworzyæ tabeli ³añcuchów"
 +
-+#: src/ldgeneric.c:236
++#: src/ldgeneric.c:247
 +#, c-format
 +msgid "cannot load ld backend library '%s': %s"
 +msgstr "nie mo¿na odczytaæ biblioteki backendu ld '%s': %s"
 +
-+#: src/ldgeneric.c:246
++#: src/ldgeneric.c:257
 +#, c-format
 +msgid "cannot find init function in ld backend library '%s': %s"
 +msgstr "nie mo¿na znale¼æ funkcji init w bibliotece backendu ld '%s': %s"
 +
-+#: src/ldgeneric.c:291
++#: src/ldgeneric.c:302
 +#, c-format
 +msgid "%s listed more than once as input"
 +msgstr "%s podano wiêcej ni¿ raz na wej¶ciu"
 +
-+#: src/ldgeneric.c:405
++#: src/ldgeneric.c:416
 +#, c-format
 +msgid "%s (for -l%s)\n"
 +msgstr "%s (dla -l%s)\n"
 +
-+#: src/ldgeneric.c:406
++#: src/ldgeneric.c:417
 +#, c-format
 +msgid "%s (for DT_NEEDED %s)\n"
 +msgstr "%s (dla DT_NEEDED %s)\n"
 +
-+#: src/ldgeneric.c:500
++#: src/ldgeneric.c:511
 +#, c-format
 +msgid "cannot open %s"
 +msgstr "nie mo¿na otworzyæ %s"
 +
-+#: src/ldgeneric.c:522
++#: src/ldgeneric.c:533
 +#, c-format
 +msgid "Warning: type of `%s' changed from %s in %s to %s in %s"
 +msgstr "Uwaga: typ `%s' zmieni³ siê z %s w %s na %s w %s"
 +
-+#: src/ldgeneric.c:535
++#: src/ldgeneric.c:546
 +#, c-format
 +msgid "Warning: size of `%s' changed from %<PRIu64> in %s to %<PRIu64> in %s"
 +msgstr "Uwaga: rozmiar `%s' zmieni³ siê z %<PRIu64> w %s na %<PRIu64> w %s"
 +
-+#: src/ldgeneric.c:621
++#: src/ldgeneric.c:632
 +#, c-format
 +msgid "(%s+%#<PRIx64>): multiple definition of %s `%s'\n"
 +msgstr "(%s+%#<PRIx64>): wielokrotna definicja %s `%s'\n"
 +
-+#: src/ldgeneric.c:651
++#: src/ldgeneric.c:662
 +#, c-format
 +msgid "(%s+%#<PRIx64>): first defined here\n"
 +msgstr "(%s+%#<PRIx64>): pierwszy raz zdefiniowano tutaj\n"
 +
-+#: src/ldgeneric.c:770
++#: src/ldgeneric.c:781
 +#, c-format
 +msgid "%s: cannot get section group data: %s"
 +msgstr "%s: nie mo¿na pobraæ danych grupy sekcji: %s"
 +
-+#: src/ldgeneric.c:791
++#: src/ldgeneric.c:802
 +#, c-format
 +msgid "%s: section '%s' with group flag set does not belong to any group"
 +msgstr "%s: sekcja '%s' z ustawion± flag± grupy nie nale¿y do ¿adnej grupy"
 +
-+#: src/ldgeneric.c:836
++#: src/ldgeneric.c:847
 +#, c-format
 +msgid "%s: section [%2d] '%s' is in more than one section group"
 +msgstr "%s: sekcja [%2d] '%s' jest w wiêcej ni¿ jednej grupie sekcji"
 +
-+#: src/ldgeneric.c:1072 src/ldgeneric.c:1264 src/ldgeneric.c:1273
-+#: src/ldgeneric.c:1330 src/ldgeneric.c:1339 src/ldgeneric.c:1591
-+#: src/ldgeneric.c:1843
++#: src/ldgeneric.c:1116 src/ldgeneric.c:1325 src/ldgeneric.c:1334
++#: src/ldgeneric.c:1391 src/ldgeneric.c:1400 src/ldgeneric.c:1660
++#: src/ldgeneric.c:1912
 +#, c-format
 +msgid "%s: invalid ELF file (%s:%d)\n"
 +msgstr "%s: b³êdny plik ELF (%s:%d)\n"
 +
-+#: src/ldgeneric.c:1165
++#: src/ldgeneric.c:1209
 +#, c-format
 +msgid "%s: only files of type ET_REL might contain section groups"
 +msgstr "%s: tylko pliki typu ET_REL mog± zawieraæ grupy sekcji"
 +
-+#: src/ldgeneric.c:1199
++#: src/ldgeneric.c:1243
 +#, c-format
 +msgid "%s: cannot determine signature of section group [%2zd] '%s': %s"
 +msgstr "%s: nie mo¿na okre¶liæ sygnatury grupy sekcji [%2zd] '%s': %s"
 +
-+#: src/ldgeneric.c:1218
++#: src/ldgeneric.c:1262
 +#, c-format
 +msgid "%s: section '%s' has unknown type: %d"
 +msgstr "%s: sekcja '%s' ma nieznany typ: %d"
 +
-+#: src/ldgeneric.c:1567
++#: src/ldgeneric.c:1636
 +#, c-format
 +msgid "cannot get descriptor for ELF file (%s:%d): %s\n"
 +msgstr "nie mo¿na pobraæ deskryptora dla pliku ELF (%s:%d): %s\n"
 +
-+#: src/ldgeneric.c:1736
++#: src/ldgeneric.c:1805
 +#, c-format
 +msgid "cannot read archive `%s': %s"
 +msgstr "nie mo¿na odczytaæ archiwum `%s': %s"
 +
-+#: src/ldgeneric.c:1858
++#: src/ldgeneric.c:1927
 +#, c-format
 +msgid "file of type %s cannot be linked in\n"
 +msgstr "plik typu %s nie mo¿e byæ wlinkowany\n"
 +
-+#: src/ldgeneric.c:1870
++#: src/ldgeneric.c:1939
 +#, c-format
 +msgid "%s: cannot get section header string table index: %s\n"
 +msgstr "%s: nie mo¿na pobraæ indeksu tabeli ³añcuchów nag³ówków sekcji: %s\n"
 +
-+#: src/ldgeneric.c:1899
++#: src/ldgeneric.c:1968
 +#, c-format
 +msgid "cannot use DSO '%s' when generating relocatable object file"
 +msgstr "nie mo¿na u¿yæ DSO '%s' podczas generowania pliku obiektu relokowalnego"
 +
-+#: src/ldgeneric.c:1984
++#: src/ldgeneric.c:2053
 +#, c-format
 +msgid "input file '%s' ignored"
 +msgstr "plik wej¶ciowy '%s' zignorowany"
 +
-+#: src/ldgeneric.c:2179
++#: src/ldgeneric.c:2248
 +#, c-format
 +msgid "undefined symbol `%s' in %s"
 +msgstr "niezdefiniowany symbol `%s' w %s"
 +
-+#: src/ldgeneric.c:2501
++#: src/ldgeneric.c:2565
 +#, c-format
 +msgid "cannot create ELF descriptor for output file: %s"
 +msgstr "nie mo¿na utworzyæ deskryptora ELF dla pliku wyj¶ciowego: %s"
 +
-+#: src/ldgeneric.c:2508
++#: src/ldgeneric.c:2572
 +#, c-format
 +msgid "could not create ELF header for output file: %s"
 +msgstr "nie mo¿na utworzyæ nag³ówka ELF dla pliku wyj¶ciowego: %s"
 +
-+#: src/ldgeneric.c:3018 src/ldgeneric.c:3088 src/ldgeneric.c:3124
-+#: src/ldgeneric.c:3811 src/ldgeneric.c:3849 src/ldgeneric.c:3881
-+#: src/ldgeneric.c:4098 src/ldgeneric.c:4153 src/ldgeneric.c:4400
-+#: src/ldgeneric.c:4456 src/ldgeneric.c:4898 src/ldgeneric.c:4910
++#: src/ldgeneric.c:3087 src/ldgeneric.c:3157 src/ldgeneric.c:3193
++#: src/ldgeneric.c:3876 src/ldgeneric.c:3914 src/ldgeneric.c:3946
++#: src/ldgeneric.c:4163 src/ldgeneric.c:4218 src/ldgeneric.c:4465
++#: src/ldgeneric.c:4521 src/ldgeneric.c:4964 src/ldgeneric.c:4976
 +#, c-format
 +msgid "cannot create section for output file: %s"
 +msgstr "nie mo¿na utworzyæ sekcji dla pliku wyj¶ciowego: %s"
 +
-+#: src/ldgeneric.c:3238
++#: src/ldgeneric.c:3307
 +#, c-format
 +msgid "address computation expression contains variable '%s'"
 +msgstr "wyra¿enie obliczenia adresu zawiera zmienn± '%s'"
 +
-+#: src/ldgeneric.c:3283
++#: src/ldgeneric.c:3352
 +#, c-format
 +msgid "argument '%<PRIuMAX>' of ALIGN in address computation expression is no power of two"
 +msgstr "argument '%<PRIuMAX>' ALIGN w wyra¿eniu obliczenia adresu nie jest potêg± dwójki"
 +
-+#: src/ldgeneric.c:3466
++#: src/ldgeneric.c:3535
 +#, c-format
 +msgid "cannot find entry symbol '%s': defaulting to %#0*<PRIx64>"
 +msgstr "nie mo¿na znale¼æ symbolu wej¶ciowego '%s': u¿ycie domy¶lnego %#0*<PRIx64>"
 +
-+#: src/ldgeneric.c:3472
++#: src/ldgeneric.c:3541
 +#, c-format
 +msgid "no entry symbol specified: defaulting to %#0*<PRIx64>"
 +msgstr "nie okre¶lono symbolu wej¶ciowego: u¿ycie domy¶lnego %#0*<PRIx64>"
 +
-+#: src/ldgeneric.c:3712 src/ldgeneric.c:3733 src/ldgeneric.c:3762
-+#: src/ldgeneric.c:5408
++#: src/ldgeneric.c:3777 src/ldgeneric.c:3798 src/ldgeneric.c:3827
++#: src/ldgeneric.c:5473
 +#, c-format
 +msgid "cannot create symbol table for output file: %s"
 +msgstr "nie mo¿na utworzyæ tabeli symboli dla pliku wyj¶ciowego: %s"
 +
-+#: src/ldgeneric.c:4623 src/ldgeneric.c:5150
++#: src/ldgeneric.c:4688 src/ldgeneric.c:5216
 +#, c-format
 +msgid "section index too large in dynamic symbol table"
 +msgstr "indeks sekcji zbyt du¿y w tabeli symboli dynamicznych"
 +
-+#: src/ldgeneric.c:5043
++#: src/ldgeneric.c:5109
 +#, c-format
 +msgid "cannot create versioning section: %s"
 +msgstr "nie mo¿na utworzyæ sekcji wersjonowania: %s"
 +
-+#: src/ldgeneric.c:5116
++#: src/ldgeneric.c:5182
 +#, c-format
 +msgid "cannot create dynamic symbol table for output file: %s"
 +msgstr "nie mo¿na utworzyæ tabeli symboli dynamicznych dla pliku wyj¶ciowego: %s"
 +
-+#: src/ldgeneric.c:5257
++#: src/ldgeneric.c:5323
 +#, c-format
 +msgid "cannot create hash table section for output file: %s"
 +msgstr "nie mo¿na utworzyæ sekcji tablicy haszuj±cej dla pliku wyj¶ciowego: %s"
 +
-+#: src/ldgeneric.c:5336
++#: src/ldgeneric.c:5401
 +#, c-format
 +msgid "cannot create versioning data: %s"
 +msgstr "nie mo¿na utworzyæ danych wersjonowania: %s"
 +
-+#: src/ldgeneric.c:5440 src/ldgeneric.c:5453 src/ldgeneric.c:5517
-+#: src/ldgeneric.c:5525
++#: src/ldgeneric.c:5505 src/ldgeneric.c:5518 src/ldgeneric.c:5582
++#: src/ldgeneric.c:5590
 +#, c-format
 +msgid "cannot create section header string section: %s"
 +msgstr "nie mo¿na utworzyæ sekcji ³añcuchów nag³ówków sekcji: %s"
 +
-+#: src/ldgeneric.c:5447
++#: src/ldgeneric.c:5512
 +#, c-format
 +msgid "cannot create section header string section"
 +msgstr "nie mo¿na utworzyæ sekcji ³añcuchów nag³ówków sekcji"
 +
-+#: src/ldgeneric.c:5600
++#: src/ldgeneric.c:5672
 +#, c-format
 +msgid "cannot create program header: %s"
 +msgstr "nie mo¿na utworzyæ nag³ówka programu: %s"
 +
-+#: src/ldgeneric.c:5608
++#: src/ldgeneric.c:5680
 +#, c-format
 +msgid "while determining file layout: %s"
 +msgstr "podczas okre¶lania rozk³adu pliku: %s"
 +
-+#: src/ldgeneric.c:5696
++#: src/ldgeneric.c:5775
 +#, c-format
 +msgid "internal error: nobits section follows nobits section"
 +msgstr "b³±d wewnêtrzny: sekcja nobits po sekcji nobits"
 +
-+#: src/ldgeneric.c:6192
++#: src/ldgeneric.c:6291
 +#, c-format
 +msgid "cannot get header of 0th section: %s"
 +msgstr "nie mo¿na pobraæ nag³ówka zerowej sekcji: %s"
 +
-+#: src/ldgeneric.c:6208
++#: src/ldgeneric.c:6307
 +#, c-format
 +msgid "cannot update ELF header: %s"
 +msgstr "nie mo¿na uaktualniæ nag³ówka ELF: %s"
 +
-+#: src/ldgeneric.c:6229
++#: src/ldgeneric.c:6328
 +#, c-format
 +msgid "linker backend didn't specify function to relocate section"
 +msgstr "backend linkera nie okre¶li³ funkcji dla sekcji relokacji"
 +
-+#: src/ldgeneric.c:6241
++#: src/ldgeneric.c:6340
 +#, c-format
 +msgid "while writing output file: %s"
 +msgstr "podczas zapisu pliku wyj¶ciowego: %s"
 +
-+#: src/ldgeneric.c:6246
++#: src/ldgeneric.c:6345
 +#, c-format
 +msgid "while finishing output file: %s"
 +msgstr "podczas koñczenia pliku wyj¶ciowego: %s"
 +
-+#: src/ldgeneric.c:6252
++#: src/ldgeneric.c:6351
 +#, c-format
 +msgid "cannot stat output file"
 +msgstr "nie mo¿na wykonaæ stat na pliku wyj¶ciowym"
 +
-+#: src/ldgeneric.c:6268
++#: src/ldgeneric.c:6367
 +#, c-format
 +msgid "WARNING: temporary output file overwritten before linking finished"
 +msgstr "UWAGA: tymczasowy plik wyj¶ciowy nadpisany przed zakoñczeniem linkowania"
 +
-+#: src/ldgeneric.c:6321 src/ldgeneric.c:6332 src/ldgeneric.c:6343
-+#: src/ldgeneric.c:6361 src/ldgeneric.c:6374 src/ldgeneric.c:6386
++#: src/ldgeneric.c:6420 src/ldgeneric.c:6431 src/ldgeneric.c:6442
++#: src/ldgeneric.c:6460 src/ldgeneric.c:6473 src/ldgeneric.c:6485
 +#, c-format
 +msgid "no machine specific '%s' implementation"
 +msgstr "brak implementacji '%s' specyficznej dla maszyny"
 +
-+#: src/ldscript.y:176
++#: src/ldscript.y:178
 +msgid "mode for segment invalid\n"
 +msgstr "b³êdne atrybuty dla segmentu\n"
 +
-+#: src/ldscript.y:459
++#: src/ldscript.y:465
 +#, c-format
 +msgid "while reading version script '%s': %s at line %d"
 +msgstr "podczas odczytu skryptu wersji '%s': %s w linii %d"
 +
-+#: src/ldscript.y:460
++#: src/ldscript.y:466
 +#, c-format
 +msgid "while reading linker script '%s': %s at line %d"
 +msgstr "podczas odczytu skryptu linkera '%s': %s w linii %d"
 +
-+#: src/ldscript.y:738
++#: src/ldscript.y:745
 +#, c-format
 +msgid "symbol '%s' in declared both local and global for unnamed version"
 +msgstr "symbol '%s' zadeklarowany jednocze¶nie lokalny i globalny dla nienazwanej wersji"
 +
-+#: src/ldscript.y:740
++#: src/ldscript.y:747
 +#, c-format
 +msgid "symbol '%s' in declared both local and global for version '%s'"
 +msgstr "symbol '%s' zadeklarowany jednocze¶nie lokalny i globalny dla wersji '%s'"
 +
-+#: src/ldscript.y:760 src/ldscript.y:767
++#: src/ldscript.y:767 src/ldscript.y:774
 +#, c-format
 +msgid "default visibility set as local and global"
 +msgstr "domy¶lna widoczno¶æ ustawiona jako lokalna i globalna"
@@ -2735,13 +2759,13 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +msgid "section [%2d] '%s': section group [%2zu] '%s' does not preceed group member\n"
 +msgstr "sekcja [%2d] '%s': grupa sekcji [%2zu] '%s' nie poprzedza elementu grupy\n"
 +
-+#: src/elflint.c:562 src/elflint.c:1265 src/elflint.c:1315 src/elflint.c:1423
-+#: src/elflint.c:1703 src/elflint.c:2077 src/elflint.c:2238 src/elflint.c:2368
++#: src/elflint.c:562 src/elflint.c:1269 src/elflint.c:1319 src/elflint.c:1427
++#: src/elflint.c:1734 src/elflint.c:2108 src/elflint.c:2269 src/elflint.c:2399
 +#, c-format
 +msgid "section [%2d] '%s': cannot get section data\n"
 +msgstr "sekcja [%2d] '%s': nie mo¿na pobraæ danych sekcji\n"
 +
-+#: src/elflint.c:574 src/elflint.c:1430
++#: src/elflint.c:574 src/elflint.c:1434
 +#, c-format
 +msgid "section [%2d] '%s': referenced as string table for section [%2d] '%s' but type is not SHT_STRTAB\n"
 +msgstr "sekcja [%2d] '%s': u¿yta jako tabela ³añcuchów dla sekcji [%2d] '%s', ale nie jest typu SHT_STRTAB\n"
@@ -2957,742 +2981,752 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +msgid "section [%2d] '%s': relocation %zu: invalid symbol index\n"
 +msgstr "sekcja [%2d] '%s': relokacja %zu: b³êdny indeks symbolu\n"
 +
-+#: src/elflint.c:1183
++#: src/elflint.c:1187
 +#, c-format
 +msgid "section [%2d] '%s': relocation %zu: only symbol '_GLOBAL_OFFSET_TABLE_' can be used with %s\n"
 +msgstr "sekcja [%2d] '%s': relokacja %zu: z %s mo¿na u¿yæ tylko symbolu '_GLOBAL_OFFSET_TABLE_'\n"
 +
-+#: src/elflint.c:1199
++#: src/elflint.c:1203
 +#, c-format
 +msgid "section [%2d] '%s': relocation %zu: offset out of bounds\n"
 +msgstr "sekcja [%2d] '%s': relokacja %zu: offset spoza zakresu\n"
 +
-+#: src/elflint.c:1214
++#: src/elflint.c:1218
 +#, c-format
 +msgid "section [%2d] '%s': relocation %zu: copy relocation against symbol of type %s\n"
 +msgstr "sekcja [%2d] '%s': relokacja %zu: relokacja kopii wzglêdem symbolu typu %s\n"
 +
-+#: src/elflint.c:1235
++#: src/elflint.c:1239
 +#, c-format
 +msgid "section [%2d] '%s': relocation %zu: read-only section modified but text relocation flag not set\n"
 +msgstr "sekcja [%2d] '%s': relokacja %zu: sekcja tylko do odczytu modyfikowana, ale flaga relokacji tekstu nie ustawiona\n"
 +
-+#: src/elflint.c:1250
++#: src/elflint.c:1254
 +#, c-format
 +msgid "section [%2d] '%s': relocations are against loaded and unloaded data\n"
 +msgstr "sekcja [%2d] '%s': relokacje wzglêdem wczytanych i niewczytanych danych\n"
 +
-+#: src/elflint.c:1289 src/elflint.c:1339
++#: src/elflint.c:1293 src/elflint.c:1343
 +#, c-format
 +msgid "section [%2d] '%s': cannot get relocation %zu: %s\n"
 +msgstr "sekcja [%2d] '%s': nie mo¿na pobraæ relokacji %zu: %s\n"
 +
-+#: src/elflint.c:1418
++#: src/elflint.c:1422
 +#, c-format
 +msgid "more than one dynamic section present\n"
 +msgstr "obecna wiêcej ni¿ jedna sekcja dynamiczna\n"
 +
-+#: src/elflint.c:1436
++#: src/elflint.c:1440
 +#, c-format
 +msgid "section [%2d] '%s': section entry size does not match ElfXX_Dyn\n"
 +msgstr "sekcja [%2d] '%s': rozmiar wpisu sekcji nie zgadza siê z ElfXX_Dyn\n"
 +
-+#: src/elflint.c:1441 src/elflint.c:1643
++#: src/elflint.c:1445 src/elflint.c:1674
 +#, c-format
 +msgid "section [%2d] '%s': sh_info not zero\n"
 +msgstr "sekcja [%2d] '%s': sh_info nie jest zerem\n"
 +
-+#: src/elflint.c:1451
++#: src/elflint.c:1455
 +#, c-format
 +msgid "section [%2d] '%s': cannot get dynamic section entry %zu: %s\n"
 +msgstr "sekcja [%2d] '%s': nie mo¿na pobraæ wpisu %zu sekcji dynamicznej: %s\n"
 +
-+#: src/elflint.c:1459
++#: src/elflint.c:1463
 +#, c-format
 +msgid "section [%2d] '%s': non-DT_NULL entries follow DT_NULL entry\n"
 +msgstr "sekcja [%2d] '%s': wpisy nie-DT_NULL wystêpuj± po wpisie DT_NULL\n"
 +
-+#: src/elflint.c:1466
++#: src/elflint.c:1470
 +#, c-format
 +msgid "section [%2d] '%s': entry %zu: unknown tag\n"
 +msgstr "sekcja [%2d] '%s': wpis %zu: nieznany znacznik\n"
 +
-+#: src/elflint.c:1477
++#: src/elflint.c:1481
 +#, c-format
 +msgid "section [%2d] '%s': entry %zu: more than one entry with tag %s\n"
 +msgstr "sekcja [%2d] '%s': wpis %zu: wiêcej ni¿ jeden wpis ze znacznikiem %s\n"
 +
-+#: src/elflint.c:1487
++#: src/elflint.c:1491
 +#, c-format
 +msgid "section [%2d] '%s': entry %zu: level 2 tag %s used\n"
 +msgstr "sekcja [%2d] '%s': wpis %zu: u¿yto znacznika %s poziomu 2\n"
 +
-+#: src/elflint.c:1499
++#: src/elflint.c:1503
 +#, c-format
 +msgid "section [%2d] '%s': entry %zu: DT_PLTREL value must be DT_REL or DT_RELA\n"
 +msgstr "sekcja [%2d] '%s': wpis %zu: warto¶ci± DT_PLTREL musi byæ DT_REL lub DT_RELA\n"
 +
-+#: src/elflint.c:1554
++#: src/elflint.c:1525
++#, c-format
++msgid "section [%2d] '%s': entry %zu: pointer does not match address of section [%2d] '%s' referenced by sh_link\n"
++msgstr "sekcja [%2d] '%s': wpis %zu: wska¼nik nie pasuje do adresu sekcji [%2d] '%s' wskazywanej przez sh_link\n"
++
++#: src/elflint.c:1568
 +#, c-format
 +msgid "section [%2d] '%s': entry %zu: %s value must point into loaded segment\n"
 +msgstr "sekcja [%2d] '%s': wpis %zu: warto¶æ %s musi wskazywaæ na za³adowany segment\n"
 +
-+#: src/elflint.c:1572
++#: src/elflint.c:1583
++#, c-format
++msgid "section [%2d] '%s': entry %zu: %s value must be valid offset in section [%2d] '%s'\n"
++msgstr "sekcja [%2d] '%s': wpis %zu: warto¶æ %s musi byæ poprawnym offsetem w sekcji [%2d] '%s'\n"
++
++#: src/elflint.c:1603
 +#, c-format
 +msgid "section [%2d] '%s': contains %s entry but not %s\n"
 +msgstr "sekcja [%2d] '%s': zawiera wpis %s, ale nie %s\n"
 +
-+#: src/elflint.c:1584
++#: src/elflint.c:1615
 +#, c-format
 +msgid "section [%2d] '%s': mandatory tag %s not present\n"
 +msgstr "sekcja [%2d] '%s': brak obowi±zkowego znacznika %s\n"
 +
-+#: src/elflint.c:1594 src/elflint.c:1601
++#: src/elflint.c:1625 src/elflint.c:1632
 +#, c-format
 +msgid "section [%2d] '%s': not all of %s, %s, and %s are present\n"
 +msgstr "sekcja [%2d] '%s': nie wszystkie z %s, %s i %s s± obecne\n"
 +
-+#: src/elflint.c:1613
++#: src/elflint.c:1644
 +#, c-format
 +msgid "section [%2d] '%s': only relocatable files can have extended section index\n"
 +msgstr "sekcja [%2d] '%s': tylko pliki relokowalne mog± mieæ rozszerzon± sekcjê indeksów\n"
 +
-+#: src/elflint.c:1623
++#: src/elflint.c:1654
 +#, c-format
 +msgid "section [%2d] '%s': extended section index section not for symbol table\n"
 +msgstr "sekcja [%2d] '%s': sekcja rozszerzonych indeksów sekcji nie dla tabeli symboli\n"
 +
-+#: src/elflint.c:1628
++#: src/elflint.c:1659
 +#, c-format
 +msgid "cannot get data for symbol section\n"
 +msgstr "nie mo¿na pobraæ danych dla sekcji symboli\n"
 +
-+#: src/elflint.c:1631 src/elflint.c:1717
++#: src/elflint.c:1662 src/elflint.c:1748
 +#, c-format
 +msgid "section [%2d] '%s': entry size does not match Elf32_Word\n"
 +msgstr "sekcja [%2d] '%s': rozmiar wpisu nie zgadza siê z Elf32_Word\n"
 +
-+#: src/elflint.c:1638
++#: src/elflint.c:1669
 +#, c-format
 +msgid "section [%2d] '%s': extended index table too small for symbol table\n"
 +msgstr "sekcja [%2d] '%s': tabela rozszerzonych indeksów za ma³a dla tabeli symboli\n"
 +
-+#: src/elflint.c:1653
++#: src/elflint.c:1684
 +#, c-format
 +msgid "section [%2d] '%s': extended section index in section [%2zu] '%s' refers to same symbol table\n"
 +msgstr "sekcja [%2d] '%s': rozszerzony indeks sekcji w sekcji [%2zu] '%s' odwo³uje siê do tej samej tabeli symboli\n"
 +
-+#: src/elflint.c:1664
++#: src/elflint.c:1695
 +#, c-format
 +msgid "symbol 0 should have zero extended section index\n"
 +msgstr "symbol 0 powinien mieæ zerowy rozszerzony indeks sekcji\n"
 +
-+#: src/elflint.c:1676
++#: src/elflint.c:1707
 +#, c-format
 +msgid "cannot get data for symbol %zu\n"
 +msgstr "nie mo¿na pobraæ danych dla symbolu %zu\n"
 +
-+#: src/elflint.c:1681
++#: src/elflint.c:1712
 +#, c-format
 +msgid "extended section index is %<PRIu32> but symbol index is not XINDEX\n"
 +msgstr "rozszerzony indeks sekcji to %<PRIu32>, ale indeks symbolu to nie XINDEX\n"
 +
-+#: src/elflint.c:1694
++#: src/elflint.c:1725
 +#, c-format
 +msgid "section [%2d] '%s': relocatable files cannot have hash tables\n"
 +msgstr "sekcja [%2d] '%s': pliki relokowalne nie mog± mieæ tablic haszuj±cych\n"
 +
-+#: src/elflint.c:1712
++#: src/elflint.c:1743
 +#, c-format
 +msgid "section [%2d] '%s': hash table not for dynamic symbol table\n"
 +msgstr "sekcja [%2d] '%s': tablica haszuj±ca nie dla tabeli dynamicznych symboli\n"
 +
-+#: src/elflint.c:1722
++#: src/elflint.c:1753
 +#, c-format
 +msgid "section [%2d] '%s': not marked to be allocated\n"
 +msgstr "sekcja [%2d] '%s': nie oznaczona do przydzielenia\n"
 +
-+#: src/elflint.c:1727
++#: src/elflint.c:1758
 +#, c-format
 +msgid "section [%2d] '%s': hash table has not even room for nbucket and nchain\n"
 +msgstr "sekcja [%2d] '%s': tablica haszuj±ca ma za ma³o miejsca na nbucket i nchain\n"
 +
-+#: src/elflint.c:1737
++#: src/elflint.c:1768
 +#, c-format
 +msgid "section [%2d] '%s': hash table section is too small (is %ld, expected %ld)\n"
 +msgstr "sekcja [%2d] '%s': sekcja tablicy haszuj±cej jest zbyt ma³a (%ld, oczekiwano %ld)\n"
 +
-+#: src/elflint.c:1748
++#: src/elflint.c:1779
 +#, c-format
 +msgid "section [%2d] '%s': chain array not large enough\n"
 +msgstr "sekcja [%2d] '%s': tablica ³añcuchowa zbyt ma³a\n"
 +
-+#: src/elflint.c:1753
++#: src/elflint.c:1784
 +#, c-format
 +msgid "section [%2d] '%s': hash bucket reference %zu out of bounds\n"
 +msgstr "sekcja [%2d] '%s': odwo³anie do kube³ka hasza %zu spoza zakresu\n"
 +
-+#: src/elflint.c:1759
++#: src/elflint.c:1790
 +#, c-format
 +msgid "section [%2d] '%s': hash chain reference %zu out of bounds\n"
 +msgstr "sekcja [%2d] '%s': odwo³anie do ³añcucha hasza %zu spoza zakresu\n"
 +
-+#: src/elflint.c:1771
++#: src/elflint.c:1802
 +#, c-format
 +msgid "section [%2d] '%s': nonzero sh_%s for NULL section\n"
 +msgstr "sekcja [%2d] '%s': niezerowe sh_%s dla sekcji NULL\n"
 +
-+#: src/elflint.c:1791
++#: src/elflint.c:1822
 +#, c-format
 +msgid "section [%2d] '%s': section groups only allowed in relocatable object files\n"
 +msgstr "sekcja [%2d] '%s': w plikach obiektów relokowalnych dozwolone s± tylko grupy sekcji\n"
 +
-+#: src/elflint.c:1802
++#: src/elflint.c:1833
 +#, c-format
 +msgid "section [%2d] '%s': cannot get symbol table: %s\n"
 +msgstr "sekcja [%2d] '%s': nie mo¿na pobraæ tabeli symboli: %s\n"
 +
-+#: src/elflint.c:1807
++#: src/elflint.c:1838
 +#, c-format
 +msgid "section [%2d] '%s': section reference in sh_link is no symbol table\n"
 +msgstr "sekcja [%2d] '%s': odwo³anie do sekcji w sh_link nie ma tabeli symboli\n"
 +
-+#: src/elflint.c:1813
++#: src/elflint.c:1844
 +#, c-format
 +msgid "section [%2d] '%s': invalid symbol index in sh_info\n"
 +msgstr "sekcja [%2d] '%s': b³êdny indeks symbolu w sh_info\n"
 +
-+#: src/elflint.c:1818
++#: src/elflint.c:1849
 +#, c-format
 +msgid "section [%2d] '%s': sh_flags not zero\n"
 +msgstr "sekcja [%2d] '%s': niezerowe sh_flags\n"
 +
-+#: src/elflint.c:1823
++#: src/elflint.c:1854
 +#, c-format
 +msgid "section [%2d] '%s': sh_flags not set correctly\n"
 +msgstr "sekcja [%2d] '%s': sh_flags nie ustawione poprawnie\n"
 +
-+#: src/elflint.c:1829
++#: src/elflint.c:1860
 +#, c-format
 +msgid "section [%2d] '%s': cannot get data: %s\n"
 +msgstr "sekcja [%2d] '%s': nie mo¿na pobraæ danych: %s\n"
 +
-+#: src/elflint.c:1838
++#: src/elflint.c:1869
 +#, c-format
 +msgid "section [%2d] '%s': section size not multiple of sizeof(Elf32_Word)\n"
 +msgstr "sekcja [%2d] '%s': rozmiar sekcji nie jest wielokrotno¶ci± sizeof(Elf32_Word)\n"
 +
-+#: src/elflint.c:1843
++#: src/elflint.c:1874
 +#, c-format
 +msgid "section [%2d] '%s': section group without flags word\n"
 +msgstr "sekcja [%2d] '%s': grupa sekcji bez s³owa flag\n"
 +
-+#: src/elflint.c:1849
++#: src/elflint.c:1880
 +#, c-format
 +msgid "section [%2d] '%s': section group without member\n"
 +msgstr "sekcja [%2d] '%s': grupa sekcji bez elementów\n"
 +
-+#: src/elflint.c:1853
++#: src/elflint.c:1884
 +#, c-format
 +msgid "section [%2d] '%s': section group with only one member\n"
 +msgstr "sekcja [%2d] '%s': grupa sekcji z tylko jednym elementem\n"
 +
-+#: src/elflint.c:1864
++#: src/elflint.c:1895
 +#, c-format
 +msgid "section [%2d] '%s': unknown section group flags\n"
 +msgstr "sekcja [%2d] '%s': nieznane flagi grupy sekcji\n"
 +
-+#: src/elflint.c:1876
++#: src/elflint.c:1907
 +#, c-format
 +msgid "section [%2d] '%s': section index %Zu out of range\n"
 +msgstr "sekcja [%2d] '%s': indeks sekcji %Zu spoza zakresu\n"
 +
-+#: src/elflint.c:1885
++#: src/elflint.c:1916
 +#, c-format
 +msgid "section [%2d] '%s': cannot get section header for element %zu: %s\n"
 +msgstr "sekcja [%2d] '%s': nie mo¿na pobraæ nag³ówka sekcji dla elementu %zu: %s\n"
 +
-+#: src/elflint.c:1892
++#: src/elflint.c:1923
 +#, c-format
 +msgid "section [%2d] '%s': section group contains another group [%2d] '%s'\n"
 +msgstr "sekcja [%2d] '%s': grupa sekcji zawiera inn± grupê [%2d] '%s'\n"
 +
-+#: src/elflint.c:1898
++#: src/elflint.c:1929
 +#, c-format
 +msgid "section [%2d] '%s': element %Zu references section [%2d] '%s' without SHF_GROUP flag set\n"
 +msgstr "sekcja [%2d] '%s': element %Zu odwo³uje siê do sekcji [%2d] '%s' bez flagi SHF_GROUP\n"
 +
-+#: src/elflint.c:1905
++#: src/elflint.c:1936
 +#, c-format
 +msgid "section [%2d] '%s' is contained in more than one section group\n"
 +msgstr "sekcja [%2d] '%s' jest zawarta w wiêcej ni¿ jednej grupie sekcji\n"
 +
-+#: src/elflint.c:2091
++#: src/elflint.c:2122
 +#, c-format
 +msgid "section [%2d] '%s' refers in sh_link to section [%2d] '%s' which is no dynamic symbol table\n"
 +msgstr "sekcja [%2d] '%s' odwo³uje siê w sh_link do sekcji [%2d] '%s', która nie jest tabel± symboli dynamicznych\n"
 +
-+#: src/elflint.c:2102
++#: src/elflint.c:2133
 +#, c-format
 +msgid "section [%2d] '%s' has different number of entries than symbol table [%2d] '%s'\n"
 +msgstr "sekcja [%2d] '%s' ma inn± liczbê wpisów ni¿ tabela symboli [%2d] '%s'\n"
 +
-+#: src/elflint.c:2118
++#: src/elflint.c:2149
 +#, c-format
 +msgid "section [%2d] '%s': symbol %d: cannot read version data\n"
 +msgstr "sekcja [%2d] '%s': symbol %d: nie mo¿na odczytaæ danych wersji\n"
 +
-+#: src/elflint.c:2134
++#: src/elflint.c:2165
 +#, c-format
 +msgid "section [%2d] '%s': symbol %d: local symbol with global scope\n"
 +msgstr "sekcja [%2d] '%s': symbol %d: symbol lokalny z zakresem globalnym\n"
 +
-+#: src/elflint.c:2142
++#: src/elflint.c:2173
 +#, c-format
 +msgid "section [%2d] '%s': symbol %d: local symbol with version\n"
 +msgstr "sekcja [%2d] '%s': symbol %d: symbol lokalny z wersj±\n"
 +
-+#: src/elflint.c:2156
++#: src/elflint.c:2187
 +#, c-format
 +msgid "section [%2d] '%s': symbol %d: invalid version index %d\n"
 +msgstr "sekcja [%2d] '%s': symbol %d: b³êdny indeks wersji %d\n"
 +
-+#: src/elflint.c:2161
++#: src/elflint.c:2192
 +#, c-format
 +msgid "section [%2d] '%s': symbol %d: version index %d is for defined version\n"
 +msgstr "sekcja [%2d] '%s': symbol %d: indeks wersji %d jest dla wersji zdefiniowanej\n"
 +
-+#: src/elflint.c:2171
++#: src/elflint.c:2202
 +#, c-format
 +msgid "section [%2d] '%s': symbol %d: version index %d is for requested version\n"
 +msgstr "sekcja [%2d] '%s': symbol %d: indeks wersji %d jest dla wersji ¿±danej\n"
 +
-+#: src/elflint.c:2223
++#: src/elflint.c:2254
 +#, c-format
 +msgid "more than one version reference section present\n"
 +msgstr "obecna wiêcej ni¿ jedna sekcja odniesienia wersji\n"
 +
-+#: src/elflint.c:2231 src/elflint.c:2360
++#: src/elflint.c:2262 src/elflint.c:2391
 +#, c-format
 +msgid "section [%2d] '%s': sh_link does not link to string table\n"
 +msgstr "sekcja [%2d] '%s': sh_link nie ³±czy siê z tabel± ³añcuchów\n"
 +
-+#: src/elflint.c:2254 src/elflint.c:2412
++#: src/elflint.c:2285 src/elflint.c:2443
 +#, c-format
 +msgid "section [%2d] '%s': entry %d has wrong version %d\n"
 +msgstr "sekcja [%2d] '%s': wpis %d ma z³± wersjê %d\n"
 +
-+#: src/elflint.c:2260 src/elflint.c:2418
++#: src/elflint.c:2291 src/elflint.c:2449
 +#, c-format
 +msgid "section [%2d] '%s': entry %d has wrong offset of auxiliary data\n"
 +msgstr "sekcja [%2d] '%s': wpis %d ma z³y offset dla danych dodatkowych\n"
 +
-+#: src/elflint.c:2268
++#: src/elflint.c:2299
 +#, c-format
 +msgid "section [%2d] '%s': entry %d has invalid file reference\n"
 +msgstr "sekcja [%2d] '%s': symbol %d ma b³êdne odniesienie do pliku\n"
 +
-+#: src/elflint.c:2276
++#: src/elflint.c:2307
 +#, c-format
 +msgid "section [%2d] '%s': entry %d references unknown dependency\n"
 +msgstr "sekcja [%2d] '%s': wpis %d odnosi siê do nieznanej zale¿no¶ci\n"
 +
-+#: src/elflint.c:2288
++#: src/elflint.c:2319
 +#, c-format
 +msgid "section [%2d] '%s': auxiliary entry %d of entry %d has unknown flag\n"
 +msgstr "sekcja [%2d] '%s': wpis dodatkowy %d do wpisu %d ma nieznan± flagê\n"
 +
-+#: src/elflint.c:2295
++#: src/elflint.c:2326
 +#, c-format
 +msgid "section [%2d] '%s': auxiliary entry %d of entry %d has invalid name reference\n"
 +msgstr "sekcja [%2d] '%s': wpis dodatkowy %d do wpisu %d ma b³êdne odniesienie do nazwy\n"
 +
-+#: src/elflint.c:2302
++#: src/elflint.c:2333
 +#, c-format
 +msgid "section [%2d] '%s': auxiliary entry %d of entry %d has wrong hash value: %#x, expected %#x\n"
 +msgstr "sekcja [%2d] '%s': wpis dodatkowy %d do wpisu %d ma z³± warto¶æ hasza: %#x, oczekiwano %#x\n"
 +
-+#: src/elflint.c:2312
++#: src/elflint.c:2343
 +#, c-format
 +msgid "section [%2d] '%s': auxiliary entry %d of entry %d has duplicate version name '%s'\n"
 +msgstr "sekcja [%2d] '%s': wpis dodatkowy %d do wpisu %d ma powtórzon± nazwê wersji '%s'\n"
 +
-+#: src/elflint.c:2323
++#: src/elflint.c:2354
 +#, c-format
 +msgid "section [%2d] '%s': auxiliary entry %d of entry %d has wrong next field\n"
 +msgstr "sekcja [%2d] '%s': wpis dodatkowy %d do wpisu %d ma z³e nastêpne pole\n"
 +
-+#: src/elflint.c:2339 src/elflint.c:2497
++#: src/elflint.c:2370 src/elflint.c:2528
 +#, c-format
 +msgid "section [%2d] '%s': entry %d has invalid offset to next entry\n"
 +msgstr "sekcja [%2d] '%s': wpis %d ma b³êdny offset do nastêpnego wpisu\n"
 +
-+#: src/elflint.c:2352
++#: src/elflint.c:2383
 +#, c-format
 +msgid "more than one version definition section present\n"
 +msgstr "obecna wiêcej ni¿ jedna sekcja definicji wersji\n"
 +
-+#: src/elflint.c:2397
++#: src/elflint.c:2428
 +#, c-format
 +msgid "section [%2d] '%s': more than one BASE definition\n"
 +msgstr "sekcja [%2d] '%s': jest wiêcej ni¿ jedna definicja BASE\n"
 +
-+#: src/elflint.c:2401
++#: src/elflint.c:2432
 +#, c-format
 +msgid "section [%2d] '%s': BASE definition must have index VER_NDX_GLOBAL\n"
 +msgstr "sekcja [%2d] '%s': definicja BASE musi mieæ indeks VER_NDX_GLOBAL\n"
 +
-+#: src/elflint.c:2407
++#: src/elflint.c:2438
 +#, c-format
 +msgid "section [%2d] '%s': entry %d has unknown flag\n"
 +msgstr "sekcja [%2d] '%s': wpis %d ma nieznan± flagê\n"
 +
-+#: src/elflint.c:2431
++#: src/elflint.c:2462
 +#, c-format
 +msgid "section [%2d] '%s': entry %d has invalid name reference\n"
 +msgstr "sekcja [%2d] '%s': wpis %d ma b³êdne odniesienie do nazwy\n"
 +
-+#: src/elflint.c:2438
++#: src/elflint.c:2469
 +#, c-format
 +msgid "section [%2d] '%s': entry %d has wrong hash value: %#x, expected %#x\n"
 +msgstr "sekcja [%2d] '%s': wpis %d ma z³± warto¶æ hasza: %#x, oczekiwano %#x\n"
 +
-+#: src/elflint.c:2447
++#: src/elflint.c:2478
 +#, c-format
 +msgid "section [%2d] '%s': entry %d has duplicate version name '%s'\n"
 +msgstr "sekcja [%2d] '%s': wpis %d ma powtórzon± nazwê wersji '%s'\n"
 +
-+#: src/elflint.c:2466
++#: src/elflint.c:2497
 +#, c-format
 +msgid "section [%2d] '%s': entry %d has invalid name reference in auxiliary data\n"
 +msgstr "sekcja [%2d] '%s': wpis %d ma b³êdne odniesienie do nazwy w danych dodatkowych\n"
 +
-+#: src/elflint.c:2481
++#: src/elflint.c:2512
 +#, c-format
 +msgid "section [%2d] '%s': entry %d has wrong next field in auxiliary data\n"
 +msgstr "sekcja [%2d] '%s': wpis %d ma z³e nastêpne pole w danych dodatkowych\n"
 +
-+#: src/elflint.c:2503
++#: src/elflint.c:2534
 +#, c-format
 +msgid "section [%2d] '%s': no BASE definition\n"
 +msgstr "sekcja [%2d] '%s': brak definicji BASE\n"
 +
-+#: src/elflint.c:2519
++#: src/elflint.c:2550
 +#, c-format
 +msgid "section [%2d] '%s': unknown parent version '%s'\n"
 +msgstr "sekcja [%2d] '%s': nieznana wersja rodzica '%s'\n"
 +
-+#: src/elflint.c:2599
++#: src/elflint.c:2630
 +#, c-format
 +msgid "cannot get section header of zeroth section\n"
 +msgstr "nie mo¿na pobraæ nag³ówka sekcji zerowej\n"
 +
-+#: src/elflint.c:2603
++#: src/elflint.c:2634
 +#, c-format
 +msgid "zeroth section has nonzero name\n"
 +msgstr "sekcja zerowa ma niezerow± nazwê\n"
 +
-+#: src/elflint.c:2605
++#: src/elflint.c:2636
 +#, c-format
 +msgid "zeroth section has nonzero type\n"
 +msgstr "sekcja zerowa ma niezerowy typ\n"
 +
-+#: src/elflint.c:2607
++#: src/elflint.c:2638
 +#, c-format
 +msgid "zeroth section has nonzero flags\n"
 +msgstr "sekcja zerowa ma niezerowe flagi\n"
 +
-+#: src/elflint.c:2609
++#: src/elflint.c:2640
 +#, c-format
 +msgid "zeroth section has nonzero address\n"
 +msgstr "sekcja zerowa ma niezerowy adres\n"
 +
-+#: src/elflint.c:2611
++#: src/elflint.c:2642
 +#, c-format
 +msgid "zeroth section has nonzero offset\n"
 +msgstr "sekcja zerowa ma niezerowy offset\n"
 +
-+#: src/elflint.c:2613
++#: src/elflint.c:2644
 +#, c-format
 +msgid "zeroth section has nonzero info field\n"
 +msgstr "sekcja zerowa ma niezerowe pole informacyjne\n"
 +
-+#: src/elflint.c:2615
++#: src/elflint.c:2646
 +#, c-format
 +msgid "zeroth section has nonzero align value\n"
 +msgstr "sekcja zerowa ma niezerow± warto¶æ wyrównania\n"
 +
-+#: src/elflint.c:2617
++#: src/elflint.c:2648
 +#, c-format
 +msgid "zeroth section has nonzero entry size value\n"
 +msgstr "sekcja zerowa ma niezerow± warto¶æ rozmiaru wpisu\n"
 +
-+#: src/elflint.c:2620
++#: src/elflint.c:2651
 +#, c-format
 +msgid "zeroth section has nonzero size value while ELF header has nonzero shnum value\n"
 +msgstr "sekcja zerowa ma niezerow± warto¶æ rozmiaru, a nag³ówek ELF ma niezerow± warto¶æ shnum\n"
 +
-+#: src/elflint.c:2624
++#: src/elflint.c:2655
 +#, c-format
 +msgid "zeroth section has nonzero link value while ELF header does not signal overflow in shstrndx\n"
 +msgstr "sekcja zerowa ma niezerow± warto¶æ dowi±zañ, a nag³ówek ELF nie sygnalizuje przepe³nienia w shstrndx\n"
 +
-+#: src/elflint.c:2636
++#: src/elflint.c:2667
 +#, c-format
 +msgid "cannot get section header for section [%2zu] '%s': %s\n"
 +msgstr "nie mo¿na pobraæ nag³ówka sekcji dla sekcji [%2zu] '%s': %s\n"
 +
-+#: src/elflint.c:2645
++#: src/elflint.c:2676
 +#, c-format
 +msgid "section [%2zu]: invalid name\n"
 +msgstr "sekcja [%2zu]: b³êdna nazwa\n"
 +
-+#: src/elflint.c:2667
++#: src/elflint.c:2698
 +#, c-format
 +msgid "section [%2d] '%s' has wrong type: expected %s, is %s\n"
 +msgstr "sekcja [%2d] '%s' ma z³y typ: oczekiwano %s, jest %s\n"
 +
-+#: src/elflint.c:2681
++#: src/elflint.c:2712
 +#, c-format
 +msgid "section [%2zu] '%s' has wrong flags: expected %s, is %s\n"
 +msgstr "sekcja [%2zu] '%s' ma z³e flagi: oczekiwano %s, jest %s\n"
 +
-+#: src/elflint.c:2698
++#: src/elflint.c:2729
 +#, c-format
 +msgid "section [%2zu] '%s' has wrong flags: expected %s and possibly %s, is %s\n"
 +msgstr "sekcja [%2zu] '%s' ma z³e flagi: oczekiwano %s i byæ mo¿e %s, jest %s\n"
 +
-+#: src/elflint.c:2716
++#: src/elflint.c:2747
 +#, c-format
 +msgid "section [%2zu] '%s' present in object file\n"
 +msgstr "sekcja [%2zu] '%s' obecna w pliku obiektu\n"
 +
-+#: src/elflint.c:2722 src/elflint.c:2754
++#: src/elflint.c:2753 src/elflint.c:2785
 +#, c-format
 +msgid "section [%2zu] '%s' has SHF_ALLOC flag set but there is no loadable segment\n"
 +msgstr "sekcja [%2zu] '%s' ma flagê SHF_ALLOC, ale nie ma segmentu ³adowalnego\n"
 +
-+#: src/elflint.c:2727 src/elflint.c:2759
++#: src/elflint.c:2758 src/elflint.c:2790
 +#, c-format
 +msgid "section [%2zu] '%s' has SHF_ALLOC flag not set but there are loadable segments\n"
 +msgstr "sekcja [%2zu] '%s' nie ma flagi SHF_ALLOC, ale s± segmenty ³adowalne\n"
 +
-+#: src/elflint.c:2735
++#: src/elflint.c:2766
 +#, c-format
 +msgid "section [%2zu] '%s' is extension section index table in non-object file\n"
 +msgstr "sekcja [%2zu] '%s' jest tabel± indeksów sekcji rozszerzeñ w pliku nie-obiektowym\n"
 +
-+#: src/elflint.c:2770
++#: src/elflint.c:2801
 +#, c-format
 +msgid "section [%2zu] '%s': size not multiple of entry size\n"
 +msgstr "sekcja [%2zu] '%s': rozmiar nie jest wielokrotno¶ci± rozmiaru wpisu\n"
 +
-+#: src/elflint.c:2775
++#: src/elflint.c:2806
 +#, c-format
 +msgid "cannot get section header\n"
 +msgstr "nie mo¿na pobraæ nag³ówka sekcji\n"
 +
-+#: src/elflint.c:2784
++#: src/elflint.c:2815
 +#, c-format
 +msgid "section [%2zu] '%s' has unsupported type %d\n"
 +msgstr "sekcja [%2zu] '%s' ma nieobs³ugiwany typ %d\n"
 +
-+#: src/elflint.c:2792
++#: src/elflint.c:2823
 +#, c-format
 +msgid "section [%2zu] '%s' contains unknown flag(s) %#<PRIx64>\n"
 +msgstr "sekcja [%2zu] '%s' zawiera nieznane flagi %#<PRIx64>\n"
 +
-+#: src/elflint.c:2800
++#: src/elflint.c:2831
 +#, c-format
 +msgid "section [%2zu] '%s': thread-local data sections address not zero\n"
 +msgstr "sekcja [%2zu] '%s': adres sekcji danych lokalnych dla w±tków nie jest zerem\n"
 +
-+#: src/elflint.c:2808
++#: src/elflint.c:2839
 +#, c-format
 +msgid "section [%2zu] '%s': invalid section reference in link value\n"
 +msgstr "sekcja [%2zu] '%s': b³êdne odwo³anie do sekcji w warto¶ci dowi±zania\n"
 +
-+#: src/elflint.c:2813
++#: src/elflint.c:2844
 +#, c-format
 +msgid "section [%2zu] '%s': invalid section reference in info value\n"
 +msgstr "sekcja [%2zu] '%s': b³êdne odwo³anie do sekcji w warto¶ci informacyjnej\n"
 +
-+#: src/elflint.c:2820
++#: src/elflint.c:2851
 +#, c-format
 +msgid "section [%2zu] '%s': strings flag set without merge flag\n"
 +msgstr "sekcja [%2zu] '%s': flaga ³añcuchów ustawiona bez flagi merge\n"
 +
-+#: src/elflint.c:2825
++#: src/elflint.c:2856
 +#, c-format
 +msgid "section [%2zu] '%s': merge flag set but entry size is zero\n"
 +msgstr "sekcja [%2zu] '%s': flaga merge ustawiona, ale rozmiar wpisu jest zerowy\n"
 +
-+#: src/elflint.c:2852
++#: src/elflint.c:2883
 +#, c-format
 +msgid "section [%2zu] '%s' not fully contained in segment of program header entry %d\n"
 +msgstr "sekcja [%2zu] '%s' nie jest w ca³o¶ci zawarta w segmencie wpisu %d nag³ówka programu\n"
 +
-+#: src/elflint.c:2860
++#: src/elflint.c:2891
 +#, c-format
 +msgid "section [%2zu] '%s' has type NOBITS but is read from the file in segment of program header entry %d\n"
 +msgstr "sekcja [%2zu] '%s' ma typ NOBITS, a jest czytana z pliku w segmencie wpisu %d nag³ówka programu\n"
 +
-+#: src/elflint.c:2869
++#: src/elflint.c:2900
 +#, c-format
 +msgid "section [%2zu] '%s' has not type NOBITS but is not read from the file in segment of program header entry %d\n"
 +msgstr "sekcja [%2zu] '%s' nie ma typu NOBITS, a nie jest czytana z pliku w segmencie wpisu %d nag³ówka programu\n"
 +
-+#: src/elflint.c:2878
++#: src/elflint.c:2909
 +#, c-format
 +msgid "section [%2zu] '%s': alloc flag set but section not in any loaded segment\n"
 +msgstr "sekcja [%2zu] '%s': ma flagê alloc, ale sekcja nie jest w ¿adnym segmencie ³adowalnym\n"
 +
-+#: src/elflint.c:2884
++#: src/elflint.c:2915
 +#, c-format
 +msgid "section [%2zu] '%s': ELF header says this is the section header string table but type is not SHT_TYPE\n"
 +msgstr "sekcja [%2zu] '%s': wed³ug nag³ówka ELF to jest tabela ³añcuchów nag³ówków sekcji, ale typ nie jest SHT_TYPE\n"
 +
-+#: src/elflint.c:2892
++#: src/elflint.c:2923
 +#, c-format
 +msgid "section [%2zu] '%s': relocatable files cannot have dynamic symbol tables\n"
 +msgstr "sekcja [%2zu] '%s': pliki relokowalne nie mog± mieæ tabeli symboli dynamicznych\n"
 +
-+#: src/elflint.c:2933
++#: src/elflint.c:2964
 +#, c-format
 +msgid "more than one version symbol table present\n"
 +msgstr "obecna wiêcej ni¿ jedna tabela symboli wersji\n"
 +
-+#: src/elflint.c:2952
++#: src/elflint.c:2983
 +#, c-format
 +msgid "INTERP program header entry but no .interp section\n"
 +msgstr "jest wpis nag³ówka programu INTERP, ale nie ma sekcji .interp\n"
 +
-+#: src/elflint.c:2957
++#: src/elflint.c:2988
 +#, c-format
 +msgid "no .gnu.versym section present but .gnu.versym_d or .gnu.versym_r section exist\n"
 +msgstr "brak sekcji .gnu.versym, ale istnieje sekcja .gnu.versym_d lub .gnu.versym_r\n"
 +
-+#: src/elflint.c:2970
++#: src/elflint.c:3001
 +#, c-format
 +msgid "duplicate version index %d\n"
 +msgstr "powtórzony indeks wersji %d\n"
 +
-+#: src/elflint.c:2984
++#: src/elflint.c:3015
 +#, c-format
 +msgid ".gnu.versym section present without .gnu.versym_d or .gnu.versym_r\n"
 +msgstr "sekcja .gnu.versym istnieje bez .gnu.versym_d lub .gnu.versym_r\n"
 +
-+#: src/elflint.c:2996
++#: src/elflint.c:3027
 +#, c-format
 +msgid "phdr[%d]: no note entries defined for the type of file\n"
 +msgstr "phdr[%d]: brak zdefiniowanych wpisów note dla typu pliku\n"
 +
-+#: src/elflint.c:3083
++#: src/elflint.c:3114
 +#, c-format
 +msgid "phdr[%d]: note entries probably in form of a 32-bit ELF file\n"
 +msgstr "phdr[%d]: wpisy note prawdopodobnie w formie dla 32-bitowego pliku ELF\n"
 +
-+#: src/elflint.c:3086
++#: src/elflint.c:3117
 +#, c-format
 +msgid "phdr[%d]: extra %zu bytes after last note\n"
 +msgstr "phdr[%d]: nadmiarowe %zu bajtów po ostatniej notatce\n"
 +
-+#: src/elflint.c:3115
++#: src/elflint.c:3146
 +#, c-format
 +msgid "phdr[%d]: unknown core file note type %<PRIu64> at offset %<PRIu64>\n"
 +msgstr "phdr[%d]: nieznany typ notatki pliku core %<PRIu64> pod offsetem %<PRIu64>\n"
 +
-+#: src/elflint.c:3123
++#: src/elflint.c:3154
 +#, c-format
 +msgid "phdr[%d]: unknown object file note type %<PRIu64> at offset %<PRIu64>\n"
 +msgstr "phdr[%d]: nieznany typ notatki pliku obiektu %<PRIu64> pod offsetem %<PRIu64>\n"
 +
-+#: src/elflint.c:3145
++#: src/elflint.c:3176
 +#, c-format
 +msgid "only executables, shared objects, and core files can have program headers\n"
 +msgstr "tylko pliki wykonywalne, obiektów dzielonych i core mog± mieæ nag³ówki programu\n"
 +
-+#: src/elflint.c:3160
++#: src/elflint.c:3191
 +#, c-format
 +msgid "cannot get program header entry %d: %s\n"
 +msgstr "nie mo¿na pobraæ wpisu nag³ówka programu %d: %s\n"
 +
-+#: src/elflint.c:3169
++#: src/elflint.c:3200
 +#, c-format
 +msgid "program header entry %d: unknown program header entry type %#<PRIx64>\n"
 +msgstr "wpis nag³ówka programu %d: nieznany typ wpisu nag³ówka programu %#<PRIx64>\n"
 +
-+#: src/elflint.c:3180
++#: src/elflint.c:3211
 +#, c-format
 +msgid "more than one INTERP entry in program header\n"
 +msgstr "wiêcej ni¿ jeden wpis INTERP w nag³ówku programu\n"
 +
-+#: src/elflint.c:3188
++#: src/elflint.c:3219
 +#, c-format
 +msgid "more than one TLS entry in program header\n"
 +msgstr "wiêcej ni¿ jeden wpis TLS w nag³ówku programu\n"
 +
-+#: src/elflint.c:3195
++#: src/elflint.c:3226
 +#, c-format
 +msgid "static executable cannot have dynamic sections\n"
 +msgstr "statyczny program wykonywalny nie mo¿e mieæ sekcji dynamicznych\n"
 +
-+#: src/elflint.c:3209
++#: src/elflint.c:3240
 +#, c-format
 +msgid "dynamic section reference in program header has wrong offset\n"
 +msgstr "odniesienie sekcji dynamicznej w nag³ówku programu ma z³y offset\n"
 +
-+#: src/elflint.c:3212
++#: src/elflint.c:3243
 +#, c-format
 +msgid "dynamic section size mismatch in program and section header\n"
 +msgstr "ró¿ne rozmiary sekcji dynamicznej w nag³ówku programu i sekcji\n"
 +
-+#: src/elflint.c:3222
++#: src/elflint.c:3253
 +#, c-format
 +msgid "more than one GNU_RELRO entry in program header\n"
 +msgstr "wiêcej ni¿ jeden wpis GNU_RELRO w nag³ówku programu\n"
 +
-+#: src/elflint.c:3243
++#: src/elflint.c:3274
 +#, c-format
 +msgid "loadable segment GNU_RELRO applies to is not writable\n"
 +msgstr "³adowalny segment wskazywany przez GNU_RELRO nie jest zapisywalny\n"
 +
-+#: src/elflint.c:3246
++#: src/elflint.c:3277
 +#, c-format
 +msgid "loadable segment GNU_RELRO applies to is executable\n"
 +msgstr "³adowalny segment wskazywany przez GNU_RELRO jest wykonywalny\n"
 +
-+#: src/elflint.c:3253 src/elflint.c:3276
++#: src/elflint.c:3284 src/elflint.c:3307
 +#, c-format
 +msgid "%s segment not contained in a loaded segment\n"
 +msgstr "segment %s nie zawiera siê w ³adowanym segmencie\n"
 +
-+#: src/elflint.c:3282
++#: src/elflint.c:3313
 +#, c-format
 +msgid "program header offset in ELF header and PHDR entry do not match"
 +msgstr "offsety nag³ówka programu w nag³ówku ELF i wpisie PHDR nie zgadzaj± siê"
 +
-+#: src/elflint.c:3287
++#: src/elflint.c:3318
 +#, c-format
 +msgid "program header entry %d: file size greater than memory size\n"
 +msgstr "wpis nag³ówka programu %d: rozmiar pliku wiêkszy ni¿ rozmiar pamiêci\n"
 +
-+#: src/elflint.c:3294
++#: src/elflint.c:3325
 +#, c-format
 +msgid "program header entry %d: alignment not a power of 2\n"
 +msgstr "wpis nag³ówka programu %d: wyrównanie nie jest potêg± 2\n"
 +
-+#: src/elflint.c:3297
++#: src/elflint.c:3328
 +#, c-format
 +msgid "program header entry %d: file offset and virtual address not module of alignment\n"
 +msgstr "wpis nag³ówka programu %d: offset w pliku i adres wirtualny nie s± wielokrotno¶ci± wyrównania\n"
 +
-+#: src/elflint.c:3333
++#: src/elflint.c:3364
 +#, c-format
 +msgid "cannot read ELF header: %s\n"
 +msgstr "nie mo¿na odczytaæ nag³ówka ELF: %s\n"
 +
-+#: src/elflint.c:3354
++#: src/elflint.c:3385
 +#, c-format
 +msgid "text relocation flag set but not needed\n"
 +msgstr "flagi relokacji tekstu ustawione, ale niepotrzebne\n"
