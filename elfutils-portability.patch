@@ -1,6 +1,6 @@
 --- elfutils/backends/ChangeLog
 +++ elfutils/backends/ChangeLog
-@@ -47,6 +47,11 @@
+@@ -56,6 +56,11 @@
  	* sparc_init.c: Likewise.
  	* x86_64_init.c: Likewise.
  
@@ -12,7 +12,7 @@
  2005-11-19  Roland McGrath  <roland@redhat.com>
  
  	* ppc64_reloc.def: REL30 -> ADDR30.
-@@ -69,6 +74,9 @@
+@@ -78,6 +83,9 @@
  	* Makefile.am (uninstall): Don't try to remove $(pkgincludedir).
  	(CLEANFILES): Add libebl_$(m).so.
  
@@ -51,7 +51,7 @@
  libebl_%.map: Makefile
 --- elfutils/backends/Makefile.in
 +++ elfutils/backends/Makefile.in
-@@ -160,6 +160,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+@@ -158,6 +158,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
  INSTALL_SCRIPT = @INSTALL_SCRIPT@
  INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
  LDFLAGS = @LDFLAGS@
@@ -59,7 +59,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -195,6 +196,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+@@ -193,6 +194,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
  TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = @VERSION@
@@ -67,7 +67,7 @@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@
  ac_ct_CC = @ac_ct_CC@
-@@ -237,9 +239,9 @@ sharedstatedir = @sharedstatedir@
+@@ -235,9 +237,9 @@ sharedstatedir = @sharedstatedir@
  sysconfdir = @sysconfdir@
  target_alias = @target_alias@
  @MUDFLAP_FALSE@AM_CFLAGS = -fpic -Wall -Wshadow -Werror -Wunused \
@@ -79,7 +79,7 @@
  INCLUDES = -I$(srcdir) -I$(top_srcdir)/libebl \
  	   -I$(top_srcdir)/libelf -I$(top_srcdir)/libdw \
  	   -I$(top_srcdir)/lib -I..
-@@ -597,7 +599,7 @@ uninstall-am: uninstall-info-am
+@@ -595,7 +597,7 @@ uninstall-am: uninstall-info-am
  libebl_%.so: libebl_%_pic.a libebl_%.map $(libelf) $(libdw)
  	$(LINK) -shared -o $@ -Wl,--whole-archive,$<,--no-whole-archive \
  		-Wl,--version-script,$(word 2,$^) \
@@ -136,7 +136,7 @@
  ac_ct_CC = @ac_ct_CC@
 --- elfutils/configure
 +++ elfutils/configure
-@@ -276,7 +276,7 @@ PACKAGE_STRING='Red Hat elfutils 0.120'
+@@ -276,7 +276,7 @@ PACKAGE_STRING='Red Hat elfutils 0.121'
  PACKAGE_BUGREPORT='http://bugzilla.redhat.com/bugzilla/'
  
  ac_unique_file="libelf/libelf.h"
@@ -317,7 +317,7 @@
  noinst_LIBRARIES = libeu.a
 --- elfutils/lib/Makefile.in
 +++ elfutils/lib/Makefile.in
-@@ -105,6 +105,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+@@ -103,6 +103,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
  INSTALL_SCRIPT = @INSTALL_SCRIPT@
  INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
  LDFLAGS = @LDFLAGS@
@@ -325,7 +325,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -140,6 +141,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+@@ -138,6 +139,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
  TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = @VERSION@
@@ -333,7 +333,7 @@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@
  ac_ct_CC = @ac_ct_CC@
-@@ -182,9 +184,9 @@ sharedstatedir = @sharedstatedir@
+@@ -180,9 +182,9 @@ sharedstatedir = @sharedstatedir@
  sysconfdir = @sysconfdir@
  target_alias = @target_alias@
  @MUDFLAP_FALSE@AM_CFLAGS = -fpic -Wall -Wshadow -Werror -Wunused \
@@ -378,7 +378,7 @@
  	   -I$(top_srcdir)/lib
 --- elfutils/libasm/Makefile.in
 +++ elfutils/libasm/Makefile.in
-@@ -138,6 +138,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+@@ -136,6 +136,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
  INSTALL_SCRIPT = @INSTALL_SCRIPT@
  INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
  LDFLAGS = @LDFLAGS@
@@ -386,7 +386,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -173,6 +174,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+@@ -171,6 +172,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
  TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = 1
@@ -394,7 +394,7 @@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@
  ac_ct_CC = @ac_ct_CC@
-@@ -215,9 +217,9 @@ sharedstatedir = @sharedstatedir@
+@@ -213,9 +215,9 @@ sharedstatedir = @sharedstatedir@
  sysconfdir = @sysconfdir@
  target_alias = @target_alias@
  @MUDFLAP_FALSE@AM_CFLAGS = -std=gnu99 -Wall -Wshadow -Werror -Wunused \
@@ -431,7 +431,7 @@
  noinst_LIBRARIES = libcpu_i386.a
 --- elfutils/libcpu/Makefile.in
 +++ elfutils/libcpu/Makefile.in
-@@ -101,6 +101,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+@@ -99,6 +99,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
  INSTALL_SCRIPT = @INSTALL_SCRIPT@
  INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
  LDFLAGS = @LDFLAGS@
@@ -439,7 +439,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -136,6 +137,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+@@ -134,6 +135,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
  TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = @VERSION@
@@ -447,7 +447,7 @@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@
  ac_ct_CC = @ac_ct_CC@
-@@ -177,7 +179,7 @@ sbindir = @sbindir@
+@@ -175,7 +177,7 @@ sbindir = @sbindir@
  sharedstatedir = @sharedstatedir@
  sysconfdir = @sysconfdir@
  target_alias = @target_alias@
@@ -458,7 +458,7 @@
  libcpu_i386_a_SOURCES = i386_dis.c
 --- elfutils/libdw/ChangeLog
 +++ elfutils/libdw/ChangeLog
-@@ -276,6 +276,11 @@
+@@ -290,6 +290,11 @@
  
  2005-05-31  Roland McGrath  <roland@redhat.com>
  
@@ -491,7 +491,7 @@
  
 --- elfutils/libdw/Makefile.in
 +++ elfutils/libdw/Makefile.in
-@@ -178,6 +178,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+@@ -176,6 +176,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
  INSTALL_SCRIPT = @INSTALL_SCRIPT@
  INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
  LDFLAGS = @LDFLAGS@
@@ -499,7 +499,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -213,6 +214,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+@@ -211,6 +212,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
  TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = 1
@@ -507,7 +507,7 @@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@
  ac_ct_CC = @ac_ct_CC@
-@@ -255,9 +257,10 @@ sharedstatedir = @sharedstatedir@
+@@ -253,9 +255,10 @@ sharedstatedir = @sharedstatedir@
  sysconfdir = @sysconfdir@
  target_alias = @target_alias@
  @MUDFLAP_FALSE@AM_CFLAGS = $(am__append_1) -Wall -Werror -Wshadow \
@@ -522,7 +522,7 @@
  						       $(COMPILE)))
 --- elfutils/libdwfl/ChangeLog
 +++ elfutils/libdwfl/ChangeLog
-@@ -268,6 +268,11 @@
+@@ -286,6 +286,11 @@
  
  2005-07-21  Roland McGrath  <roland@redhat.com>
  
@@ -553,7 +553,7 @@
  VERSION = 1
 --- elfutils/libdwfl/Makefile.in
 +++ elfutils/libdwfl/Makefile.in
-@@ -136,6 +136,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+@@ -134,6 +134,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
  INSTALL_SCRIPT = @INSTALL_SCRIPT@
  INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
  LDFLAGS = @LDFLAGS@
@@ -561,7 +561,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -171,6 +172,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+@@ -169,6 +170,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
  TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = 1
@@ -569,7 +569,7 @@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@
  ac_ct_CC = @ac_ct_CC@
-@@ -213,9 +215,9 @@ sharedstatedir = @sharedstatedir@
+@@ -211,9 +213,9 @@ sharedstatedir = @sharedstatedir@
  sysconfdir = @sysconfdir@
  target_alias = @target_alias@
  @MUDFLAP_FALSE@AM_CFLAGS = -Wall -Werror -Wshadow -Wunused -Wformat=2 \
@@ -583,7 +583,7 @@
  
 --- elfutils/libebl/ChangeLog
 +++ elfutils/libebl/ChangeLog
-@@ -400,6 +400,11 @@
+@@ -413,6 +413,11 @@
  	* Makefile.am (libebl_*_so_SOURCES): Set to $(*_SRCS) so dependency
  	tracking works right.
  
@@ -614,7 +614,7 @@
  INCLUDES = -I$(srcdir) -I$(top_srcdir)/libelf -I$(top_srcdir)/libdw \
 --- elfutils/libebl/Makefile.in
 +++ elfutils/libebl/Makefile.in
-@@ -131,6 +131,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+@@ -130,6 +130,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
  INSTALL_SCRIPT = @INSTALL_SCRIPT@
  INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
  LDFLAGS = @LDFLAGS@
@@ -622,7 +622,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -166,6 +167,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+@@ -165,6 +166,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
  TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = 1
@@ -630,7 +630,7 @@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@
  ac_ct_CC = @ac_ct_CC@
-@@ -208,9 +210,9 @@ sharedstatedir = @sharedstatedir@
+@@ -207,9 +209,9 @@ sharedstatedir = @sharedstatedir@
  sysconfdir = @sysconfdir@
  target_alias = @target_alias@
  @MUDFLAP_FALSE@AM_CFLAGS = -fpic -Wall -Wshadow -Werror -Wunused \
@@ -644,7 +644,7 @@
  
 --- elfutils/libelf/ChangeLog
 +++ elfutils/libelf/ChangeLog
-@@ -130,6 +130,11 @@
+@@ -136,6 +136,11 @@
  	If section content hasn't been read yet, do it before looking for the
  	block size.  If no section data present, infer size of section header.
  
@@ -700,7 +700,7 @@
  GCC_INCLUDE = -I$(shell $(CC) -print-file-name=include)
 --- elfutils/libelf/Makefile.in
 +++ elfutils/libelf/Makefile.in
-@@ -40,7 +40,7 @@ PRE_UNINSTALL = :
+@@ -38,7 +38,7 @@ PRE_UNINSTALL = :
  POST_UNINSTALL = :
  build_triplet = @build@
  host_triplet = @host@
@@ -709,7 +709,7 @@
  @MUDFLAP_FALSE@noinst_PROGRAMS = $(am__EXEEXT_1)
  @MUDFLAP_TRUE@am_libelf_pic_a_OBJECTS =
  subdir = libelf
-@@ -181,6 +181,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+@@ -179,6 +179,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
  INSTALL_SCRIPT = @INSTALL_SCRIPT@
  INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
  LDFLAGS = @LDFLAGS@
@@ -717,7 +717,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -216,6 +217,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+@@ -214,6 +215,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
  TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = 1
@@ -725,7 +725,7 @@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@
  ac_ct_CC = @ac_ct_CC@
-@@ -258,10 +260,10 @@ sharedstatedir = @sharedstatedir@
+@@ -256,10 +258,10 @@ sharedstatedir = @sharedstatedir@
  sysconfdir = @sysconfdir@
  target_alias = @target_alias@
  @MUDFLAP_FALSE@AM_CFLAGS = $(am__append_1) -Wall -Wshadow -Werror \
@@ -776,7 +776,15 @@
  ac_ct_CC = @ac_ct_CC@
 --- elfutils/src/ChangeLog
 +++ elfutils/src/ChangeLog
-@@ -261,6 +261,11 @@
+@@ -1,3 +1,7 @@
++2006-04-05  Roland McGrath  <roland@redhat.com>
++
++	* strings.c (MAP_POPULATE): Define to 0 if undefined.
++
+ 2006-06-12  Ulrich Drepper  <drepper@redhat.com>
+ 
+ 	* ldgeneric.c (ld_generic_generate_sections): Don't create .interp
+@@ -346,6 +350,11 @@
  	* readelf.c (print_debug_loc_section): Fix indentation for larger
  	address size.
  
@@ -824,7 +832,7 @@
  INCLUDES = -I$(srcdir) -I$(srcdir)/../libelf -I$(srcdir)/../libebl \
 --- elfutils/src/Makefile.in
 +++ elfutils/src/Makefile.in
-@@ -192,6 +192,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+@@ -190,6 +190,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
  INSTALL_SCRIPT = @INSTALL_SCRIPT@
  INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
  LDFLAGS = @LDFLAGS@
@@ -832,7 +840,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -227,6 +228,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+@@ -225,6 +226,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
  TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = @VERSION@
@@ -840,7 +848,7 @@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@ -d
  ac_ct_CC = @ac_ct_CC@
-@@ -271,12 +273,12 @@ target_alias = @target_alias@
+@@ -269,12 +271,12 @@ target_alias = @target_alias@
  @MUDFLAP_FALSE@AM_CFLAGS = -Wall -Wshadow -std=gnu99 \
  @MUDFLAP_FALSE@	$(native_ld_cflags) $(if \
  @MUDFLAP_FALSE@	$($(*F)_no_Werror),,-Werror) $(if \
@@ -855,6 +863,19 @@
  @MUDFLAP_TRUE@	$($(*F)_no_Wformat),,-Wformat=2)
  INCLUDES = -I$(srcdir) -I$(srcdir)/../libelf -I$(srcdir)/../libebl \
  	   -I$(srcdir)/../libdw -I$(srcdir)/../libdwfl \
+--- elfutils/src/strings.c
++++ elfutils/src/strings.c
+@@ -51,6 +51,10 @@
+ 
+ #include <system.h>
+ 
++#ifndef MAP_POPULATE
++# define MAP_POPULATE 0
++#endif
++
+ 
+ /* Prototypes of local functions.  */
+ static int read_fd (int fd, const char *fname, off64_t fdlen);
 --- elfutils/src/strip.c
 +++ elfutils/src/strip.c
 @@ -52,6 +52,12 @@
@@ -941,7 +962,7 @@
  endif
 --- elfutils/tests/Makefile.in
 +++ elfutils/tests/Makefile.in
-@@ -289,6 +289,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+@@ -287,6 +287,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
  INSTALL_SCRIPT = @INSTALL_SCRIPT@
  INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
  LDFLAGS = @LDFLAGS@
@@ -949,7 +970,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -324,6 +325,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+@@ -322,6 +323,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
  TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = @VERSION@
@@ -957,7 +978,7 @@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@
  ac_ct_CC = @ac_ct_CC@
-@@ -365,10 +367,10 @@ sbindir = @sbindir@
+@@ -363,10 +365,10 @@ sbindir = @sbindir@
  sharedstatedir = @sharedstatedir@
  sysconfdir = @sysconfdir@
  target_alias = @target_alias@
