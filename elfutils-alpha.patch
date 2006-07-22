@@ -1,7 +1,6 @@
 2006-04-16  Jakub Bogusz  <qboosh at pld-linux dot org>
 
 	* src/elflint.c (valid_e_machine) Add EM_ALPHA to valid machines.
-	  (check_hash): Support hash bucket size of 8 on alpha and s390x.
 	  (check_sections): Support arch-specific section flags.
 	* libelf/elf32_getshdr.c: Handle unaligned section header with same
           endianess properly.
@@ -20,89 +19,7 @@
    };
  #define nvalid_e_machine \
    (sizeof (valid_e_machine) / sizeof (valid_e_machine[0]))
-@@ -1664,6 +1664,16 @@
- section [%2d] '%s': hash table not for dynamic symbol table\n"),
- 	   idx, section_name (ebl, idx));
- 
-+  bool bighash = 
-+    (ehdr->e_machine == EM_ALPHA) ||
-+      ((ehdr->e_machine == EM_S390) && (ehdr->e_ident[EI_CLASS] == ELFCLASS64));
-+
-+  if (bighash) {
-+    if (shdr->sh_entsize != 8) /* alpha and s390x use non-standard hash bucket size of 8 */
-+      ERROR (gettext ("\
-+section [%2d] '%s': entry size is not 8\n"),
-+	     idx, section_name (ebl, idx));
-+  } else
-   if (shdr->sh_entsize != sizeof (Elf32_Word))
-     ERROR (gettext ("\
- section [%2d] '%s': entry size does not match Elf32_Word\n"),
-@@ -1681,8 +1691,15 @@
-       return;
-     }
- 
--  Elf32_Word nbucket = ((Elf32_Word *) data->d_buf)[0];
--  Elf32_Word nchain = ((Elf32_Word *) data->d_buf)[1];
-+  uint64_t nbucket, nchain;
-+
-+  if (bighash) {
-+    nbucket = ((Elf64_Xword *) data->d_buf)[0];
-+    nchain = ((Elf64_Xword *) data->d_buf)[1];
-+  } else {
-+    nbucket = ((Elf32_Word *) data->d_buf)[0];
-+    nchain = ((Elf32_Word *) data->d_buf)[1];
-+  }
- 
-   if (shdr->sh_size < (2 + nbucket + nchain) * shdr->sh_entsize)
-     ERROR (gettext ("\
-@@ -1694,29 +1711,41 @@
-     {
-       size_t symsize = symshdr->sh_size / symshdr->sh_entsize;
-       size_t cnt;
--      Elf32_Word *buf, *end;
-+      void *buf, *end;
-+      uint64_t val;
- 
-       if (nchain < symshdr->sh_size / symshdr->sh_entsize)
- 	ERROR (gettext ("section [%2d] '%s': chain array not large enough\n"),
- 	       idx, section_name (ebl, idx));
- 
-+      if (bighash) {
-+        buf = ((Elf64_Xword *) data->d_buf) + 2;
-+        end = (Elf64_Xword *) ((char *) data->d_buf + shdr->sh_size);
-+      } else {
-       buf = ((Elf32_Word *) data->d_buf) + 2;
-       end = (Elf32_Word *) ((char *) data->d_buf + shdr->sh_size);
--      for (cnt = 2; cnt < 2 + nbucket; ++cnt)
-+      }
-+      for (cnt = 2; cnt < 2 + nbucket; ++cnt) {
- 	if (buf >= end)
- 	  return;
--	else if (*buf++ >= symsize)
-+	val = bighash ? *(Elf64_Xword *)buf : *(Elf32_Word *)buf;
-+	if (val >= symsize)
- 	  ERROR (gettext ("\
- section [%2d] '%s': hash bucket reference %zu out of bounds\n"),
- 		 idx, section_name (ebl, idx), cnt - 2);
-+	buf += bighash ? 8 : sizeof(Elf32_Word);
-+      }
- 
--      for (; cnt < 2 + nbucket + nchain; ++cnt)
-+      for (; cnt < 2 + nbucket + nchain; ++cnt) {
- 	if (buf >= end)
- 	  return;
--	else if (*buf++ >= symsize)
-+	val = bighash ? *(Elf64_Xword *)buf : *(Elf32_Word *)buf;
-+	if (val >= symsize)
- 	  ERROR (gettext ("\
- section [%2d] '%s': hash chain reference %zu out of bounds\n"),
- 		 idx, section_name (ebl, idx), cnt - 2 - nbucket);
-+	  buf += bighash ? 8 : sizeof(Elf32_Word);
-+      }
-     }
- }
- 
-@@ -2744,9 +2773,30 @@
+@@ -2744,9 +2744,30 @@
  	       cnt, section_name (ebl, cnt),
  	       (int) shdr->sh_type);
  
@@ -156,16 +73,16 @@
  	}
        else if (likely (elf->fildes != -1))
  	{
---- elfutils-0.120/backends/alpha_init.c.orig	2006-04-05 00:17:36.000000000 +0200
-+++ elfutils-0.120/backends/alpha_init.c	2006-04-16 13:11:08.819218500 +0200
+--- elfutils-0.122/backends/alpha_init.c.orig	2006-07-05 06:09:28.000000000 +0200
++++ elfutils-0.122/backends/alpha_init.c	2006-07-22 10:34:36.417909750 +0200
 @@ -54,6 +54,7 @@
    HOOK (eh, dynamic_tag_check);
    HOOK (eh, reloc_simple_type);
    HOOK (eh, return_value_location);
 +  HOOK (eh, register_name);
+   eh->sysvhash_entrysize = sizeof (Elf64_Xword);
  
    return MODVERSION;
- }
 --- elfutils-0.120/backends/alpha_regs.c.orig	1970-01-01 01:00:00.000000000 +0100
 +++ elfutils-0.120/backends/alpha_regs.c	2006-04-16 13:10:15.947914250 +0200
 @@ -0,0 +1,81 @@
