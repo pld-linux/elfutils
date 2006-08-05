@@ -38,6 +38,9 @@ BuildRequires:	sharutils
 Requires:	%{name}-libelf = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+# fails to build with -Wl,-s
+%define		filterout_ld	(-Wl,)?-[sS] (-Wl,)?--strip.*
+
 %define		_programprefix	eu-
 
 %description
