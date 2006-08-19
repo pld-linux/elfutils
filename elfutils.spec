@@ -33,7 +33,7 @@ BuildRequires:	glibc-devel >= 6:2.3.4
 %endif
 BuildRequires:	libltdl-devel
 BuildRequires:	perl-tools-pod
-BuildRequires:	rpmbuild(macros) >= 1.213
+BuildRequires:	rpmbuild(macros) >= 1.315
 BuildRequires:	sharutils
 Requires:	%{name}-libelf = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
