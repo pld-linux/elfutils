@@ -20,6 +20,7 @@ Patch3:		%{name}-robustify.patch
 Patch4:		%{name}-align.patch
 Patch5:		%{name}-paxflags.patch
 Patch6:		%{name}-alpha.patch
+Patch7:		%{name}-sparc.patch
 #URL:		file://home/devel/drepper
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.7
@@ -34,6 +35,10 @@ BuildRequires:	libltdl-devel
 BuildRequires:	perl-tools-pod
 BuildRequires:	rpmbuild(macros) >= 1.315
 BuildRequires:	sharutils
+%if %{with tests} && %(test -d /proc/self ; echo $?)
+# native test needs proc (for libdwfl -p PID to work)
+BuildRequires:	MOUNTED_PROC
+%endif
 Requires:	%{name}-libelf = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -137,6 +142,7 @@ programowalny interfejs asemblera.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 %build
 #%%{__gettextize}
@@ -155,9 +161,6 @@ programowalny interfejs asemblera.
 %{__make}
 %{__make} -C debian/man
 %if %{with tests}
-# $ORIGIN used in RPATH needs /proc to work - workaround it using LD_LIBRARY_PATH;
-# ../libelf is needed also to use proper libelf by ../src/elflint during tests
-LD_LIBRARY_PATH=../libasm:../libdw:../libebl:../libelf \
 %{__make} -C tests check
 %endif
 
