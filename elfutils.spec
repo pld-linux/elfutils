@@ -94,6 +94,7 @@ udostêpnia programowalny interfejs asemblera.
 %package libelf
 Summary:	Library to read and write ELF files
 Summary(pl):	Biblioteki do odczytu i zapisu plików ELF
+License:	GPL v2 with OSL linking exception
 Group:		Libraries
 #Obsoletes:	libelf
 
