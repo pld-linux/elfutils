@@ -1,6 +1,6 @@
 2006-04-16  Jakub Bogusz  <qboosh at pld-linux dot org>
 
-	* src/elflint.c (valid_e_machine) Add EM_ALPHA to valid machines.
+	* src/elflint.c (valid_e_machine): Add EM_ALPHA to valid machines.
 	  (check_sections): Support arch-specific section flags.
 	* libelf/elf32_getshdr.c: Handle unaligned section header with same
           endianess properly.
