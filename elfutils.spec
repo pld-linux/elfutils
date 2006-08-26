@@ -7,7 +7,7 @@ Summary(pl):	Zestaw narzêdzi i bibliotek do obs³ugi skompilowanych obiektów
 Name:		elfutils
 Version:	0.123
 Release:	1
-License:	OSL 1.0 (http://www.opensource.org/licenses/osl.php)
+License:	GPL v2 with OSL linking exception
 Group:		Development/Tools
 # http://download.fedora.redhat.com/pub/fedora/linux/core/development/SRPMS/
 # abuse systemtap to get .tar.gz directly
@@ -94,7 +94,6 @@ udostêpnia programowalny interfejs asemblera.
 %package libelf
 Summary:	Library to read and write ELF files
 Summary(pl):	Biblioteki do odczytu i zapisu plików ELF
-License:	GPL v2 with OSL linking exception
 Group:		Libraries
 #Obsoletes:	libelf
 
