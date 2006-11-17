@@ -1,24 +1,14 @@
 2006-04-16  Jakub Bogusz  <qboosh at pld-linux dot org>
 
-	* src/elflint.c (valid_e_machine): Add EM_ALPHA to valid machines.
-	  (check_sections): Support arch-specific section flags.
+	* src/elflint.c (check_sections): Support arch-specific section flags.
 	* libelf/elf32_getshdr.c: Handle unaligned section header with same
           endianess properly.
-	* backends/alpha_init.c: Add register_name hook.
+	* backends/alpha_init.c: Add register_info hook.
 	* backends/alpha_regs.c: New file.
 	* backends/Makefile.am: Add alpha_regs.c.
 
 --- elfutils-0.116/src/elflint.c.orig	2005-11-26 10:28:00.000000000 +0100
 +++ elfutils-0.116/src/elflint.c	2005-11-26 14:01:18.000000000 +0100
-@@ -331,7 +331,7 @@
-     EM_68HC16, EM_68HC11, EM_68HC08, EM_68HC05, EM_SVX, EM_ST19, EM_VAX,
-     EM_CRIS, EM_JAVELIN, EM_FIREPATH, EM_ZSP, EM_MMIX, EM_HUANY, EM_PRISM,
-     EM_AVR, EM_FR30, EM_D10V, EM_D30V, EM_V850, EM_M32R, EM_MN10300,
--    EM_MN10200, EM_PJ, EM_OPENRISC, EM_ARC_A5, EM_XTENSA
-+    EM_MN10200, EM_PJ, EM_OPENRISC, EM_ARC_A5, EM_XTENSA, EM_ALPHA
-   };
- #define nvalid_e_machine \
-   (sizeof (valid_e_machine) / sizeof (valid_e_machine[0]))
 @@ -2744,9 +2744,30 @@
  	       cnt, section_name (ebl, cnt),
  	       (int) shdr->sh_type);
@@ -73,19 +63,19 @@
  	}
        else if (likely (elf->fildes != -1))
  	{
---- elfutils-0.122/backends/alpha_init.c.orig	2006-07-05 06:09:28.000000000 +0200
-+++ elfutils-0.122/backends/alpha_init.c	2006-07-22 10:34:36.417909750 +0200
+--- elfutils-0.124/backends/alpha_init.c.orig	2006-07-05 06:09:28.000000000 +0200
++++ elfutils-0.124/backends/alpha_init.c	2006-07-22 10:34:36.417909750 +0200
 @@ -54,6 +54,7 @@
    HOOK (eh, dynamic_tag_check);
    HOOK (eh, reloc_simple_type);
    HOOK (eh, return_value_location);
-+  HOOK (eh, register_name);
++  HOOK (eh, register_info);
    eh->sysvhash_entrysize = sizeof (Elf64_Xword);
  
    return MODVERSION;
---- elfutils-0.120/backends/alpha_regs.c.orig	1970-01-01 01:00:00.000000000 +0100
-+++ elfutils-0.120/backends/alpha_regs.c	2006-04-16 13:10:15.947914250 +0200
-@@ -0,0 +1,81 @@
+--- elfutils-0.124/backends/alpha_regs.c.orig	1970-01-01 01:00:00.000000000 +0100
++++ elfutils-0.124/backends/alpha_regs.c	2006-11-16 21:29:16.824457750 +0100
+@@ -0,0 +1,91 @@
 +/* Register names and numbers for ALPHA DWARF.
 +   Based on i386_regs.c, Copyright (C) 2005 Red Hat, Inc.
 +   This file is part of Red Hat elfutils.
@@ -116,14 +106,16 @@
 +#endif
 +
 +#include <string.h>
++#include <dwarf.h>
 +
 +#define BACKEND alpha_
 +#include "libebl_CPU.h"
 +
 +ssize_t
-+alpha_register_name (Ebl *ebl __attribute__ ((unused)),
++alpha_register_info (Ebl *ebl __attribute__ ((unused)),
 +		    int regno, char *name, size_t namelen,
-+		    const char **prefix, const char **setname)
++		    const char **prefix, const char **setname,
++		    int *bits, int *type)
 +{
 +  if (name == NULL)
 +    return 33;
@@ -132,12 +124,20 @@
 +    return -1;
 +
 +  *prefix = "%";
-+  if (regno < 32)
++  *bits = 64;
++  if (regno < 32) {
 +    *setname = "integer";
-+  else if (regno < 64)
++    if (regno == 26 || regno == 29 || regno == 30) /* ra,gp,sp in alpha ABI */
++      *type = DW_ATE_address;
++    else
++      *type = DW_ATE_signed;
++  } else if (regno < 64) {
 +    *setname = "fp";
-+  else
++    *type = DW_ATE_float;
++  } else {
 +    *setname = "pc";
++    *type = DW_ATE_address;
++  }
 +
 +  switch (regno)
 +    {
