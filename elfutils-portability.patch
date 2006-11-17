@@ -1,6 +1,6 @@
 --- elfutils/backends/ChangeLog
 +++ elfutils/backends/ChangeLog
-@@ -67,6 +67,11 @@
+@@ -123,6 +123,11 @@
  	* sparc_init.c: Likewise.
  	* x86_64_init.c: Likewise.
  
@@ -12,7 +12,7 @@
  2005-11-19  Roland McGrath  <roland@redhat.com>
  
  	* ppc64_reloc.def: REL30 -> ADDR30.
-@@ -89,6 +94,9 @@
+@@ -145,6 +150,9 @@
  	* Makefile.am (uninstall): Don't try to remove $(pkgincludedir).
  	(CLEANFILES): Add libebl_$(m).so.
  
@@ -40,7 +40,7 @@
  	     -std=gnu99
  INCLUDES = -I$(srcdir) -I$(top_srcdir)/libebl \
  	   -I$(top_srcdir)/libelf -I$(top_srcdir)/libdw \
-@@ -63,7 +65,7 @@ textrel_check = if readelf -d $@ | fgrep
+@@ -62,7 +64,7 @@ textrel_check = if readelf -d $@ | fgrep
  libebl_%.so: libebl_%_pic.a libebl_%.map $(libelf) $(libdw)
  	$(LINK) -shared -o $@ -Wl,--whole-archive,$<,--no-whole-archive \
  		-Wl,--version-script,$(word 2,$^) \
@@ -51,7 +51,7 @@
  libebl_%.map: Makefile
 --- elfutils/backends/Makefile.in
 +++ elfutils/backends/Makefile.in
-@@ -158,6 +158,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+@@ -159,6 +159,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
  INSTALL_SCRIPT = @INSTALL_SCRIPT@
  INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
  LDFLAGS = @LDFLAGS@
@@ -59,7 +59,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -195,6 +196,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+@@ -199,6 +200,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
  TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = @VERSION@
@@ -67,7 +67,7 @@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@
  ac_ct_CC = @ac_ct_CC@
-@@ -237,9 +239,9 @@ sharedstatedir = @sharedstatedir@
+@@ -241,9 +243,9 @@ sharedstatedir = @sharedstatedir@
  sysconfdir = @sysconfdir@
  target_alias = @target_alias@
  @MUDFLAP_FALSE@AM_CFLAGS = -fpic -Wall -Wshadow -Werror -Wunused \
@@ -79,7 +79,7 @@
  INCLUDES = -I$(srcdir) -I$(top_srcdir)/libebl \
  	   -I$(top_srcdir)/libelf -I$(top_srcdir)/libdw \
  	   -I$(top_srcdir)/lib -I..
-@@ -597,7 +599,7 @@ uninstall-am: uninstall-info-am
+@@ -604,7 +606,7 @@ uninstall-am: uninstall-info-am
  libebl_%.so: libebl_%_pic.a libebl_%.map $(libelf) $(libdw)
  	$(LINK) -shared -o $@ -Wl,--whole-archive,$<,--no-whole-archive \
  		-Wl,--version-script,$(word 2,$^) \
@@ -90,7 +90,7 @@
  libebl_%.map: Makefile
 --- elfutils/ChangeLog
 +++ elfutils/ChangeLog
-@@ -7,6 +7,10 @@
+@@ -11,6 +11,10 @@
  	* configure.ac: Add dummy automake conditional to get dependencies
  	for non-generic linker right.  See src/Makefile.am.
  
@@ -101,7 +101,7 @@
  2005-11-18  Roland McGrath  <roland@redhat.com>
  
  	* Makefile.am (DISTCHECK_CONFIGURE_FLAGS): New variable.
-@@ -54,6 +58,17 @@
+@@ -58,6 +62,17 @@
  	* Makefile.am (all_SUBDIRS): Add libdwfl.
  	* configure.ac: Write libdwfl/Makefile.
  
@@ -129,7 +129,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -121,6 +122,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+@@ -124,6 +125,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
  TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = @VERSION@
@@ -139,16 +139,16 @@
  ac_ct_CC = @ac_ct_CC@
 --- elfutils/configure
 +++ elfutils/configure
-@@ -276,7 +276,7 @@ PACKAGE_STRING='Red Hat elfutils 0.122'
+@@ -276,7 +276,7 @@ PACKAGE_STRING='Red Hat elfutils 0.124'
  PACKAGE_BUGREPORT='http://bugzilla.redhat.com/bugzilla/'
  
  ac_unique_file="libelf/libelf.h"
--ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM mkdir_p AWK SET_MAKE am__leading_dot AMTAR am__tar am__untar MODVERSION build build_cpu build_vendor build_os host host_cpu host_vendor host_os CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE RANLIB ac_ct_RANLIB YACC LEX LEXLIB LEX_OUTPUT_ROOT LOCALEDIR DATADIRNAME NATIVE_LD_TRUE NATIVE_LD_FALSE base_cpu NEVER_TRUE NEVER_FALSE MUDFLAP_TRUE MUDFLAP_FALSE GPROF_TRUE GPROF_FALSE GCOV_TRUE GCOV_FALSE BUILD_STATIC_TRUE BUILD_STATIC_FALSE TESTS_RPATH_TRUE TESTS_RPATH_FALSE LIBEBL_SUBDIR HAVE_LIBASM_TRUE HAVE_LIBASM_FALSE STANDALONE_TRUE STANDALONE_FALSE USE_NLS MKINSTALLDIRS MSGFMT GMSGFMT XGETTEXT MSGMERGE LIBOBJS LTLIBOBJS'
-+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM mkdir_p AWK SET_MAKE am__leading_dot AMTAR am__tar am__untar MODVERSION build build_cpu build_vendor build_os host host_cpu host_vendor host_os CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE RANLIB ac_ct_RANLIB YACC LEX LEXLIB LEX_OUTPUT_ROOT WEXTRA LD_AS_NEEDED LOCALEDIR DATADIRNAME NATIVE_LD_TRUE NATIVE_LD_FALSE base_cpu NEVER_TRUE NEVER_FALSE MUDFLAP_TRUE MUDFLAP_FALSE GPROF_TRUE GPROF_FALSE GCOV_TRUE GCOV_FALSE BUILD_STATIC_TRUE BUILD_STATIC_FALSE TESTS_RPATH_TRUE TESTS_RPATH_FALSE LIBEBL_SUBDIR HAVE_LIBASM_TRUE HAVE_LIBASM_FALSE STANDALONE_TRUE STANDALONE_FALSE USE_NLS MKINSTALLDIRS MSGFMT GMSGFMT XGETTEXT MSGMERGE LIBOBJS LTLIBOBJS'
+-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM mkdir_p AWK SET_MAKE am__leading_dot AMTAR am__tar am__untar MAINTAINER_MODE_TRUE MAINTAINER_MODE_FALSE MAINT MODVERSION build build_cpu build_vendor build_os host host_cpu host_vendor host_os CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE RANLIB ac_ct_RANLIB YACC LEX LEXLIB LEX_OUTPUT_ROOT LOCALEDIR DATADIRNAME NATIVE_LD_TRUE NATIVE_LD_FALSE base_cpu NEVER_TRUE NEVER_FALSE MUDFLAP_TRUE MUDFLAP_FALSE GPROF_TRUE GPROF_FALSE GCOV_TRUE GCOV_FALSE BUILD_STATIC_TRUE BUILD_STATIC_FALSE TESTS_RPATH_TRUE TESTS_RPATH_FALSE LIBEBL_SUBDIR HAVE_LIBASM_TRUE HAVE_LIBASM_FALSE STANDALONE_TRUE STANDALONE_FALSE USE_NLS MKINSTALLDIRS MSGFMT GMSGFMT XGETTEXT MSGMERGE LIBOBJS LTLIBOBJS'
++ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM mkdir_p AWK SET_MAKE am__leading_dot AMTAR am__tar am__untar MAINTAINER_MODE_TRUE MAINTAINER_MODE_FALSE MAINT MODVERSION build build_cpu build_vendor build_os host host_cpu host_vendor host_os CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE RANLIB ac_ct_RANLIB YACC LEX LEXLIB LEX_OUTPUT_ROOT WEXTRA LD_AS_NEEDED LOCALEDIR DATADIRNAME NATIVE_LD_TRUE NATIVE_LD_FALSE base_cpu NEVER_TRUE NEVER_FALSE MUDFLAP_TRUE MUDFLAP_FALSE GPROF_TRUE GPROF_FALSE GCOV_TRUE GCOV_FALSE BUILD_STATIC_TRUE BUILD_STATIC_FALSE TESTS_RPATH_TRUE TESTS_RPATH_FALSE LIBEBL_SUBDIR HAVE_LIBASM_TRUE HAVE_LIBASM_FALSE STANDALONE_TRUE STANDALONE_FALSE USE_NLS MKINSTALLDIRS MSGFMT GMSGFMT XGETTEXT MSGMERGE LIBOBJS LTLIBOBJS'
  ac_subst_files=''
  
  # Initialize some variables set by options.
-@@ -3385,6 +3385,92 @@ echo "$as_me: error: gcc with C99 suppor
+@@ -3411,6 +3411,92 @@ echo "$as_me: error: gcc with C99 suppor
  fi
  
  
@@ -241,7 +241,7 @@
  LOCALEDIR=$datadir
  
  cat >>confdefs.h <<_ACEOF
-@@ -5004,6 +5090,8 @@ s,@YACC@,$YACC,;t t
+@@ -5040,6 +5126,8 @@ s,@YACC@,$YACC,;t t
  s,@LEX@,$LEX,;t t
  s,@LEXLIB@,$LEXLIB,;t t
  s,@LEX_OUTPUT_ROOT@,$LEX_OUTPUT_ROOT,;t t
@@ -252,7 +252,7 @@
  s,@NATIVE_LD_TRUE@,$NATIVE_LD_TRUE,;t t
 --- elfutils/configure.ac
 +++ elfutils/configure.ac
-@@ -69,6 +69,34 @@ CFLAGS="$old_CFLAGS"])
+@@ -70,6 +70,34 @@ CFLAGS="$old_CFLAGS"])
  AS_IF([test "x$ac_cv_c99" != xyes],
        AC_MSG_ERROR([gcc with C99 support required]))
  
@@ -328,7 +328,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -140,6 +141,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+@@ -143,6 +144,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
  TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = @VERSION@
@@ -336,7 +336,7 @@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@
  ac_ct_CC = @ac_ct_CC@
-@@ -182,9 +184,9 @@ sharedstatedir = @sharedstatedir@
+@@ -185,9 +187,9 @@ sharedstatedir = @sharedstatedir@
  sysconfdir = @sysconfdir@
  target_alias = @target_alias@
  @MUDFLAP_FALSE@AM_CFLAGS = -fpic -Wall -Wshadow -Werror -Wunused \
@@ -350,7 +350,7 @@
  libeu_a_SOURCES = xstrndup.c xmalloc.c next_prime.c \
 --- elfutils/libasm/ChangeLog
 +++ elfutils/libasm/ChangeLog
-@@ -28,6 +28,11 @@
+@@ -32,6 +32,11 @@
  	* asm_error.c: Add new error ASM_E_IOERROR.
  	* libasmP.h: Add ASM_E_IOERROR definition.
  
@@ -389,7 +389,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -173,6 +174,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+@@ -176,6 +177,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
  TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = 1
@@ -397,7 +397,7 @@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@
  ac_ct_CC = @ac_ct_CC@
-@@ -215,9 +217,9 @@ sharedstatedir = @sharedstatedir@
+@@ -218,9 +220,9 @@ sharedstatedir = @sharedstatedir@
  sysconfdir = @sysconfdir@
  target_alias = @target_alias@
  @MUDFLAP_FALSE@AM_CFLAGS = -std=gnu99 -Wall -Wshadow -Werror -Wunused \
@@ -442,7 +442,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -136,6 +137,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+@@ -139,6 +140,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
  TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = @VERSION@
@@ -450,7 +450,7 @@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@
  ac_ct_CC = @ac_ct_CC@
-@@ -177,7 +179,7 @@ sbindir = @sbindir@
+@@ -180,7 +182,7 @@ sbindir = @sbindir@
  sharedstatedir = @sharedstatedir@
  sysconfdir = @sysconfdir@
  target_alias = @target_alias@
@@ -461,7 +461,7 @@
  libcpu_i386_a_SOURCES = i386_dis.c
 --- elfutils/libdw/ChangeLog
 +++ elfutils/libdw/ChangeLog
-@@ -305,6 +305,11 @@
+@@ -317,6 +317,11 @@
  
  2005-05-31  Roland McGrath  <roland@redhat.com>
  
@@ -502,7 +502,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -213,6 +214,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+@@ -216,6 +217,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
  TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = 1
@@ -510,7 +510,7 @@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@
  ac_ct_CC = @ac_ct_CC@
-@@ -255,9 +257,10 @@ sharedstatedir = @sharedstatedir@
+@@ -258,9 +260,10 @@ sharedstatedir = @sharedstatedir@
  sysconfdir = @sysconfdir@
  target_alias = @target_alias@
  @MUDFLAP_FALSE@AM_CFLAGS = $(am__append_1) -Wall -Werror -Wshadow \
@@ -525,7 +525,7 @@
  						       $(COMPILE)))
 --- elfutils/libdwfl/ChangeLog
 +++ elfutils/libdwfl/ChangeLog
-@@ -337,6 +337,11 @@
+@@ -358,6 +358,11 @@
  
  2005-07-21  Roland McGrath  <roland@redhat.com>
  
@@ -564,7 +564,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -173,6 +174,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+@@ -176,6 +177,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
  TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = 1
@@ -572,7 +572,7 @@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@
  ac_ct_CC = @ac_ct_CC@
-@@ -215,9 +217,9 @@ sharedstatedir = @sharedstatedir@
+@@ -218,9 +220,9 @@ sharedstatedir = @sharedstatedir@
  sysconfdir = @sysconfdir@
  target_alias = @target_alias@
  @MUDFLAP_FALSE@AM_CFLAGS = -Wall -Werror -Wshadow -Wunused -Wformat=2 \
@@ -586,7 +586,7 @@
  
 --- elfutils/libebl/ChangeLog
 +++ elfutils/libebl/ChangeLog
-@@ -437,6 +437,11 @@
+@@ -451,6 +451,11 @@
  	* Makefile.am (libebl_*_so_SOURCES): Set to $(*_SRCS) so dependency
  	tracking works right.
  
@@ -625,7 +625,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -168,6 +169,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+@@ -171,6 +172,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
  TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = 1
@@ -633,7 +633,7 @@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@
  ac_ct_CC = @ac_ct_CC@
-@@ -210,9 +212,9 @@ sharedstatedir = @sharedstatedir@
+@@ -213,9 +215,9 @@ sharedstatedir = @sharedstatedir@
  sysconfdir = @sysconfdir@
  target_alias = @target_alias@
  @MUDFLAP_FALSE@AM_CFLAGS = -fpic -Wall -Wshadow -Werror -Wunused \
@@ -647,7 +647,7 @@
  
 --- elfutils/libelf/ChangeLog
 +++ elfutils/libelf/ChangeLog
-@@ -165,6 +165,11 @@
+@@ -178,6 +178,11 @@
  	If section content hasn't been read yet, do it before looking for the
  	block size.  If no section data present, infer size of section header.
  
@@ -720,7 +720,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -216,6 +217,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+@@ -219,6 +220,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
  TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = 1
@@ -728,7 +728,7 @@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@
  ac_ct_CC = @ac_ct_CC@
-@@ -258,10 +260,10 @@ sharedstatedir = @sharedstatedir@
+@@ -261,10 +263,10 @@ sharedstatedir = @sharedstatedir@
  sysconfdir = @sysconfdir@
  target_alias = @target_alias@
  @MUDFLAP_FALSE@AM_CFLAGS = $(am__append_1) -Wall -Wshadow -Werror \
@@ -751,7 +751,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -119,6 +120,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+@@ -122,6 +123,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
  TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = @VERSION@
@@ -769,7 +769,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -143,6 +144,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+@@ -146,6 +147,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
  TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = @VERSION@
@@ -779,7 +779,18 @@
  ac_ct_CC = @ac_ct_CC@
 --- elfutils/src/ChangeLog
 +++ elfutils/src/ChangeLog
-@@ -53,6 +53,10 @@
+@@ -8,6 +8,10 @@
+ 	* elflint.c (valid_e_machine): Add EM_ALPHA.
+ 	Reported by Christian Aichinger <Greek0@gmx.net>.
+ 
++	* strings.c (map_file): Define POSIX_MADV_SEQUENTIAL to
++	MADV_SEQUENTIAL if undefined.  	Don't call posix_madvise
++	if neither is defined.
++
+ 2006-08-08  Ulrich Drepper  <drepper@redhat.com>
+ 
+ 	* elflint.c (check_dynamic): Don't require DT_HASH for DT_SYMTAB.
+@@ -84,6 +88,10 @@
  	* Makefile.am: Add hacks to create dependency files for non-generic
  	linker.
  
@@ -790,7 +801,7 @@
  2006-06-12  Ulrich Drepper  <drepper@redhat.com>
  
  	* ldgeneric.c (ld_generic_generate_sections): Don't create .interp
-@@ -401,6 +405,11 @@
+@@ -432,6 +440,11 @@
  	* readelf.c (print_debug_loc_section): Fix indentation for larger
  	address size.
  
@@ -846,7 +857,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -239,6 +240,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+@@ -242,6 +243,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
  TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = @VERSION@
@@ -854,7 +865,7 @@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@ -d
  ac_ct_CC = @ac_ct_CC@
-@@ -283,12 +285,12 @@ target_alias = @target_alias@
+@@ -286,12 +288,12 @@ target_alias = @target_alias@
  @MUDFLAP_FALSE@AM_CFLAGS = -Wall -Wshadow -std=gnu99 \
  @MUDFLAP_FALSE@	$(native_ld_cflags) $(if \
  @MUDFLAP_FALSE@	$($(*F)_no_Werror),,-Werror) $(if \
@@ -882,6 +893,20 @@
  
  /* Prototypes of local functions.  */
  static int read_fd (int fd, const char *fname, off64_t fdlen);
+@@ -491,8 +495,13 @@ map_file (int fd, off64_t start_off, off
+ 		    fd, start_off);
+       if (mem != MAP_FAILED)
+ 	{
++#if !defined POSIX_MADV_SEQUENTIAL && defined MADV_SEQUENTIAL
++# define POSIX_MADV_SEQUENTIAL MADV_SEQUENTIAL
++#endif
++#ifdef POSIX_MADV_SEQUENTIAL
+ 	  /* We will go through the mapping sequentially.  */
+ 	  (void) posix_madvise (mem, map_size, POSIX_MADV_SEQUENTIAL);
++#endif
+ 	  break;
+ 	}
+       if (errno != EINVAL && errno != ENOMEM)
 --- elfutils/src/strip.c
 +++ elfutils/src/strip.c
 @@ -52,6 +52,12 @@
@@ -936,7 +961,7 @@
  cannot set access and modification date of '%s'"), fname);
 --- elfutils/tests/ChangeLog
 +++ elfutils/tests/ChangeLog
-@@ -373,6 +373,11 @@
+@@ -405,6 +405,11 @@
  	* Makefile.am (TESTS): Add run-elflint-test.sh.
  	(EXTRA_DIST): Add run-elflint-test.sh and testfile18.bz2.
  
@@ -976,7 +1001,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -324,6 +325,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+@@ -327,6 +328,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
  TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = @VERSION@
@@ -984,7 +1009,7 @@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@
  ac_ct_CC = @ac_ct_CC@
-@@ -365,10 +367,10 @@ sbindir = @sbindir@
+@@ -368,10 +370,10 @@ sbindir = @sbindir@
  sharedstatedir = @sharedstatedir@
  sysconfdir = @sysconfdir@
  target_alias = @target_alias@
