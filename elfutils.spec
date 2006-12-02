@@ -6,7 +6,7 @@ Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl):	Zestaw narzêdzi i bibliotek do obs³ugi skompilowanych obiektów
 Name:		elfutils
 Version:	0.124
-Release:	1
+Release:	2
 License:	GPL v2 with OSL linking exception
 Group:		Development/Tools
 # http://download.fedora.redhat.com/pub/fedora/linux/core/development/SRPMS/
@@ -22,6 +22,7 @@ Patch5:		%{name}-paxflags.patch
 Patch6:		%{name}-alpha.patch
 Patch7:		%{name}-sparc.patch
 Patch8:		%{name}-strip-copy-symtab.patch
+Patch9:		%{name}-gcc4.patch
 #URL:		file://home/devel/drepper
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.7
@@ -145,6 +146,7 @@ programowalny interfejs asemblera.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 
 # strip-test5 needs adjusting for strip-copy-symtab patch (already in FC, but not worth bothering)
 # elflint-self fails with recent binutils (generates some 0-sized symbols addressed outside eh_frame section)
