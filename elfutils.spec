@@ -3,7 +3,7 @@
 %bcond_without	tests	# do not perform tests
 #
 Summary:	A collection of utilities and DSOs to handle compiled objects
-Summary(pl):	Zestaw narzêdzi i bibliotek do obs³ugi skompilowanych obiektów
+Summary(pl.UTF-8):   Zestaw narzÄ™dzi i bibliotek do obsÅ‚ugi skompilowanych obiektÃ³w
 Name:		elfutils
 Version:	0.124
 Release:	3
@@ -58,18 +58,18 @@ for well-formed ELF files). Also included are numerous helper
 libraries which implement DWARF, ELF, and machine-specific ELF
 handling.
 
-%description -l pl
-Elfutils to zestaw narzêdzi, sk³adaj±cy siê z ld (linkera), nm (do
-listowania symboli z plików obiektów), size (do listowania rozmiarów
-sekcji plików obiektów lub archiwów), strip (do usuwania symboli),
-readline (do ogl±dania surowych struktur plików ELF) oraz elflint (do
-sprawdzania poprawno¶ci plików ELF). Do³±czone s± tak¿e liczne
-biblioteki pomocnicze z zaimplementowan± obs³ug± DWARF, ELF i ELF
+%description -l pl.UTF-8
+Elfutils to zestaw narzÄ™dzi, skÅ‚adajÄ…cy siÄ™ z ld (linkera), nm (do
+listowania symboli z plikÃ³w obiektÃ³w), size (do listowania rozmiarÃ³w
+sekcji plikÃ³w obiektÃ³w lub archiwÃ³w), strip (do usuwania symboli),
+readline (do oglÄ…dania surowych struktur plikÃ³w ELF) oraz elflint (do
+sprawdzania poprawnoÅ›ci plikÃ³w ELF). DoÅ‚Ä…czone sÄ… takÅ¼e liczne
+biblioteki pomocnicze z zaimplementowanÄ… obsÅ‚ugÄ… DWARF, ELF i ELF
 specyficznych dla architektury.
 
 %package devel
 Summary:	Development part of libraries to handle compiled objects
-Summary(pl):	Czê¶æ programistyczna bibliotek do obs³ugi skompilowanych obiektów
+Summary(pl.UTF-8):   CzÄ™Å›Ä‡ programistyczna bibliotek do obsÅ‚ugi skompilowanych obiektÃ³w
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Obsoletes:	libelf-devel
@@ -83,18 +83,18 @@ higher-level ELF access functionality. libdwarf provides access to the
 DWARF debugging information. libasm provides a programmable assembler
 interface.
 
-%description devel -l pl
-Pakiet elfutils-devel zawiera czê¶æ programistyczn± bibliotek do
-tworzenia aplikacji obs³uguj±cych skompilowane obiekty. libelf pozwala
-na dostêp do wnêtrzno¶ci formatu pliku obiektowego ELF, co pozwala na
-ogl±danie ró¿nych sekcji pliku ELF. libebl udostêpnia funkcjonalno¶æ
-dostêpu do plików ELF trochê wy¿szego poziomu. libdwarf pozwala na
-dostêp do informacji DWARF s³u¿±cych do odpluskwiania. libasm
-udostêpnia programowalny interfejs asemblera.
+%description devel -l pl.UTF-8
+Pakiet elfutils-devel zawiera czÄ™Å›Ä‡ programistycznÄ… bibliotek do
+tworzenia aplikacji obsÅ‚ugujÄ…cych skompilowane obiekty. libelf pozwala
+na dostÄ™p do wnÄ™trznoÅ›ci formatu pliku obiektowego ELF, co pozwala na
+oglÄ…danie rÃ³Å¼nych sekcji pliku ELF. libebl udostÄ™pnia funkcjonalnoÅ›Ä‡
+dostÄ™pu do plikÃ³w ELF trochÄ™ wyÅ¼szego poziomu. libdwarf pozwala na
+dostÄ™p do informacji DWARF sÅ‚uÅ¼Ä…cych do odpluskwiania. libasm
+udostÄ™pnia programowalny interfejs asemblera.
 
 %package libelf
 Summary:	Library to read and write ELF files
-Summary(pl):	Biblioteki do odczytu i zapisu plików ELF
+Summary(pl.UTF-8):   Biblioteki do odczytu i zapisu plikÃ³w ELF
 Group:		Libraries
 #Obsoletes:	libelf
 
@@ -104,15 +104,15 @@ writing ELF files on a high level. Third party programs depend on this
 package to read internals of ELF files. The programs of the elfutils
 package use it also to generate new ELF files.
 
-%description libelf -l pl
-Pakiet elfutils-libelf udostêpnia bibliotekê dzielon±, która pozwala
-na wysokopoziomowe czytanie i zapisywanie plików ELF. Inne programy
-wymagaj± tego pakietu, aby odczytywaæ zawarto¶æ plików ELF. Programy z
-pakietu elfutils u¿ywaj± jej tak¿e do generowania nowych plików ELF.
+%description libelf -l pl.UTF-8
+Pakiet elfutils-libelf udostÄ™pnia bibliotekÄ™ dzielonÄ…, ktÃ³ra pozwala
+na wysokopoziomowe czytanie i zapisywanie plikÃ³w ELF. Inne programy
+wymagajÄ… tego pakietu, aby odczytywaÄ‡ zawartoÅ›Ä‡ plikÃ³w ELF. Programy z
+pakietu elfutils uÅ¼ywajÄ… jej takÅ¼e do generowania nowych plikÃ³w ELF.
 
 %package static
 Summary:	Static libraries to handle compiled objects
-Summary(pl):	Statyczne biblioteki do obs³ugi skompilowanych obiektów
+Summary(pl.UTF-8):   Statyczne biblioteki do obsÅ‚ugi skompilowanych obiektÃ³w
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Obsoletes:	libelf-static
@@ -126,13 +126,13 @@ ELF access functionality. libdwarf provides access to the DWARF
 debugging information. libasm provides a programmable assembler
 interface.
 
-%description static -l pl
+%description static -l pl.UTF-8
 Pakiet elfutils-static zawiera statyczne biblioteki do tworzenia
-aplikacji obs³uguj±cych skompilowane obiekty. libelf pozwala na dostêp
-do wnêtrzno¶ci formatu pliku obiektowego ELF, co pozwala na ogl±danie
-ró¿nych sekcji pliku ELF. libebl udostêpnia funkcjonalno¶æ dostêpu do
-plików ELF trochê wy¿szego poziomu. libdwarf pozwala na dostêp do
-informacji DWARF s³u¿±cych do odpluskwiania. libasm udostêpnia
+aplikacji obsÅ‚ugujÄ…cych skompilowane obiekty. libelf pozwala na dostÄ™p
+do wnÄ™trznoÅ›ci formatu pliku obiektowego ELF, co pozwala na oglÄ…danie
+rÃ³Å¼nych sekcji pliku ELF. libebl udostÄ™pnia funkcjonalnoÅ›Ä‡ dostÄ™pu do
+plikÃ³w ELF trochÄ™ wyÅ¼szego poziomu. libdwarf pozwala na dostÄ™p do
+informacji DWARF sÅ‚uÅ¼Ä…cych do odpluskwiania. libasm udostÄ™pnia
 programowalny interfejs asemblera.
 
 %prep
