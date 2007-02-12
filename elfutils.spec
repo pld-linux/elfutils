@@ -3,7 +3,7 @@
 %bcond_without	tests	# do not perform tests
 #
 Summary:	A collection of utilities and DSOs to handle compiled objects
-Summary(pl.UTF-8):   Zestaw narzędzi i bibliotek do obsługi skompilowanych obiektów
+Summary(pl.UTF-8):	Zestaw narzędzi i bibliotek do obsługi skompilowanych obiektów
 Name:		elfutils
 Version:	0.124
 Release:	3
@@ -69,7 +69,7 @@ specyficznych dla architektury.
 
 %package devel
 Summary:	Development part of libraries to handle compiled objects
-Summary(pl.UTF-8):   Część programistyczna bibliotek do obsługi skompilowanych obiektów
+Summary(pl.UTF-8):	Część programistyczna bibliotek do obsługi skompilowanych obiektów
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Obsoletes:	libelf-devel
@@ -94,7 +94,7 @@ udostępnia programowalny interfejs asemblera.
 
 %package libelf
 Summary:	Library to read and write ELF files
-Summary(pl.UTF-8):   Biblioteki do odczytu i zapisu plików ELF
+Summary(pl.UTF-8):	Biblioteki do odczytu i zapisu plików ELF
 Group:		Libraries
 #Obsoletes:	libelf
 
@@ -112,7 +112,7 @@ pakietu elfutils używają jej także do generowania nowych plików ELF.
 
 %package static
 Summary:	Static libraries to handle compiled objects
-Summary(pl.UTF-8):   Statyczne biblioteki do obsługi skompilowanych obiektów
+Summary(pl.UTF-8):	Statyczne biblioteki do obsługi skompilowanych obiektów
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Obsoletes:	libelf-static
