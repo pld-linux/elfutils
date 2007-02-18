@@ -5,14 +5,14 @@
 Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl.UTF-8):	Zestaw narzędzi i bibliotek do obsługi skompilowanych obiektów
 Name:		elfutils
-Version:	0.124
-Release:	3
+Version:	0.125
+Release:	1
 License:	GPL v2 with OSL linking exception
 Group:		Development/Tools
 # http://download.fedora.redhat.com/pub/fedora/linux/core/development/SRPMS/
 # abuse systemtap to get .tar.gz directly
 Source0:	ftp://sources.redhat.com/pub/systemtap/elfutils/%{name}-%{version}.tar.gz
-# Source0-md5:	f77efb19fd90821ab103533a99de0d4a
+# Source0-md5:	b489f937b41e41e23a2e580c8bfd9e08
 Patch0:		%{name}-pl.po.patch
 Patch1:		%{name}-debian-manpages.patch
 Patch2:		%{name}-portability.patch
@@ -149,8 +149,8 @@ programowalny interfejs asemblera.
 %patch9 -p1
 
 # strip-test5 needs adjusting for strip-copy-symtab patch (already in FC, but not worth bothering)
-# elflint-self fails with recent binutils (generates some 0-sized symbols addressed outside eh_frame section)
-sed -i -e 's/ run-strip-test5\.sh / /;s/ run-elflint-self\.sh / /' tests/Makefile.am
+# dwfl-bug-addr-overflow sources are missing in tar
+sed -i -e 's/ run-strip-test5\.sh / /;s/dwfl-bug-addr-overflow/$(nil)/' tests/Makefile.am
 
 %build
 #%%{__gettextize}
