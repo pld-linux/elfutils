@@ -1,6 +1,6 @@
 --- elfutils/backends/ChangeLog
 +++ elfutils/backends/ChangeLog
-@@ -123,6 +123,11 @@
+@@ -130,6 +130,11 @@
  	* sparc_init.c: Likewise.
  	* x86_64_init.c: Likewise.
  
@@ -12,7 +12,7 @@
  2005-11-19  Roland McGrath  <roland@redhat.com>
  
  	* ppc64_reloc.def: REL30 -> ADDR30.
-@@ -145,6 +150,9 @@
+@@ -152,6 +157,9 @@
  	* Makefile.am (uninstall): Don't try to remove $(pkgincludedir).
  	(CLEANFILES): Add libebl_$(m).so.
  
@@ -90,7 +90,7 @@
  libebl_%.map: Makefile
 --- elfutils/ChangeLog
 +++ elfutils/ChangeLog
-@@ -11,6 +11,10 @@
+@@ -15,6 +15,10 @@
  	* configure.ac: Add dummy automake conditional to get dependencies
  	for non-generic linker right.  See src/Makefile.am.
  
@@ -101,7 +101,7 @@
  2005-11-18  Roland McGrath  <roland@redhat.com>
  
  	* Makefile.am (DISTCHECK_CONFIGURE_FLAGS): New variable.
-@@ -58,6 +62,17 @@
+@@ -62,6 +66,17 @@
  	* Makefile.am (all_SUBDIRS): Add libdwfl.
  	* configure.ac: Write libdwfl/Makefile.
  
@@ -139,7 +139,7 @@
  ac_ct_CC = @ac_ct_CC@
 --- elfutils/configure
 +++ elfutils/configure
-@@ -276,7 +276,7 @@ PACKAGE_STRING='Red Hat elfutils 0.124'
+@@ -276,7 +276,7 @@ PACKAGE_STRING='Red Hat elfutils 0.126'
  PACKAGE_BUGREPORT='http://bugzilla.redhat.com/bugzilla/'
  
  ac_unique_file="libelf/libelf.h"
@@ -461,7 +461,7 @@
  libcpu_i386_a_SOURCES = i386_dis.c
 --- elfutils/libdw/ChangeLog
 +++ elfutils/libdw/ChangeLog
-@@ -317,6 +317,11 @@
+@@ -329,6 +329,11 @@
  
  2005-05-31  Roland McGrath  <roland@redhat.com>
  
@@ -525,7 +525,7 @@
  						       $(COMPILE)))
 --- elfutils/libdwfl/ChangeLog
 +++ elfutils/libdwfl/ChangeLog
-@@ -358,6 +358,11 @@
+@@ -409,6 +409,11 @@
  
  2005-07-21  Roland McGrath  <roland@redhat.com>
  
@@ -586,7 +586,7 @@
  
 --- elfutils/libebl/ChangeLog
 +++ elfutils/libebl/ChangeLog
-@@ -451,6 +451,11 @@
+@@ -460,6 +460,11 @@
  	* Makefile.am (libebl_*_so_SOURCES): Set to $(*_SRCS) so dependency
  	tracking works right.
  
@@ -617,7 +617,7 @@
  INCLUDES = -I$(srcdir) -I$(top_srcdir)/libelf -I$(top_srcdir)/libdw \
 --- elfutils/libebl/Makefile.in
 +++ elfutils/libebl/Makefile.in
-@@ -131,6 +131,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+@@ -132,6 +132,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
  INSTALL_SCRIPT = @INSTALL_SCRIPT@
  INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
  LDFLAGS = @LDFLAGS@
@@ -625,7 +625,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -171,6 +172,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+@@ -172,6 +173,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
  TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = 1
@@ -633,7 +633,7 @@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@
  ac_ct_CC = @ac_ct_CC@
-@@ -213,9 +215,9 @@ sharedstatedir = @sharedstatedir@
+@@ -214,9 +216,9 @@ sharedstatedir = @sharedstatedir@
  sysconfdir = @sysconfdir@
  target_alias = @target_alias@
  @MUDFLAP_FALSE@AM_CFLAGS = -fpic -Wall -Wshadow -Werror -Wunused \
@@ -647,7 +647,7 @@
  
 --- elfutils/libelf/ChangeLog
 +++ elfutils/libelf/ChangeLog
-@@ -178,6 +178,11 @@
+@@ -206,6 +206,11 @@
  	If section content hasn't been read yet, do it before looking for the
  	block size.  If no section data present, infer size of section header.
  
@@ -779,7 +779,7 @@
  ac_ct_CC = @ac_ct_CC@
 --- elfutils/src/ChangeLog
 +++ elfutils/src/ChangeLog
-@@ -8,6 +8,10 @@
+@@ -76,6 +76,10 @@
  	* elflint.c (valid_e_machine): Add EM_ALPHA.
  	Reported by Christian Aichinger <Greek0@gmx.net>.
  
@@ -790,7 +790,7 @@
  2006-08-08  Ulrich Drepper  <drepper@redhat.com>
  
  	* elflint.c (check_dynamic): Don't require DT_HASH for DT_SYMTAB.
-@@ -84,6 +88,10 @@
+@@ -152,6 +156,10 @@
  	* Makefile.am: Add hacks to create dependency files for non-generic
  	linker.
  
@@ -801,7 +801,7 @@
  2006-06-12  Ulrich Drepper  <drepper@redhat.com>
  
  	* ldgeneric.c (ld_generic_generate_sections): Don't create .interp
-@@ -432,6 +440,11 @@
+@@ -500,6 +508,11 @@
  	* readelf.c (print_debug_loc_section): Fix indentation for larger
  	address size.
  
@@ -844,12 +844,12 @@
  	     $(if $($(*F)_no_Werror),,-Werror) \
 -	     $(if $($(*F)_no_Wunused),,-Wunused -Wextra) \
 +	     $(if $($(*F)_no_Wunused),,-Wunused $(WEXTRA)) \
- 	     $(if $($(*F)_no_Wformat),,-Wformat=2)
+ 	     $(if $($(*F)_no_Wformat),,-Wformat=2) $(CFLAGS_$(*F))
  
  INCLUDES = -I$(srcdir) -I$(srcdir)/../libelf -I$(srcdir)/../libebl \
 --- elfutils/src/Makefile.in
 +++ elfutils/src/Makefile.in
-@@ -202,6 +202,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+@@ -212,6 +212,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
  INSTALL_SCRIPT = @INSTALL_SCRIPT@
  INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
  LDFLAGS = @LDFLAGS@
@@ -857,7 +857,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -242,6 +243,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+@@ -252,6 +253,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
  TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = @VERSION@
@@ -865,19 +865,20 @@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@ -d
  ac_ct_CC = @ac_ct_CC@
-@@ -286,12 +288,12 @@ target_alias = @target_alias@
+@@ -296,13 +298,13 @@ target_alias = @target_alias@
  @MUDFLAP_FALSE@AM_CFLAGS = -Wall -Wshadow -std=gnu99 \
  @MUDFLAP_FALSE@	$(native_ld_cflags) $(if \
  @MUDFLAP_FALSE@	$($(*F)_no_Werror),,-Werror) $(if \
 -@MUDFLAP_FALSE@	$($(*F)_no_Wunused),,-Wunused -Wextra) $(if \
 +@MUDFLAP_FALSE@	$($(*F)_no_Wunused),,-Wunused $(WEXTRA)) $(if \
- @MUDFLAP_FALSE@	$($(*F)_no_Wformat),,-Wformat=2)
+ @MUDFLAP_FALSE@	$($(*F)_no_Wformat),,-Wformat=2) \
+ @MUDFLAP_FALSE@	$(CFLAGS_$(*F))
  @MUDFLAP_TRUE@AM_CFLAGS = -fmudflap -Wall -Wshadow -std=gnu99 \
  @MUDFLAP_TRUE@	$(native_ld_cflags) $(if \
  @MUDFLAP_TRUE@	$($(*F)_no_Werror),,-Werror) $(if \
 -@MUDFLAP_TRUE@	$($(*F)_no_Wunused),,-Wunused -Wextra) $(if \
 +@MUDFLAP_TRUE@	$($(*F)_no_Wunused),,-Wunused $(WEXTRA)) $(if \
- @MUDFLAP_TRUE@	$($(*F)_no_Wformat),,-Wformat=2)
+ @MUDFLAP_TRUE@	$($(*F)_no_Wformat),,-Wformat=2) $(CFLAGS_$(*F))
  INCLUDES = -I$(srcdir) -I$(srcdir)/../libelf -I$(srcdir)/../libebl \
  	   -I$(srcdir)/../libdw -I$(srcdir)/../libdwfl \
 --- elfutils/src/strings.c
@@ -961,7 +962,7 @@
  cannot set access and modification date of '%s'"), fname);
 --- elfutils/tests/ChangeLog
 +++ elfutils/tests/ChangeLog
-@@ -405,6 +405,11 @@
+@@ -449,6 +449,11 @@
  	* Makefile.am (TESTS): Add run-elflint-test.sh.
  	(EXTRA_DIST): Add run-elflint-test.sh and testfile18.bz2.
  
@@ -993,7 +994,7 @@
  endif
 --- elfutils/tests/Makefile.in
 +++ elfutils/tests/Makefile.in
-@@ -287,6 +287,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+@@ -297,6 +297,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
  INSTALL_SCRIPT = @INSTALL_SCRIPT@
  INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
  LDFLAGS = @LDFLAGS@
@@ -1001,7 +1002,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -327,6 +328,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
+@@ -337,6 +338,7 @@ TESTS_RPATH_FALSE = @TESTS_RPATH_FALSE@
  TESTS_RPATH_TRUE = @TESTS_RPATH_TRUE@
  USE_NLS = @USE_NLS@
  VERSION = @VERSION@
@@ -1009,7 +1010,7 @@
  XGETTEXT = @XGETTEXT@
  YACC = @YACC@
  ac_ct_CC = @ac_ct_CC@
-@@ -368,10 +370,10 @@ sbindir = @sbindir@
+@@ -378,10 +380,10 @@ sbindir = @sbindir@
  sharedstatedir = @sharedstatedir@
  sysconfdir = @sysconfdir@
  target_alias = @target_alias@

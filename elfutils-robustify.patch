@@ -17,7 +17,7 @@ libelf/
 	* elf_getshstrndx.c (elf_getshstrndx): Add elf->start_offset to
 	elf->map_address.  Check if first section header fits into object's
 	bounds.
-	* elf32_getshdr.c (elfw2(LIBELFBITS,getshdr)): Fix comment pasto.
+	* elf32_getshdr.c (elfw2(LIBELFBITS,getshdr)):
 	Check if section header table fits into object's bounds.
 	* elf_begin.c (get_shnum): Ensure section headers fits into
 	object's bounds.
@@ -84,9 +84,9 @@ src/
  	  /* All the data is already mapped.  Use it.  */
  	  if (ehdr->e_ident[EI_DATA] == MY_ELFDATA
  	      && (ALLOW_UNALIGNED
---- elfutils-0.122/libelf/elf32_getshdr.c
-+++ elfutils-0.122/libelf/elf32_getshdr.c
-@@ -101,11 +101,12 @@ elfw2(LIBELFBITS,getshdr) (scn)
+--- elfutils-0.126/libelf/elf32_getshdr.c
++++ elfutils-0.126/libelf/elf32_getshdr.c
+@@ -101,7 +101,8 @@ elfw2(LIBELFBITS,getshdr) (scn)
  	goto out;
  
        size_t shnum;
@@ -96,15 +96,10 @@ src/
  	goto out;
        size_t size = shnum * sizeof (ElfW2(LIBELFBITS,Shdr));
  
--      /* Allocate memory for the program headers.  We know the number
-+      /* Allocate memory for the section headers.  We know the number
- 	 of entries from the ELF header.  */
-       ElfW2(LIBELFBITS,Shdr) *shdr = elf->state.ELFW(elf,LIBELFBITS).shdr =
- 	(ElfW2(LIBELFBITS,Shdr) *) malloc (size);
-@@ -128,6 +129,16 @@ elfw2(LIBELFBITS,getshdr) (scn)
- 			   + ehdr->e_shoff)
- 			  & (__alignof__ (ElfW2(LIBELFBITS,Shdr)) - 1)) != 0));
+@@ -118,6 +119,16 @@ elfw2(LIBELFBITS,getshdr) (scn)
  
+       if (elf->map_address != NULL)
+ 	{
 +	  /* First see whether the information in the ELF header is
 +	     valid and it does not ask for too much.  */
 +	  if (unlikely (ehdr->e_shoff >= elf->maximum_size)
@@ -115,9 +110,10 @@ src/
 +	      goto free_and_out;
 +	    }
 +
- 	  /* Now copy the data and at the same time convert the byte
- 	     order.  */
- 	  if (ALLOW_UNALIGNED
+ 	  ElfW2(LIBELFBITS,Shdr) *notcvt;
+ 
+ 	  /* All the data is already mapped.  If we could use it
+
 --- elfutils-0.122/libelf/elf32_newphdr.c
 +++ elfutils-0.122/libelf/elf32_newphdr.c
 @@ -124,6 +124,12 @@ elfw2(LIBELFBITS,newphdr) (elf, count)
