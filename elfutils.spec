@@ -145,7 +145,7 @@ programowalny interfejs asemblera.
 %patch4 -p1
 %patch5 -p1
 # update/drop?
-#%patch6 -p1
+%patch6 -p1
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
