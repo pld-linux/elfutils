@@ -1,74 +1,17 @@
-2006-04-16  Jakub Bogusz  <qboosh at pld-linux dot org>
+2007-03-16  Jakub Bogusz  <qboosh at pld-linux dot org>
 
-	* src/elflint.c (check_sections): Support arch-specific section flags.
-	* libelf/elf32_getshdr.c: Handle unaligned section header with same
-          endianess properly.
-	* backends/alpha_init.c: Add register_info hook.
+	* backends/alpha_init.c: Add register_info and machine_section_flag_check hooks.
 	* backends/alpha_regs.c: New file.
+	* backends/alpha_symbol.c: (alpha_machine_section_flag_check) New function.
 	* backends/Makefile.am: Add alpha_regs.c.
 
---- elfutils-0.116/src/elflint.c.orig	2005-11-26 10:28:00.000000000 +0100
-+++ elfutils-0.116/src/elflint.c	2005-11-26 14:01:18.000000000 +0100
-@@ -2744,9 +2744,30 @@
- 	       cnt, section_name (ebl, cnt),
- 	       (int) shdr->sh_type);
- 
--#define ALL_SH_FLAGS (SHF_WRITE | SHF_ALLOC | SHF_EXECINSTR | SHF_MERGE \
-+#define GALL_SH_FLAGS (SHF_WRITE | SHF_ALLOC | SHF_EXECINSTR | SHF_MERGE \
- 		      | SHF_STRINGS | SHF_INFO_LINK | SHF_LINK_ORDER \
- 		      | SHF_OS_NONCONFORMING | SHF_GROUP | SHF_TLS)
-+      uint64_t ALL_SH_FLAGS = GALL_SH_FLAGS; /* generic */
-+      switch (ehdr->e_machine) {
-+	case EM_MIPS:
-+	  ALL_SH_FLAGS |= SHF_MIPS_GPREL | SHF_MIPS_MERGE | SHF_MIPS_ADDR |
-+	    SHF_MIPS_STRINGS | SHF_MIPS_NOSTRIP | SHF_MIPS_LOCAL |
-+	    SHF_MIPS_NAMES | SHF_MIPS_NODUPE;
-+	  break;
-+	case EM_PARISC:
-+	  ALL_SH_FLAGS |= SHF_PARISC_SHORT | SHF_PARISC_HUGE | SHF_PARISC_SBP;
-+	  break;
-+	case EM_ALPHA:
-+	  ALL_SH_FLAGS |= SHF_ALPHA_GPREL;
-+	  break;
-+	case EM_ARM:
-+	  ALL_SH_FLAGS |= SHF_ARM_ENTRYSECT | SHF_ARM_COMDEF;
-+	  break;
-+	case EM_IA_64:
-+	  ALL_SH_FLAGS |= SHF_IA_64_SHORT | SHF_IA_64_NORECOV;
-+	  break;
-+      }
-+
-       if (shdr->sh_flags & ~ALL_SH_FLAGS)
- 	ERROR (gettext ("section [%2zu] '%s' contains unknown flag(s)"
- 			" %#" PRIx64 "\n"),
---- elfutils-0.119/libelf/elf32_getshdr.c.orig	2006-02-05 18:17:07.948304250 +0100
-+++ elfutils-0.119/libelf/elf32_getshdr.c	2006-02-05 18:26:52.836857500 +0100
-@@ -107,7 +107,10 @@
- 	    }
- 
- 	  /* Now copy the data and at the same time convert the byte
--	     order.  */
-+	     order, if needed.  */
-+	  if (ehdr->e_ident[EI_DATA] == MY_ELFDATA)
-+	    memcpy (shdr, ((char*) elf->map_address + elf->start_offset + ehdr->e_shoff), size);
-+	  else {
- 	  if (ALLOW_UNALIGNED
- 	      || (((uintptr_t) elf->map_address + elf->start_offset
- 		   + ehdr->e_shoff)
-@@ -136,6 +139,7 @@
- 	      CONVERT_TO (shdr[cnt].sh_addralign, notcvt[cnt].sh_addralign);
- 	      CONVERT_TO (shdr[cnt].sh_entsize, notcvt[cnt].sh_entsize);
- 	    }
-+	  }
- 	}
-       else if (likely (elf->fildes != -1))
- 	{
---- elfutils-0.124/backends/alpha_init.c.orig	2006-07-05 06:09:28.000000000 +0200
-+++ elfutils-0.124/backends/alpha_init.c	2006-07-22 10:34:36.417909750 +0200
-@@ -54,6 +54,7 @@
+--- elfutils-0.126/backends/alpha_init.c.orig	2006-07-05 06:09:28.000000000 +0200
++++ elfutils-0.126/backends/alpha_init.c	2006-07-22 10:34:36.417909750 +0200
+@@ -54,6 +54,8 @@
    HOOK (eh, dynamic_tag_check);
    HOOK (eh, reloc_simple_type);
    HOOK (eh, return_value_location);
++  HOOK (eh, machine_section_flag_check);
 +  HOOK (eh, register_info);
    eh->sysvhash_entrysize = sizeof (Elf64_Xword);
  
@@ -167,6 +110,22 @@
 +
 +  return namelen;
 +}
+--- elfutils-0.126/backends/alpha_symbol.c.orig	2006-04-13 17:04:56.000000000 +0200
++++ elfutils-0.126/backends/alpha_symbol.c	2007-03-16 20:11:35.167246761 +0100
+@@ -55,6 +55,13 @@
+   return tag == DT_ALPHA_PLTRO;
+ }
+ 
++/* Check whether SHF_MASKPROC flags are valid.  */
++bool
++alpha_machine_section_flag_check (GElf_Xword sh_flags)
++{
++  return (sh_flags &~ SHF_ALPHA_GPREL) == 0;
++}
++
+ /* Check for the simple reloc types.  */
+ Elf_Type
+ alpha_reloc_simple_type (Ebl *ebl __attribute__ ((unused)), int type)
 --- elfutils-0.120/backends/Makefile.am.orig	2006-04-16 13:15:56.425192000 +0200
 +++ elfutils-0.120/backends/Makefile.am	2006-04-16 13:28:26.928096250 +0200
 @@ -90,7 +90,7 @@
