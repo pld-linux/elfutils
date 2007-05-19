@@ -23,10 +23,11 @@ Patch6:		%{name}-alpha.patch
 Patch7:		%{name}-sparc.patch
 Patch8:		%{name}-strip-copy-symtab.patch
 Patch9:		%{name}-gcc4.patch
+Patch10:	%{name}-inline.patch
 #URL:		file://home/devel/drepper
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.7
-BuildRequires:	gcc >= 4.2.0
+BuildRequires:	gcc >= 3.2
 BuildRequires:	gettext-devel
 %ifarch %{x8664} alpha ia64 ppc64 s390x sparc64
 # PR*FAST{8,16} in <inttypes.h> were broken for 64-bit archs in older versions
@@ -148,6 +149,7 @@ programowalny interfejs asemblera.
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
+%patch10 -p1
 
 # strip-test5 needs adjusting for strip-copy-symtab patch (already in FC, but not worth bothering)
 # dwfl-bug-addr-overflow sources are missing in tar
@@ -159,8 +161,6 @@ sed -i -e 's/ run-strip-test5\.sh / /;s/dwfl-bug-addr-overflow/$(nil)/' tests/Ma
 %{__autoheader}
 %{__automake}
 %{__autoconf}
-
-CPPFLAGS="-fgnu89-inline"; export CPPFLAGS
 
 %configure \
 	--program-prefix=%{_programprefix} \
