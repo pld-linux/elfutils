@@ -6,7 +6,7 @@ Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl.UTF-8):	Zestaw narzędzi i bibliotek do obsługi skompilowanych obiektów
 Name:		elfutils
 Version:	0.127
-Release:	1
+Release:	2
 License:	GPL v2 with OSL linking exception
 Group:		Development/Tools
 # http://download.fedora.redhat.com/pub/fedora/linux/core/development/source/SRPMS/
@@ -26,7 +26,7 @@ Patch9:		%{name}-gcc4.patch
 #URL:		file://home/devel/drepper
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.7
-BuildRequires:	gcc >= 3.2
+BuildRequires:	gcc >= 4.2.0
 BuildRequires:	gettext-devel
 %ifarch %{x8664} alpha ia64 ppc64 s390x sparc64
 # PR*FAST{8,16} in <inttypes.h> were broken for 64-bit archs in older versions
@@ -159,6 +159,8 @@ sed -i -e 's/ run-strip-test5\.sh / /;s/dwfl-bug-addr-overflow/$(nil)/' tests/Ma
 %{__autoheader}
 %{__automake}
 %{__autoconf}
+
+CPPFLAGS="-fgnu89-inline"; export CPPFLAGS
 
 %configure \
 	--program-prefix=%{_programprefix} \
