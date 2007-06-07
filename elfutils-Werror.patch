@@ -10,3 +10,20 @@ diff -Nur elfutils-0.127.org/libdwfl/Makefile.am elfutils-0.127/libdwfl/Makefile
  INCLUDES = -I. -I$(srcdir) -I$(srcdir)/../libelf -I$(srcdir)/../libebl \
  	   -I$(srcdir)/../libdw -I.. -I$(srcdir)/../lib
  VERSION = 1
+diff -Nur elfutils-0.127.org/tests/Makefile.am elfutils-0.127/tests/Makefile.am
+--- elfutils-0.127.org/tests/Makefile.am	2007-06-07 16:00:49.000000000 +0000
++++ elfutils-0.127/tests/Makefile.am	2007-06-07 16:01:03.268761805 +0000
+@@ -27,11 +27,11 @@
+ DEFS = -DHAVE_CONFIG_H -D_GNU_SOURCE
+ WEXTRA = @WEXTRA@
+ if MUDFLAP
+-AM_CFLAGS = -Wall -Werror $(WEXTRA) -std=gnu99 -fmudflap\
++AM_CFLAGS = -Wall  $(WEXTRA) -std=gnu99 -fmudflap\
+ 	    $(if $($(*F)_no_Wformat),-Wno-format,-Wformat=2)
+ BUILD_RPATH = \$$ORIGIN/../backends
+ else
+-AM_CFLAGS = -Wall -Werror $(WEXTRA) -std=gnu99 \
++AM_CFLAGS = -Wall  $(WEXTRA) -std=gnu99 \
+ 	    $(if $($(*F)_no_Wformat),-Wno-format,-Wformat=2)
+ BUILT_RPATH = \$$ORIGIN/../libasm:\$$ORIGIN/../libdw:\$$ORIGIN/../backends:\$$ORIGIN/../libelf
+ endif
