@@ -1,0 +1,12 @@
+diff -Nur elfutils-0.127.org/libdwfl/Makefile.am elfutils-0.127/libdwfl/Makefile.am
+--- elfutils-0.127.org/libdwfl/Makefile.am	2007-06-07 15:44:39.000000000 +0000
++++ elfutils-0.127/libdwfl/Makefile.am	2007-06-07 15:44:58.474856486 +0000
+@@ -33,7 +33,7 @@
+ else
+ AM_CFLAGS =
+ endif
+-AM_CFLAGS += -Wall -Werror -Wshadow -Wunused -Wformat=2 $(WEXTRA) -std=gnu99
++AM_CFLAGS += -Wall  -Wshadow -Wunused -Wformat=2 $(WEXTRA) -std=gnu99
+ INCLUDES = -I. -I$(srcdir) -I$(srcdir)/../libelf -I$(srcdir)/../libebl \
+ 	   -I$(srcdir)/../libdw -I.. -I$(srcdir)/../lib
+ VERSION = 1
