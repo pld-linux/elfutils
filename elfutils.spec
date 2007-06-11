@@ -211,7 +211,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS COPYING NEWS NOTES README THANKS TODO
+%doc AUTHORS EXCEPTION NEWS NOTES README THANKS TODO
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_libdir}/libasm-*.so
 %ghost %attr(755,root,root) %{_libdir}/libasm.so.*
