@@ -5,26 +5,25 @@
 Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl.UTF-8):	Zestaw narzędzi i bibliotek do obsługi skompilowanych obiektów
 Name:		elfutils
-Version:	0.127
-Release:	3
+Version:	0.128
+Release:	1
 License:	GPL v2 with OSL linking exception
 Group:		Development/Tools
 # http://download.fedora.redhat.com/pub/fedora/linux/core/development/source/SRPMS/
 # or abuse systemtap to get .tar.gz directly
 Source0:	ftp://sources.redhat.com/pub/systemtap/elfutils/%{name}-%{version}.tar.gz
-# Source0-md5:	905411e1deda0aee17ae99dbdeaf7506
+# Source0-md5:	4da87e49616101ec256e313218c421ef
 Patch0:		%{name}-pl.po.patch
 Patch1:		%{name}-debian-manpages.patch
 Patch2:		%{name}-portability.patch
 Patch3:		%{name}-robustify.patch
 Patch4:		%{name}-align.patch
 Patch5:		%{name}-paxflags.patch
-Patch6:		%{name}-alpha.patch
-Patch7:		%{name}-sparc.patch
-Patch8:		%{name}-strip-copy-symtab.patch
-Patch9:		%{name}-gcc4.patch
-Patch10:	%{name}-inline.patch
-Patch11:	%{name}-Werror.patch
+Patch6:		%{name}-sparc.patch
+Patch7:		%{name}-strip-copy-symtab.patch
+Patch8:		%{name}-gcc4.patch
+Patch9:		%{name}-inline.patch
+Patch10:	%{name}-Werror.patch
 #URL:		file://home/devel/drepper
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.7
@@ -145,25 +144,23 @@ programowalny interfejs asemblera.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
-# update/drop?
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
-%patch11 -p1
+
+rm -f po/stamp-po
 
 # strip-test5 needs adjusting for strip-copy-symtab patch (already in FC, but not worth bothering)
-# dwfl-bug-addr-overflow sources are missing in tar
-sed -i -e 's/ run-strip-test5\.sh / /;s/dwfl-bug-addr-overflow/$(nil)/' tests/Makefile.am
+sed -i -e 's/ run-strip-test5\.sh / /' tests/Makefile.am
 
 %build
 #%%{__gettextize}
 %{__aclocal}
 %{__autoheader}
-%{__automake}
 %{__autoconf}
-
+%{__automake}
 %configure \
 	--program-prefix=%{_programprefix} \
 	--enable-shared
@@ -173,6 +170,7 @@ sed -i -e 's/ run-strip-test5\.sh / /;s/dwfl-bug-addr-overflow/$(nil)/' tests/Ma
 
 %{__make}
 %{__make} -C debian/man
+
 %if %{with tests}
 # some tests rely on English messages
 LC_ALL=C \
@@ -200,7 +198,6 @@ ln -sf /%{_lib}/$(cd $RPM_BUILD_ROOT/%{_lib} ; echo libelf-*.so) \
 /sbin/ldconfig -n -N $RPM_BUILD_ROOT%{_libdir}
 /sbin/ldconfig -n -N $RPM_BUILD_ROOT/%{_lib}
 
-%find_lang libelf
 %find_lang %{name}
 
 %clean
@@ -212,7 +209,7 @@ rm -rf $RPM_BUILD_ROOT
 %post	libelf -p /sbin/ldconfig
 %postun	libelf -p /sbin/ldconfig
 
-%files -f %{name}.lang
+%files
 %defattr(644,root,root,755)
 %doc AUTHORS COPYING NEWS NOTES README THANKS TODO
 %attr(755,root,root) %{_bindir}/*
@@ -232,7 +229,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libebl.a
 %{_includedir}/*
 
-%files libelf -f libelf.lang
+%files libelf -f %{name}.lang
 %defattr(644,root,root,755)
 %attr(755,root,root) /%{_lib}/libelf-*.so
 %ghost %attr(755,root,root) /%{_lib}/libelf.so.*
