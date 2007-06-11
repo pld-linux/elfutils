@@ -10,30 +10,36 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
  
  AC_PROG_CC
  AC_PROG_CPP
---- elfutils-0.125/libelf-po/pl.po.orig	1970-01-01 01:00:00.000000000 +0100
-+++ elfutils-0.125/libelf-po/pl.po	2007-02-18 17:55:29.534549476 +0100
-@@ -0,0 +1,179 @@
-+# Polish translation for elfutils/libelf.
+--- elfutils-0.128/po/pl.po.orig	1970-01-01 01:00:00.000000000 +0100
++++ elfutils-0.128/po/pl.po	2007-06-11 21:10:42.816500238 +0200
+@@ -0,0 +1,4146 @@
++# Polish translation for elfutils.
 +# This file is distributed under the same license as the elfutils package.
 +# Jakub Bogusz <qboosh@pld-linux.org>, 2003-2007.
 +#
 +msgid ""
 +msgstr ""
-+"Project-Id-Version: elfutils/libelf 0.125\n"
-+"Report-Msgid-Bugs-To: \n"
-+"POT-Creation-Date: 2007-01-10 13:24-0800\n"
-+"PO-Revision-Date: 2007-02-18 17:52+0100\n"
++"Project-Id-Version: elfutils 0.128\n"
++"Report-Msgid-Bugs-To: http://bugzilla.redhat.com/\n"
++"POT-Creation-Date: 2007-06-05 19:44-0700\n"
++"PO-Revision-Date: 2007-06-11 21:01+0200\n"
 +"Last-Translator: Jakub Bogusz <qboosh@pld-linux.org>\n"
 +"Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
 +"MIME-Version: 1.0\n"
 +"Content-Type: text/plain; charset=iso-8859-2\n"
 +"Content-Transfer-Encoding: 8bit\n"
++"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 +
-+#: libelf/elf_error.c:113
++#: lib/xmalloc.c:51 lib/xmalloc.c:65 lib/xmalloc.c:79 src/readelf.c:2541
++#, c-format
++msgid "memory exhausted"
++msgstr "pamiêæ wyczerpana"
++
++#: libelf/elf_error.c:113 libasm/asm_error.c:120 libdw/dwarf_error.c:111
 +msgid "no error"
 +msgstr "bez b³êdu"
 +
-+#: libelf/elf_error.c:116
++#: libelf/elf_error.c:116 libasm/asm_error.c:162 libdw/dwarf_error.c:112
 +msgid "unknown error"
 +msgstr "nieznany b³±d"
 +
@@ -61,7 +67,7 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +msgid "invalid encoding"
 +msgstr "b³êdne kodowanie"
 +
-+#: libelf/elf_error.c:144
++#: libelf/elf_error.c:144 libasm/asm_error.c:121 libdw/dwarf_error.c:120
 +msgid "out of memory"
 +msgstr "brak pamiêci"
 +
@@ -77,7 +83,7 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +msgid "ELF version not set"
 +msgstr "nie ustawiono wersji ELF"
 +
-+#: libelf/elf_error.c:160 libelf/elf_error.c:208
++#: libelf/elf_error.c:160 libelf/elf_error.c:208 libdw/dwarf_error.c:122
 +msgid "invalid command"
 +msgstr "b³êdne polecenie"
 +
@@ -189,41 +195,9 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +msgid "file has no program header"
 +msgstr "plik nie ma nag³ówka programu"
 +
-+#: libelf/elf_error.c:285
++#: libelf/elf_error.c:285 libdw/dwarf_error.c:144
 +msgid "invalid offset"
 +msgstr "b³êdny offset"
---- elfutils-0.126/po/pl.po.orig	1970-01-01 01:00:00.000000000 +0100
-+++ elfutils-0.126/po/pl.po	2007-03-16 20:15:25.348364036 +0100
-@@ -0,0 +1,3999 @@
-+# Polish translation for elfutils.
-+# This file is distributed under the same license as the elfutils package.
-+# Jakub Bogusz <qboosh@pld-linux.org>, 2003-2007.
-+#
-+msgid ""
-+msgstr ""
-+"Project-Id-Version: elfutils 0.126\n"
-+"Report-Msgid-Bugs-To: \n"
-+"POT-Creation-Date: 2007-02-05 14:32-0800\n"
-+"PO-Revision-Date: 2007-03-16 20:10+0100\n"
-+"Last-Translator: Jakub Bogusz <qboosh@pld-linux.org>\n"
-+"Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
-+"MIME-Version: 1.0\n"
-+"Content-Type: text/plain; charset=iso-8859-2\n"
-+"Content-Transfer-Encoding: 8bit\n"
-+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-+
-+#: lib/xmalloc.c:51 lib/xmalloc.c:65 lib/xmalloc.c:79 src/readelf.c:2541
-+#, c-format
-+msgid "memory exhausted"
-+msgstr "pamiêæ wyczerpana"
-+
-+#: libasm/asm_error.c:120 libdw/dwarf_error.c:111
-+msgid "no error"
-+msgstr "bez b³êdu"
-+
-+#: libasm/asm_error.c:121 libdw/dwarf_error.c:120
-+msgid "out of memory"
-+msgstr "brak pamiêci"
 +
 +#: libasm/asm_error.c:122 src/ldgeneric.c:2564
 +#, c-format
@@ -254,10 +228,6 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +#: libasm/asm_error.c:128
 +msgid "error during output of data"
 +msgstr "b³±d podczas wyprowadzania danych"
-+
-+#: libasm/asm_error.c:162 libdw/dwarf_error.c:112
-+msgid "unknown error"
-+msgstr "nieznany b³±d"
 +
 +#: libdw/dwarf_error.c:113
 +msgid "invalid access"
@@ -290,10 +260,6 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +#: libdw/dwarf_error.c:121
 +msgid "not implemented"
 +msgstr "nie zaimplementowane"
-+
-+#: libdw/dwarf_error.c:122
-+msgid "invalid command"
-+msgstr "b³êdne polecenie"
 +
 +#: libdw/dwarf_error.c:123
 +msgid "invalid version"
@@ -379,10 +345,6 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +msgid "no flag value"
 +msgstr "brak warto¶ci flagi"
 +
-+#: libdw/dwarf_error.c:144
-+msgid "invalid offset"
-+msgstr "b³êdny offset"
-+
 +#: libdw/dwarf_error.c:145
 +msgid ".debug_ranges section missing"
 +msgstr "brak sekcji .debug_ranges"
@@ -463,7 +425,7 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +msgid "Reverse the sense of the sort"
 +msgstr "Odwrócenie porz±dku sortowania"
 +
-+#: src/nm.c:103 src/addr2line.c:70 src/findtextrel.c:73 src/elfcmp.c:71
++#: src/nm.c:103 src/addr2line.c:70 src/findtextrel.c:73 src/elfcmp.c:74
 +#: src/strings.c:83
 +msgid "Miscellaneous:"
 +msgstr "Ró¿ne:"
@@ -483,8 +445,8 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +msgstr "%s: B£¡D WEWNÊTRZNY %d (%s-%s): %s"
 +
 +#: src/nm.c:253 src/readelf.c:368 src/size.c:219 src/strip.c:203 src/ld.c:869
-+#: src/elflint.c:232 src/addr2line.c:185 src/findtextrel.c:168
-+#: src/elfcmp.c:506 src/ranlib.c:136 src/strings.c:227
++#: src/elflint.c:232 src/addr2line.c:186 src/findtextrel.c:168
++#: src/elfcmp.c:519 src/ranlib.c:136 src/strings.c:227
 +#, c-format
 +msgid ""
 +"Copyright (C) %s Red Hat, Inc.\n"
@@ -497,20 +459,20 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +"DO SPRZEDA¯Y LUB DO KONKRETNYCH CELÓW.\n"
 +
 +#: src/nm.c:258 src/readelf.c:373 src/size.c:224 src/strip.c:208 src/ld.c:874
-+#: src/elflint.c:237 src/addr2line.c:190 src/findtextrel.c:173
-+#: src/elfcmp.c:511 src/ranlib.c:141 src/strings.c:232
++#: src/elflint.c:237 src/addr2line.c:191 src/findtextrel.c:173
++#: src/elfcmp.c:524 src/ranlib.c:141 src/strings.c:232
 +#, c-format
 +msgid "Written by %s.\n"
 +msgstr "Autorem jest %s.\n"
 +
 +#: src/nm.c:363 src/size.c:301 src/strip.c:430 src/strip.c:465
-+#: src/ldgeneric.c:1676 src/findtextrel.c:227 src/elfcmp.c:554
++#: src/ldgeneric.c:1676 src/findtextrel.c:227 src/elfcmp.c:571
 +#: src/ranlib.c:169 src/strings.c:183
 +#, c-format
 +msgid "cannot open '%s'"
 +msgstr "nie mo¿na otworzyæ '%s'"
 +
-+#: src/nm.c:380 src/nm.c:392 src/size.c:317 src/size.c:400 src/strip.c:1760
++#: src/nm.c:380 src/nm.c:392 src/size.c:317 src/size.c:400 src/strip.c:1771
 +#, c-format
 +msgid "while closing '%s'"
 +msgstr "podczas zamykania '%s'"
@@ -556,7 +518,7 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +#: src/nm.c:728 src/nm.c:973 src/readelf.c:676 src/readelf.c:815
 +#: src/readelf.c:956 src/readelf.c:1138 src/readelf.c:1346 src/readelf.c:1500
 +#: src/readelf.c:1667 src/readelf.c:1921 src/readelf.c:1987 src/readelf.c:2065
-+#: src/readelf.c:2560 src/readelf.c:2596 src/readelf.c:4947 src/size.c:418
++#: src/readelf.c:2560 src/readelf.c:2596 src/readelf.c:4859 src/size.c:418
 +#: src/size.c:492 src/strip.c:480
 +#, c-format
 +msgid "cannot get section header string table index"
@@ -1494,8 +1456,8 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +msgid "cannot get .debug_ranges content: %s"
 +msgstr "nie mo¿na pobraæ zawarto¶ci .debug_ranges: %s"
 +
-+#: src/readelf.c:3713 src/readelf.c:4190 src/readelf.c:4615 src/readelf.c:4705
-+#: src/readelf.c:4877
++#: src/readelf.c:3713 src/readelf.c:4102 src/readelf.c:4527 src/readelf.c:4617
++#: src/readelf.c:4789
 +#, c-format
 +msgid ""
 +"\n"
@@ -1554,22 +1516,22 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +msgid "cannot get tag of DIE at offset %<PRIu64> in section '%s': %s"
 +msgstr "nie mo¿na pobraæ znacznika DIE pod offsetem %<PRIu64> w sekcji '%s': %s"
 +
-+#: src/readelf.c:4161
++#: src/readelf.c:4073
 +#, c-format
 +msgid "cannot get next DIE: %s\n"
 +msgstr "nie mo¿na pobraæ nastêpnego DIE: %s\n"
 +
-+#: src/readelf.c:4168
++#: src/readelf.c:4080
 +#, c-format
 +msgid "cannot get next DIE: %s"
 +msgstr "nie mo¿na pobraæ nastêpnego DIE: %s"
 +
-+#: src/readelf.c:4202
++#: src/readelf.c:4114
 +#, c-format
 +msgid "cannot get line data section data: %s"
 +msgstr "nie mo¿na pobraæ danych sekcji danych linii: %s"
 +
-+#: src/readelf.c:4215
++#: src/readelf.c:4127
 +#, c-format
 +msgid ""
 +"\n"
@@ -1578,12 +1540,12 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +"\n"
 +"Tabela pod offsetem %Zu:\n"
 +
-+#: src/readelf.c:4224
++#: src/readelf.c:4136
 +#, c-format
 +msgid "invalid data in section [%zu] '%s'"
 +msgstr "b³êdne dane w sekcji [%zu] '%s'"
 +
-+#: src/readelf.c:4267
++#: src/readelf.c:4179
 +#, c-format
 +msgid ""
 +"\n"
@@ -1610,7 +1572,7 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +"\n"
 +"Instrukcje:\n"
 +
-+#: src/readelf.c:4293
++#: src/readelf.c:4205
 +#, c-format
 +msgid "  [%*<PRIuFAST8>]  %hhu argument\n"
 +msgid_plural "  [%*<PRIuFAST8>]  %hhu arguments\n"
@@ -1618,7 +1580,7 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +msgstr[1] "  [%*<PRIuFAST8>]  %hhu argumenty\n"
 +msgstr[2] "  [%*<PRIuFAST8>]  %hhu argumentów\n"
 +
-+#: src/readelf.c:4301
++#: src/readelf.c:4213
 +msgid ""
 +"\n"
 +"Directory table:"
@@ -1626,7 +1588,7 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +"\n"
 +"Tabela katalogu:"
 +
-+#: src/readelf.c:4317
++#: src/readelf.c:4229
 +msgid ""
 +"\n"
 +"File name table:\n"
@@ -1636,7 +1598,7 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +"Tabela nazw plików:\n"
 +" Wpis Kat    Czas      Rozmiar   Nazwa"
 +
-+#: src/readelf.c:4346
++#: src/readelf.c:4258
 +msgid ""
 +"\n"
 +"Line number statements:"
@@ -1644,86 +1606,86 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +"\n"
 +"Instrukcje numerów linii:"
 +
-+#: src/readelf.c:4406
++#: src/readelf.c:4318
 +#, c-format
 +msgid " special opcode %u: address+%u = %#<PRIx64>, line%+d = %zu\n"
 +msgstr " instrukcja specjalna %u: adres+%u = %#<PRIx64>, linia%+d = %zu\n"
 +
-+#: src/readelf.c:4426
++#: src/readelf.c:4338
 +#, c-format
 +msgid " extended opcode %u: "
 +msgstr " instrukcja rozszerzona %u: "
 +
-+#: src/readelf.c:4431
++#: src/readelf.c:4343
 +msgid "end of sequence"
 +msgstr "koniec sekwencji"
 +
-+#: src/readelf.c:4444
++#: src/readelf.c:4356
 +#, c-format
 +msgid "set address to %#<PRIx64>\n"
 +msgstr "ustawienie adresu na %#<PRIx64>\n"
 +
-+#: src/readelf.c:4464
++#: src/readelf.c:4376
 +#, c-format
 +msgid "define new file: dir=%u, mtime=%<PRIu64>, length=%<PRIu64>, name=%s\n"
 +msgstr "definicja nowego pliku: dir=%u, mtime=%<PRIu64>, d³ugo¶æ=%<PRIu64>, nazwa=%s\n"
 +
-+#: src/readelf.c:4473
++#: src/readelf.c:4385
 +msgid "unknown opcode"
 +msgstr "nieznany kod instrukcji"
 +
-+#: src/readelf.c:4485
++#: src/readelf.c:4397
 +msgid " copy"
 +msgstr " kopiowanie"
 +
-+#: src/readelf.c:4493
++#: src/readelf.c:4405
 +#, c-format
 +msgid " advance address by %u to %#<PRIx64>\n"
 +msgstr " zwiêkszenie adresu o %u do %#<PRIx64>\n"
 +
-+#: src/readelf.c:4503
++#: src/readelf.c:4415
 +#, c-format
 +msgid " advance line by constant %d to %<PRId64>\n"
 +msgstr " zwiêkszenie linii o sta³± %d do %<PRId64>\n"
 +
-+#: src/readelf.c:4511
++#: src/readelf.c:4423
 +#, c-format
 +msgid " set file to %<PRIu64>\n"
 +msgstr " ustawienie pliku na %<PRIu64>\n"
 +
-+#: src/readelf.c:4521
++#: src/readelf.c:4433
 +#, c-format
 +msgid " set column to %<PRIu64>\n"
 +msgstr " ustawienie kolumny na %<PRIu64>\n"
 +
-+#: src/readelf.c:4528
++#: src/readelf.c:4440
 +#, c-format
 +msgid " set '%s' to %<PRIuFAST8>\n"
 +msgstr " ustawienie '%s' na %<PRIuFAST8>\n"
 +
-+#: src/readelf.c:4534
++#: src/readelf.c:4446
 +msgid " set basic block flag"
 +msgstr " ustawienie podstawowej flagi bloku"
 +
-+#: src/readelf.c:4542
++#: src/readelf.c:4454
 +#, c-format
 +msgid " advance address by constant %u to %#<PRIx64>\n"
 +msgstr " zwiêkszenie adresu o sta³± %u do %#<PRIx64>\n"
 +
-+#: src/readelf.c:4555
++#: src/readelf.c:4467
 +#, c-format
 +msgid " advance address by fixed value %u to %#<PRIx64>\n"
 +msgstr " zwiêkszenie adresu o sta³± warto¶æ %u do %#<PRIx64>\n"
 +
-+#: src/readelf.c:4562
++#: src/readelf.c:4474
 +msgid " set prologue end flag"
 +msgstr " ustawienie flagi koñca prologu"
 +
-+#: src/readelf.c:4567
++#: src/readelf.c:4479
 +msgid " set epilogue begin flag"
 +msgstr " ustawienie flagi pocz±tku epilogu"
 +
-+#: src/readelf.c:4576
++#: src/readelf.c:4488
 +#, c-format
 +msgid " unknown opcode with %<PRIu8> parameter:"
 +msgid_plural " unknown opcode with %<PRIu8> parameters:"
@@ -1731,27 +1693,27 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +msgstr[1] " nieznana instrukcja z %<PRIu8> parametrami:"
 +msgstr[2] " nieznana instrukcja z %<PRIu8> parametrami:"
 +
-+#: src/readelf.c:4610
++#: src/readelf.c:4522
 +#, c-format
 +msgid "cannot get .debug_loc content: %s"
 +msgstr "nie mo¿na pobraæ zawarto¶ci .debug_log: %s"
 +
-+#: src/readelf.c:4715
++#: src/readelf.c:4627
 +#, c-format
 +msgid "cannot get macro information section data: %s"
 +msgstr "nie mo¿na pobraæ danych sekcji informacji o makrach: %s"
 +
-+#: src/readelf.c:4794
++#: src/readelf.c:4706
 +#, c-format
 +msgid "%*s*** non-terminated string at end of section"
 +msgstr "%*s*** niezakoñczony ³añcuch na koñcu sekcji"
 +
-+#: src/readelf.c:4862
++#: src/readelf.c:4774
 +#, c-format
 +msgid " [%5d] DIE offset: %6<PRId64>, CU DIE offset: %6<PRId64>, name: %s\n"
 +msgstr " [%5d] offset DIE: %6<PRId64>, offset CU DIE: %6<PRId64>, nazwa: %s\n"
 +
-+#: src/readelf.c:4901
++#: src/readelf.c:4813
 +#, c-format
 +msgid ""
 +"\n"
@@ -1762,17 +1724,17 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +"Sekcja DWARF '%s' pod offsetem %#<PRIx64>:\n"
 +" %*s  £añcuch\n"
 +
-+#: src/readelf.c:4914
++#: src/readelf.c:4826
 +#, c-format
 +msgid " *** error while reading strings: %s\n"
 +msgstr " *** b³±d podczas odczytu ³añcuchów: %s\n"
 +
-+#: src/readelf.c:4939
++#: src/readelf.c:4851
 +#, c-format
 +msgid "cannot get debug context descriptor: %s"
 +msgstr "nie mo¿na pobraæ deskryptora kontekstu debugowego: %s"
 +
-+#: src/readelf.c:5017
++#: src/readelf.c:4929
 +#, c-format
 +msgid ""
 +"\n"
@@ -1781,16 +1743,16 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +"\n"
 +"Segment notatki o d³ugo¶ci %<PRId64> bajtów pod offsetem %#0<PRIx64>:\n"
 +
-+#: src/readelf.c:5024
++#: src/readelf.c:4936
 +#, c-format
 +msgid "cannot get content of note section: %s"
 +msgstr "nie mo¿na pobraæ zawarto¶ci sekcji notatki: %s"
 +
-+#: src/readelf.c:5027
++#: src/readelf.c:4939
 +msgid "  Owner          Data size  Type\n"
 +msgstr "  W³a¶ciciel     Rozmiar danych  Typ\n"
 +
-+#: src/readelf.c:5067
++#: src/readelf.c:4979
 +#, c-format
 +msgid "  %-13.*s  %9<PRId32>  %s\n"
 +msgstr "  %-13.*s  %9<PRId32>       %s\n"
@@ -1945,62 +1907,62 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +msgid "illformed file '%s'"
 +msgstr "plik '%s' ma z³y format"
 +
-+#: src/strip.c:834 src/strip.c:912
++#: src/strip.c:834 src/strip.c:913
 +#, c-format
 +msgid "while generating output file: %s"
 +msgstr "podczas generowania pliku wyj¶ciowego: %s"
 +
-+#: src/strip.c:885 src/strip.c:1616
++#: src/strip.c:886 src/strip.c:1627
 +#, c-format
 +msgid "%s: error while creating ELF header: %s"
 +msgstr "%s: b³±d podczas tworzenia nag³ówka ELF: %s"
 +
-+#: src/strip.c:899
++#: src/strip.c:900
 +#, c-format
 +msgid "while preparing output for '%s'"
 +msgstr "podczas przygotowywania wyj¶cia dla '%s'"
 +
-+#: src/strip.c:950 src/strip.c:1006
++#: src/strip.c:951 src/strip.c:1007
 +#, c-format
 +msgid "while create section header section: %s"
 +msgstr "podczas tworzenia sekcji nag³ówka sekcji: %s"
 +
-+#: src/strip.c:956
++#: src/strip.c:957
 +#, c-format
 +msgid "cannot allocate section data: %s"
 +msgstr "nie mo¿na przydzieliæ danych sekcji: %s"
 +
-+#: src/strip.c:1015
++#: src/strip.c:1016
 +#, c-format
 +msgid "while create section header string table: %s"
 +msgstr "podczas tworzenia tabeli ³añcuchów nag³ówka sekcji: %s"
 +
-+#: src/strip.c:1541 src/strip.c:1638
++#: src/strip.c:1552 src/strip.c:1649
 +#, c-format
 +msgid "while writing '%s': %s"
 +msgstr "podczas zapisu '%s': %s"
 +
-+#: src/strip.c:1552
++#: src/strip.c:1563
 +#, c-format
 +msgid "while creating '%s'"
 +msgstr "podczas tworzenia `%s'"
 +
-+#: src/strip.c:1564
++#: src/strip.c:1575
 +#, c-format
 +msgid "while computing checksum for debug information"
 +msgstr "podczas obliczania sumy kontrolnej dla informacji debugowych"
 +
-+#: src/strip.c:1624
++#: src/strip.c:1635
 +#, c-format
 +msgid "%s: error while reading the file: %s"
 +msgstr "%s: b³±d podczas odczytu pliku: %s"
 +
-+#: src/strip.c:1666 src/strip.c:1673
++#: src/strip.c:1677 src/strip.c:1684
 +#, c-format
 +msgid "error while finishing '%s': %s"
 +msgstr "b³±d podczas koñczenia '%s': %s"
 +
-+#: src/strip.c:1696 src/strip.c:1753
++#: src/strip.c:1707 src/strip.c:1764
 +#, c-format
 +msgid "cannot set access and modification date of '%s'"
 +msgstr "nie mo¿na ustawiæ czasu dostêpu i modyfikacji '%s'"
@@ -2990,11 +2952,6 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +msgid "section [%2d] '%s': section entry size does not match ElfXX_Rela\n"
 +msgstr "sekcja [%2d] '%s': rozmiar wpisu sekcji nie zgadza siê z ElfXX_Rela\n"
 +
-+#: src/elflint.c:1172
-+#, c-format
-+msgid "section [%2d] '%s': section entry size does not match ElfXX_Rel\n"
-+msgstr "sekcja [%2d] '%s': rozmiar wpisu sekcji nie zgadza siê z ElfXX_Rel\n"
-+
 +#: src/elflint.c:1231
 +#, c-format
 +msgid "text relocation flag set but there is no read-only segment\n"
@@ -3695,179 +3652,179 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +msgid "section [%2zu] '%s': merge flag set but entry size is zero\n"
 +msgstr "sekcja [%2zu] '%s': flaga merge ustawiona, ale rozmiar wpisu jest zerowy\n"
 +
-+#: src/elflint.c:3415
++#: src/elflint.c:3417
 +#, c-format
 +msgid "section [%2zu] '%s' not fully contained in segment of program header entry %d\n"
 +msgstr "sekcja [%2zu] '%s' nie jest w ca³o¶ci zawarta w segmencie wpisu %d nag³ówka programu\n"
 +
-+#: src/elflint.c:3423
++#: src/elflint.c:3425
 +#, c-format
 +msgid "section [%2zu] '%s' has type NOBITS but is read from the file in segment of program header entry %d\n"
 +msgstr "sekcja [%2zu] '%s' ma typ NOBITS, a jest czytana z pliku w segmencie wpisu %d nag³ówka programu\n"
 +
-+#: src/elflint.c:3432
++#: src/elflint.c:3434
 +#, c-format
 +msgid "section [%2zu] '%s' has not type NOBITS but is not read from the file in segment of program header entry %d\n"
 +msgstr "sekcja [%2zu] '%s' nie ma typu NOBITS, a nie jest czytana z pliku w segmencie wpisu %d nag³ówka programu\n"
 +
-+#: src/elflint.c:3441
++#: src/elflint.c:3443
 +#, c-format
 +msgid "section [%2zu] '%s': alloc flag set but section not in any loaded segment\n"
 +msgstr "sekcja [%2zu] '%s': ma flagê alloc, ale sekcja nie jest w ¿adnym segmencie ³adowalnym\n"
 +
-+#: src/elflint.c:3447
++#: src/elflint.c:3449
 +#, c-format
 +msgid "section [%2zu] '%s': ELF header says this is the section header string table but type is not SHT_TYPE\n"
 +msgstr "sekcja [%2zu] '%s': wed³ug nag³ówka ELF to jest tabela ³añcuchów nag³ówków sekcji, ale typ nie jest SHT_TYPE\n"
 +
-+#: src/elflint.c:3455
++#: src/elflint.c:3457
 +#, c-format
 +msgid "section [%2zu] '%s': relocatable files cannot have dynamic symbol tables\n"
 +msgstr "sekcja [%2zu] '%s': pliki relokowalne nie mog± mieæ tabeli symboli dynamicznych\n"
 +
-+#: src/elflint.c:3502
++#: src/elflint.c:3504
 +#, c-format
 +msgid "more than one version symbol table present\n"
 +msgstr "obecna wiêcej ni¿ jedna tabela symboli wersji\n"
 +
-+#: src/elflint.c:3521
++#: src/elflint.c:3523
 +#, c-format
 +msgid "INTERP program header entry but no .interp section\n"
 +msgstr "jest wpis nag³ówka programu INTERP, ale nie ma sekcji .interp\n"
 +
-+#: src/elflint.c:3526
++#: src/elflint.c:3528
 +#, c-format
 +msgid "no .gnu.versym section present but .gnu.versym_d or .gnu.versym_r section exist\n"
 +msgstr "brak sekcji .gnu.versym, ale istnieje sekcja .gnu.versym_d lub .gnu.versym_r\n"
 +
-+#: src/elflint.c:3539
++#: src/elflint.c:3541
 +#, c-format
 +msgid "duplicate version index %d\n"
 +msgstr "powtórzony indeks wersji %d\n"
 +
-+#: src/elflint.c:3553
++#: src/elflint.c:3555
 +#, c-format
 +msgid ".gnu.versym section present without .gnu.versym_d or .gnu.versym_r\n"
 +msgstr "sekcja .gnu.versym istnieje bez .gnu.versym_d lub .gnu.versym_r\n"
 +
-+#: src/elflint.c:3568
++#: src/elflint.c:3570
 +#, c-format
 +msgid "phdr[%d]: no note entries defined for the type of file\n"
 +msgstr "phdr[%d]: brak zdefiniowanych wpisów note dla typu pliku\n"
 +
-+#: src/elflint.c:3655
++#: src/elflint.c:3657
 +#, c-format
 +msgid "phdr[%d]: note entries probably in form of a 32-bit ELF file\n"
 +msgstr "phdr[%d]: wpisy note prawdopodobnie w formie dla 32-bitowego pliku ELF\n"
 +
-+#: src/elflint.c:3658
++#: src/elflint.c:3660
 +#, c-format
 +msgid "phdr[%d]: extra %zu bytes after last note\n"
 +msgstr "phdr[%d]: nadmiarowe %zu bajtów po ostatniej notatce\n"
 +
-+#: src/elflint.c:3687
++#: src/elflint.c:3689
 +#, c-format
 +msgid "phdr[%d]: unknown core file note type %<PRIu64> at offset %<PRIu64>\n"
 +msgstr "phdr[%d]: nieznany typ notatki pliku core %<PRIu64> pod offsetem %<PRIu64>\n"
 +
-+#: src/elflint.c:3695
++#: src/elflint.c:3697
 +#, c-format
 +msgid "phdr[%d]: unknown object file note type %<PRIu64> at offset %<PRIu64>\n"
 +msgstr "phdr[%d]: nieznany typ notatki pliku obiektu %<PRIu64> pod offsetem %<PRIu64>\n"
 +
-+#: src/elflint.c:3717
++#: src/elflint.c:3719
 +#, c-format
 +msgid "only executables, shared objects, and core files can have program headers\n"
 +msgstr "tylko pliki wykonywalne, obiektów dzielonych i core mog± mieæ nag³ówki programu\n"
 +
-+#: src/elflint.c:3732
++#: src/elflint.c:3734
 +#, c-format
 +msgid "cannot get program header entry %d: %s\n"
 +msgstr "nie mo¿na pobraæ wpisu nag³ówka programu %d: %s\n"
 +
-+#: src/elflint.c:3741
++#: src/elflint.c:3743
 +#, c-format
 +msgid "program header entry %d: unknown program header entry type %#<PRIx64>\n"
 +msgstr "wpis nag³ówka programu %d: nieznany typ wpisu nag³ówka programu %#<PRIx64>\n"
 +
-+#: src/elflint.c:3752
++#: src/elflint.c:3754
 +#, c-format
 +msgid "more than one INTERP entry in program header\n"
 +msgstr "wiêcej ni¿ jeden wpis INTERP w nag³ówku programu\n"
 +
-+#: src/elflint.c:3760
++#: src/elflint.c:3762
 +#, c-format
 +msgid "more than one TLS entry in program header\n"
 +msgstr "wiêcej ni¿ jeden wpis TLS w nag³ówku programu\n"
 +
-+#: src/elflint.c:3767
++#: src/elflint.c:3769
 +#, c-format
 +msgid "static executable cannot have dynamic sections\n"
 +msgstr "statyczny program wykonywalny nie mo¿e mieæ sekcji dynamicznych\n"
 +
-+#: src/elflint.c:3781
++#: src/elflint.c:3783
 +#, c-format
 +msgid "dynamic section reference in program header has wrong offset\n"
 +msgstr "odniesienie sekcji dynamicznej w nag³ówku programu ma z³y offset\n"
 +
-+#: src/elflint.c:3784
++#: src/elflint.c:3786
 +#, c-format
 +msgid "dynamic section size mismatch in program and section header\n"
 +msgstr "ró¿ne rozmiary sekcji dynamicznej w nag³ówku programu i sekcji\n"
 +
-+#: src/elflint.c:3794
++#: src/elflint.c:3796
 +#, c-format
 +msgid "more than one GNU_RELRO entry in program header\n"
 +msgstr "wiêcej ni¿ jeden wpis GNU_RELRO w nag³ówku programu\n"
 +
-+#: src/elflint.c:3815
++#: src/elflint.c:3817
 +#, c-format
 +msgid "loadable segment GNU_RELRO applies to is not writable\n"
 +msgstr "³adowalny segment wskazywany przez GNU_RELRO nie jest zapisywalny\n"
 +
-+#: src/elflint.c:3818
++#: src/elflint.c:3820
 +#, c-format
 +msgid "loadable segment GNU_RELRO applies to is executable\n"
 +msgstr "³adowalny segment wskazywany przez GNU_RELRO jest wykonywalny\n"
 +
-+#: src/elflint.c:3825 src/elflint.c:3848
++#: src/elflint.c:3827 src/elflint.c:3850
 +#, c-format
 +msgid "%s segment not contained in a loaded segment\n"
 +msgstr "segment %s nie zawiera siê w ³adowanym segmencie\n"
 +
-+#: src/elflint.c:3854
++#: src/elflint.c:3856
 +#, c-format
 +msgid "program header offset in ELF header and PHDR entry do not match"
 +msgstr "offsety nag³ówka programu w nag³ówku ELF i wpisie PHDR nie zgadzaj± siê"
 +
-+#: src/elflint.c:3860
++#: src/elflint.c:3862
 +#, c-format
 +msgid "program header entry %d: file size greater than memory size\n"
 +msgstr "wpis nag³ówka programu %d: rozmiar pliku wiêkszy ni¿ rozmiar pamiêci\n"
 +
-+#: src/elflint.c:3867
++#: src/elflint.c:3869
 +#, c-format
 +msgid "program header entry %d: alignment not a power of 2\n"
 +msgstr "wpis nag³ówka programu %d: wyrównanie nie jest potêg± 2\n"
 +
-+#: src/elflint.c:3870
++#: src/elflint.c:3872
 +#, c-format
 +msgid "program header entry %d: file offset and virtual address not module of alignment\n"
 +msgstr "wpis nag³ówka programu %d: offset w pliku i adres wirtualny nie s± wielokrotno¶ci± wyrównania\n"
 +
-+#: src/elflint.c:3906
++#: src/elflint.c:3908
 +#, c-format
 +msgid "cannot read ELF header: %s\n"
 +msgstr "nie mo¿na odczytaæ nag³ówka ELF: %s\n"
 +
-+#: src/elflint.c:3927
++#: src/elflint.c:3929
 +#, c-format
 +msgid "text relocation flag set but not needed\n"
 +msgstr "flagi relokacji tekstu ustawione, ale niepotrzebne\n"
 +
-+#: src/addr2line.c:64 src/strings.c:70
-+msgid "Output Selection:"
-+msgstr "Wybór wyj¶cia:"
++#: src/addr2line.c:64
++msgid "Output selection options:"
++msgstr "Opcje wyboru wyj¶cia:"
 +
 +#: src/addr2line.c:65
 +msgid "Show only base names of source files"
@@ -3905,7 +3862,7 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +msgid "Locate source of text relocations in FILEs (a.out by default)."
 +msgstr "Odnajdywanie ¼róde³ relokacji tekstu w PLIKACH (domy¶lnie a.out)."
 +
-+#: src/findtextrel.c:234 src/elfcmp.c:558 src/ranlib.c:186
++#: src/findtextrel.c:234 src/elfcmp.c:575 src/ranlib.c:186
 +#, c-format
 +msgid "cannot create ELF descriptor for '%s': %s"
 +msgstr "nie mo¿na utworzyæ deskryptora ELF dla '%s': %s"
@@ -3985,121 +3942,125 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +msgid "a relocation modifies memory at offset %llu in a write-protected segment\n"
 +msgstr "relokacja modyfikuje pamiêæ pod offsetem %llu w segmencie zabezpieczonym przed zapisem\n"
 +
-+#: src/elfcmp.c:67
++#: src/elfcmp.c:68
 +msgid "Control options:"
 +msgstr "Opcje steruj±ce:"
 +
-+#: src/elfcmp.c:68
++#: src/elfcmp.c:69
 +msgid "Control treatment of gaps in loadable segments [ignore|match] (default: ignore)"
 +msgstr "Sterowanie traktowaniem luk w segmentach ³adowanych [ignore|match] (domy¶lne: ignore)"
 +
-+#: src/elfcmp.c:69
++#: src/elfcmp.c:71
++msgid "Ignore permutation of buckets in SHT_HASH section"
++msgstr "Ignorowanie permutacji kube³ków w sekcji SHT_HASH"
++
++#: src/elfcmp.c:72
 +msgid "Output nothing; yield exit status only"
 +msgstr "Bez wypisywania; przekazanie tylko kodu wyj¶cia"
 +
-+#: src/elfcmp.c:76
++#: src/elfcmp.c:79
 +msgid "Compare relevant parts of two ELF files for equality."
 +msgstr "Porównywanie odpowiednich czê¶ci dwóch plików ELF pod k±tem równo¶ci."
 +
-+#: src/elfcmp.c:80
++#: src/elfcmp.c:83
 +msgid "FILE1 FILE2"
 +msgstr "PLIK1 PLIK2"
 +
-+#: src/elfcmp.c:131
++#: src/elfcmp.c:139
 +msgid "Invalid number of parameters.\n"
 +msgstr "B³êdna liczba parametrów.\n"
 +
-+#: src/elfcmp.c:159 src/elfcmp.c:164
++#: src/elfcmp.c:167 src/elfcmp.c:172
 +#, c-format
 +msgid "cannot get ELF header of '%s': %s"
 +msgstr "nie mo¿na pobraæ nag³ówka ELF '%s': %s"
 +
-+#: src/elfcmp.c:181
++#: src/elfcmp.c:189
 +#, c-format
 +msgid "%s %s diff: ELF header"
 +msgstr "%s %s diff: nag³ówek ELF"
 +
-+#: src/elfcmp.c:239
++#: src/elfcmp.c:247
 +#, c-format
 +msgid "%s %s differ: section header"
 +msgstr "%s %s ró¿ni± siê: nag³ówek sekcji"
 +
-+#: src/elfcmp.c:265 src/elfcmp.c:271
++#: src/elfcmp.c:273 src/elfcmp.c:279
 +#, c-format
 +msgid "cannot get content of section %zu in '%s': %s"
 +msgstr "nie mo¿na pobraæ zawarto¶ci sekcji %zu w '%s': %s"
 +
-+#: src/elfcmp.c:287 src/elfcmp.c:293
++#: src/elfcmp.c:295 src/elfcmp.c:301
 +#, c-format
 +msgid "cannot get symbol in '%s': %s"
 +msgstr "nie mo¿na pobraæ symbolu w '%s': %s"
 +
-+#: src/elfcmp.c:314
++#: src/elfcmp.c:322
 +#, c-format
 +msgid "%s %s differ: symbol table [%zu]"
 +msgstr "%s %s ró¿ni± siê: tabela symboli [%zu]"
 +
-+#: src/elfcmp.c:317
++#: src/elfcmp.c:325
 +#, c-format
 +msgid "%s %s differ: symbol table [%zu,%zu]"
 +msgstr "%s %s ró¿ni± siê: tabela symboli [%zu,%zu]"
 +
-+#: src/elfcmp.c:359
++#: src/elfcmp.c:373
 +#, c-format
 +msgid "%s %s differ: section [%zu] '%s' content"
 +msgstr "%s %s ró¿ni± siê: zawarto¶æ sekcji [%zu] '%s'"
 +
-+#: src/elfcmp.c:364
++#: src/elfcmp.c:377
 +#, c-format
 +msgid "%s %s differ: section [%zu,%zu] '%s' content"
 +msgstr "%s %s ró¿ni± siê: zawarto¶æ sekcji [%zu,%zu] '%s'"
 +
-+#: src/elfcmp.c:380
++#: src/elfcmp.c:393
 +#, c-format
 +msgid "%s %s differ: unequal amount of important sections"
 +msgstr "%s %s ró¿ni± siê: ró¿na liczba wa¿nych sekcji"
 +
-+#: src/elfcmp.c:414 src/elfcmp.c:419
++#: src/elfcmp.c:427 src/elfcmp.c:432
 +#, c-format
 +msgid "cannot load data of '%s': %s"
 +msgstr "nie mo¿na odczytaæ danych z '%s': %s"
 +
-+#: src/elfcmp.c:438 src/elfcmp.c:444
++#: src/elfcmp.c:451 src/elfcmp.c:457
 +#, c-format
 +msgid "cannot get program header entry %d of '%s': %s"
 +msgstr "nie mo¿na pobraæ wpisu nag³ówka programu %d z '%s': %s"
 +
-+#: src/elfcmp.c:450
++#: src/elfcmp.c:463
 +#, c-format
 +msgid "%s %s differ: program header %d"
 +msgstr "%s %s ró¿ni± siê: nag³ówek programu %d"
 +
-+#: src/elfcmp.c:475
++#: src/elfcmp.c:488
 +#, c-format
 +msgid "%s %s differ: gap"
 +msgstr "%s %s ró¿ni± siê: luka"
 +
-+#: src/elfcmp.c:534
++#: src/elfcmp.c:547
 +#, c-format
 +msgid "Invalid value '%s' for --gaps parameter."
 +msgstr "B³êdna warto¶æ '%s' dla parametru --gaps."
 +
-+#: src/elfcmp.c:563
++#: src/elfcmp.c:580
 +#, c-format
 +msgid "cannot create EBL descriptor for '%s'"
 +msgstr "nie mo¿na utworzyæ deskryptora EBL dla '%s'"
 +
-+#: src/elfcmp.c:581
++#: src/elfcmp.c:598
 +#, c-format
 +msgid "cannot get section header of section %zu: %s"
 +msgstr "nie mo¿na pobraæ nag³ówka sekcji dla sekcji %zu: %s"
 +
-+#: src/elfcmp.c:591
++#: src/elfcmp.c:608
 +#, c-format
 +msgid "cannot get content of section %zu: %s"
 +msgstr "nie mo¿na pobraæ zawarto¶ci sekcji %zu: %s"
 +
-+#: src/elfcmp.c:601 src/elfcmp.c:615
++#: src/elfcmp.c:618 src/elfcmp.c:632
 +#, c-format
 +msgid "cannot get relocation: %s"
 +msgstr "nie mo¿na pobraæ relokacji: %s"
@@ -4136,6 +4097,10 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +#, c-format
 +msgid "cannot create new file"
 +msgstr "nie mo¿na utworzyæ nowego pliku"
++
++#: src/strings.c:70
++msgid "Output Selection:"
++msgstr "Wybór wyj¶cia:"
 +
 +#: src/strings.c:71
 +msgid "Scan entire file, not only loaded sections"
