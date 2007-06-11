@@ -14,7 +14,7 @@
    } *shdr_info = NULL;
    Elf_Scn *scn;
    size_t cnt;
-@@ -826,8 +827,39 @@ handle_elf (int fd, Elf *elf, const char
+@@ -826,6 +827,37 @@ handle_elf (int fd, Elf *elf, const char
       The ones that are not removed in the stripped file are SHT_NOBITS.  */
    if (debug_fname != NULL)
      {
@@ -23,8 +23,8 @@
 +	 - libbfd isn't able to look up the .symtab/.strtab in the stripped
 +	 object instead.  As a workaround, emit .symtab/.strtab in both
 +	 places.  */
-       for (cnt = 1; cnt < shnum; ++cnt)
- 	{
++      for (cnt = 1; cnt < shnum; ++cnt)
++	{
 +	  if (shdr_info[cnt].idx == 0
 +	      && (shdr_info[cnt].shdr.sh_type == SHT_REL
 +		  || shdr_info[cnt].shdr.sh_type == SHT_RELA)
@@ -49,22 +49,18 @@
 +	    }
 +	}
 +
-+      for (cnt = 1; cnt < shnum; ++cnt)
-+	{
+       for (cnt = 1; cnt < shnum; ++cnt)
+ 	{
  	  scn = elf_newscn (debugelf);
- 	  if (scn == NULL)
- 	    error (EXIT_FAILURE, 0,
-@@ -835,7 +867,8 @@ handle_elf (int fd, Elf *elf, const char
+@@ -835,6 +867,7 @@ handle_elf (int fd, Elf *elf, const char
  		   elf_errmsg (-1));
  
  	  bool discard_section = (shdr_info[cnt].idx > 0
--				  && cnt != ehdr->e_shstrndx);
-+				  && cnt != ehdr->e_shstrndx
-+				  && shdr_info[cnt].debug_data == NULL);
++				  && shdr_info[cnt].debug_data == NULL
+ 				  && shdr_info[cnt].shdr.sh_type != SHT_NOTE
+ 				  && cnt != ehdr->e_shstrndx);
  
- 	  /* Set the section header in the new file.  */
- 	  GElf_Shdr debugshdr = shdr_info[cnt].shdr;
-@@ -864,6 +897,13 @@ handle_elf (int fd, Elf *elf, const char
+@@ -865,6 +898,13 @@ handle_elf (int fd, Elf *elf, const char
  	  *debugdata = *shdr_info[cnt].data;
  	  if (discard_section)
  	    debugdata->d_buf = NULL;
@@ -78,7 +74,7 @@
  	}
  
        /* Finish the ELF header.  Fill in the fields not handled by
-@@ -1055,7 +1095,7 @@ handle_elf (int fd, Elf *elf, const char
+@@ -1056,7 +1096,7 @@ handle_elf (int fd, Elf *elf, const char
  	    shdr_info[shdr_info[cnt].shdr.sh_info].idx;
  
  	/* Get the data from the old file if necessary.  We already
@@ -87,7 +83,7 @@
  	if (cnt < shnum)
  	  {
  	    if (shdr_info[cnt].data == NULL)
-@@ -1264,6 +1304,13 @@ handle_elf (int fd, Elf *elf, const char
+@@ -1283,6 +1323,13 @@ handle_elf (int fd, Elf *elf, const char
  	      if (shdr_info[shdr_info[cnt].old_sh_link].newsymidx == NULL)
  		continue;
  
@@ -101,7 +97,7 @@
  	      Elf32_Word *newsymidx
  		= shdr_info[shdr_info[cnt].old_sh_link].newsymidx;
  	      Elf_Data *d = elf_getdata (shdr_info[cnt].idx == 0
-@@ -1322,6 +1369,13 @@ handle_elf (int fd, Elf *elf, const char
+@@ -1341,6 +1388,13 @@ handle_elf (int fd, Elf *elf, const char
  	      if (shdr_info[symtabidx].newsymidx == NULL)
  		continue;
  
@@ -115,7 +111,7 @@
  	      assert (shdr_info[cnt].idx > 0);
  
  	      /* The hash section in the new file.  */
-@@ -1447,7 +1501,7 @@ handle_elf (int fd, Elf *elf, const char
+@@ -1460,7 +1514,7 @@ handle_elf (int fd, Elf *elf, const char
  			  chain[hidx] = inner;
  			}
  		    }
@@ -124,7 +120,7 @@
  	    }
  	  else if (shdr_info[cnt].shdr.sh_type == SHT_GNU_versym)
  	    {
-@@ -1460,6 +1514,13 @@ handle_elf (int fd, Elf *elf, const char
+@@ -1473,6 +1527,13 @@ handle_elf (int fd, Elf *elf, const char
  	      if (shdr_info[symtabidx].newsymidx == NULL)
  		continue;
  
@@ -138,7 +134,7 @@
  	      assert (shdr_info[cnt].idx > 0);
  
  	      /* The symbol version section in the new file.  */
-@@ -1504,20 +1565,27 @@ handle_elf (int fd, Elf *elf, const char
+@@ -1515,20 +1576,27 @@ handle_elf (int fd, Elf *elf, const char
  	  else if (shdr_info[cnt].shdr.sh_type == SHT_GROUP)
  	    {
  	      /* Check whether the associated symbol table changed.  */
@@ -178,7 +174,7 @@
  	    }
  	}
      }
-@@ -1647,7 +1715,10 @@ handle_elf (int fd, Elf *elf, const char
+@@ -1658,7 +1726,10 @@ handle_elf (int fd, Elf *elf, const char
  	 table indices.  */
        if (any_symtab_changes)
  	for (cnt = 1; cnt <= shdridx; ++cnt)
@@ -190,4 +186,14 @@
  
        /* Free the memory.  */
        if ((shnum + 2) * sizeof (struct shdr_info) > MAX_STACK_ALLOC)
+--- elfutils/tests/run-strip-test5.sh.~1~
++++ elfutils/tests/run-strip-test5.sh
+@@ -1,5 +1,5 @@
+ original=testfile8
+-stripped=testfile16
+-debugfile=testfile16.debug
++stripped=testfile16.symtab
++debugfile=testfile16.symtab.debug
+ 
+ . $srcdir/run-strip-test.sh
 
