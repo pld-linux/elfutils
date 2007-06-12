@@ -208,3 +208,52 @@
  			   bool dwarf, bool adhoc)
      {
        size_t l = 0, u = nlines;
+--- elfutils-0.128/src/strip.c.orig	2007-06-12 18:45:38.970901000 +0200
++++ elfutils-0.128/src/strip.c	2007-06-12 18:50:29.145070719 +0200
+@@ -1336,7 +1336,7 @@
+ 	  /* Update section headers when the data size has changed.
+ 	     We also update the SHT_NOBITS section in the debug
+ 	     file so that the section headers match in sh_size.  */
+-	  inline void update_section_size (const Elf_Data *newdata)
++	  __gnu_inline void update_section_size (const Elf_Data *newdata)
+ 	    {
+ 	      GElf_Shdr shdr_mem;
+ 	      GElf_Shdr *shdr = gelf_getshdr (scn, &shdr_mem);
+--- elfutils-0.128/src/unstrip.c.orig	2007-06-06 01:44:33.000000000 +0200
++++ elfutils-0.128/src/unstrip.c	2007-06-12 18:51:03.570085226 +0200
+@@ -371,7 +371,7 @@
+ {
+   Elf_Data *data = elf_getdata (outscn, NULL);
+ 
+-  inline void adjust_reloc (GElf_Xword *info)
++  __gnu_inline void adjust_reloc (GElf_Xword *info)
+     {
+       size_t ndx = GELF_R_SYM (*info);
+       if (ndx != STN_UNDEF)
+@@ -988,7 +988,7 @@
+     }
+ 
+   bool fail = false;
+-  inline void check_match (bool match, Elf_Scn *scn, const char *name)
++  __gnu_inline void check_match (bool match, Elf_Scn *scn, const char *name)
+     {
+       if (!match)
+ 	{
+@@ -1147,7 +1147,7 @@
+     }
+ 
+   /* Locate a matching unallocated section in SECTIONS.  */
+-  inline struct section *find_unalloc_section (const GElf_Shdr *shdr,
++  __gnu_inline struct section *find_unalloc_section (const GElf_Shdr *shdr,
+ 					       const char *name)
+     {
+       size_t l = nalloc, u = stripped_shnum - 1;
+@@ -1983,7 +1983,7 @@
+ handle_implicit_modules (const struct arg_info *info)
+ {
+   struct match_module_info mmi = { info->args, NULL, info->match_files };
+-  inline ptrdiff_t next (ptrdiff_t offset)
++  __gnu_inline ptrdiff_t next (ptrdiff_t offset)
+     {
+       return dwfl_getmodules (info->dwfl, &match_module, &mmi, offset);
+     }
