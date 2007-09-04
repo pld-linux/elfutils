@@ -6,7 +6,7 @@ Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl.UTF-8):	Zestaw narzędzi i bibliotek do obsługi skompilowanych obiektów
 Name:		elfutils
 Version:	0.128
-Release:	3
+Release:	4
 License:	GPL v2 with OSL linking exception
 Group:		Development/Tools
 # http://download.fedora.redhat.com/pub/fedora/linux/core/development/source/SRPMS/
@@ -24,6 +24,7 @@ Patch7:		%{name}-strip-copy-symtab.patch
 Patch8:		%{name}-gcc4.patch
 Patch9:		%{name}-inline.patch
 Patch10:	%{name}-Werror.patch
+Patch11:	%{name}-elflint-ppc-got.patch
 #URL:		file://home/devel/drepper
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.7
@@ -149,6 +150,7 @@ programowalny interfejs asemblera.
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
+%patch11 -p0
 
 rm -f po/stamp-po
 
