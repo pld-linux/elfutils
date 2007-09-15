@@ -35,7 +35,6 @@ BuildRequires:	gettext-devel
 # also needed for nanosecond timestamps on alpha
 BuildRequires:	glibc-devel >= 6:2.3.4
 %endif
-BuildRequires:	libltdl-devel
 BuildRequires:	perl-tools-pod
 BuildRequires:	rpmbuild(macros) >= 1.315
 BuildRequires:	sharutils
