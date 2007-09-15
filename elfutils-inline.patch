@@ -112,15 +112,6 @@
      {
        /* For absolute symbols and the like, only match exactly.  */
        if (shndx >= SHN_LORESERVE)
-@@ -108,7 +108,7 @@
-       const char *name = INTUSE(dwfl_module_getsym) (mod, i, &sym, &shndx);
-       if (name != NULL && sym.st_value <= addr)
- 	{
--	  inline void closest (void)
-+	  __gnu_inline void closest (void)
- 	    {
- 	      *closest_sym = sym;
- 	      closest_shndx = shndx;
 --- elfutils-0.127/backends/ia64_retval.c.orig	2006-07-21 13:28:28.000000000 +0200
 +++ elfutils-0.127/backends/ia64_retval.c	2007-05-19 16:13:08.295213177 +0200
 @@ -96,7 +96,7 @@
@@ -132,31 +123,22 @@
      {
        if (fpregs_used == 0)
  	*locp = loc;
---- elfutils-0.127/libdw/libdw.h.orig	2007-04-05 12:33:43.000000000 +0200
-+++ elfutils-0.127/libdw/libdw.h	2007-05-19 16:07:34.811667724 +0200
-@@ -623,15 +623,20 @@
+--- elfutils-0.129/libdw/libdw.h.orig	2007-09-11 23:13:42.612551928 +0200
++++ elfutils-0.129/libdw/libdw.h	2007-09-11 23:14:19.438650528 +0200
+@@ -61,10 +61,12 @@
+ # define __nonnull_attribute__(args...)
+ #endif
  
- /* Inline optimizations.  */
- #ifdef __OPTIMIZE__
-+# if defined(__GNUC_STDC_INLINE__) || defined(__GNUC_GNU_INLINE__)
-+#  define __gnu_inline inline __attribute__ ((__gnu_inline__))
-+# else
-+#  define __gnu_inline inline
-+# endif
- /* Return attribute code of given attribute.  */
--extern inline unsigned int
-+extern __gnu_inline unsigned int
- dwarf_whatattr (Dwarf_Attribute *attr)
- {
-   return attr == NULL ? 0 : attr->code;
- }
+-#ifdef __GNUC_STDC_INLINE__
++#if defined(__GNUC_STDC_INLINE__) || defined(__GNUC_GNU_INLINE__)
+ # define __extern_inline extern __inline __attribute__ ((__gnu_inline__))
++# define __gnu_inline __inline __attribute__ ((__gnu_inline__))
+ #else
+ # define __extern_inline extern __inline
++# define __gnu_inline __inline
+ #endif
  
- /* Return attribute code of given attribute.  */
--extern inline unsigned int
-+extern __gnu_inline unsigned int
- dwarf_whatform (Dwarf_Attribute *attr)
- {
-   return attr == NULL ? 0 : attr->form;
+ 
 --- elfutils-0.127/libdw/dwarf_getscopevar.c.orig	2006-04-11 22:52:05.000000000 +0200
 +++ elfutils-0.127/libdw/dwarf_getscopevar.c	2007-05-19 16:11:06.586106385 +0200
 @@ -93,7 +93,7 @@
