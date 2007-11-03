@@ -1,6 +1,6 @@
 --- elfutils/backends/ChangeLog
 +++ elfutils/backends/ChangeLog
-@@ -157,6 +157,11 @@
+@@ -229,6 +229,11 @@
  	* sparc_init.c: Likewise.
  	* x86_64_init.c: Likewise.
  
@@ -12,7 +12,7 @@
  2005-11-19  Roland McGrath  <roland@redhat.com>
  
  	* ppc64_reloc.def: REL30 -> ADDR30.
-@@ -179,6 +184,9 @@
+@@ -251,6 +256,9 @@
  	* Makefile.am (uninstall): Don't try to remove $(pkgincludedir).
  	(CLEANFILES): Add libebl_$(m).so.
  
@@ -51,7 +51,7 @@
  libebl_%.map: Makefile
 --- elfutils/backends/Makefile.in
 +++ elfutils/backends/Makefile.in
-@@ -147,6 +147,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+@@ -152,6 +152,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
  INSTALL_SCRIPT = @INSTALL_SCRIPT@
  INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
  LDFLAGS = @LDFLAGS@
@@ -59,7 +59,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -176,6 +177,7 @@ SHELL = @SHELL@
+@@ -181,6 +182,7 @@ SHELL = @SHELL@
  STRIP = @STRIP@
  USE_NLS = @USE_NLS@
  VERSION = @VERSION@
@@ -67,7 +67,7 @@
  XGETTEXT = @XGETTEXT@
  XGETTEXT_015 = @XGETTEXT_015@
  YACC = @YACC@
-@@ -231,9 +233,9 @@ target_alias = @target_alias@
+@@ -236,9 +238,9 @@ target_alias = @target_alias@
  top_builddir = @top_builddir@
  top_srcdir = @top_srcdir@
  @MUDFLAP_FALSE@AM_CFLAGS = -fpic -Wall -Wshadow -Werror -Wunused \
@@ -79,7 +79,7 @@
  INCLUDES = -I$(srcdir) -I$(top_srcdir)/libebl \
  	   -I$(top_srcdir)/libelf -I$(top_srcdir)/libdw \
  	   -I$(top_srcdir)/lib -I..
-@@ -605,7 +607,7 @@ uninstall-am:
+@@ -626,7 +628,7 @@ uninstall-am:
  libebl_%.so: libebl_%_pic.a libebl_%.map $(libelf) $(libdw)
  	$(LINK) -shared -o $@ -Wl,--whole-archive,$<,--no-whole-archive \
  		-Wl,--version-script,$(word 2,$^) \
@@ -479,7 +479,7 @@
  libcpu_i386_a_SOURCES = i386_dis.c
 --- elfutils/libdw/ChangeLog
 +++ elfutils/libdw/ChangeLog
-@@ -370,6 +370,11 @@
+@@ -406,6 +406,11 @@
  
  2005-05-31  Roland McGrath  <roland@redhat.com>
  
@@ -543,7 +543,7 @@
  						       $(COMPILE)))
 --- elfutils/libdwfl/ChangeLog
 +++ elfutils/libdwfl/ChangeLog
-@@ -504,6 +504,11 @@
+@@ -647,6 +647,11 @@
  
  2005-07-21  Roland McGrath  <roland@redhat.com>
  
@@ -574,7 +574,7 @@
  VERSION = 1
 --- elfutils/libdwfl/Makefile.in
 +++ elfutils/libdwfl/Makefile.in
-@@ -124,6 +124,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+@@ -128,6 +128,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
  INSTALL_SCRIPT = @INSTALL_SCRIPT@
  INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
  LDFLAGS = @LDFLAGS@
@@ -582,7 +582,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -153,6 +154,7 @@ SHELL = @SHELL@
+@@ -157,6 +158,7 @@ SHELL = @SHELL@
  STRIP = @STRIP@
  USE_NLS = @USE_NLS@
  VERSION = 1
@@ -590,7 +590,7 @@
  XGETTEXT = @XGETTEXT@
  XGETTEXT_015 = @XGETTEXT_015@
  YACC = @YACC@
-@@ -208,9 +210,9 @@ target_alias = @target_alias@
+@@ -212,9 +214,9 @@ target_alias = @target_alias@
  top_builddir = @top_builddir@
  top_srcdir = @top_srcdir@
  @MUDFLAP_FALSE@AM_CFLAGS = -Wall -Werror -Wshadow -Wunused -Wformat=2 \
@@ -604,7 +604,7 @@
  
 --- elfutils/libebl/ChangeLog
 +++ elfutils/libebl/ChangeLog
-@@ -469,6 +469,11 @@
+@@ -501,6 +501,11 @@
  	* Makefile.am (libebl_*_so_SOURCES): Set to $(*_SRCS) so dependency
  	tracking works right.
  
@@ -665,7 +665,7 @@
  
 --- elfutils/libelf/ChangeLog
 +++ elfutils/libelf/ChangeLog
-@@ -225,6 +225,11 @@
+@@ -295,6 +295,11 @@
  	If section content hasn't been read yet, do it before looking for the
  	block size.  If no section data present, infer size of section header.
  
@@ -730,7 +730,7 @@
  @MUDFLAP_FALSE@noinst_PROGRAMS = $(am__EXEEXT_1)
  @MUDFLAP_TRUE@am_libelf_pic_a_OBJECTS =
  subdir = libelf
-@@ -167,6 +167,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+@@ -168,6 +168,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
  INSTALL_SCRIPT = @INSTALL_SCRIPT@
  INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
  LDFLAGS = @LDFLAGS@
@@ -738,7 +738,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -196,6 +197,7 @@ SHELL = @SHELL@
+@@ -197,6 +198,7 @@ SHELL = @SHELL@
  STRIP = @STRIP@
  USE_NLS = @USE_NLS@
  VERSION = 1
@@ -746,7 +746,7 @@
  XGETTEXT = @XGETTEXT@
  XGETTEXT_015 = @XGETTEXT_015@
  YACC = @YACC@
-@@ -251,10 +253,10 @@ target_alias = @target_alias@
+@@ -252,10 +254,10 @@ target_alias = @target_alias@
  top_builddir = @top_builddir@
  top_srcdir = @top_srcdir@
  @MUDFLAP_FALSE@AM_CFLAGS = $(am__append_1) -Wall -Wshadow -Werror \
@@ -797,7 +797,15 @@
  YACC = @YACC@
 --- elfutils/src/ChangeLog
 +++ elfutils/src/ChangeLog
-@@ -176,6 +176,10 @@
+@@ -1,3 +1,7 @@
++2007-10-16  Roland McGrath  <roland@redhat.com>
++
++	* Makefile.am (readelf_no_Werror): New variable.
++
+ 2007-10-15  Roland McGrath  <roland@redhat.com>
+ 
+ 	* make-debug-archive.in: New file.
+@@ -437,6 +441,10 @@
  	* elflint.c (valid_e_machine): Add EM_ALPHA.
  	Reported by Christian Aichinger <Greek0@gmx.net>.
  
@@ -808,7 +816,7 @@
  2006-08-08  Ulrich Drepper  <drepper@redhat.com>
  
  	* elflint.c (check_dynamic): Don't require DT_HASH for DT_SYMTAB.
-@@ -252,6 +256,10 @@
+@@ -513,6 +521,10 @@
  	* Makefile.am: Add hacks to create dependency files for non-generic
  	linker.
  
@@ -819,7 +827,7 @@
  2006-06-12  Ulrich Drepper  <drepper@redhat.com>
  
  	* ldgeneric.c (ld_generic_generate_sections): Don't create .interp
-@@ -600,6 +608,11 @@
+@@ -861,6 +873,11 @@
  	* readelf.c (print_debug_loc_section): Fix indentation for larger
  	address size.
  
@@ -865,9 +873,19 @@
  	     $(if $($(*F)_no_Wformat),,-Wformat=2) $(CFLAGS_$(*F))
  
  INCLUDES = -I$(srcdir) -I$(srcdir)/../libelf -I$(srcdir)/../libebl \
+@@ -108,6 +109,9 @@ strings_no_Wformat = yes
+ # XXX While the file is not finished, don't warn about this
+ ldgeneric_no_Wunused = yes
+ 
++# Buggy old compilers.
++readelf_no_Werror = yes
++
+ readelf_LDADD = $(libdw) $(libebl) $(libelf) $(libeu) $(libmudflap) -ldl
+ nm_LDADD = $(libdw) $(libebl) $(libelf) $(libeu) $(libmudflap) -ldl
+ size_LDADD = $(libelf) $(libeu) $(libmudflap)
 --- elfutils/src/Makefile.in
 +++ elfutils/src/Makefile.in
-@@ -197,6 +197,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+@@ -200,6 +200,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
  INSTALL_SCRIPT = @INSTALL_SCRIPT@
  INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
  LDFLAGS = @LDFLAGS@
@@ -875,7 +893,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -226,6 +227,7 @@ SHELL = @SHELL@
+@@ -229,6 +230,7 @@ SHELL = @SHELL@
  STRIP = @STRIP@
  USE_NLS = @USE_NLS@
  VERSION = @VERSION@
@@ -883,7 +901,7 @@
  XGETTEXT = @XGETTEXT@
  XGETTEXT_015 = @XGETTEXT_015@
  YACC = @YACC@ -d
-@@ -283,13 +285,13 @@ top_srcdir = @top_srcdir@
+@@ -286,13 +288,13 @@ top_srcdir = @top_srcdir@
  @MUDFLAP_FALSE@AM_CFLAGS = -Wall -Wshadow -std=gnu99 \
  @MUDFLAP_FALSE@	$(native_ld_cflags) $(if \
  @MUDFLAP_FALSE@	$($(*F)_no_Werror),,-Werror) $(if \
@@ -899,6 +917,16 @@
  @MUDFLAP_TRUE@	$($(*F)_no_Wformat),,-Wformat=2) $(CFLAGS_$(*F))
  INCLUDES = -I$(srcdir) -I$(srcdir)/../libelf -I$(srcdir)/../libebl \
  	   -I$(srcdir)/../libdw -I$(srcdir)/../libdwfl \
+@@ -334,6 +336,9 @@ size_no_Wformat = yes
+ strings_no_Wformat = yes
+ # XXX While the file is not finished, don't warn about this
+ ldgeneric_no_Wunused = yes
++
++# Buggy old compilers.
++readelf_no_Werror = yes
+ readelf_LDADD = $(libdw) $(libebl) $(libelf) $(libeu) $(libmudflap) -ldl
+ nm_LDADD = $(libdw) $(libebl) $(libelf) $(libeu) $(libmudflap) -ldl
+ size_LDADD = $(libelf) $(libeu) $(libmudflap)
 --- elfutils/src/strings.c
 +++ elfutils/src/strings.c
 @@ -51,6 +51,10 @@
@@ -980,7 +1008,7 @@
  cannot set access and modification date of '%s'"), fname);
 --- elfutils/tests/ChangeLog
 +++ elfutils/tests/ChangeLog
-@@ -525,6 +525,11 @@
+@@ -585,6 +585,11 @@
  	* Makefile.am (TESTS): Add run-elflint-test.sh.
  	(EXTRA_DIST): Add run-elflint-test.sh and testfile18.bz2.
  
@@ -1012,7 +1040,7 @@
  endif
 --- elfutils/tests/Makefile.in
 +++ elfutils/tests/Makefile.in
-@@ -315,6 +315,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+@@ -323,6 +323,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
  INSTALL_SCRIPT = @INSTALL_SCRIPT@
  INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
  LDFLAGS = @LDFLAGS@
@@ -1020,7 +1048,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -344,6 +345,7 @@ SHELL = @SHELL@
+@@ -352,6 +353,7 @@ SHELL = @SHELL@
  STRIP = @STRIP@
  USE_NLS = @USE_NLS@
  VERSION = @VERSION@
@@ -1028,7 +1056,7 @@
  XGETTEXT = @XGETTEXT@
  XGETTEXT_015 = @XGETTEXT_015@
  YACC = @YACC@
-@@ -398,10 +400,10 @@ sysconfdir = @sysconfdir@
+@@ -406,10 +408,10 @@ sysconfdir = @sysconfdir@
  target_alias = @target_alias@
  top_builddir = @top_builddir@
  top_srcdir = @top_srcdir@
