@@ -5,14 +5,14 @@
 Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl.UTF-8):	Zestaw narzędzi i bibliotek do obsługi skompilowanych obiektów
 Name:		elfutils
-Version:	0.130
+Version:	0.131
 Release:	1
 License:	GPL v2 with OSL linking exception
 Group:		Development/Tools
 # http://download.fedora.redhat.com/pub/fedora/linux/core/development/source/SRPMS/
 # or abuse systemtap to get .tar.gz directly
 Source0:	ftp://sources.redhat.com/pub/systemtap/elfutils/%{name}-%{version}.tar.gz
-# Source0-md5:	8111e6ea9f237567cbe086fb10c29fa1
+# Source0-md5:	f7963fba80c6f74cd6c4990d2a76d121
 Patch0:		%{name}-pl.po.patch
 Patch1:		%{name}-debian-manpages.patch
 Patch2:		%{name}-portability.patch
@@ -24,7 +24,6 @@ Patch7:		%{name}-strip-copy-symtab.patch
 Patch8:		%{name}-gcc4.patch
 Patch9:		%{name}-inline.patch
 Patch10:	%{name}-Werror.patch
-Patch11:	%{name}-fixes.patch
 #URL:		file://home/devel/drepper
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.7
@@ -149,7 +148,6 @@ programowalny interfejs asemblera.
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
-%patch11 -p0
 
 rm -f po/stamp-po
 
@@ -187,22 +185,14 @@ LC_ALL=C \
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_mandir}/man1,/%{_lib}}
 
-# *OBJEXT must be passed to workaround problem with messed gettext,
-# which doesn't like *-po dir names
 %{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT \
-	MKINSTALLDIRS=$(pwd)/config/mkinstalldirs \
-	CATOBJEXT=.gmo \
-	INSTOBJEXT=.mo
+	DESTDIR=$RPM_BUILD_ROOT
 
 install debian/man/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
 
-mv $RPM_BUILD_ROOT%{_libdir}/libelf-*.so $RPM_BUILD_ROOT/%{_lib}
-ln -sf /%{_lib}/$(cd $RPM_BUILD_ROOT/%{_lib} ; echo libelf-*.so) \
+mv $RPM_BUILD_ROOT%{_libdir}/{libelf-*.so,libelf.so.*} $RPM_BUILD_ROOT/%{_lib}
+ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/libelf-*.so) \
         $RPM_BUILD_ROOT%{_libdir}/libelf.so
-
-/sbin/ldconfig -n -N $RPM_BUILD_ROOT%{_libdir}
-/sbin/ldconfig -n -N $RPM_BUILD_ROOT/%{_lib}
 
 %find_lang %{name}
 
@@ -218,14 +208,14 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS EXCEPTION NEWS NOTES README THANKS TODO
-%attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_bindir}/eu-*
 %attr(755,root,root) %{_libdir}/libasm-*.so
 %ghost %attr(755,root,root) %{_libdir}/libasm.so.*
 %attr(755,root,root) %{_libdir}/libdw-*.so
 %ghost %attr(755,root,root) %{_libdir}/libdw.so.*
 %dir %{_libdir}/elfutils
 %attr(755,root,root) %{_libdir}/elfutils/lib*.so
-%{_mandir}/man1/*.1*
+%{_mandir}/man1/eu-*.1*
 
 %files devel
 %defattr(644,root,root,755)
@@ -233,7 +223,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libdw.so
 %attr(755,root,root) %{_libdir}/libelf.so
 %{_libdir}/libebl.a
-%{_includedir}/*
+%{_includedir}/elfutils
+%{_includedir}/dwarf.h
+%{_includedir}/gelf.h
+%{_includedir}/libelf.h
+%{_includedir}/nlist.h
 
 %files libelf -f %{name}.lang
 %defattr(644,root,root,755)
