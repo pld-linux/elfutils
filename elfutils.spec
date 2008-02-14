@@ -5,14 +5,13 @@
 Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl.UTF-8):	Zestaw narzędzi i bibliotek do obsługi skompilowanych obiektów
 Name:		elfutils
-Version:	0.131
+Version:	0.132
 Release:	1
 License:	GPL v2 with OSL linking exception
 Group:		Development/Tools
-# http://download.fedora.redhat.com/pub/fedora/linux/core/development/source/SRPMS/
-# or abuse systemtap to get .tar.gz directly
-Source0:	ftp://sources.redhat.com/pub/systemtap/elfutils/%{name}-%{version}.tar.gz
-# Source0-md5:	f7963fba80c6f74cd6c4990d2a76d121
+# http://ftp.fi.muni.cz/pub/linux/fedora/linux/development/source/SRPMS/
+Source0:	%{name}-%{version}.tar.gz
+# Source0-md5:	73603ebe9bff4e5c7295c6e683436940
 Patch0:		%{name}-pl.po.patch
 Patch1:		%{name}-debian-manpages.patch
 Patch2:		%{name}-portability.patch
@@ -21,7 +20,6 @@ Patch4:		%{name}-align.patch
 Patch5:		%{name}-paxflags.patch
 Patch6:		%{name}-sparc.patch
 Patch7:		%{name}-strip-copy-symtab.patch
-Patch8:		%{name}-gcc4.patch
 Patch9:		%{name}-inline.patch
 Patch10:	%{name}-Werror.patch
 #URL:		file://home/devel/drepper
@@ -145,7 +143,6 @@ programowalny interfejs asemblera.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
-%patch8 -p1
 %patch9 -p1
 %patch10 -p1
 
