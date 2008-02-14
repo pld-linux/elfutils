@@ -1,9 +1,9 @@
 --- elfutils-0.127/src/ld.h.orig	2006-07-12 01:20:42.000000000 +0200
 +++ elfutils-0.127/src/ld.h	2007-05-19 16:13:40.015849251 +0200
-@@ -1087,7 +1087,7 @@
- 
- /* Checked whether the symbol is undefined and referenced from a DSO.  */
- extern bool linked_from_dso_p (struct scninfo *scninfo, size_t symidx);
+@@ -1090,7 +1090,7 @@
+ #ifdef __GNUC_STDC_INLINE__
+ __attribute__ ((__gnu_inline__))
+ #endif
 -extern inline bool
 +extern __libdw_gnu_inline bool
  linked_from_dso_p (struct scninfo *scninfo, size_t symidx)
