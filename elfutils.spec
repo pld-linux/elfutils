@@ -24,7 +24,7 @@ Patch8:		%{name}-Werror.patch
 #URL:		file://home/devel/drepper
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.7
-BuildRequires:	gcc >= 3.2
+BuildRequires:	gcc >= 5:3.4
 BuildRequires:	gettext-devel
 %ifarch %{x8664} alpha ia64 ppc64 s390x sparc64
 # PR*FAST{8,16} in <inttypes.h> were broken for 64-bit archs in older versions
