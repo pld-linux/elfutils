@@ -147,7 +147,7 @@ programowalny interfejs asemblera.
 rm -f po/stamp-po
 
 # temporarily disable test failing on specific archs
-%ifarch alpha sparc sparc64
+%ifarch alpha
 %{__perl} -pi -e 's/run-elflint-self.sh//' tests/Makefile
 %endif
 
