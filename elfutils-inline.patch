@@ -190,17 +190,17 @@
  			   bool dwarf, bool adhoc)
      {
        size_t l = 0, u = nlines;
---- elfutils-0.128/src/strip.c.orig	2007-06-12 18:45:38.970901000 +0200
-+++ elfutils-0.128/src/strip.c	2007-06-12 18:50:29.145070719 +0200
-@@ -1336,7 +1336,7 @@
- 	  /* Update section headers when the data size has changed.
- 	     We also update the SHT_NOBITS section in the debug
- 	     file so that the section headers match in sh_size.  */
--	  inline void update_section_size (const Elf_Data *newdata)
-+	  __libdw_gnu_inline void update_section_size (const Elf_Data *newdata)
- 	    {
- 	      GElf_Shdr shdr_mem;
- 	      GElf_Shdr *shdr = gelf_getshdr (scn, &shdr_mem);
+--- elfutils-0.135/src/strip.c.orig	2008-05-31 10:15:02.975418315 +0200
++++ elfutils-0.135/src/strip.c	2008-05-31 10:28:10.216279777 +0200
+@@ -1335,7 +1335,7 @@
+ 	/* Update section headers when the data size has changed.
+ 	   We also update the SHT_NOBITS section in the debug
+ 	   file so that the section headers match in sh_size.  */
+-	inline void update_section_size (const Elf_Data *newdata)
++	__libdw_gnu_inline void update_section_size (const Elf_Data *newdata)
+ 	{
+ 	  GElf_Shdr shdr_mem;
+ 	  GElf_Shdr *shdr = gelf_getshdr (scn, &shdr_mem);
 --- elfutils-0.128/src/unstrip.c.orig	2007-06-06 01:44:33.000000000 +0200
 +++ elfutils-0.128/src/unstrip.c	2007-06-12 18:51:03.570085226 +0200
 @@ -371,7 +371,7 @@
