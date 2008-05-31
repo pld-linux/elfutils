@@ -5,13 +5,13 @@
 Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl.UTF-8):	Zestaw narzędzi i bibliotek do obsługi skompilowanych obiektów
 Name:		elfutils
-Version:	0.132
+Version:	0.135
 Release:	1
 License:	GPL v2 with OSL linking exception
 Group:		Development/Tools
 # http://ftp.fi.muni.cz/pub/linux/fedora/linux/development/source/SRPMS/
 Source0:	%{name}-%{version}.tar.gz
-# Source0-md5:	73603ebe9bff4e5c7295c6e683436940
+# Source0-md5:	2fb0d3d9cdb22f71ad0df91d676bb2eb
 Patch0:		%{name}-pl.po.patch
 Patch1:		%{name}-debian-manpages.patch
 Patch2:		%{name}-portability.patch
@@ -19,9 +19,8 @@ Patch3:		%{name}-robustify.patch
 Patch4:		%{name}-align.patch
 Patch5:		%{name}-paxflags.patch
 Patch6:		%{name}-sparc.patch
-Patch7:		%{name}-strip-copy-symtab.patch
-Patch9:		%{name}-inline.patch
-Patch10:	%{name}-Werror.patch
+Patch7:		%{name}-inline.patch
+Patch8:		%{name}-Werror.patch
 #URL:		file://home/devel/drepper
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.7
@@ -143,13 +142,9 @@ programowalny interfejs asemblera.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
-%patch9 -p1
-%patch10 -p1
+%patch8 -p1
 
 rm -f po/stamp-po
-
-# strip-test5 needs adjusting for strip-copy-symtab patch (already in FC, but not worth bothering)
-sed -i -e 's/ run-strip-test5\.sh / /' tests/Makefile.am
 
 # temporarily disable test failing on specific archs
 %ifarch alpha sparc sparc64
