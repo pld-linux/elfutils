@@ -9,8 +9,7 @@ Version:	0.135
 Release:	1
 License:	GPL v2 with OSL linking exception
 Group:		Development/Tools
-# http://ftp.fi.muni.cz/pub/linux/fedora/linux/development/source/SRPMS/
-Source0:	%{name}-%{version}.tar.gz
+Source0:	https://fedorahosted.org/releases/e/l/elfutils/%{name}-%{version}.tar.gz
 # Source0-md5:	2fb0d3d9cdb22f71ad0df91d676bb2eb
 Patch0:		%{name}-pl.po.patch
 Patch1:		%{name}-debian-manpages.patch
@@ -21,7 +20,7 @@ Patch5:		%{name}-paxflags.patch
 Patch6:		%{name}-sparc.patch
 Patch7:		%{name}-inline.patch
 Patch8:		%{name}-Werror.patch
-#URL:		file://home/devel/drepper
+URL:		https://fedorahosted.org/elfutils/
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.7
 BuildRequires:	gcc >= 5:3.4
