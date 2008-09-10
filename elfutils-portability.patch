@@ -1,6 +1,6 @@
 --- elfutils/backends/ChangeLog
 +++ elfutils/backends/ChangeLog
-@@ -296,6 +296,11 @@
+@@ -315,6 +315,11 @@
  	* sparc_init.c: Likewise.
  	* x86_64_init.c: Likewise.
  
@@ -12,7 +12,7 @@
  2005-11-19  Roland McGrath  <roland@redhat.com>
  
  	* ppc64_reloc.def: REL30 -> ADDR30.
-@@ -318,6 +323,9 @@
+@@ -337,6 +342,9 @@
  	* Makefile.am (uninstall): Don't try to remove $(pkgincludedir).
  	(CLEANFILES): Add libebl_$(m).so.
  
@@ -46,11 +46,11 @@
  
 -
  i386_SRCS = i386_init.c i386_symbol.c i386_corenote.c \
- 	    i386_retval.c i386_regs.c i386_auxv.c
+ 	    i386_retval.c i386_regs.c i386_auxv.c i386_syscall.c
  cpu_i386 = ../libcpu/libcpu_i386.a
 --- elfutils/backends/Makefile.in
 +++ elfutils/backends/Makefile.in
-@@ -153,6 +153,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+@@ -155,6 +155,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
  INSTALL_SCRIPT = @INSTALL_SCRIPT@
  INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
  LDFLAGS = @LDFLAGS@
@@ -58,7 +58,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -182,6 +183,7 @@ SHELL = @SHELL@
+@@ -184,6 +185,7 @@ SHELL = @SHELL@
  STRIP = @STRIP@
  USE_NLS = @USE_NLS@
  VERSION = @VERSION@
@@ -66,7 +66,7 @@
  XGETTEXT = @XGETTEXT@
  XGETTEXT_015 = @XGETTEXT_015@
  YACC = @YACC@
-@@ -237,9 +239,9 @@ target_alias = @target_alias@
+@@ -239,9 +241,9 @@ target_alias = @target_alias@
  top_builddir = @top_builddir@
  top_srcdir = @top_srcdir@
  @MUDFLAP_FALSE@AM_CFLAGS = -fpic -Wall -Wshadow -Werror -Wunused \
@@ -80,7 +80,7 @@
  	   -I$(top_srcdir)/lib -I..
 --- elfutils/ChangeLog
 +++ elfutils/ChangeLog
-@@ -30,6 +30,10 @@
+@@ -39,6 +39,10 @@
  	* configure.ac: Add dummy automake conditional to get dependencies
  	for non-generic linker right.  See src/Makefile.am.
  
@@ -91,7 +91,7 @@
  2005-11-18  Roland McGrath  <roland@redhat.com>
  
  	* Makefile.am (DISTCHECK_CONFIGURE_FLAGS): New variable.
-@@ -77,6 +81,17 @@
+@@ -86,6 +90,17 @@
  	* Makefile.am (all_SUBDIRS): Add libdwfl.
  	* configure.ac: Write libdwfl/Makefile.
  
@@ -129,7 +129,7 @@
  YACC = @YACC@
 --- elfutils/configure
 +++ elfutils/configure
-@@ -674,6 +674,8 @@ YFLAGS
+@@ -676,6 +676,8 @@ YFLAGS
  LEX
  LEX_OUTPUT_ROOT
  LEXLIB
@@ -138,7 +138,7 @@
  LOCALEDIR
  DATADIRNAME
  NATIVE_LD_TRUE
-@@ -3877,6 +3879,88 @@ echo "$as_me: error: gcc with C99 suppor
+@@ -3894,6 +3896,88 @@ echo "$as_me: error: gcc with C99 suppor
  fi
  
  
@@ -227,40 +227,38 @@
  LOCALEDIR=$datadir
  
  cat >>confdefs.h <<_ACEOF
-@@ -5621,10 +5705,10 @@ YFLAGS!$YFLAGS$ac_delim
+@@ -5646,8 +5730,8 @@ YFLAGS!$YFLAGS$ac_delim
  LEX!$LEX$ac_delim
  LEX_OUTPUT_ROOT!$LEX_OUTPUT_ROOT$ac_delim
  LEXLIB!$LEXLIB$ac_delim
+-LOCALEDIR!$LOCALEDIR$ac_delim
+-DATADIRNAME!$DATADIRNAME$ac_delim
 +WEXTRA!$WEXTRA$ac_delim
 +LD_AS_NEEDED!$LD_AS_NEEDED$ac_delim
- LOCALEDIR!$LOCALEDIR$ac_delim
- DATADIRNAME!$DATADIRNAME$ac_delim
--NATIVE_LD_TRUE!$NATIVE_LD_TRUE$ac_delim
--NATIVE_LD_FALSE!$NATIVE_LD_FALSE$ac_delim
  _ACEOF
  
    if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 97; then
-@@ -5666,6 +5750,8 @@ _ACEOF
+@@ -5689,6 +5773,8 @@ _ACEOF
  ac_delim='%!_!# '
  for ac_last_try in false false false false false :; do
    cat >conf$$subs.sed <<_ACEOF
-+NATIVE_LD_TRUE!$NATIVE_LD_TRUE$ac_delim
-+NATIVE_LD_FALSE!$NATIVE_LD_FALSE$ac_delim
++LOCALEDIR!$LOCALEDIR$ac_delim
++DATADIRNAME!$DATADIRNAME$ac_delim
+ NATIVE_LD_TRUE!$NATIVE_LD_TRUE$ac_delim
+ NATIVE_LD_FALSE!$NATIVE_LD_FALSE$ac_delim
  base_cpu!$base_cpu$ac_delim
- NEVER_TRUE!$NEVER_TRUE$ac_delim
- NEVER_FALSE!$NEVER_FALSE$ac_delim
-@@ -5697,7 +5783,7 @@ LIBOBJS!$LIBOBJS$ac_delim
+@@ -5722,7 +5808,7 @@ LIBOBJS!$LIBOBJS$ac_delim
  LTLIBOBJS!$LTLIBOBJS$ac_delim
  _ACEOF
  
--  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 29; then
-+  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 31; then
+-  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 31; then
++  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 33; then
      break
    elif $ac_last_try; then
      { { echo "$as_me:$LINENO: error: could not make $CONFIG_STATUS" >&5
 --- elfutils/configure.ac
 +++ elfutils/configure.ac
-@@ -71,6 +71,34 @@ CFLAGS="$old_CFLAGS"])
+@@ -74,6 +74,34 @@ CFLAGS="$old_CFLAGS"])
  AS_IF([test "x$ac_cv_c99" != xyes],
        AC_MSG_ERROR([gcc with C99 support required]))
  
@@ -297,7 +295,7 @@
  AC_DEFINE_UNQUOTED(LOCALEDIR, "$LOCALEDIR")
 --- elfutils/lib/ChangeLog
 +++ elfutils/lib/ChangeLog
-@@ -30,6 +30,11 @@
+@@ -41,6 +41,11 @@
  	* Makefile.am (libeu_a_SOURCES): Add it.
  	* system.h: Declare crc32_file.
  
@@ -477,7 +475,7 @@
  INCLUDES = -I$(srcdir) -I$(srcdir)/../lib -I$(srcdir)/../libelf \
 --- elfutils/libdw/ChangeLog
 +++ elfutils/libdw/ChangeLog
-@@ -490,6 +490,11 @@
+@@ -495,6 +495,11 @@
  
  2005-05-31  Roland McGrath  <roland@redhat.com>
  
@@ -541,7 +539,7 @@
  						       $(COMPILE)))
 --- elfutils/libdwfl/ChangeLog
 +++ elfutils/libdwfl/ChangeLog
-@@ -806,6 +806,11 @@
+@@ -885,6 +885,11 @@
  
  2005-07-21  Roland McGrath  <roland@redhat.com>
  
@@ -572,7 +570,7 @@
  VERSION = 1
 --- elfutils/libdwfl/Makefile.in
 +++ elfutils/libdwfl/Makefile.in
-@@ -129,6 +129,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+@@ -131,6 +131,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
  INSTALL_SCRIPT = @INSTALL_SCRIPT@
  INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
  LDFLAGS = @LDFLAGS@
@@ -580,7 +578,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -158,6 +159,7 @@ SHELL = @SHELL@
+@@ -160,6 +161,7 @@ SHELL = @SHELL@
  STRIP = @STRIP@
  USE_NLS = @USE_NLS@
  VERSION = 1
@@ -588,7 +586,7 @@
  XGETTEXT = @XGETTEXT@
  XGETTEXT_015 = @XGETTEXT_015@
  YACC = @YACC@
-@@ -213,9 +215,9 @@ target_alias = @target_alias@
+@@ -215,9 +217,9 @@ target_alias = @target_alias@
  top_builddir = @top_builddir@
  top_srcdir = @top_srcdir@
  @MUDFLAP_FALSE@AM_CFLAGS = -Wall -Werror -Wshadow -Wunused -Wformat=2 \
@@ -602,7 +600,7 @@
  
 --- elfutils/libebl/ChangeLog
 +++ elfutils/libebl/ChangeLog
-@@ -538,6 +538,11 @@
+@@ -554,6 +554,11 @@
  	* Makefile.am (libebl_*_so_SOURCES): Set to $(*_SRCS) so dependency
  	tracking works right.
  
@@ -633,7 +631,7 @@
  INCLUDES = -I$(srcdir) -I$(top_srcdir)/libelf -I$(top_srcdir)/libdw \
 --- elfutils/libebl/Makefile.in
 +++ elfutils/libebl/Makefile.in
-@@ -122,6 +122,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+@@ -123,6 +123,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
  INSTALL_SCRIPT = @INSTALL_SCRIPT@
  INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
  LDFLAGS = @LDFLAGS@
@@ -641,7 +639,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -151,6 +152,7 @@ SHELL = @SHELL@
+@@ -152,6 +153,7 @@ SHELL = @SHELL@
  STRIP = @STRIP@
  USE_NLS = @USE_NLS@
  VERSION = 1
@@ -649,7 +647,7 @@
  XGETTEXT = @XGETTEXT@
  XGETTEXT_015 = @XGETTEXT_015@
  YACC = @YACC@
-@@ -206,9 +208,9 @@ target_alias = @target_alias@
+@@ -207,9 +209,9 @@ target_alias = @target_alias@
  top_builddir = @top_builddir@
  top_srcdir = @top_srcdir@
  @MUDFLAP_FALSE@AM_CFLAGS = -fpic -Wall -Wshadow -Werror -Wunused \
@@ -663,7 +661,7 @@
  
 --- elfutils/libelf/ChangeLog
 +++ elfutils/libelf/ChangeLog
-@@ -359,6 +359,11 @@
+@@ -408,6 +408,11 @@
  	If section content hasn't been read yet, do it before looking for the
  	block size.  If no section data present, infer size of section header.
  
@@ -677,7 +675,7 @@
  	* elf.h: Update again.
 --- elfutils/libelf/common.h
 +++ elfutils/libelf/common.h
-@@ -159,7 +159,7 @@ libelf_release_all (Elf *elf)
+@@ -160,7 +160,7 @@ libelf_release_all (Elf *elf)
    (Var) = (sizeof (Var) == 1						      \
  	   ? (unsigned char) (Var)					      \
  	   : (sizeof (Var) == 2						      \
@@ -686,7 +684,7 @@
  	      : (sizeof (Var) == 4					      \
  		 ? bswap_32 (Var)					      \
  		 : bswap_64 (Var))))
-@@ -168,7 +168,7 @@ libelf_release_all (Elf *elf)
+@@ -169,7 +169,7 @@ libelf_release_all (Elf *elf)
    (Dst) = (sizeof (Var) == 1						      \
  	   ? (unsigned char) (Var)					      \
  	   : (sizeof (Var) == 2						      \
@@ -705,30 +703,18 @@
  if MUDFLAP
  AM_CFLAGS = -fmudflap
  else
-@@ -33,7 +34,10 @@ endif
+@@ -33,7 +34,7 @@ endif
  if BUILD_STATIC
  AM_CFLAGS += -fpic
  endif
 -AM_CFLAGS += -Wall -Wshadow -Werror -Wunused -Wextra -Wformat=2 -std=gnu99 \
-+if BUILD_STATIC
-+AM_CFLAGS += -fpic
-+endif
 +AM_CFLAGS += -Wall -Wshadow -Werror -Wunused $(WEXTRA) -Wformat=2 -std=gnu99 \
  	     $($(*F)_CFLAGS)
  INCLUDES = -I$(srcdir) -I$(top_srcdir)/lib -I..
  GCC_INCLUDE = -I$(shell $(CC) -print-file-name=include)
 --- elfutils/libelf/Makefile.in
 +++ elfutils/libelf/Makefile.in
-@@ -34,7 +34,7 @@ PRE_UNINSTALL = :
- POST_UNINSTALL = :
- build_triplet = @build@
- host_triplet = @host@
--@BUILD_STATIC_TRUE@am__append_1 = -fpic
-+@BUILD_STATIC_TRUE@am__append_1 = -fpic -fpic
- @MUDFLAP_FALSE@noinst_PROGRAMS = $(am__EXEEXT_1)
- @MUDFLAP_TRUE@am_libelf_pic_a_OBJECTS =
- subdir = libelf
-@@ -170,6 +170,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+@@ -171,6 +171,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
  INSTALL_SCRIPT = @INSTALL_SCRIPT@
  INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
  LDFLAGS = @LDFLAGS@
@@ -736,7 +722,7 @@
  LEX = @LEX@
  LEXLIB = @LEXLIB@
  LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
-@@ -199,6 +200,7 @@ SHELL = @SHELL@
+@@ -200,6 +201,7 @@ SHELL = @SHELL@
  STRIP = @STRIP@
  USE_NLS = @USE_NLS@
  VERSION = 1
@@ -744,7 +730,7 @@
  XGETTEXT = @XGETTEXT@
  XGETTEXT_015 = @XGETTEXT_015@
  YACC = @YACC@
-@@ -254,10 +256,10 @@ target_alias = @target_alias@
+@@ -255,10 +257,10 @@ target_alias = @target_alias@
  top_builddir = @top_builddir@
  top_srcdir = @top_srcdir@
  @MUDFLAP_FALSE@AM_CFLAGS = $(am__append_1) -Wall -Wshadow -Werror \
@@ -795,7 +781,7 @@
  YACC = @YACC@
 --- elfutils/src/ChangeLog
 +++ elfutils/src/ChangeLog
-@@ -34,6 +34,11 @@
+@@ -61,6 +61,11 @@
  	that matches its PT_LOAD's p_flags &~ PF_W.  On sparc, PF_X really
  	is valid in RELRO.
  
@@ -807,7 +793,7 @@
  2008-02-29  Roland McGrath  <roland@redhat.com>
  
  	* readelf.c (print_attributes): Add a cast.
-@@ -285,6 +290,8 @@
+@@ -312,6 +317,8 @@
  
  	* readelf.c (hex_dump): Fix rounding error in whitespace calculation.
  
@@ -816,7 +802,7 @@
  2007-10-15  Roland McGrath  <roland@redhat.com>
  
  	* make-debug-archive.in: New file.
-@@ -724,6 +731,10 @@
+@@ -751,6 +758,10 @@
  	* elflint.c (valid_e_machine): Add EM_ALPHA.
  	Reported by Christian Aichinger <Greek0@gmx.net>.
  
@@ -827,7 +813,7 @@
  2006-08-08  Ulrich Drepper  <drepper@redhat.com>
  
  	* elflint.c (check_dynamic): Don't require DT_HASH for DT_SYMTAB.
-@@ -800,6 +811,10 @@
+@@ -827,6 +838,10 @@
  	* Makefile.am: Add hacks to create dependency files for non-generic
  	linker.
  
@@ -838,7 +824,7 @@
  2006-06-12  Ulrich Drepper  <drepper@redhat.com>
  
  	* ldgeneric.c (ld_generic_generate_sections): Don't create .interp
-@@ -1148,6 +1163,11 @@
+@@ -1175,6 +1190,11 @@
  	* readelf.c (print_debug_loc_section): Fix indentation for larger
  	address size.
  
@@ -940,7 +926,7 @@
  size_LDADD = $(libelf) $(libeu) $(libmudflap)
 --- elfutils/src/readelf.c
 +++ elfutils/src/readelf.c
-@@ -6340,7 +6340,7 @@ dump_archive_index (Elf *elf, const char
+@@ -6419,7 +6419,7 @@ dump_archive_index (Elf *elf, const char
  	  if (unlikely (elf_rand (elf, as_off) == 0)
  	      || unlikely ((subelf = elf_begin (-1, ELF_C_READ_MMAP, elf))
  			   == NULL))
@@ -1030,7 +1016,7 @@
  cannot set access and modification date of '%s'"), fname);
 --- elfutils/tests/ChangeLog
 +++ elfutils/tests/ChangeLog
-@@ -45,6 +45,8 @@
+@@ -51,6 +51,8 @@
  
  2008-01-21  Roland McGrath  <roland@redhat.com>
  
@@ -1039,7 +1025,7 @@
  	* testfile45.S.bz2: Add tests for cltq, cqto.
  	* testfile45.expect.bz2: Adjust.
  
-@@ -753,6 +755,11 @@
+@@ -759,6 +761,11 @@
  	* Makefile.am (TESTS): Add run-elflint-test.sh.
  	(EXTRA_DIST): Add run-elflint-test.sh and testfile18.bz2.
  

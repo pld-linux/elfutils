@@ -65,8 +65,748 @@ src/
 	(check_symtab, is_rel_dyn, check_rela, check_rel, check_dynamic,
 	check_symtab_shndx, check_hash, check_versym): Robustify.
 
---- elfutils-0.135/src/elflint.c.robustify
-+++ elfutils-0.135/src/elflint.c
+--- elfutils-0.136/libelf/elf32_getphdr.c.robustify
++++ elfutils-0.136/libelf/elf32_getphdr.c
+@@ -105,6 +105,16 @@ __elfw2(LIBELFBITS,getphdr_wrlock) (elf)
+ 
+       if (elf->map_address != NULL)
+ 	{
++	  /* First see whether the information in the ELF header is
++	     valid and it does not ask for too much.  */
++	  if (unlikely (ehdr->e_phoff >= elf->maximum_size)
++	      || unlikely (ehdr->e_phoff + size > elf->maximum_size))
++	    {
++	      /* Something is wrong.  */
++	      __libelf_seterrno (ELF_E_INVALID_PHDR);
++	      goto out;
++	    }
++
+ 	  /* All the data is already mapped.  Use it.  */
+ 	  void *file_phdr = ((char *) elf->map_address
+ 			     + elf->start_offset + ehdr->e_phoff);
+--- elfutils-0.136/libelf/elf32_getshdr.c.robustify
++++ elfutils-0.136/libelf/elf32_getshdr.c
+@@ -1,5 +1,5 @@
+ /* Return section header.
+-   Copyright (C) 1998, 1999, 2000, 2001, 2002, 2005, 2007 Red Hat, Inc.
++   Copyright (C) 1998, 1999, 2000, 2001, 2002, 2005, 2007, 2008 Red Hat, Inc.
+    This file is part of Red Hat elfutils.
+    Written by Ulrich Drepper <drepper@redhat.com>, 1998.
+ 
+@@ -81,7 +81,8 @@ load_shdr_rwlock (Elf_Scn *scn)
+     goto out;
+ 
+   size_t shnum;
+-  if (__elf_getshnum_rdlock (elf, &shnum) != 0)
++  if (__elf_getshnum_rdlock (elf, &shnum) != 0
++      || shnum > SIZE_MAX / sizeof (ElfW2(LIBELFBITS,Shdr)))
+     goto out;
+   size_t size = shnum * sizeof (ElfW2(LIBELFBITS,Shdr));
+ 
+@@ -98,6 +99,16 @@ load_shdr_rwlock (Elf_Scn *scn)
+ 
+   if (elf->map_address != NULL)
+     {
++      /* First see whether the information in the ELF header is
++	 valid and it does not ask for too much.  */
++      if (unlikely (ehdr->e_shoff >= elf->maximum_size)
++	  || unlikely (ehdr->e_shoff + size > elf->maximum_size))
++	{
++	  /* Something is wrong.  */
++	  __libelf_seterrno (ELF_E_INVALID_SECTION_HEADER);
++	  goto free_and_out;
++	}
++
+       ElfW2(LIBELFBITS,Shdr) *notcvt;
+ 
+       /* All the data is already mapped.  If we could use it
+--- elfutils-0.136/libelf/elf32_newphdr.c.robustify
++++ elfutils-0.136/libelf/elf32_newphdr.c
+@@ -124,6 +124,12 @@ elfw2(LIBELFBITS,newphdr) (elf, count)
+   else if (elf->state.ELFW(elf,LIBELFBITS).ehdr->e_phnum != count
+ 	   || elf->state.ELFW(elf,LIBELFBITS).phdr == NULL)
+     {
++      if (unlikely (count > SIZE_MAX / sizeof (ElfW2(LIBELFBITS,Phdr))))
++	{
++	  result = NULL;
++	  goto out;
++	}
++
+       /* Allocate a new program header with the appropriate number of
+ 	 elements.  */
+       result = (ElfW2(LIBELFBITS,Phdr) *)
+--- elfutils-0.136/libelf/elf32_updatefile.c.robustify
++++ elfutils-0.136/libelf/elf32_updatefile.c
+@@ -212,6 +212,9 @@ __elfw2(LIBELFBITS,updatemmap) (Elf *elf
+   /* Write all the sections.  Well, only those which are modified.  */
+   if (shnum > 0)
+     {
++      if (unlikely (shnum > SIZE_MAX / sizeof (Elf_Scn *)))
++ 	return 1;
++
+       Elf_ScnList *list = &elf->state.ELFW(elf,LIBELFBITS).scns;
+       Elf_Scn **scns = (Elf_Scn **) alloca (shnum * sizeof (Elf_Scn *));
+       char *const shdr_start = ((char *) elf->map_address + elf->start_offset
+@@ -582,6 +585,10 @@ __elfw2(LIBELFBITS,updatefile) (Elf *elf
+   /* Write all the sections.  Well, only those which are modified.  */
+   if (shnum > 0)
+     {
++      if (unlikely (shnum > SIZE_MAX / (sizeof (Elf_Scn *)
++					+ sizeof (ElfW2(LIBELFBITS,Shdr)))))
++	return 1;
++
+       off_t shdr_offset = elf->start_offset + ehdr->e_shoff;
+ #if EV_NUM != 2
+       xfct_t shdr_fctp = __elf_xfctstom[__libelf_version - 1][EV_CURRENT - 1][ELFW(ELFCLASS, LIBELFBITS) - 1][ELF_T_SHDR];
+--- elfutils-0.136/libelf/elf_begin.c.robustify
++++ elfutils-0.136/libelf/elf_begin.c
+@@ -155,7 +155,8 @@ get_shnum (void *map_address, unsigned c
+ 
+       if (unlikely (result == 0) && ehdr.e32->e_shoff != 0)
+ 	{
+-	  if (ehdr.e32->e_shoff + sizeof (Elf32_Shdr) > maxsize)
++	  if (unlikely (ehdr.e32->e_shoff >= maxsize)
++	      || unlikely (ehdr.e32->e_shoff + sizeof (Elf32_Shdr) > maxsize))
+ 	    /* Cannot read the first section header.  */
+ 	    return 0;
+ 
+@@ -203,7 +204,8 @@ get_shnum (void *map_address, unsigned c
+ 
+       if (unlikely (result == 0) && ehdr.e64->e_shoff != 0)
+ 	{
+-	  if (ehdr.e64->e_shoff + sizeof (Elf64_Shdr) > maxsize)
++	  if (unlikely (ehdr.e64->e_shoff >= maxsize)
++	      || unlikely (ehdr.e64->e_shoff + sizeof (Elf64_Shdr) > maxsize))
+ 	    /* Cannot read the first section header.  */
+ 	    return 0;
+ 
+@@ -275,6 +277,15 @@ file_read_elf (int fildes, void *map_add
+     /* Could not determine the number of sections.  */
+     return NULL;
+ 
++  /* Check for too many sections.  */
++  if (e_ident[EI_CLASS] == ELFCLASS32)
++    {
++      if (scncnt > SIZE_MAX / (sizeof (Elf_Scn) + sizeof (Elf32_Shdr)))
++	return NULL;
++    }
++  else if (scncnt > SIZE_MAX / (sizeof (Elf_Scn) + sizeof (Elf64_Shdr)))
++    return NULL;
++
+   /* We can now allocate the memory.  */
+   Elf *elf = allocate_elf (fildes, map_address, offset, maxsize, cmd, parent,
+ 			   ELF_K_ELF, scncnt * sizeof (Elf_Scn));
+@@ -308,13 +319,31 @@ file_read_elf (int fildes, void *map_add
+ 	{
+ 	  /* We can use the mmapped memory.  */
+ 	  elf->state.elf32.ehdr = ehdr;
++
++	  if (unlikely (ehdr->e_shoff >= maxsize)
++	      || unlikely (ehdr->e_shoff
++			   + scncnt * sizeof (Elf32_Shdr) > maxsize))
++	    {
++	    free_and_out:
++	      free (elf);
++	      __libelf_seterrno (ELF_E_INVALID_FILE);
++	      return NULL;
++	    }
+ 	  elf->state.elf32.shdr
+ 	    = (Elf32_Shdr *) ((char *) ehdr + ehdr->e_shoff);
++
+ 	  if (ehdr->e_phnum > 0)
++	    {
+ 	    /* Assign a value only if there really is a program
+ 	       header.  Otherwise the value remains NULL.  */
++	      if (unlikely (ehdr->e_phoff >= maxsize)
++		  || unlikely (ehdr->e_phoff
++			       + ehdr->e_phnum
++			       * sizeof (Elf32_Phdr) > maxsize))
++		goto free_and_out;
+ 	    elf->state.elf32.phdr
+ 	      = (Elf32_Phdr *) ((char *) ehdr + ehdr->e_phoff);
++	    }
+ 
+ 	  for (size_t cnt = 0; cnt < scncnt; ++cnt)
+ 	    {
+@@ -396,13 +425,26 @@ file_read_elf (int fildes, void *map_add
+ 	{
+ 	  /* We can use the mmapped memory.  */
+ 	  elf->state.elf64.ehdr = ehdr;
++
++	  if (unlikely (ehdr->e_shoff >= maxsize)
++	      || unlikely (ehdr->e_shoff
++			   + scncnt * sizeof (Elf32_Shdr) > maxsize))
++	    goto free_and_out;
+ 	  elf->state.elf64.shdr
+ 	    = (Elf64_Shdr *) ((char *) ehdr + ehdr->e_shoff);
++
+ 	  if (ehdr->e_phnum > 0)
++	    {
+ 	    /* Assign a value only if there really is a program
+ 	       header.  Otherwise the value remains NULL.  */
++	      if (unlikely (ehdr->e_phoff >= maxsize)
++		  || unlikely (ehdr->e_phoff
++			       + ehdr->e_phnum
++			       * sizeof (Elf32_Phdr) > maxsize))
++		goto free_and_out;
+ 	    elf->state.elf64.phdr
+ 	      = (Elf64_Phdr *) ((char *) ehdr + ehdr->e_phoff);
++	    }
+ 
+ 	  for (size_t cnt = 0; cnt < scncnt; ++cnt)
+ 	    {
+--- elfutils-0.136/libelf/elf_getarsym.c.robustify
++++ elfutils-0.136/libelf/elf_getarsym.c
+@@ -179,6 +179,9 @@ elf_getarsym (elf, ptr)
+       size_t index_size = atol (tmpbuf);
+ 
+       if (SARMAG + sizeof (struct ar_hdr) + index_size > elf->maximum_size
++#if SIZE_MAX <= 4294967295U
++	  || n >= SIZE_MAX / sizeof (Elf_Arsym)
++#endif
+ 	  || n * sizeof (uint32_t) > index_size)
+ 	{
+ 	  /* This index table cannot be right since it does not fit into
+--- elfutils-0.136/libelf/elf_getshstrndx.c.robustify
++++ elfutils-0.136/libelf/elf_getshstrndx.c
+@@ -125,10 +125,25 @@ elf_getshstrndx (elf, dst)
+ 	      if (elf->map_address != NULL
+ 		  && elf->state.elf32.ehdr->e_ident[EI_DATA] == MY_ELFDATA
+ 		  && (ALLOW_UNALIGNED
+-		      || (((size_t) ((char *) elf->map_address + offset))
++		      || (((size_t) ((char *) elf->map_address
++			   + elf->start_offset + offset))
+ 			  & (__alignof__ (Elf32_Shdr) - 1)) == 0))
++		{
++		  /* First see whether the information in the ELF header is
++		     valid and it does not ask for too much.  */
++		  if (unlikely (offset + sizeof (Elf32_Shdr)
++				> elf->maximum_size))
++		    {
++		      /* Something is wrong.  */
++		      __libelf_seterrno (ELF_E_INVALID_SECTION_HEADER);
++		      result = -1;
++		      goto out;
++		    }
++
+ 		/* We can directly access the memory.  */
+-		num = ((Elf32_Shdr *) (elf->map_address + offset))->sh_link;
++		  num = ((Elf32_Shdr *) (elf->map_address + elf->start_offset
++					 + offset))->sh_link;
++		}
+ 	      else
+ 		{
+ 		  /* We avoid reading in all the section headers.  Just read
+@@ -163,10 +178,25 @@ elf_getshstrndx (elf, dst)
+ 	      if (elf->map_address != NULL
+ 		  && elf->state.elf64.ehdr->e_ident[EI_DATA] == MY_ELFDATA
+ 		  && (ALLOW_UNALIGNED
+-		      || (((size_t) ((char *) elf->map_address + offset))
++		      || (((size_t) ((char *) elf->map_address
++			   + elf->start_offset + offset))
+ 			  & (__alignof__ (Elf64_Shdr) - 1)) == 0))
++		{
++		  /* First see whether the information in the ELF header is
++		     valid and it does not ask for too much.  */
++		  if (unlikely (offset + sizeof (Elf64_Shdr)
++				> elf->maximum_size))
++		    {
++		      /* Something is wrong.  */
++		      __libelf_seterrno (ELF_E_INVALID_SECTION_HEADER);
++		      result = -1;
++		      goto out;
++		    }
++
+ 		/* We can directly access the memory.  */
+-		num = ((Elf64_Shdr *) (elf->map_address + offset))->sh_link;
++		  num = ((Elf64_Shdr *) (elf->map_address
++			 + elf->start_offset + offset))->sh_link;
++		}
+ 	      else
+ 		{
+ 		  /* We avoid reading in all the section headers.  Just read
+--- elfutils-0.136/libelf/elf_newscn.c.robustify
++++ elfutils-0.136/libelf/elf_newscn.c
+@@ -104,10 +104,18 @@ elf_newscn (elf)
+   else
+     {
+       /* We must allocate a new element.  */
+-      Elf_ScnList *newp;
++      Elf_ScnList *newp = NULL;
+ 
+       assert (elf->state.elf.scnincr > 0);
+ 
++      if (
++#if SIZE_MAX <= 4294967295U
++	  likely (elf->state.elf.scnincr
++		  < SIZE_MAX / 2 / sizeof (Elf_Scn) - sizeof (Elf_ScnList))
++#else
++	  1
++#endif
++	  )
+       newp = (Elf_ScnList *) calloc (sizeof (Elf_ScnList)
+ 				     + ((elf->state.elf.scnincr *= 2)
+ 					* sizeof (Elf_Scn)), 1);
+--- elfutils-0.136/libelf/gelf_getdyn.c.robustify
++++ elfutils-0.136/libelf/gelf_getdyn.c
+@@ -93,7 +93,8 @@ gelf_getdyn (data, ndx, dst)
+ 	 table entries has to be adopted.  The user better has provided
+ 	 a buffer where we can store the information.  While copying the
+ 	 data we are converting the format.  */
+-      if (unlikely ((ndx + 1) * sizeof (Elf32_Dyn) > data_scn->d.d_size))
++      if (INVALID_NDX (ndx, Elf32_Dyn)
++	  || unlikely ((ndx + 1) * sizeof (Elf32_Dyn) > data_scn->d.d_size))
+ 	{
+ 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+ 	  goto out;
+@@ -114,7 +115,8 @@ gelf_getdyn (data, ndx, dst)
+ 
+       /* The data is already in the correct form.  Just make sure the
+ 	 index is OK.  */
+-      if (unlikely ((ndx + 1) * sizeof (GElf_Dyn) > data_scn->d.d_size))
++      if (INVALID_NDX (ndx, GElf_Dyn)
++	  || unlikely ((ndx + 1) * sizeof (GElf_Dyn) > data_scn->d.d_size))
+ 	{
+ 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+ 	  goto out;
+--- elfutils-0.136/libelf/gelf_getlib.c.robustify
++++ elfutils-0.136/libelf/gelf_getlib.c
+@@ -86,7 +86,8 @@ gelf_getlib (data, ndx, dst)
+   /* The data is already in the correct form.  Just make sure the
+      index is OK.  */
+   GElf_Lib *result = NULL;
+-  if (unlikely ((ndx + 1) * sizeof (GElf_Lib) > data->d_size))
++  if (INVALID_NDX (ndx, GElf_Lib)
++      || unlikely ((ndx + 1) * sizeof (GElf_Lib) > data->d_size))
+     __libelf_seterrno (ELF_E_INVALID_INDEX);
+   else
+     {
+--- elfutils-0.136/libelf/gelf_getmove.c.robustify
++++ elfutils-0.136/libelf/gelf_getmove.c
+@@ -83,7 +83,8 @@ gelf_getmove (data, ndx, dst)
+ 
+   /* The data is already in the correct form.  Just make sure the
+      index is OK.  */
+-  if (unlikely ((ndx + 1) * sizeof (GElf_Move) > data->d_size))
++  if (INVALID_NDX (ndx, GElf_Move)
++      || unlikely ((ndx + 1) * sizeof (GElf_Move) > data->d_size))
+     {
+       __libelf_seterrno (ELF_E_INVALID_INDEX);
+       goto out;
+--- elfutils-0.136/libelf/gelf_getrela.c.robustify
++++ elfutils-0.136/libelf/gelf_getrela.c
+@@ -71,12 +71,6 @@ gelf_getrela (data, ndx, dst)
+   if (data_scn == NULL)
+     return NULL;
+ 
+-  if (unlikely (ndx < 0))
+-    {
+-      __libelf_seterrno (ELF_E_INVALID_INDEX);
+-      return NULL;
+-    }
+-
+   if (unlikely (data_scn->d.d_type != ELF_T_RELA))
+     {
+       __libelf_seterrno (ELF_E_INVALID_HANDLE);
+@@ -93,7 +87,8 @@ gelf_getrela (data, ndx, dst)
+   if (scn->elf->class == ELFCLASS32)
+     {
+       /* We have to convert the data.  */
+-      if (unlikely ((ndx + 1) * sizeof (Elf32_Rela) > data_scn->d.d_size))
++      if (INVALID_NDX (ndx, Elf32_Rela)
++	  || unlikely ((ndx + 1) * sizeof (Elf32_Rela) > data_scn->d.d_size))
+ 	{
+ 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+ 	  result = NULL;
+@@ -114,7 +109,8 @@ gelf_getrela (data, ndx, dst)
+     {
+       /* Simply copy the data after we made sure we are actually getting
+ 	 correct data.  */
+-      if (unlikely ((ndx + 1) * sizeof (Elf64_Rela) > data_scn->d.d_size))
++      if (INVALID_NDX (ndx, Elf64_Rela)
++	  || unlikely ((ndx + 1) * sizeof (Elf64_Rela) > data_scn->d.d_size))
+ 	{
+ 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+ 	  result = NULL;
+--- elfutils-0.136/libelf/gelf_getrel.c.robustify
++++ elfutils-0.136/libelf/gelf_getrel.c
+@@ -71,12 +71,6 @@ gelf_getrel (data, ndx, dst)
+   if (data_scn == NULL)
+     return NULL;
+ 
+-  if (unlikely (ndx < 0))
+-    {
+-      __libelf_seterrno (ELF_E_INVALID_INDEX);
+-      return NULL;
+-    }
+-
+   if (unlikely (data_scn->d.d_type != ELF_T_REL))
+     {
+       __libelf_seterrno (ELF_E_INVALID_HANDLE);
+@@ -93,7 +87,8 @@ gelf_getrel (data, ndx, dst)
+   if (scn->elf->class == ELFCLASS32)
+     {
+       /* We have to convert the data.  */
+-      if (unlikely ((ndx + 1) * sizeof (Elf32_Rel) > data_scn->d.d_size))
++      if (INVALID_NDX (ndx, Elf32_Rel)
++	  || unlikely ((ndx + 1) * sizeof (Elf32_Rel) > data_scn->d.d_size))
+ 	{
+ 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+ 	  result = NULL;
+@@ -113,7 +108,8 @@ gelf_getrel (data, ndx, dst)
+     {
+       /* Simply copy the data after we made sure we are actually getting
+ 	 correct data.  */
+-      if (unlikely ((ndx + 1) * sizeof (Elf64_Rel) > data_scn->d.d_size))
++      if (INVALID_NDX (ndx, Elf64_Rel)
++	  || unlikely ((ndx + 1) * sizeof (Elf64_Rel) > data_scn->d.d_size))
+ 	{
+ 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+ 	  result = NULL;
+--- elfutils-0.136/libelf/gelf_getsym.c.robustify
++++ elfutils-0.136/libelf/gelf_getsym.c
+@@ -90,7 +90,8 @@ gelf_getsym (data, ndx, dst)
+ 	 table entries has to be adopted.  The user better has provided
+ 	 a buffer where we can store the information.  While copying the
+ 	 data we are converting the format.  */
+-      if (unlikely ((ndx + 1) * sizeof (Elf32_Sym) > data->d_size))
++      if (INVALID_NDX (ndx, Elf32_Sym)
++	  || unlikely ((ndx + 1) * sizeof (Elf32_Sym) > data->d_size))
+ 	{
+ 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+ 	  goto out;
+@@ -119,7 +120,8 @@ gelf_getsym (data, ndx, dst)
+ 
+       /* The data is already in the correct form.  Just make sure the
+ 	 index is OK.  */
+-      if (unlikely ((ndx + 1) * sizeof (GElf_Sym) > data->d_size))
++      if (INVALID_NDX (ndx, GElf_Sym)
++	  || unlikely ((ndx + 1) * sizeof (GElf_Sym) > data->d_size))
+ 	{
+ 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+ 	  goto out;
+--- elfutils-0.136/libelf/gelf_getsyminfo.c.robustify
++++ elfutils-0.136/libelf/gelf_getsyminfo.c
+@@ -84,7 +84,8 @@ gelf_getsyminfo (data, ndx, dst)
+ 
+   /* The data is already in the correct form.  Just make sure the
+      index is OK.  */
+-  if (unlikely ((ndx + 1) * sizeof (GElf_Syminfo) > data->d_size))
++  if (INVALID_NDX (ndx, GElf_Syminfo)
++      || unlikely ((ndx + 1) * sizeof (GElf_Syminfo) > data->d_size))
+     {
+       __libelf_seterrno (ELF_E_INVALID_INDEX);
+       goto out;
+--- elfutils-0.136/libelf/gelf_getsymshndx.c.robustify
++++ elfutils-0.136/libelf/gelf_getsymshndx.c
+@@ -90,7 +90,9 @@ gelf_getsymshndx (symdata, shndxdata, nd
+      section index table.  */
+   if (likely (shndxdata_scn != NULL))
+     {
+-      if (unlikely ((ndx + 1) * sizeof (Elf32_Word) > shndxdata_scn->d.d_size))
++      if (INVALID_NDX (ndx, Elf32_Word)
++	  || unlikely ((ndx + 1) * sizeof (Elf32_Word)
++		       > shndxdata_scn->d.d_size))
+ 	{
+ 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+ 	  goto out;
+@@ -110,7 +112,8 @@ gelf_getsymshndx (symdata, shndxdata, nd
+ 	 table entries has to be adopted.  The user better has provided
+ 	 a buffer where we can store the information.  While copying the
+ 	 data we are converting the format.  */
+-      if (unlikely ((ndx + 1) * sizeof (Elf32_Sym) > symdata->d_size))
++      if (INVALID_NDX (ndx, Elf32_Sym)
++	  || unlikely ((ndx + 1) * sizeof (Elf32_Sym) > symdata->d_size))
+ 	{
+ 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+ 	  goto out;
+@@ -139,7 +142,8 @@ gelf_getsymshndx (symdata, shndxdata, nd
+ 
+       /* The data is already in the correct form.  Just make sure the
+ 	 index is OK.  */
+-      if (unlikely ((ndx + 1) * sizeof (GElf_Sym) > symdata->d_size))
++      if (INVALID_NDX (ndx, GElf_Sym)
++	  || unlikely ((ndx + 1) * sizeof (GElf_Sym) > symdata->d_size))
+ 	{
+ 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+ 	  goto out;
+--- elfutils-0.136/libelf/gelf_getversym.c.robustify
++++ elfutils-0.136/libelf/gelf_getversym.c
+@@ -92,7 +92,8 @@ gelf_getversym (data, ndx, dst)
+ 
+   /* The data is already in the correct form.  Just make sure the
+      index is OK.  */
+-  if (unlikely ((ndx + 1) * sizeof (GElf_Versym) > data->d_size))
++  if (INVALID_NDX (ndx, GElf_Versym)
++      || unlikely ((ndx + 1) * sizeof (GElf_Versym) > data->d_size))
+     {
+       __libelf_seterrno (ELF_E_INVALID_INDEX);
+       result = NULL;
+--- elfutils-0.136/libelf/gelf_update_dyn.c.robustify
++++ elfutils-0.136/libelf/gelf_update_dyn.c
+@@ -71,12 +71,6 @@ gelf_update_dyn (data, ndx, src)
+   if (data == NULL)
+     return 0;
+ 
+-  if (unlikely (ndx < 0))
+-    {
+-      __libelf_seterrno (ELF_E_INVALID_INDEX);
+-      return 0;
+-    }
+-
+   if (unlikely (data_scn->d.d_type != ELF_T_DYN))
+     {
+       /* The type of the data better should match.  */
+@@ -102,7 +96,8 @@ gelf_update_dyn (data, ndx, src)
+ 	}
+ 
+       /* Check whether we have to resize the data buffer.  */
+-      if (unlikely ((ndx + 1) * sizeof (Elf32_Dyn) > data_scn->d.d_size))
++      if (INVALID_NDX (ndx, Elf32_Dyn)
++	  || unlikely ((ndx + 1) * sizeof (Elf32_Dyn) > data_scn->d.d_size))
+ 	{
+ 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+ 	  goto out;
+@@ -116,7 +111,8 @@ gelf_update_dyn (data, ndx, src)
+   else
+     {
+       /* Check whether we have to resize the data buffer.  */
+-      if (unlikely ((ndx + 1) * sizeof (Elf64_Dyn) > data_scn->d.d_size))
++      if (INVALID_NDX (ndx, Elf64_Dyn)
++	  || unlikely ((ndx + 1) * sizeof (Elf64_Dyn) > data_scn->d.d_size))
+ 	{
+ 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+ 	  goto out;
+--- elfutils-0.136/libelf/gelf_update_lib.c.robustify
++++ elfutils-0.136/libelf/gelf_update_lib.c
+@@ -68,12 +68,6 @@ gelf_update_lib (data, ndx, src)
+   if (data == NULL)
+     return 0;
+ 
+-  if (unlikely (ndx < 0))
+-    {
+-      __libelf_seterrno (ELF_E_INVALID_INDEX);
+-      return 0;
+-    }
+-
+   Elf_Data_Scn *data_scn = (Elf_Data_Scn *) data;
+   if (unlikely (data_scn->d.d_type != ELF_T_LIB))
+     {
+@@ -87,7 +81,8 @@ gelf_update_lib (data, ndx, src)
+ 
+   /* Check whether we have to resize the data buffer.  */
+   int result = 0;
+-  if (unlikely ((ndx + 1) * sizeof (Elf64_Lib) > data_scn->d.d_size))
++  if (INVALID_NDX (ndx, Elf64_Lib)
++      || unlikely ((ndx + 1) * sizeof (Elf64_Lib) > data_scn->d.d_size))
+     __libelf_seterrno (ELF_E_INVALID_INDEX);
+   else
+     {
+--- elfutils-0.136/libelf/gelf_update_move.c.robustify
++++ elfutils-0.136/libelf/gelf_update_move.c
+@@ -75,7 +75,7 @@ gelf_update_move (data, ndx, src)
+   assert (sizeof (GElf_Move) == sizeof (Elf64_Move));
+ 
+   /* Check whether we have to resize the data buffer.  */
+-  if (unlikely (ndx < 0)
++  if (INVALID_NDX (ndx, GElf_Move)
+       || unlikely ((ndx + 1) * sizeof (GElf_Move) > data_scn->d.d_size))
+     {
+       __libelf_seterrno (ELF_E_INVALID_INDEX);
+--- elfutils-0.136/libelf/gelf_update_rela.c.robustify
++++ elfutils-0.136/libelf/gelf_update_rela.c
+@@ -68,12 +68,6 @@ gelf_update_rela (Elf_Data *dst, int ndx
+   if (dst == NULL)
+     return 0;
+ 
+-  if (unlikely (ndx < 0))
+-    {
+-      __libelf_seterrno (ELF_E_INVALID_INDEX);
+-      return 0;
+-    }
+-
+   if (unlikely (data_scn->d.d_type != ELF_T_RELA))
+     {
+       /* The type of the data better should match.  */
+@@ -101,7 +95,8 @@ gelf_update_rela (Elf_Data *dst, int ndx
+ 	}
+ 
+       /* Check whether we have to resize the data buffer.  */
+-      if (unlikely ((ndx + 1) * sizeof (Elf32_Rela) > data_scn->d.d_size))
++      if (INVALID_NDX (ndx, Elf32_Rela)
++	  || unlikely ((ndx + 1) * sizeof (Elf32_Rela) > data_scn->d.d_size))
+ 	{
+ 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+ 	  goto out;
+@@ -117,7 +112,8 @@ gelf_update_rela (Elf_Data *dst, int ndx
+   else
+     {
+       /* Check whether we have to resize the data buffer.  */
+-      if (unlikely ((ndx + 1) * sizeof (Elf64_Rela) > data_scn->d.d_size))
++      if (INVALID_NDX (ndx, Elf64_Rela)
++	  || unlikely ((ndx + 1) * sizeof (Elf64_Rela) > data_scn->d.d_size))
+ 	{
+ 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+ 	  goto out;
+--- elfutils-0.136/libelf/gelf_update_rel.c.robustify
++++ elfutils-0.136/libelf/gelf_update_rel.c
+@@ -68,12 +68,6 @@ gelf_update_rel (Elf_Data *dst, int ndx,
+   if (dst == NULL)
+     return 0;
+ 
+-  if (unlikely (ndx < 0))
+-    {
+-      __libelf_seterrno (ELF_E_INVALID_INDEX);
+-      return 0;
+-    }
+-
+   if (unlikely (data_scn->d.d_type != ELF_T_REL))
+     {
+       /* The type of the data better should match.  */
+@@ -99,7 +93,8 @@ gelf_update_rel (Elf_Data *dst, int ndx,
+ 	}
+ 
+       /* Check whether we have to resize the data buffer.  */
+-      if (unlikely ((ndx + 1) * sizeof (Elf32_Rel) > data_scn->d.d_size))
++      if (INVALID_NDX (ndx, Elf32_Rel)
++	  || unlikely ((ndx + 1) * sizeof (Elf32_Rel) > data_scn->d.d_size))
+ 	{
+ 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+ 	  goto out;
+@@ -114,7 +109,8 @@ gelf_update_rel (Elf_Data *dst, int ndx,
+   else
+     {
+       /* Check whether we have to resize the data buffer.  */
+-      if (unlikely ((ndx + 1) * sizeof (Elf64_Rel) > data_scn->d.d_size))
++      if (INVALID_NDX (ndx, Elf64_Rel)
++	  || unlikely ((ndx + 1) * sizeof (Elf64_Rel) > data_scn->d.d_size))
+ 	{
+ 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+ 	  goto out;
+--- elfutils-0.136/libelf/gelf_update_sym.c.robustify
++++ elfutils-0.136/libelf/gelf_update_sym.c
+@@ -72,12 +72,6 @@ gelf_update_sym (data, ndx, src)
+   if (data == NULL)
+     return 0;
+ 
+-  if (unlikely (ndx < 0))
+-    {
+-      __libelf_seterrno (ELF_E_INVALID_INDEX);
+-      return 0;
+-    }
+-
+   if (unlikely (data_scn->d.d_type != ELF_T_SYM))
+     {
+       /* The type of the data better should match.  */
+@@ -102,7 +96,8 @@ gelf_update_sym (data, ndx, src)
+ 	}
+ 
+       /* Check whether we have to resize the data buffer.  */
+-      if (unlikely ((ndx + 1) * sizeof (Elf32_Sym) > data_scn->d.d_size))
++      if (INVALID_NDX (ndx, Elf32_Sym)
++	  || unlikely ((ndx + 1) * sizeof (Elf32_Sym) > data_scn->d.d_size))
+ 	{
+ 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+ 	  goto out;
+@@ -125,7 +120,8 @@ gelf_update_sym (data, ndx, src)
+   else
+     {
+       /* Check whether we have to resize the data buffer.  */
+-      if (unlikely ((ndx + 1) * sizeof (Elf64_Sym) > data_scn->d.d_size))
++      if (INVALID_NDX (ndx, Elf64_Sym)
++	  || unlikely ((ndx + 1) * sizeof (Elf64_Sym) > data_scn->d.d_size))
+ 	{
+ 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+ 	  goto out;
+--- elfutils-0.136/libelf/gelf_update_syminfo.c.robustify
++++ elfutils-0.136/libelf/gelf_update_syminfo.c
+@@ -72,12 +72,6 @@ gelf_update_syminfo (data, ndx, src)
+   if (data == NULL)
+     return 0;
+ 
+-  if (unlikely (ndx < 0))
+-    {
+-      __libelf_seterrno (ELF_E_INVALID_INDEX);
+-      return 0;
+-    }
+-
+   if (unlikely (data_scn->d.d_type != ELF_T_SYMINFO))
+     {
+       /* The type of the data better should match.  */
+@@ -93,7 +87,8 @@ gelf_update_syminfo (data, ndx, src)
+   rwlock_wrlock (scn->elf->lock);
+ 
+   /* Check whether we have to resize the data buffer.  */
+-  if (unlikely ((ndx + 1) * sizeof (GElf_Syminfo) > data_scn->d.d_size))
++  if (INVALID_NDX (ndx, GElf_Syminfo)
++      || unlikely ((ndx + 1) * sizeof (GElf_Syminfo) > data_scn->d.d_size))
+     {
+       __libelf_seterrno (ELF_E_INVALID_INDEX);
+       goto out;
+--- elfutils-0.136/libelf/gelf_update_symshndx.c.robustify
++++ elfutils-0.136/libelf/gelf_update_symshndx.c
+@@ -77,12 +77,6 @@ gelf_update_symshndx (symdata, shndxdata
+   if (symdata == NULL)
+     return 0;
+ 
+-  if (unlikely (ndx < 0))
+-    {
+-      __libelf_seterrno (ELF_E_INVALID_INDEX);
+-      return 0;
+-    }
+-
+   if (unlikely (symdata_scn->d.d_type != ELF_T_SYM))
+     {
+       /* The type of the data better should match.  */
+@@ -128,7 +122,8 @@ gelf_update_symshndx (symdata, shndxdata
+ 	}
+ 
+       /* Check whether we have to resize the data buffer.  */
+-      if (unlikely ((ndx + 1) * sizeof (Elf32_Sym) > symdata_scn->d.d_size))
++      if (INVALID_NDX (ndx, Elf32_Sym)
++	  || unlikely ((ndx + 1) * sizeof (Elf32_Sym) > symdata_scn->d.d_size))
+ 	{
+ 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+ 	  goto out;
+@@ -151,7 +146,8 @@ gelf_update_symshndx (symdata, shndxdata
+   else
+     {
+       /* Check whether we have to resize the data buffer.  */
+-      if (unlikely ((ndx + 1) * sizeof (Elf64_Sym) > symdata_scn->d.d_size))
++      if (INVALID_NDX (ndx, Elf64_Sym)
++	  || unlikely ((ndx + 1) * sizeof (Elf64_Sym) > symdata_scn->d.d_size))
+ 	{
+ 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+ 	  goto out;
+--- elfutils-0.136/libelf/gelf_update_versym.c.robustify
++++ elfutils-0.136/libelf/gelf_update_versym.c
+@@ -75,7 +75,7 @@ gelf_update_versym (data, ndx, src)
+   assert (sizeof (GElf_Versym) == sizeof (Elf64_Versym));
+ 
+   /* Check whether we have to resize the data buffer.  */
+-  if (unlikely (ndx < 0)
++  if (INVALID_NDX (ndx, GElf_Versym)
+       || unlikely ((ndx + 1) * sizeof (GElf_Versym) > data_scn->d.d_size))
+     {
+       __libelf_seterrno (ELF_E_INVALID_INDEX);
+--- elfutils-0.136/libelf/libelfP.h.robustify
++++ elfutils-0.136/libelf/libelfP.h
+@@ -611,4 +611,13 @@ extern uint32_t __libelf_crc32 (uint32_t
+ /* Align offset to 4 bytes as needed for note name and descriptor data.  */
+ #define NOTE_ALIGN(n)	(((n) + 3) & -4U)
+ 
++/* Convenience macro.  Assumes int NDX and TYPE with size at least
++   2 bytes.  */
++#if SIZE_MAX > 4294967295U
++# define INVALID_NDX(ndx, type) unlikely (ndx < 0)
++#else
++# define INVALID_NDX(ndx, type) \
++  unlikely ((unsigned int) (ndx) >= SIZE_MAX / sizeof (type))
++#endif
++
+ #endif  /* libelfP.h */
+--- elfutils-0.136/src/elflint.c.robustify
++++ elfutils-0.136/src/elflint.c
 @@ -131,6 +131,9 @@ static uint32_t shstrndx;
  /* Array to count references in section groups.  */
  static int *scnref;
@@ -338,9 +1078,8 @@ src/
      ERROR (gettext ("\
  section [%2d] '%s' has different number of entries than symbol table [%2d] '%s'\n"),
  	   idx, section_name (ebl, idx),
-diff -up elfutils-0.135/src/readelf.c.robustify elfutils-0.135/src/readelf.c
---- elfutils-0.135/src/readelf.c.robustify
-+++ elfutils-0.135/src/readelf.c
+--- elfutils-0.136/src/readelf.c.robustify
++++ elfutils-0.136/src/readelf.c
 @@ -1111,6 +1111,8 @@ handle_scngrp (Ebl *ebl, Elf_Scn *scn, G
    Elf32_Word *grpref = (Elf32_Word *) data->d_buf;
  
@@ -552,9 +1291,8 @@ diff -up elfutils-0.135/src/readelf.c.robustify elfutils-0.135/src/readelf.c
    printf (ngettext ("\
  \nDWARF section '%s' at offset %#" PRIx64 " contains %zu entry:\n",
  		    "\
-diff -up elfutils-0.135/src/strip.c.robustify elfutils-0.135/src/strip.c
---- elfutils-0.135/src/strip.c.robustify
-+++ elfutils-0.135/src/strip.c
+--- elfutils-0.136/src/strip.c.robustify
++++ elfutils-0.136/src/strip.c
 @@ -544,6 +544,11 @@ handle_elf (int fd, Elf *elf, const char
        goto fail_close;
      }
@@ -804,763 +1542,3 @@ diff -up elfutils-0.135/src/strip.c.robustify elfutils-0.135/src/strip.c
  		    size_t hidx = elf_hash (name) % nbucket;
  
  		    if (bucket[hidx] == 0)
-diff -up elfutils-0.135/libelf/gelf_getdyn.c.robustify elfutils-0.135/libelf/gelf_getdyn.c
---- elfutils-0.135/libelf/gelf_getdyn.c.robustify
-+++ elfutils-0.135/libelf/gelf_getdyn.c
-@@ -93,7 +93,8 @@ gelf_getdyn (data, ndx, dst)
- 	 table entries has to be adopted.  The user better has provided
- 	 a buffer where we can store the information.  While copying the
- 	 data we are converting the format.  */
--      if (unlikely ((ndx + 1) * sizeof (Elf32_Dyn) > data_scn->d.d_size))
-+      if (INVALID_NDX (ndx, Elf32_Dyn)
-+	  || unlikely ((ndx + 1) * sizeof (Elf32_Dyn) > data_scn->d.d_size))
- 	{
- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
- 	  goto out;
-@@ -114,7 +115,8 @@ gelf_getdyn (data, ndx, dst)
- 
-       /* The data is already in the correct form.  Just make sure the
- 	 index is OK.  */
--      if (unlikely ((ndx + 1) * sizeof (GElf_Dyn) > data_scn->d.d_size))
-+      if (INVALID_NDX (ndx, GElf_Dyn)
-+	  || unlikely ((ndx + 1) * sizeof (GElf_Dyn) > data_scn->d.d_size))
- 	{
- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
- 	  goto out;
-diff -up elfutils-0.135/libelf/gelf_getrel.c.robustify elfutils-0.135/libelf/gelf_getrel.c
---- elfutils-0.135/libelf/gelf_getrel.c.robustify
-+++ elfutils-0.135/libelf/gelf_getrel.c
-@@ -71,12 +71,6 @@ gelf_getrel (data, ndx, dst)
-   if (data_scn == NULL)
-     return NULL;
- 
--  if (unlikely (ndx < 0))
--    {
--      __libelf_seterrno (ELF_E_INVALID_INDEX);
--      return NULL;
--    }
--
-   if (unlikely (data_scn->d.d_type != ELF_T_REL))
-     {
-       __libelf_seterrno (ELF_E_INVALID_HANDLE);
-@@ -93,7 +87,8 @@ gelf_getrel (data, ndx, dst)
-   if (scn->elf->class == ELFCLASS32)
-     {
-       /* We have to convert the data.  */
--      if (unlikely ((ndx + 1) * sizeof (Elf32_Rel) > data_scn->d.d_size))
-+      if (INVALID_NDX (ndx, Elf32_Rel)
-+	  || unlikely ((ndx + 1) * sizeof (Elf32_Rel) > data_scn->d.d_size))
- 	{
- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
- 	  result = NULL;
-@@ -113,7 +108,8 @@ gelf_getrel (data, ndx, dst)
-     {
-       /* Simply copy the data after we made sure we are actually getting
- 	 correct data.  */
--      if (unlikely ((ndx + 1) * sizeof (Elf64_Rel) > data_scn->d.d_size))
-+      if (INVALID_NDX (ndx, Elf64_Rel)
-+	  || unlikely ((ndx + 1) * sizeof (Elf64_Rel) > data_scn->d.d_size))
- 	{
- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
- 	  result = NULL;
-diff -up elfutils-0.135/libelf/gelf_getversym.c.robustify elfutils-0.135/libelf/gelf_getversym.c
---- elfutils-0.135/libelf/gelf_getversym.c.robustify
-+++ elfutils-0.135/libelf/gelf_getversym.c
-@@ -92,7 +92,8 @@ gelf_getversym (data, ndx, dst)
- 
-   /* The data is already in the correct form.  Just make sure the
-      index is OK.  */
--  if (unlikely ((ndx + 1) * sizeof (GElf_Versym) > data->d_size))
-+  if (INVALID_NDX (ndx, GElf_Versym)
-+      || unlikely ((ndx + 1) * sizeof (GElf_Versym) > data->d_size))
-     {
-       __libelf_seterrno (ELF_E_INVALID_INDEX);
-       result = NULL;
-diff -up elfutils-0.135/libelf/elf_newscn.c.robustify elfutils-0.135/libelf/elf_newscn.c
---- elfutils-0.135/libelf/elf_newscn.c.robustify
-+++ elfutils-0.135/libelf/elf_newscn.c
-@@ -104,10 +104,18 @@ elf_newscn (elf)
-   else
-     {
-       /* We must allocate a new element.  */
--      Elf_ScnList *newp;
-+      Elf_ScnList *newp = NULL;
- 
-       assert (elf->state.elf.scnincr > 0);
- 
-+      if (
-+#if SIZE_MAX <= 4294967295U
-+	  likely (elf->state.elf.scnincr
-+		  < SIZE_MAX / 2 / sizeof (Elf_Scn) - sizeof (Elf_ScnList))
-+#else
-+	  1
-+#endif
-+	  )
-       newp = (Elf_ScnList *) calloc (sizeof (Elf_ScnList)
- 				     + ((elf->state.elf.scnincr *= 2)
- 					* sizeof (Elf_Scn)), 1);
-diff -up elfutils-0.135/libelf/elf32_getshdr.c.robustify elfutils-0.135/libelf/elf32_getshdr.c
---- elfutils-0.135/libelf/elf32_getshdr.c.robustify
-+++ elfutils-0.135/libelf/elf32_getshdr.c
-@@ -101,7 +101,8 @@ elfw2(LIBELFBITS,getshdr) (scn)
- 	goto out;
- 
-       size_t shnum;
--      if (INTUSE (elf_getshnum) (elf, &shnum) != 0)
-+      if (INTUSE (elf_getshnum) (elf, &shnum) != 0
-+	  || shnum > SIZE_MAX / sizeof (ElfW2(LIBELFBITS,Shdr)))
- 	goto out;
-       size_t size = shnum * sizeof (ElfW2(LIBELFBITS,Shdr));
- 
-@@ -118,6 +119,16 @@ elfw2(LIBELFBITS,getshdr) (scn)
- 
-       if (elf->map_address != NULL)
- 	{
-+	  /* First see whether the information in the ELF header is
-+	     valid and it does not ask for too much.  */
-+	  if (unlikely (ehdr->e_shoff >= elf->maximum_size)
-+	      || unlikely (ehdr->e_shoff + size > elf->maximum_size))
-+	    {
-+	      /* Something is wrong.  */
-+	      __libelf_seterrno (ELF_E_INVALID_SECTION_HEADER);
-+	      goto free_and_out;
-+	    }
-+
- 	  ElfW2(LIBELFBITS,Shdr) *notcvt;
- 
- 	  /* All the data is already mapped.  If we could use it
-diff -up elfutils-0.135/libelf/gelf_getsymshndx.c.robustify elfutils-0.135/libelf/gelf_getsymshndx.c
---- elfutils-0.135/libelf/gelf_getsymshndx.c.robustify
-+++ elfutils-0.135/libelf/gelf_getsymshndx.c
-@@ -90,7 +90,9 @@ gelf_getsymshndx (symdata, shndxdata, nd
-      section index table.  */
-   if (likely (shndxdata_scn != NULL))
-     {
--      if (unlikely ((ndx + 1) * sizeof (Elf32_Word) > shndxdata_scn->d.d_size))
-+      if (INVALID_NDX (ndx, Elf32_Word)
-+	  || unlikely ((ndx + 1) * sizeof (Elf32_Word)
-+		       > shndxdata_scn->d.d_size))
- 	{
- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
- 	  goto out;
-@@ -110,7 +112,8 @@ gelf_getsymshndx (symdata, shndxdata, nd
- 	 table entries has to be adopted.  The user better has provided
- 	 a buffer where we can store the information.  While copying the
- 	 data we are converting the format.  */
--      if (unlikely ((ndx + 1) * sizeof (Elf32_Sym) > symdata->d_size))
-+      if (INVALID_NDX (ndx, Elf32_Sym)
-+	  || unlikely ((ndx + 1) * sizeof (Elf32_Sym) > symdata->d_size))
- 	{
- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
- 	  goto out;
-@@ -139,7 +142,8 @@ gelf_getsymshndx (symdata, shndxdata, nd
- 
-       /* The data is already in the correct form.  Just make sure the
- 	 index is OK.  */
--      if (unlikely ((ndx + 1) * sizeof (GElf_Sym) > symdata->d_size))
-+      if (INVALID_NDX (ndx, GElf_Sym)
-+	  || unlikely ((ndx + 1) * sizeof (GElf_Sym) > symdata->d_size))
- 	{
- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
- 	  goto out;
-diff -up elfutils-0.135/libelf/gelf_update_versym.c.robustify elfutils-0.135/libelf/gelf_update_versym.c
---- elfutils-0.135/libelf/gelf_update_versym.c.robustify
-+++ elfutils-0.135/libelf/gelf_update_versym.c
-@@ -75,7 +75,7 @@ gelf_update_versym (data, ndx, src)
-   assert (sizeof (GElf_Versym) == sizeof (Elf64_Versym));
- 
-   /* Check whether we have to resize the data buffer.  */
--  if (unlikely (ndx < 0)
-+  if (INVALID_NDX (ndx, GElf_Versym)
-       || unlikely ((ndx + 1) * sizeof (GElf_Versym) > data_scn->d.d_size))
-     {
-       __libelf_seterrno (ELF_E_INVALID_INDEX);
-diff -up elfutils-0.135/libelf/elf_getshstrndx.c.robustify elfutils-0.135/libelf/elf_getshstrndx.c
---- elfutils-0.135/libelf/elf_getshstrndx.c.robustify
-+++ elfutils-0.135/libelf/elf_getshstrndx.c
-@@ -125,10 +125,25 @@ elf_getshstrndx (elf, dst)
- 	      if (elf->map_address != NULL
- 		  && elf->state.elf32.ehdr->e_ident[EI_DATA] == MY_ELFDATA
- 		  && (ALLOW_UNALIGNED
--		      || (((size_t) ((char *) elf->map_address + offset))
-+		      || (((size_t) ((char *) elf->map_address
-+			   + elf->start_offset + offset))
- 			  & (__alignof__ (Elf32_Shdr) - 1)) == 0))
-+		{
-+		  /* First see whether the information in the ELF header is
-+		     valid and it does not ask for too much.  */
-+		  if (unlikely (offset + sizeof (Elf32_Shdr)
-+				> elf->maximum_size))
-+		    {
-+		      /* Something is wrong.  */
-+		      __libelf_seterrno (ELF_E_INVALID_SECTION_HEADER);
-+		      result = -1;
-+		      goto out;
-+		    }
-+
- 		/* We can directly access the memory.  */
--		num = ((Elf32_Shdr *) (elf->map_address + offset))->sh_link;
-+		  num = ((Elf32_Shdr *) (elf->map_address + elf->start_offset
-+					 + offset))->sh_link;
-+		}
- 	      else
- 		{
- 		  /* We avoid reading in all the section headers.  Just read
-@@ -163,10 +178,25 @@ elf_getshstrndx (elf, dst)
- 	      if (elf->map_address != NULL
- 		  && elf->state.elf64.ehdr->e_ident[EI_DATA] == MY_ELFDATA
- 		  && (ALLOW_UNALIGNED
--		      || (((size_t) ((char *) elf->map_address + offset))
-+		      || (((size_t) ((char *) elf->map_address
-+			   + elf->start_offset + offset))
- 			  & (__alignof__ (Elf64_Shdr) - 1)) == 0))
-+		{
-+		  /* First see whether the information in the ELF header is
-+		     valid and it does not ask for too much.  */
-+		  if (unlikely (offset + sizeof (Elf64_Shdr)
-+				> elf->maximum_size))
-+		    {
-+		      /* Something is wrong.  */
-+		      __libelf_seterrno (ELF_E_INVALID_SECTION_HEADER);
-+		      result = -1;
-+		      goto out;
-+		    }
-+
- 		/* We can directly access the memory.  */
--		num = ((Elf64_Shdr *) (elf->map_address + offset))->sh_link;
-+		  num = ((Elf64_Shdr *) (elf->map_address
-+			 + elf->start_offset + offset))->sh_link;
-+		}
- 	      else
- 		{
- 		  /* We avoid reading in all the section headers.  Just read
-diff -up elfutils-0.135/libelf/libelfP.h.robustify elfutils-0.135/libelf/libelfP.h
---- elfutils-0.135/libelf/libelfP.h.robustify
-+++ elfutils-0.135/libelf/libelfP.h
-@@ -596,4 +596,13 @@ extern uint32_t __libelf_crc32 (uint32_t
- /* Align offset to 4 bytes as needed for note name and descriptor data.  */
- #define NOTE_ALIGN(n)	(((n) + 3) & -4U)
- 
-+/* Convenience macro.  Assumes int NDX and TYPE with size at least
-+   2 bytes.  */
-+#if SIZE_MAX > 4294967295U
-+# define INVALID_NDX(ndx, type) unlikely (ndx < 0)
-+#else
-+# define INVALID_NDX(ndx, type) \
-+  unlikely ((unsigned int) (ndx) >= SIZE_MAX / sizeof (type))
-+#endif
-+
- #endif  /* libelfP.h */
-diff -up elfutils-0.135/libelf/gelf_getmove.c.robustify elfutils-0.135/libelf/gelf_getmove.c
---- elfutils-0.135/libelf/gelf_getmove.c.robustify
-+++ elfutils-0.135/libelf/gelf_getmove.c
-@@ -83,7 +83,8 @@ gelf_getmove (data, ndx, dst)
- 
-   /* The data is already in the correct form.  Just make sure the
-      index is OK.  */
--  if (unlikely ((ndx + 1) * sizeof (GElf_Move) > data->d_size))
-+  if (INVALID_NDX (ndx, GElf_Move)
-+      || unlikely ((ndx + 1) * sizeof (GElf_Move) > data->d_size))
-     {
-       __libelf_seterrno (ELF_E_INVALID_INDEX);
-       goto out;
-diff -up elfutils-0.135/libelf/elf32_updatefile.c.robustify elfutils-0.135/libelf/elf32_updatefile.c
---- elfutils-0.135/libelf/elf32_updatefile.c.robustify
-+++ elfutils-0.135/libelf/elf32_updatefile.c
-@@ -212,6 +212,9 @@ __elfw2(LIBELFBITS,updatemmap) (Elf *elf
-   /* Write all the sections.  Well, only those which are modified.  */
-   if (shnum > 0)
-     {
-+      if (unlikely (shnum > SIZE_MAX / sizeof (Elf_Scn *)))
-+ 	return 1;
-+
-       Elf_ScnList *list = &elf->state.ELFW(elf,LIBELFBITS).scns;
-       Elf_Scn **scns = (Elf_Scn **) alloca (shnum * sizeof (Elf_Scn *));
-       char *const shdr_start = ((char *) elf->map_address + elf->start_offset
-@@ -582,6 +585,10 @@ __elfw2(LIBELFBITS,updatefile) (Elf *elf
-   /* Write all the sections.  Well, only those which are modified.  */
-   if (shnum > 0)
-     {
-+      if (unlikely (shnum > SIZE_MAX / (sizeof (Elf_Scn *)
-+					+ sizeof (ElfW2(LIBELFBITS,Shdr)))))
-+	return 1;
-+
-       off_t shdr_offset = elf->start_offset + ehdr->e_shoff;
- #if EV_NUM != 2
-       xfct_t shdr_fctp = __elf_xfctstom[__libelf_version - 1][EV_CURRENT - 1][ELFW(ELFCLASS, LIBELFBITS) - 1][ELF_T_SHDR];
-diff -up elfutils-0.135/libelf/gelf_update_lib.c.robustify elfutils-0.135/libelf/gelf_update_lib.c
---- elfutils-0.135/libelf/gelf_update_lib.c.robustify
-+++ elfutils-0.135/libelf/gelf_update_lib.c
-@@ -68,12 +68,6 @@ gelf_update_lib (data, ndx, src)
-   if (data == NULL)
-     return 0;
- 
--  if (unlikely (ndx < 0))
--    {
--      __libelf_seterrno (ELF_E_INVALID_INDEX);
--      return 0;
--    }
--
-   Elf_Data_Scn *data_scn = (Elf_Data_Scn *) data;
-   if (unlikely (data_scn->d.d_type != ELF_T_LIB))
-     {
-@@ -87,7 +81,8 @@ gelf_update_lib (data, ndx, src)
- 
-   /* Check whether we have to resize the data buffer.  */
-   int result = 0;
--  if (unlikely ((ndx + 1) * sizeof (Elf64_Lib) > data_scn->d.d_size))
-+  if (INVALID_NDX (ndx, Elf64_Lib)
-+      || unlikely ((ndx + 1) * sizeof (Elf64_Lib) > data_scn->d.d_size))
-     __libelf_seterrno (ELF_E_INVALID_INDEX);
-   else
-     {
-diff -up elfutils-0.135/libelf/elf32_getphdr.c.robustify elfutils-0.135/libelf/elf32_getphdr.c
---- elfutils-0.135/libelf/elf32_getphdr.c.robustify
-+++ elfutils-0.135/libelf/elf32_getphdr.c
-@@ -116,6 +116,16 @@ elfw2(LIBELFBITS,getphdr) (elf)
- 
-       if (elf->map_address != NULL)
- 	{
-+	  /* First see whether the information in the ELF header is
-+	     valid and it does not ask for too much.  */
-+	  if (unlikely (ehdr->e_phoff >= elf->maximum_size)
-+	      || unlikely (ehdr->e_phoff + size > elf->maximum_size))
-+	    {
-+	      /* Something is wrong.  */
-+	      __libelf_seterrno (ELF_E_INVALID_PHDR);
-+	      goto out;
-+	    }
-+
- 	  /* All the data is already mapped.  Use it.  */
- 	  void *file_phdr = ((char *) elf->map_address
- 			     + elf->start_offset + ehdr->e_phoff);
-diff -up elfutils-0.135/libelf/gelf_getlib.c.robustify elfutils-0.135/libelf/gelf_getlib.c
---- elfutils-0.135/libelf/gelf_getlib.c.robustify
-+++ elfutils-0.135/libelf/gelf_getlib.c
-@@ -86,7 +86,8 @@ gelf_getlib (data, ndx, dst)
-   /* The data is already in the correct form.  Just make sure the
-      index is OK.  */
-   GElf_Lib *result = NULL;
--  if (unlikely ((ndx + 1) * sizeof (GElf_Lib) > data->d_size))
-+  if (INVALID_NDX (ndx, GElf_Lib)
-+      || unlikely ((ndx + 1) * sizeof (GElf_Lib) > data->d_size))
-     __libelf_seterrno (ELF_E_INVALID_INDEX);
-   else
-     {
-diff -up elfutils-0.135/libelf/elf32_newphdr.c.robustify elfutils-0.135/libelf/elf32_newphdr.c
---- elfutils-0.135/libelf/elf32_newphdr.c.robustify
-+++ elfutils-0.135/libelf/elf32_newphdr.c
-@@ -124,6 +124,12 @@ elfw2(LIBELFBITS,newphdr) (elf, count)
-   else if (elf->state.ELFW(elf,LIBELFBITS).ehdr->e_phnum != count
- 	   || elf->state.ELFW(elf,LIBELFBITS).phdr == NULL)
-     {
-+      if (unlikely (count > SIZE_MAX / sizeof (ElfW2(LIBELFBITS,Phdr))))
-+	{
-+	  result = NULL;
-+	  goto out;
-+	}
-+
-       /* Allocate a new program header with the appropriate number of
- 	 elements.  */
-       result = (ElfW2(LIBELFBITS,Phdr) *)
-diff -up elfutils-0.135/libelf/gelf_update_rela.c.robustify elfutils-0.135/libelf/gelf_update_rela.c
---- elfutils-0.135/libelf/gelf_update_rela.c.robustify
-+++ elfutils-0.135/libelf/gelf_update_rela.c
-@@ -68,12 +68,6 @@ gelf_update_rela (Elf_Data *dst, int ndx
-   if (dst == NULL)
-     return 0;
- 
--  if (unlikely (ndx < 0))
--    {
--      __libelf_seterrno (ELF_E_INVALID_INDEX);
--      return 0;
--    }
--
-   if (unlikely (data_scn->d.d_type != ELF_T_RELA))
-     {
-       /* The type of the data better should match.  */
-@@ -101,7 +95,8 @@ gelf_update_rela (Elf_Data *dst, int ndx
- 	}
- 
-       /* Check whether we have to resize the data buffer.  */
--      if (unlikely ((ndx + 1) * sizeof (Elf32_Rela) > data_scn->d.d_size))
-+      if (INVALID_NDX (ndx, Elf32_Rela)
-+	  || unlikely ((ndx + 1) * sizeof (Elf32_Rela) > data_scn->d.d_size))
- 	{
- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
- 	  goto out;
-@@ -117,7 +112,8 @@ gelf_update_rela (Elf_Data *dst, int ndx
-   else
-     {
-       /* Check whether we have to resize the data buffer.  */
--      if (unlikely ((ndx + 1) * sizeof (Elf64_Rela) > data_scn->d.d_size))
-+      if (INVALID_NDX (ndx, Elf64_Rela)
-+	  || unlikely ((ndx + 1) * sizeof (Elf64_Rela) > data_scn->d.d_size))
- 	{
- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
- 	  goto out;
-diff -up elfutils-0.135/libelf/gelf_update_syminfo.c.robustify elfutils-0.135/libelf/gelf_update_syminfo.c
---- elfutils-0.135/libelf/gelf_update_syminfo.c.robustify
-+++ elfutils-0.135/libelf/gelf_update_syminfo.c
-@@ -72,12 +72,6 @@ gelf_update_syminfo (data, ndx, src)
-   if (data == NULL)
-     return 0;
- 
--  if (unlikely (ndx < 0))
--    {
--      __libelf_seterrno (ELF_E_INVALID_INDEX);
--      return 0;
--    }
--
-   if (unlikely (data_scn->d.d_type != ELF_T_SYMINFO))
-     {
-       /* The type of the data better should match.  */
-@@ -93,7 +87,8 @@ gelf_update_syminfo (data, ndx, src)
-   rwlock_wrlock (scn->elf->lock);
- 
-   /* Check whether we have to resize the data buffer.  */
--  if (unlikely ((ndx + 1) * sizeof (GElf_Syminfo) > data_scn->d.d_size))
-+  if (INVALID_NDX (ndx, GElf_Syminfo)
-+      || unlikely ((ndx + 1) * sizeof (GElf_Syminfo) > data_scn->d.d_size))
-     {
-       __libelf_seterrno (ELF_E_INVALID_INDEX);
-       goto out;
-diff -up elfutils-0.135/libelf/gelf_update_sym.c.robustify elfutils-0.135/libelf/gelf_update_sym.c
---- elfutils-0.135/libelf/gelf_update_sym.c.robustify
-+++ elfutils-0.135/libelf/gelf_update_sym.c
-@@ -72,12 +72,6 @@ gelf_update_sym (data, ndx, src)
-   if (data == NULL)
-     return 0;
- 
--  if (unlikely (ndx < 0))
--    {
--      __libelf_seterrno (ELF_E_INVALID_INDEX);
--      return 0;
--    }
--
-   if (unlikely (data_scn->d.d_type != ELF_T_SYM))
-     {
-       /* The type of the data better should match.  */
-@@ -102,7 +96,8 @@ gelf_update_sym (data, ndx, src)
- 	}
- 
-       /* Check whether we have to resize the data buffer.  */
--      if (unlikely ((ndx + 1) * sizeof (Elf32_Sym) > data_scn->d.d_size))
-+      if (INVALID_NDX (ndx, Elf32_Sym)
-+	  || unlikely ((ndx + 1) * sizeof (Elf32_Sym) > data_scn->d.d_size))
- 	{
- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
- 	  goto out;
-@@ -125,7 +120,8 @@ gelf_update_sym (data, ndx, src)
-   else
-     {
-       /* Check whether we have to resize the data buffer.  */
--      if (unlikely ((ndx + 1) * sizeof (Elf64_Sym) > data_scn->d.d_size))
-+      if (INVALID_NDX (ndx, Elf64_Sym)
-+	  || unlikely ((ndx + 1) * sizeof (Elf64_Sym) > data_scn->d.d_size))
- 	{
- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
- 	  goto out;
-diff -up elfutils-0.135/libelf/gelf_getsyminfo.c.robustify elfutils-0.135/libelf/gelf_getsyminfo.c
---- elfutils-0.135/libelf/gelf_getsyminfo.c.robustify
-+++ elfutils-0.135/libelf/gelf_getsyminfo.c
-@@ -84,7 +84,8 @@ gelf_getsyminfo (data, ndx, dst)
- 
-   /* The data is already in the correct form.  Just make sure the
-      index is OK.  */
--  if (unlikely ((ndx + 1) * sizeof (GElf_Syminfo) > data->d_size))
-+  if (INVALID_NDX (ndx, GElf_Syminfo)
-+      || unlikely ((ndx + 1) * sizeof (GElf_Syminfo) > data->d_size))
-     {
-       __libelf_seterrno (ELF_E_INVALID_INDEX);
-       goto out;
-diff -up elfutils-0.135/libelf/gelf_update_symshndx.c.robustify elfutils-0.135/libelf/gelf_update_symshndx.c
---- elfutils-0.135/libelf/gelf_update_symshndx.c.robustify
-+++ elfutils-0.135/libelf/gelf_update_symshndx.c
-@@ -77,12 +77,6 @@ gelf_update_symshndx (symdata, shndxdata
-   if (symdata == NULL)
-     return 0;
- 
--  if (unlikely (ndx < 0))
--    {
--      __libelf_seterrno (ELF_E_INVALID_INDEX);
--      return 0;
--    }
--
-   if (unlikely (symdata_scn->d.d_type != ELF_T_SYM))
-     {
-       /* The type of the data better should match.  */
-@@ -128,7 +122,8 @@ gelf_update_symshndx (symdata, shndxdata
- 	}
- 
-       /* Check whether we have to resize the data buffer.  */
--      if (unlikely ((ndx + 1) * sizeof (Elf32_Sym) > symdata_scn->d.d_size))
-+      if (INVALID_NDX (ndx, Elf32_Sym)
-+	  || unlikely ((ndx + 1) * sizeof (Elf32_Sym) > symdata_scn->d.d_size))
- 	{
- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
- 	  goto out;
-@@ -151,7 +146,8 @@ gelf_update_symshndx (symdata, shndxdata
-   else
-     {
-       /* Check whether we have to resize the data buffer.  */
--      if (unlikely ((ndx + 1) * sizeof (Elf64_Sym) > symdata_scn->d.d_size))
-+      if (INVALID_NDX (ndx, Elf64_Sym)
-+	  || unlikely ((ndx + 1) * sizeof (Elf64_Sym) > symdata_scn->d.d_size))
- 	{
- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
- 	  goto out;
-diff -up elfutils-0.135/libelf/elf_getarsym.c.robustify elfutils-0.135/libelf/elf_getarsym.c
---- elfutils-0.135/libelf/elf_getarsym.c.robustify
-+++ elfutils-0.135/libelf/elf_getarsym.c
-@@ -179,6 +179,9 @@ elf_getarsym (elf, ptr)
-       size_t index_size = atol (tmpbuf);
- 
-       if (SARMAG + sizeof (struct ar_hdr) + index_size > elf->maximum_size
-+#if SIZE_MAX <= 4294967295U
-+	  || n >= SIZE_MAX / sizeof (Elf_Arsym)
-+#endif
- 	  || n * sizeof (uint32_t) > index_size)
- 	{
- 	  /* This index table cannot be right since it does not fit into
-diff -up elfutils-0.135/libelf/gelf_getsym.c.robustify elfutils-0.135/libelf/gelf_getsym.c
---- elfutils-0.135/libelf/gelf_getsym.c.robustify
-+++ elfutils-0.135/libelf/gelf_getsym.c
-@@ -90,7 +90,8 @@ gelf_getsym (data, ndx, dst)
- 	 table entries has to be adopted.  The user better has provided
- 	 a buffer where we can store the information.  While copying the
- 	 data we are converting the format.  */
--      if (unlikely ((ndx + 1) * sizeof (Elf32_Sym) > data->d_size))
-+      if (INVALID_NDX (ndx, Elf32_Sym)
-+	  || unlikely ((ndx + 1) * sizeof (Elf32_Sym) > data->d_size))
- 	{
- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
- 	  goto out;
-@@ -119,7 +120,8 @@ gelf_getsym (data, ndx, dst)
- 
-       /* The data is already in the correct form.  Just make sure the
- 	 index is OK.  */
--      if (unlikely ((ndx + 1) * sizeof (GElf_Sym) > data->d_size))
-+      if (INVALID_NDX (ndx, GElf_Sym)
-+	  || unlikely ((ndx + 1) * sizeof (GElf_Sym) > data->d_size))
- 	{
- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
- 	  goto out;
-diff -up elfutils-0.135/libelf/elf_begin.c.robustify elfutils-0.135/libelf/elf_begin.c
---- elfutils-0.135/libelf/elf_begin.c.robustify
-+++ elfutils-0.135/libelf/elf_begin.c
-@@ -155,7 +155,8 @@ get_shnum (void *map_address, unsigned c
- 
-       if (unlikely (result == 0) && ehdr.e32->e_shoff != 0)
- 	{
--	  if (ehdr.e32->e_shoff + sizeof (Elf32_Shdr) > maxsize)
-+	  if (unlikely (ehdr.e32->e_shoff >= maxsize)
-+	      || unlikely (ehdr.e32->e_shoff + sizeof (Elf32_Shdr) > maxsize))
- 	    /* Cannot read the first section header.  */
- 	    return 0;
- 
-@@ -203,7 +204,8 @@ get_shnum (void *map_address, unsigned c
- 
-       if (unlikely (result == 0) && ehdr.e64->e_shoff != 0)
- 	{
--	  if (ehdr.e64->e_shoff + sizeof (Elf64_Shdr) > maxsize)
-+	  if (unlikely (ehdr.e64->e_shoff >= maxsize)
-+	      || unlikely (ehdr.e64->e_shoff + sizeof (Elf64_Shdr) > maxsize))
- 	    /* Cannot read the first section header.  */
- 	    return 0;
- 
-@@ -275,6 +277,15 @@ file_read_elf (int fildes, void *map_add
-     /* Could not determine the number of sections.  */
-     return NULL;
- 
-+  /* Check for too many sections.  */
-+  if (e_ident[EI_CLASS] == ELFCLASS32)
-+    {
-+      if (scncnt > SIZE_MAX / (sizeof (Elf_Scn) + sizeof (Elf32_Shdr)))
-+	return NULL;
-+    }
-+  else if (scncnt > SIZE_MAX / (sizeof (Elf_Scn) + sizeof (Elf64_Shdr)))
-+    return NULL;
-+
-   /* We can now allocate the memory.  */
-   Elf *elf = allocate_elf (fildes, map_address, offset, maxsize, cmd, parent,
- 			   ELF_K_ELF, scncnt * sizeof (Elf_Scn));
-@@ -308,13 +319,31 @@ file_read_elf (int fildes, void *map_add
- 	{
- 	  /* We can use the mmapped memory.  */
- 	  elf->state.elf32.ehdr = ehdr;
-+
-+	  if (unlikely (ehdr->e_shoff >= maxsize)
-+	      || unlikely (ehdr->e_shoff
-+			   + scncnt * sizeof (Elf32_Shdr) > maxsize))
-+	    {
-+	    free_and_out:
-+	      free (elf);
-+	      __libelf_seterrno (ELF_E_INVALID_FILE);
-+	      return NULL;
-+	    }
- 	  elf->state.elf32.shdr
- 	    = (Elf32_Shdr *) ((char *) ehdr + ehdr->e_shoff);
-+
- 	  if (ehdr->e_phnum > 0)
-+	    {
- 	    /* Assign a value only if there really is a program
- 	       header.  Otherwise the value remains NULL.  */
-+	      if (unlikely (ehdr->e_phoff >= maxsize)
-+		  || unlikely (ehdr->e_phoff
-+			       + ehdr->e_phnum
-+			       * sizeof (Elf32_Phdr) > maxsize))
-+		goto free_and_out;
- 	    elf->state.elf32.phdr
- 	      = (Elf32_Phdr *) ((char *) ehdr + ehdr->e_phoff);
-+	    }
- 
- 	  for (size_t cnt = 0; cnt < scncnt; ++cnt)
- 	    {
-@@ -396,13 +425,26 @@ file_read_elf (int fildes, void *map_add
- 	{
- 	  /* We can use the mmapped memory.  */
- 	  elf->state.elf64.ehdr = ehdr;
-+
-+	  if (unlikely (ehdr->e_shoff >= maxsize)
-+	      || unlikely (ehdr->e_shoff
-+			   + scncnt * sizeof (Elf32_Shdr) > maxsize))
-+	    goto free_and_out;
- 	  elf->state.elf64.shdr
- 	    = (Elf64_Shdr *) ((char *) ehdr + ehdr->e_shoff);
-+
- 	  if (ehdr->e_phnum > 0)
-+	    {
- 	    /* Assign a value only if there really is a program
- 	       header.  Otherwise the value remains NULL.  */
-+	      if (unlikely (ehdr->e_phoff >= maxsize)
-+		  || unlikely (ehdr->e_phoff
-+			       + ehdr->e_phnum
-+			       * sizeof (Elf32_Phdr) > maxsize))
-+		goto free_and_out;
- 	    elf->state.elf64.phdr
- 	      = (Elf64_Phdr *) ((char *) ehdr + ehdr->e_phoff);
-+	    }
- 
- 	  for (size_t cnt = 0; cnt < scncnt; ++cnt)
- 	    {
-diff -up elfutils-0.135/libelf/gelf_update_rel.c.robustify elfutils-0.135/libelf/gelf_update_rel.c
---- elfutils-0.135/libelf/gelf_update_rel.c.robustify
-+++ elfutils-0.135/libelf/gelf_update_rel.c
-@@ -68,12 +68,6 @@ gelf_update_rel (Elf_Data *dst, int ndx,
-   if (dst == NULL)
-     return 0;
- 
--  if (unlikely (ndx < 0))
--    {
--      __libelf_seterrno (ELF_E_INVALID_INDEX);
--      return 0;
--    }
--
-   if (unlikely (data_scn->d.d_type != ELF_T_REL))
-     {
-       /* The type of the data better should match.  */
-@@ -99,7 +93,8 @@ gelf_update_rel (Elf_Data *dst, int ndx,
- 	}
- 
-       /* Check whether we have to resize the data buffer.  */
--      if (unlikely ((ndx + 1) * sizeof (Elf32_Rel) > data_scn->d.d_size))
-+      if (INVALID_NDX (ndx, Elf32_Rel)
-+	  || unlikely ((ndx + 1) * sizeof (Elf32_Rel) > data_scn->d.d_size))
- 	{
- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
- 	  goto out;
-@@ -114,7 +109,8 @@ gelf_update_rel (Elf_Data *dst, int ndx,
-   else
-     {
-       /* Check whether we have to resize the data buffer.  */
--      if (unlikely ((ndx + 1) * sizeof (Elf64_Rel) > data_scn->d.d_size))
-+      if (INVALID_NDX (ndx, Elf64_Rel)
-+	  || unlikely ((ndx + 1) * sizeof (Elf64_Rel) > data_scn->d.d_size))
- 	{
- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
- 	  goto out;
-diff -up elfutils-0.135/libelf/gelf_update_move.c.robustify elfutils-0.135/libelf/gelf_update_move.c
---- elfutils-0.135/libelf/gelf_update_move.c.robustify
-+++ elfutils-0.135/libelf/gelf_update_move.c
-@@ -75,7 +75,7 @@ gelf_update_move (data, ndx, src)
-   assert (sizeof (GElf_Move) == sizeof (Elf64_Move));
- 
-   /* Check whether we have to resize the data buffer.  */
--  if (unlikely (ndx < 0)
-+  if (INVALID_NDX (ndx, GElf_Move)
-       || unlikely ((ndx + 1) * sizeof (GElf_Move) > data_scn->d.d_size))
-     {
-       __libelf_seterrno (ELF_E_INVALID_INDEX);
-diff -up elfutils-0.135/libelf/gelf_update_dyn.c.robustify elfutils-0.135/libelf/gelf_update_dyn.c
---- elfutils-0.135/libelf/gelf_update_dyn.c.robustify
-+++ elfutils-0.135/libelf/gelf_update_dyn.c
-@@ -71,12 +71,6 @@ gelf_update_dyn (data, ndx, src)
-   if (data == NULL)
-     return 0;
- 
--  if (unlikely (ndx < 0))
--    {
--      __libelf_seterrno (ELF_E_INVALID_INDEX);
--      return 0;
--    }
--
-   if (unlikely (data_scn->d.d_type != ELF_T_DYN))
-     {
-       /* The type of the data better should match.  */
-@@ -102,7 +96,8 @@ gelf_update_dyn (data, ndx, src)
- 	}
- 
-       /* Check whether we have to resize the data buffer.  */
--      if (unlikely ((ndx + 1) * sizeof (Elf32_Dyn) > data_scn->d.d_size))
-+      if (INVALID_NDX (ndx, Elf32_Dyn)
-+	  || unlikely ((ndx + 1) * sizeof (Elf32_Dyn) > data_scn->d.d_size))
- 	{
- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
- 	  goto out;
-@@ -116,7 +111,8 @@ gelf_update_dyn (data, ndx, src)
-   else
-     {
-       /* Check whether we have to resize the data buffer.  */
--      if (unlikely ((ndx + 1) * sizeof (Elf64_Dyn) > data_scn->d.d_size))
-+      if (INVALID_NDX (ndx, Elf64_Dyn)
-+	  || unlikely ((ndx + 1) * sizeof (Elf64_Dyn) > data_scn->d.d_size))
- 	{
- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
- 	  goto out;
-diff -up elfutils-0.135/libelf/gelf_getrela.c.robustify elfutils-0.135/libelf/gelf_getrela.c
---- elfutils-0.135/libelf/gelf_getrela.c.robustify
-+++ elfutils-0.135/libelf/gelf_getrela.c
-@@ -71,12 +71,6 @@ gelf_getrela (data, ndx, dst)
-   if (data_scn == NULL)
-     return NULL;
- 
--  if (unlikely (ndx < 0))
--    {
--      __libelf_seterrno (ELF_E_INVALID_INDEX);
--      return NULL;
--    }
--
-   if (unlikely (data_scn->d.d_type != ELF_T_RELA))
-     {
-       __libelf_seterrno (ELF_E_INVALID_HANDLE);
-@@ -93,7 +87,8 @@ gelf_getrela (data, ndx, dst)
-   if (scn->elf->class == ELFCLASS32)
-     {
-       /* We have to convert the data.  */
--      if (unlikely ((ndx + 1) * sizeof (Elf32_Rela) > data_scn->d.d_size))
-+      if (INVALID_NDX (ndx, Elf32_Rela)
-+	  || unlikely ((ndx + 1) * sizeof (Elf32_Rela) > data_scn->d.d_size))
- 	{
- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
- 	  result = NULL;
-@@ -114,7 +109,8 @@ gelf_getrela (data, ndx, dst)
-     {
-       /* Simply copy the data after we made sure we are actually getting
- 	 correct data.  */
--      if (unlikely ((ndx + 1) * sizeof (Elf64_Rela) > data_scn->d.d_size))
-+      if (INVALID_NDX (ndx, Elf64_Rela)
-+	  || unlikely ((ndx + 1) * sizeof (Elf64_Rela) > data_scn->d.d_size))
- 	{
- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
- 	  result = NULL;
