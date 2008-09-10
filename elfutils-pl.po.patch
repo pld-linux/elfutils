@@ -10,19 +10,19 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
  
  AC_PROG_CC
  AC_PROG_CPP
---- elfutils-0.135/po/pl.po.orig	1970-01-01 01:00:00.000000000 +0100
-+++ elfutils-0.135/po/pl.po	2008-05-31 10:47:57.027913156 +0200
-@@ -0,0 +1,4632 @@
+--- elfutils-0.137/po/pl.po.orig	1970-01-01 01:00:00.000000000 +0100
++++ elfutils-0.137/po/pl.po	2008-09-09 21:25:25.664994013 +0200
+@@ -0,0 +1,4661 @@
 +# Polish translation for elfutils.
 +# This file is distributed under the same license as the elfutils package.
 +# Jakub Bogusz <qboosh@pld-linux.org>, 2003-2008.
 +#
 +msgid ""
 +msgstr ""
-+"Project-Id-Version: elfutils 0.131\n"
++"Project-Id-Version: elfutils 0.137\n"
 +"Report-Msgid-Bugs-To: http://bugzilla.redhat.com/\n"
-+"POT-Creation-Date: 2008-05-12 15:14-0700\n"
-+"PO-Revision-Date: 2008-05-31 10:31+0200\n"
++"POT-Creation-Date: 2008-08-25 19:48-0700\n"
++"PO-Revision-Date: 2008-09-09 21:22+0200\n"
 +"Last-Translator: Jakub Bogusz <qboosh@pld-linux.org>\n"
 +"Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
 +"MIME-Version: 1.0\n"
@@ -450,7 +450,7 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +msgstr "%s: B£¡D WEWNÊTRZNY %d (%s-%s): %s"
 +
 +#: src/nm.c:253 src/readelf.c:416 src/size.c:219 src/strip.c:203 src/ld.c:957
-+#: src/elflint.c:240 src/addr2line.c:190 src/findtextrel.c:168
++#: src/elflint.c:240 src/addr2line.c:178 src/findtextrel.c:168
 +#: src/elfcmp.c:521 src/ranlib.c:136 src/strings.c:227
 +#, c-format
 +msgid ""
@@ -464,7 +464,7 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +"DO SPRZEDA¯Y LUB DO KONKRETNYCH CELÓW.\n"
 +
 +#: src/nm.c:258 src/readelf.c:421 src/size.c:224 src/strip.c:208 src/ld.c:962
-+#: src/elflint.c:245 src/addr2line.c:195 src/findtextrel.c:173
++#: src/elflint.c:245 src/addr2line.c:183 src/findtextrel.c:173
 +#: src/elfcmp.c:526 src/ranlib.c:141 src/strings.c:232
 +#, c-format
 +msgid "Written by %s.\n"
@@ -524,7 +524,7 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +#: src/readelf.c:1109 src/readelf.c:1291 src/readelf.c:1489 src/readelf.c:1634
 +#: src/readelf.c:1802 src/readelf.c:2056 src/readelf.c:2122 src/readelf.c:2200
 +#: src/readelf.c:2697 src/readelf.c:2733 src/readelf.c:2795 src/readelf.c:5293
-+#: src/readelf.c:6075 src/readelf.c:6220 src/readelf.c:6289 src/size.c:418
++#: src/readelf.c:6154 src/readelf.c:6299 src/readelf.c:6368 src/size.c:418
 +#: src/size.c:492 src/strip.c:482
 +#, c-format
 +msgid "cannot get section header string table index"
@@ -916,7 +916,7 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +msgid "cannot get section: %s"
 +msgstr "nie mo¿na pobraæ sekcji: %s"
 +
-+#: src/readelf.c:850 src/readelf.c:1000 src/readelf.c:6240
++#: src/readelf.c:850 src/readelf.c:1000 src/readelf.c:6319
 +#, c-format
 +msgid "cannot get section header: %s"
 +msgstr "nie mo¿na pobraæ nag³ówka sekcji: %s"
@@ -1890,36 +1890,45 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +msgid "cannot get debug context descriptor: %s"
 +msgstr "nie mo¿na pobraæ deskryptora kontekstu debugowego: %s"
 +
-+#: src/readelf.c:5414 src/readelf.c:5913
++#: src/readelf.c:5414 src/readelf.c:5992
 +#, c-format
 +msgid "cannot convert core note data: %s"
 +msgstr "nie mo¿na przekszta³ciæ danych notatki pliku core: %s"
 +
-+#: src/readelf.c:5682
++#: src/readelf.c:5719
++#, c-format
++msgid ""
++"\n"
++"%*s... <repeats %u more times> ..."
++msgstr ""
++"\n"
++"%*s... <liczba powtórzeñ: %u> ..."
++
++#: src/readelf.c:5761
 +#, c-format
 +msgid "unable to handle register number %d"
 +msgstr "nie uda³o siê obs³u¿yæ rejestru numer %d"
 +
-+#: src/readelf.c:5829 src/readelf.c:5853
++#: src/readelf.c:5908 src/readelf.c:5932
 +#, c-format
 +msgid "cannot register info: %s"
 +msgstr "nie mo¿na zarejestrowaæ informacji: %s"
 +
-+#: src/readelf.c:6011
++#: src/readelf.c:6090
 +msgid "  Owner          Data size  Type\n"
 +msgstr "  W³a¶ciciel     Rozmiar danych  Typ\n"
 +
-+#: src/readelf.c:6029
++#: src/readelf.c:6108
 +#, c-format
 +msgid "  %-13.*s  %9<PRId32>  %s\n"
 +msgstr "  %-13.*s  %9<PRId32>       %s\n"
 +
-+#: src/readelf.c:6060
++#: src/readelf.c:6139
 +#, c-format
 +msgid "cannot get content of note section: %s"
 +msgstr "nie mo¿na pobraæ zawarto¶ci sekcji notatki: %s"
 +
-+#: src/readelf.c:6087
++#: src/readelf.c:6166
 +#, c-format
 +msgid ""
 +"\n"
@@ -1928,7 +1937,7 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +"\n"
 +"Sekcja notatki [%2zu] '%s' zawiera %<PRIu64> bajtów pod offsetem %#0<PRIx64>:\n"
 +
-+#: src/readelf.c:6110
++#: src/readelf.c:6189
 +#, c-format
 +msgid ""
 +"\n"
@@ -1937,7 +1946,7 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +"\n"
 +"Segment notatki o d³ugo¶ci %<PRIu64> bajtów pod offsetem %#0<PRIx64>:\n"
 +
-+#: src/readelf.c:6156
++#: src/readelf.c:6235
 +#, c-format
 +msgid ""
 +"\n"
@@ -1946,12 +1955,12 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +"\n"
 +"Sekcja [%Zu] '%s' nie zawiera danych do wypisania.\n"
 +
-+#: src/readelf.c:6162 src/readelf.c:6184
++#: src/readelf.c:6241 src/readelf.c:6263
 +#, c-format
 +msgid "cannot get data for section [%Zu] '%s': %s"
 +msgstr "nie mo¿na pobraæ danych dla sekcji [%Zu] '%s': %s"
 +
-+#: src/readelf.c:6166
++#: src/readelf.c:6245
 +#, c-format
 +msgid ""
 +"\n"
@@ -1960,7 +1969,7 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +"\n"
 +"Zrzut szesnastkowy sekcji [%Zu] '%s', %<PRIu64> bajtów pod offsetem %#0<PRIx64>:\n"
 +
-+#: src/readelf.c:6179
++#: src/readelf.c:6258
 +#, c-format
 +msgid ""
 +"\n"
@@ -1969,7 +1978,7 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +"\n"
 +"Sekcja [%Zu] '%s' jest pusta.\n"
 +
-+#: src/readelf.c:6188
++#: src/readelf.c:6267
 +#, c-format
 +msgid ""
 +"\n"
@@ -1978,7 +1987,7 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +"\n"
 +"Sekcja ³añcucha [%Zu] '%s' zawiera %<PRIu64> bajtów pod offsetem %#0<PRIx64>:\n"
 +
-+#: src/readelf.c:6235
++#: src/readelf.c:6314
 +#, c-format
 +msgid ""
 +"\n"
@@ -1987,7 +1996,7 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +"\n"
 +"sekcja [%lu] nie istnieje"
 +
-+#: src/readelf.c:6261
++#: src/readelf.c:6340
 +#, c-format
 +msgid ""
 +"\n"
@@ -1996,12 +2005,12 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +"\n"
 +"sekcja '%s' nie istnieje"
 +
-+#: src/readelf.c:6322
++#: src/readelf.c:6401
 +#, c-format
 +msgid "cannot get symbol index of archive '%s': %s"
 +msgstr "nie mo¿na pobraæ indeksu symbolu w archiwum '%s': %s"
 +
-+#: src/readelf.c:6325
++#: src/readelf.c:6404
 +#, c-format
 +msgid ""
 +"\n"
@@ -2010,7 +2019,7 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +"\n"
 +"Archiwum '%s' nie ma indeksu symboli\n"
 +
-+#: src/readelf.c:6329
++#: src/readelf.c:6408
 +#, c-format
 +msgid ""
 +"\n"
@@ -2019,12 +2028,12 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +"\n"
 +"Indeks archiwum '%s' ma %Zu wpisów:\n"
 +
-+#: src/readelf.c:6347
++#: src/readelf.c:6426
 +#, c-format
 +msgid "cannot extract member at offset %Zu in '%s': %s"
 +msgstr "nie mo¿na pobraæ sk³adnika spod offsetu %Zu w '%s': %s"
 +
-+#: src/readelf.c:6352
++#: src/readelf.c:6431
 +#, c-format
 +msgid "Archive member '%s' contains:\n"
 +msgstr "Sk³adnik archiwum '%s' zawiera:\n"
@@ -3887,7 +3896,7 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +#: src/elflint.c:3210
 +#, c-format
 +msgid "section [%2d] '%s': offset %zu: zero length field in attribute subsection\n"
-+msgstr "sekcja [%2d] '%s': oofset %zu: pole zerowej d³ugo¶ci w podsekcji atrybutów\n"
++msgstr "sekcja [%2d] '%s': offset %zu: pole zerowej d³ugo¶ci w podsekcji atrybutów\n"
 +
 +#: src/elflint.c:3223
 +#, c-format
@@ -4331,6 +4340,26 @@ diff -urN elfutils-0.95.org/configure.ac elfutils-0.95/configure.ac
 +#: src/addr2line.c:84
 +msgid "[ADDR...]"
 +msgstr "[ADRES...]"
++
++#: src/addr2line.c:385
++#, c-format
++msgid "Section syntax requires exactly one module"
++msgstr "Sk³adnia sekcji wymaga dok³adnie jednego modu³u"
++
++#: src/addr2line.c:408
++#, c-format
++msgid "offset %#<PRIxMAX> lies outside section '%s'"
++msgstr "offset %#<PRIxMAX> znajduje siê poza sekcj± '%s'"
++
++#: src/addr2line.c:426
++#, c-format
++msgid "cannot find symbol '%s'"
++msgstr "nie mo¿na odnale¼æ symbolu '%s'"
++
++#: src/addr2line.c:431
++#, c-format
++msgid "offset %#<PRIxMAX> lies outside contents of '%s'"
++msgstr "offset %#<PRIxMAX> znajduje siê poza zawarto¶ci± '%s'"
 +
 +#: src/findtextrel.c:68
 +msgid "Input Selection:"
