@@ -5,12 +5,12 @@
 Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl.UTF-8):	Zestaw narzędzi i bibliotek do obsługi skompilowanych obiektów
 Name:		elfutils
-Version:	0.135
+Version:	0.137
 Release:	1
 License:	GPL v2 with OSL linking exception
 Group:		Development/Tools
 Source0:	https://fedorahosted.org/releases/e/l/elfutils/%{name}-%{version}.tar.gz
-# Source0-md5:	2fb0d3d9cdb22f71ad0df91d676bb2eb
+# Source0-md5:	a24690a64268516bd413c4c3fe6c6dd4
 Patch0:		%{name}-pl.po.patch
 Patch1:		%{name}-debian-manpages.patch
 Patch2:		%{name}-portability.patch
@@ -20,6 +20,8 @@ Patch5:		%{name}-paxflags.patch
 Patch6:		%{name}-sparc.patch
 Patch7:		%{name}-inline.patch
 Patch8:		%{name}-Werror.patch
+Patch9:		%{name}-fixes.patch
+Patch10:	%{name}-scanf.patch
 URL:		https://fedorahosted.org/elfutils/
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.7
@@ -142,6 +144,8 @@ programowalny interfejs asemblera.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
+%patch10 -p1
 
 rm -f po/stamp-po
 
@@ -157,8 +161,7 @@ rm -f po/stamp-po
 %{__autoconf}
 %{__automake}
 %configure \
-	--program-prefix=%{programprefix} \
-	--enable-shared
+	--program-prefix=%{programprefix}
 
 # make check depends on test-nlist not stripped
 %{__perl} -pi -e 's/^(LDFLAGS =.*)-s/$1/' tests/Makefile
