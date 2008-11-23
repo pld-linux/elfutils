@@ -27,3 +27,13 @@ diff -Nur elfutils-0.127.org/tests/Makefile.am elfutils-0.127/tests/Makefile.am
  	    $(if $($(*F)_no_Wformat),-Wno-format,-Wformat=2)
  BUILT_RPATH = \$$ORIGIN/../libasm:\$$ORIGIN/../libdw:\$$ORIGIN/../backends:\$$ORIGIN/../libelf
  endif
+--- elfutils-0.137/src/Makefile.am~orig	2008-11-23 22:27:16.000000000 +0100
++++ elfutils-0.137/src/Makefile.am	2008-11-23 22:35:06.000000000 +0100
+@@ -33,7 +33,6 @@
+ AM_CFLAGS =
+ endif
+ AM_CFLAGS += -Wall -Wshadow -std=gnu99 $(native_ld_cflags) \
+-	     $(if $($(*F)_no_Werror),,-Werror) \
+ 	     $(if $($(*F)_no_Wunused),,-Wunused $(WEXTRA)) \
+ 	     $(if $($(*F)_no_Wformat),-Wno-format,-Wformat=2) $(CFLAGS_$(*F))
+ 
