@@ -37,3 +37,15 @@ diff -Nur elfutils-0.127.org/tests/Makefile.am elfutils-0.127/tests/Makefile.am
  	     $(if $($(*F)_no_Wunused),,-Wunused $(WEXTRA)) \
  	     $(if $($(*F)_no_Wformat),-Wno-format,-Wformat=2) $(CFLAGS_$(*F))
  
+--- elfutils-0.141/libcpu/Makefile.am~	2009-05-02 14:18:41.000000000 +0200
++++ elfutils-0.141/libcpu/Makefile.am	2009-05-02 15:01:39.000000000 +0200
+@@ -33,8 +33,7 @@
+ WEXTRA = @WEXTRA@
+ AM_CFLAGS += -Wall -Wshadow -Wunused $(WEXTRA) -std=gnu99 -fpic \
+ 	     -fdollars-in-identifiers \
+-	     $($(*F)_CFLAGS) \
+-	     $(if $($(*F)_no_Werror),,-Werror)
++	     $($(*F)_CFLAGS)
+ INCLUDES = -I$(srcdir) -I$(srcdir)/../lib -I$(srcdir)/../libelf \
+ 	   -I$(srcdir)/../libebl -I$(srcdir)/../libdw -I$(srcdir)/../libasm
+ LEXCOMPILE = $(LEX) $(LFLAGS) $(AM_LFLAGS) -P$(<F:lex.l=)
