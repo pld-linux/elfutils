@@ -204,9 +204,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS EXCEPTION NEWS NOTES README THANKS TODO
 %attr(755,root,root) %{_bindir}/eu-*
 %attr(755,root,root) %{_libdir}/libasm-*.so
-%ghost %attr(755,root,root) %{_libdir}/libasm.so.*
+%attr(755,root,root) %ghost %{_libdir}/libasm.so.*
 %attr(755,root,root) %{_libdir}/libdw-*.so
-%ghost %attr(755,root,root) %{_libdir}/libdw.so.*
+%attr(755,root,root) %ghost %{_libdir}/libdw.so.*
 %dir %{_libdir}/elfutils
 %attr(755,root,root) %{_libdir}/elfutils/lib*.so
 %{_mandir}/man1/eu-*.1*
@@ -226,7 +226,7 @@ rm -rf $RPM_BUILD_ROOT
 %files libelf -f %{name}.lang
 %defattr(644,root,root,755)
 %attr(755,root,root) /%{_lib}/libelf-*.so
-%ghost %attr(755,root,root) /%{_lib}/libelf.so.*
+%attr(755,root,root) %ghost /%{_lib}/libelf.so.*
 
 %files static
 %defattr(644,root,root,755)
