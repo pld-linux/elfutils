@@ -17,11 +17,11 @@
        bool parsed = false;
        int n;
        char *name = NULL;
--      if (sscanf (string, "(%m[^)])%" PRIiMAX "%n", &name, &addr, &n) == 2
+-      if (sscanf (string, "(%a[^)])%" PRIiMAX "%n", &name, &addr, &n) == 2
 +      if (sscanf (string, "(" SCANF_ADDR "[^)])%" PRIiMAX "%n", &name, &addr, &n) == 2
  	  && string[n] == '\0')
  	parsed = adjust_to_section (name, &addr, dwfl);
--      else if (sscanf (string, "%m[^-+]%" PRIiMAX "%n", &name, &addr, &n) == 2
+-      else if (sscanf (string, "%a[^-+]%" PRIiMAX "%n", &name, &addr, &n) == 2
 +      else if (sscanf (string, SCANF_ADDR "[^-+]%" PRIiMAX "%n", &name, &addr, &n) == 2
  	       && string[n] == '\0')
  	{
