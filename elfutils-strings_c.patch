@@ -1,0 +1,22 @@
+--- src/strings.c.orig	2010-06-06 13:44:24.944220549 +0200
++++ src/strings.c	2010-06-06 13:48:09.937738243 +0200
+@@ -381,7 +381,8 @@
+ 		 assume the file data is encoded in UCS-2/UTF-16 or
+ 		 UCS-4/UTF-32 respectively we could covert the string.
+ 		 But there is no such guarantee.  */
+-	      fwrite_unlocked (start, 1, buf - start, stdout);
++	      int ret;
++	      ret = fwrite_unlocked (start, 1, buf - start, stdout);
+ 	      putc_unlocked ('\n', stdout);
+ 	    }
+ 
+@@ -441,7 +442,8 @@
+ 		  free (*unprinted);
+ 		  *unprinted = NULL;
+ 		}
+-	      fwrite_unlocked (start, 1, buf - start, stdout);
++	      int ret;
++	      ret = fwrite_unlocked (start, 1, buf - start, stdout);
+ 	      putc_unlocked ('\n', stdout);
+ 	    }
+ 
