@@ -6,7 +6,7 @@ Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl.UTF-8):	Zestaw narzędzi i bibliotek do obsługi skompilowanych obiektów
 Name:		elfutils
 Version:	0.145
-Release:	1
+Release:	2
 License:	GPL v2 with OSL linking exception
 Group:		Development/Tools
 Source0:	https://fedorahosted.org/releases/e/l/elfutils/%{name}-%{version}.tar.bz2
@@ -20,6 +20,7 @@ Patch5:		%{name}-paxflags.patch
 Patch6:		%{name}-sparc.patch
 Patch7:		%{name}-inline.patch
 Patch8:		%{name}-scanf.patch
+Patch9:		%{name}-strings_c.patch
 URL:		https://fedorahosted.org/elfutils/
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.7
@@ -142,6 +143,7 @@ programowalny interfejs asemblera.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p0
 
 rm -f po/stamp-po
 
