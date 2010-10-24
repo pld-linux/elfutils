@@ -1,10 +1,10 @@
---- elfutils-0.137/src/addr2line.c.orig	2008-08-09 06:06:44.000000000 +0200
-+++ elfutils-0.137/src/addr2line.c	2008-09-09 22:15:16.304992337 +0200
-@@ -437,6 +437,12 @@
+--- elfutils-0.149/src/addr2line.c.orig	2010-10-24 10:15:08.419741882 +0200
++++ elfutils-0.149/src/addr2line.c	2010-10-24 10:16:59.475738529 +0200
+@@ -445,6 +445,12 @@
    return false;
  }
  
-+#if (__GLIBC__ >= 2) && (__GLIBC_MINOR__ >= 7) && (__GNUC__ >= 4) && (__GNUC_MINOR__ >= 3)
++#if ((__GLIBC__ > 2) || ((__GLIBC__ == 2) && (__GLIBC_MINOR__ >= 7))) && ((__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 3)))
 +# define SCANF_ADDR "%m"
 +#else
 +# define SCANF_ADDR "%a"
@@ -13,16 +13,16 @@
  static int
  handle_address (const char *string, Dwfl *dwfl)
  {
-@@ -447,10 +453,10 @@
+@@ -455,10 +461,10 @@
        bool parsed = false;
-       int n;
+       int i, j;
        char *name = NULL;
--      if (sscanf (string, "(%a[^)])%" PRIiMAX "%n", &name, &addr, &n) == 2
-+      if (sscanf (string, "(" SCANF_ADDR "[^)])%" PRIiMAX "%n", &name, &addr, &n) == 2
- 	  && string[n] == '\0')
+-      if (sscanf (string, "(%a[^)])%" PRIiMAX "%n", &name, &addr, &i) == 2
++      if (sscanf (string, "(" SCANF_ADDR "[^)])%" PRIiMAX "%n", &name, &addr, &i) == 2
+ 	  && string[i] == '\0')
  	parsed = adjust_to_section (name, &addr, dwfl);
--      else if (sscanf (string, "%a[^-+]%" PRIiMAX "%n", &name, &addr, &n) == 2
-+      else if (sscanf (string, SCANF_ADDR "[^-+]%" PRIiMAX "%n", &name, &addr, &n) == 2
- 	       && string[n] == '\0')
+-      switch (sscanf (string, "%a[^-+]%n%" PRIiMAX "%n", &name, &i, &addr, &j))
++      switch (sscanf (string, SCANF_ADDR "[^-+]%n%" PRIiMAX "%n", &name, &i, &addr, &j))
  	{
- 	  /* It was symbol+offset.  */
+ 	default:
+ 	  break;

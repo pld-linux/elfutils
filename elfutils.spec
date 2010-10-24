@@ -5,12 +5,12 @@
 Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl.UTF-8):	Zestaw narzędzi i bibliotek do obsługi skompilowanych obiektów
 Name:		elfutils
-Version:	0.145
-Release:	2
+Version:	0.149
+Release:	1
 License:	GPL v2 with OSL linking exception
 Group:		Development/Tools
-Source0:	https://fedorahosted.org/releases/e/l/elfutils/%{name}-%{version}.tar.bz2
-# Source0-md5:	af325a39c5a534de5b15c2a727a4e203
+Source0:	https://fedorahosted.org/releases/e/l/elfutils/%{version}/%{name}-%{version}.tar.bz2
+# Source0-md5:	8690cfcde541c83c0549623ea33c75f6
 Patch0:		%{name}-pl.po.patch
 Patch1:		%{name}-debian-manpages.patch
 Patch2:		%{name}-portability.patch
@@ -202,9 +202,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS EXCEPTION NEWS NOTES README THANKS TODO
 %attr(755,root,root) %{_bindir}/eu-*
 %attr(755,root,root) %{_libdir}/libasm-*.so
-%attr(755,root,root) %ghost %{_libdir}/libasm.so.*
+%attr(755,root,root) %ghost %{_libdir}/libasm.so.1
 %attr(755,root,root) %{_libdir}/libdw-*.so
-%attr(755,root,root) %ghost %{_libdir}/libdw.so.*
+%attr(755,root,root) %ghost %{_libdir}/libdw.so.1
 %dir %{_libdir}/elfutils
 %attr(755,root,root) %{_libdir}/elfutils/lib*.so
 %{_mandir}/man1/eu-*.1*
@@ -224,7 +224,7 @@ rm -rf $RPM_BUILD_ROOT
 %files libelf -f %{name}.lang
 %defattr(644,root,root,755)
 %attr(755,root,root) /%{_lib}/libelf-*.so
-%attr(755,root,root) %ghost /%{_lib}/libelf.so.*
+%attr(755,root,root) %ghost /%{_lib}/libelf.so.1
 
 %files static
 %defattr(644,root,root,755)
