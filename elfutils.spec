@@ -5,12 +5,12 @@
 Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl.UTF-8):	Zestaw narzędzi i bibliotek do obsługi skompilowanych obiektów
 Name:		elfutils
-Version:	0.151
+Version:	0.153
 Release:	1
 License:	GPL v2 with OSL linking exception
 Group:		Development/Tools
 Source0:	https://fedorahosted.org/releases/e/l/elfutils/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	9bc04e409a5510ba379afc3f853a59ae
+# Source0-md5:	289a146182bc29f0236eaa15d8ebdf98
 Patch0:		%{name}-pl.po.patch
 Patch1:		%{name}-debian-manpages.patch
 Patch2:		%{name}-portability.patch
@@ -134,7 +134,7 @@ programowalny interfejs asemblera.
 
 %prep
 %setup -q
-%patch0 -p1
+#patch0 -p1
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -159,6 +159,7 @@ programowalny interfejs asemblera.
 %{__autoconf}
 %{__automake}
 %configure \
+	--disable-werror \
 	--program-prefix=%{programprefix}
 
 # make check depends on test-nlist not stripped
