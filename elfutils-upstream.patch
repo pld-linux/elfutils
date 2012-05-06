@@ -1,0 +1,45 @@
+commit 738c18312e0db36dce5e1cd2cddaf66eb8947f1a
+Author: Roland McGrath <roland@hack.frob.com>
+Date:   Wed Mar 28 15:01:49 2012 -0700
+
+    elflint: Accept SHF_INFO_LINK for reloc sections.
+
+commit 191d1f0b9163593eee8c4f5cbe3e95cabf6ae9a9
+Author: Mark Wielaard <mjw@redhat.com>
+Date:   Mon Apr 2 17:11:25 2012 +0200
+
+    elf32_offscn.c: Do not match SHT_NOBITS sections at OFFSET.
+    
+    readelf -d doesn't work if a SHT_NOBITS section is right before the actual
+    .dynamic section at the same offset. elflint also fails on such binaries.
+    So skip SHT_NOBITS sections at the same offset in [g]elf[32|64]_offscn().
+
+diff --git a/src/elflint.c b/src/elflint.c
+index abca8b7..a03caac 100644
+--- a/src/elflint.c
++++ b/src/elflint.c
+@@ -3357,8 +3357,8 @@ static const struct
+     { ".note", 6, SHT_NOTE, atleast, 0, SHF_ALLOC },
+     { ".plt", 5, SHT_PROGBITS, unused, 0, 0 }, // XXX more tests
+     { ".preinit_array", 15, SHT_PREINIT_ARRAY, exact, SHF_ALLOC | SHF_WRITE, 0 },
+-    { ".rela", 5, SHT_RELA, atleast, 0, SHF_ALLOC }, // XXX more tests
+-    { ".rel", 4, SHT_REL, atleast, 0, SHF_ALLOC }, // XXX more tests
++    { ".rela", 5, SHT_RELA, atleast, 0, SHF_ALLOC | SHF_INFO_LINK }, // XXX more tests
++    { ".rel", 4, SHT_REL, atleast, 0, SHF_ALLOC | SHF_INFO_LINK }, // XXX more tests
+     { ".rodata", 8, SHT_PROGBITS, atleast, SHF_ALLOC, SHF_MERGE | SHF_STRINGS },
+     { ".rodata1", 9, SHT_PROGBITS, atleast, SHF_ALLOC, SHF_MERGE | SHF_STRINGS },
+     { ".shstrtab", 10, SHT_STRTAB, exact, 0, 0 },
+diff --git a/libelf/elf32_offscn.c b/libelf/elf32_offscn.c
+index 86eff8b..5dcfc4a 100644
+--- a/libelf/elf32_offscn.c
++++ b/libelf/elf32_offscn.c
+@@ -101,7 +101,8 @@ elfw2(LIBELFBITS,offscn) (elf, offset)
+ 	    /* If this section is empty, the following one has the same
+ 	       sh_offset.  We presume the caller is looking for a nonempty
+ 	       section, so keep looking if this one is empty.  */
+-	    if (runp->data[i].shdr.ELFW(e,LIBELFBITS)->sh_size != 0)
++	    if (runp->data[i].shdr.ELFW(e,LIBELFBITS)->sh_size != 0
++		&& runp->data[i].shdr.ELFW(e,LIBELFBITS)->sh_type != SHT_NOBITS)
+ 	      goto out;
+ 	  }
+ 

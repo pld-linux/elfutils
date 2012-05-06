@@ -21,6 +21,7 @@ Patch6:		%{name}-sparc.patch
 Patch7:		%{name}-inline.patch
 Patch8:		%{name}-scanf.patch
 Patch9:		%{name}-strings_c.patch
+Patch10:	%{name}-upstream.patch
 URL:		https://fedorahosted.org/elfutils/
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.7
@@ -144,6 +145,7 @@ programowalny interfejs asemblera.
 %patch7 -p1
 %patch8 -p1
 %patch9 -p0
+%patch10 -p1
 
 %{__rm} po/stamp-po
 
