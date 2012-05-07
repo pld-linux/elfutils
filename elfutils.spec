@@ -23,8 +23,8 @@ Patch8:		%{name}-scanf.patch
 Patch9:		%{name}-strings_c.patch
 Patch10:	%{name}-upstream.patch
 URL:		https://fedorahosted.org/elfutils/
-BuildRequires:	autoconf >= 2.59
-BuildRequires:	automake >= 1:1.7
+BuildRequires:	autoconf >= 2.63
+BuildRequires:	automake >= 1:1.8
 BuildRequires:	gcc >= 5:3.4
 BuildRequires:	gettext-devel
 %ifarch %{x8664} alpha ia64 ppc64 s390x sparc64
@@ -44,6 +44,10 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 # fails to build with -Wl,-s
 %define		filterout_ld	(-Wl,)?-[sS] (-Wl,)?--strip.*
+%if %{with tests} && 0%(echo %{rpmcflags} | grep -q '\<-g' ; echo $?)
+# tests require debug symbols
+%define		specflags	-g
+%endif
 
 %define		programprefix	eu-
 
@@ -135,7 +139,7 @@ programowalny interfejs asemblera.
 
 %prep
 %setup -q
-#patch0 -p1
+%patch0 -p1
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
