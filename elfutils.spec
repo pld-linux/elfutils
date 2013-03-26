@@ -5,12 +5,12 @@
 Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl.UTF-8):	Zestaw narzędzi i bibliotek do obsługi skompilowanych obiektów
 Name:		elfutils
-Version:	0.153
-Release:	2
-License:	GPL v2 with OSL linking exception
+Version:	0.155
+Release:	1
+License:	GPL v2+ or LGPL v3+ (libraries), GPL v3+ (programs)
 Group:		Development/Tools
 Source0:	https://fedorahosted.org/releases/e/l/elfutils/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	289a146182bc29f0236eaa15d8ebdf98
+# Source0-md5:	163a5712b86f6bdfebdf233cc6e2192d
 Patch0:		%{name}-pl.po.patch
 Patch1:		%{name}-debian-manpages.patch
 Patch2:		%{name}-portability.patch
@@ -21,7 +21,7 @@ Patch6:		%{name}-sparc.patch
 Patch7:		%{name}-inline.patch
 Patch8:		%{name}-scanf.patch
 Patch9:		%{name}-strings_c.patch
-Patch10:	%{name}-upstream.patch
+Patch10:	%{name}-am.patch
 URL:		https://fedorahosted.org/elfutils/
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.8
@@ -154,9 +154,10 @@ programowalny interfejs asemblera.
 %{__rm} po/stamp-po
 
 # temporarily disable test failing on specific archs
-%ifarch alpha
-%{__perl} -pi -e 's/run-elflint-self.sh//' tests/Makefile
-%endif
+# - as for 0.155/binutils-2.23.52.0.1 this fails also on x86
+#ifarch alpha
+%{__perl} -pi -e 's/run-elflint-self.sh//' tests/Makefile.am
+#endif
 
 %build
 #%%{__gettextize}
@@ -206,7 +207,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS EXCEPTION NEWS NOTES README THANKS TODO
+%doc AUTHORS CONTRIBUTING ChangeLog NEWS NOTES README THANKS TODO
 %attr(755,root,root) %{_bindir}/eu-*
 %attr(755,root,root) %{_libdir}/libasm-*.so
 %attr(755,root,root) %ghost %{_libdir}/libasm.so.1
