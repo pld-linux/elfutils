@@ -101,17 +101,17 @@
      {
        if (last_file != NULL)
  	{
---- elfutils-0.127/libdwfl/dwfl_module_addrsym.c.orig	2007-03-04 23:00:19.000000000 +0100
-+++ elfutils-0.127/libdwfl/dwfl_module_addrsym.c	2007-05-19 16:10:28.605345054 +0200
-@@ -59,7 +59,7 @@
+--- elfutils-0.157/libdwfl/dwfl_module_addrsym.c.orig	2013-12-03 16:39:28.066627488 +0100
++++ elfutils-0.157/libdwfl/dwfl_module_addrsym.c	2013-12-03 16:40:10.559959039 +0100
+@@ -41,7 +41,7 @@
  
    /* Return true iff we consider ADDR to lie in the same section as SYM.  */
    GElf_Word addr_shndx = SHN_UNDEF;
--  inline bool same_section (const GElf_Sym *sym, GElf_Word shndx)
-+  __libdw_gnu_inline bool same_section (const GElf_Sym *sym, GElf_Word shndx)
+-  inline bool same_section (const GElf_Sym *sym, struct dwfl_file *symfile,
++  __libdw_gnu_inline bool same_section (const GElf_Sym *sym, struct dwfl_file *symfile,
+ 			    GElf_Word shndx)
      {
        /* For absolute symbols and the like, only match exactly.  */
-       if (shndx >= SHN_LORESERVE)
 --- elfutils-0.127/backends/ia64_retval.c.orig	2006-07-21 13:28:28.000000000 +0200
 +++ elfutils-0.127/backends/ia64_retval.c	2007-05-19 16:13:08.295213177 +0200
 @@ -96,7 +96,7 @@
