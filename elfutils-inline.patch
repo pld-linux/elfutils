@@ -30,26 +30,26 @@
  	{
  	  return INTUSE(dwarf_line_file) (dwfl_line (line));
  	}
---- elfutils-0.127/libdwfl/elf-from-memory.c.orig	2007-03-11 03:11:55.000000000 +0100
-+++ elfutils-0.127/libdwfl/elf-from-memory.c	2007-05-19 16:09:58.174735114 +0200
-@@ -215,7 +215,7 @@
-   GElf_Addr loadbase = ehdr_vma;
-   switch (ehdr.e32.e_ident[EI_CLASS])
-     {
--      inline void handle_segment (GElf_Addr vaddr, GElf_Off offset,
-+      __libdw_gnu_inline void handle_segment (GElf_Addr vaddr, GElf_Off offset,
- 				  GElf_Xword filesz, GElf_Xword align)
- 	{
- 	  GElf_Off segment_end = ((offset + filesz + align - 1) & -align);
-@@ -276,7 +276,7 @@
- 
-   switch (ehdr.e32.e_ident[EI_CLASS])
-     {
+--- elfutils-0.159/libdwfl/elf-from-memory.c.orig	2014-06-14 14:34:49.631795359 +0200
++++ elfutils-0.159/libdwfl/elf-from-memory.c	2014-06-14 14:35:58.288460597 +0200
+@@ -205,7 +205,7 @@ elf_from_remote_memory (GElf_Addr ehdr_v
+ 	 segments_end, segments_end_mem and loadbase (if not
+ 	 found_base yet).  Returns true if sanity checking failed,
+ 	 false otherwise.  */
 -      inline bool handle_segment (GElf_Addr vaddr, GElf_Off offset,
 +      __libdw_gnu_inline bool handle_segment (GElf_Addr vaddr, GElf_Off offset,
- 				  GElf_Xword filesz, GElf_Xword align)
+ 				  GElf_Xword filesz, GElf_Xword memsz,
+ 				  GElf_Xword palign)
  	{
- 	  GElf_Off start = offset & -align;
+@@ -286,7 +286,7 @@ elf_from_remote_memory (GElf_Addr ehdr_v
+     {
+       /* Reads the given segment.  Returns true if reading fails,
+ 	 false otherwise.  */
+-      inline bool handle_segment (GElf_Addr vaddr, GElf_Off offset,
++      __libdw_gnu_inline bool handle_segment (GElf_Addr vaddr, GElf_Off offset,
+ 				  GElf_Xword filesz)
+ 	{
+ 	  GElf_Off start = offset & -pagesize;
 --- elfutils-0.127/libdwfl/argp-std.c.orig	2007-04-05 11:12:36.000000000 +0200
 +++ elfutils-0.127/libdwfl/argp-std.c	2007-05-19 16:08:04.209055832 +0200
 @@ -106,7 +106,7 @@
@@ -101,17 +101,17 @@
      {
        if (last_file != NULL)
  	{
---- elfutils-0.157/libdwfl/dwfl_module_addrsym.c.orig	2013-12-03 16:39:28.066627488 +0100
-+++ elfutils-0.157/libdwfl/dwfl_module_addrsym.c	2013-12-03 16:40:10.559959039 +0100
-@@ -41,7 +41,7 @@
- 
+--- elfutils-0.159/libdwfl/dwfl_module_addrsym.c.orig	2014-06-14 14:36:48.425126218 +0200
++++ elfutils-0.159/libdwfl/dwfl_module_addrsym.c	2014-06-14 14:42:22.541785921 +0200
+@@ -44,7 +44,7 @@ __libdwfl_addrsym (Dwfl_Module *mod, GEl
    /* Return true iff we consider ADDR to lie in the same section as SYM.  */
    GElf_Word addr_shndx = SHN_UNDEF;
--  inline bool same_section (const GElf_Sym *sym, struct dwfl_file *symfile,
-+  __libdw_gnu_inline bool same_section (const GElf_Sym *sym, struct dwfl_file *symfile,
- 			    GElf_Word shndx)
+   Elf *addr_symelf = NULL;
+-  inline bool same_section (GElf_Addr value, Elf *symelf, GElf_Word shndx)
++  __libdw_gnu_inline bool same_section (GElf_Addr value, Elf *symelf, GElf_Word shndx)
      {
        /* For absolute symbols and the like, only match exactly.  */
+       if (shndx >= SHN_LORESERVE)
 --- elfutils-0.127/backends/ia64_retval.c.orig	2006-07-21 13:28:28.000000000 +0200
 +++ elfutils-0.127/backends/ia64_retval.c	2007-05-19 16:13:08.295213177 +0200
 @@ -96,7 +96,7 @@

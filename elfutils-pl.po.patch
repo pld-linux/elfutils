@@ -1,14 +1,128 @@
---- elfutils-0.157/po/pl.po.orig	2013-09-30 14:32:33.000000000 +0200
-+++ elfutils-0.157/po/pl.po	2013-12-03 16:38:37.466629613 +0100
-@@ -624,6 +624,7 @@
+--- elfutils-0.159/po/pl.po.orig	2014-05-20 11:02:26.000000000 +0200
++++ elfutils-0.159/po/pl.po	2014-06-14 14:31:04.491800051 +0200
+@@ -249,9 +249,8 @@
+ msgstr "dopuszczalna jest tylko jedna z opcji -e, -p, -k, -K lub --core"
+ 
+ #: libdwfl/argp-std.c:177
+-#, fuzzy
+ msgid "cannot attach to process"
+-msgstr "nie można utworzyć drzewa wyszukiwania"
++msgstr "nie można podłączyć się do procesu"
+ 
+ #: libdwfl/argp-std.c:231
+ msgid "cannot load kernel symbols"
+@@ -271,9 +270,8 @@
+ msgstr "nie można odczytać pliku core ELF: %s"
+ 
+ #: libdwfl/argp-std.c:307
+-#, fuzzy
+ msgid "cannot attach to core"
+-msgstr "nie można utworzyć drzewa wyszukiwania"
++msgstr "nie można podłączyć się do zrzutu core"
+ 
+ #: libdwfl/argp-std.c:314
+ msgid "No modules recognized in core file"
+@@ -377,58 +375,55 @@
+ 
+ #: libdwfl/libdwflP.h:82
+ msgid "Internal error due to ebl"
+-msgstr ""
++msgstr "Błąd wewnętrzny z powodu ebl"
+ 
+ #: libdwfl/libdwflP.h:83
+ msgid "Missing data in core file"
+-msgstr ""
++msgstr "Brak danych w pliku core"
+ 
+ #: libdwfl/libdwflP.h:84
+-#, fuzzy
+ msgid "Invalid register"
+-msgstr "nieprawidłowy parametr"
++msgstr "Nieprawidłowy rejestr"
+ 
+ #: libdwfl/libdwflP.h:85
+ msgid "Error reading process memory"
+-msgstr ""
++msgstr "Błąd podczas odczytu pamięci procesu"
+ 
+ #: libdwfl/libdwflP.h:86
+ msgid "Couldn't find architecture of any ELF"
+-msgstr ""
++msgstr "Nie udało się odnaleźć architektury żadnego ELF-a"
+ 
+ #: libdwfl/libdwflP.h:87
+ msgid "Error parsing /proc filesystem"
+-msgstr ""
++msgstr "Błąd analizy systemu plików /proc"
+ 
+ #: libdwfl/libdwflP.h:88
+-#, fuzzy
+ msgid "Invalid DWARF"
+-msgstr "nieprawidłowy DWARF"
++msgstr "Nieprawidłowy DWARF"
+ 
+ #: libdwfl/libdwflP.h:89
+ msgid "Unsupported DWARF"
+-msgstr ""
++msgstr "Nieobsługiwany DWARF"
+ 
+ #: libdwfl/libdwflP.h:90
+ msgid "Unable to find more threads"
+-msgstr ""
++msgstr "Nie udało się odnaleźć większej liczby wątków"
+ 
+ #: libdwfl/libdwflP.h:91
+ msgid "Dwfl already has attached state"
+-msgstr ""
++msgstr "Dwfl ma już stan podłączony"
+ 
+ #: libdwfl/libdwflP.h:92
+ msgid "Dwfl has no attached state"
+-msgstr ""
++msgstr "Dwfl nie ma stanu podłączonego"
+ 
+ #: libdwfl/libdwflP.h:93
+ msgid "Unwinding not supported for this architecture"
+-msgstr ""
++msgstr "Rozwijanie stosu nie jest obsługiwane dla tej architektury"
+ 
+ #: libdwfl/libdwflP.h:94
+-#, fuzzy
+ msgid "Invalid argument"
+-msgstr "nieprawidłowy parametr"
++msgstr "nieprawidłowy argument"
+ 
+ #: libebl/eblbackendname.c:42
+ msgid "No backend"
+@@ -677,9 +672,8 @@
+ msgstr "Wyświetla także nazwy symboli ub sekcji"
+ 
+ #: src/addr2line.c:64
+-#, fuzzy
+ msgid "Also show symbol and the section names"
+-msgstr "Wyświetla także nazwy symboli ub sekcji"
++msgstr "Wyświetla także nazwy symboli i sekcji"
+ 
+ #: src/addr2line.c:65
+ msgid "Also show line table flags"
+@@ -694,6 +688,7 @@
  "Show all source locations that caused inline expansion of subroutines at the "
  "address."
  msgstr ""
 +"Wyświetla wszystkie pozycje źródłowe, które spowodowały rozwinięcie inline funkcji z podanego adresu."
  
- #: src/addr2line.c:71 src/elfcmp.c:72 src/findtextrel.c:67 src/nm.c:100
+ #: src/addr2line.c:72 src/elfcmp.c:72 src/findtextrel.c:67 src/nm.c:100
  #: src/strings.c:75
-@@ -4118,14 +4119,14 @@
+@@ -2019,7 +2014,7 @@
+ msgstr "sekcja [%2d] \"%s\": rozmiar maski bitowej nie jest potęgą 2: %u\n"
+ 
+ #: src/elflint.c:2085
+-#, fuzzy, c-format
++#, c-format
+ msgid ""
+ "section [%2d] '%s': hash table section is too small (is %ld, expected at "
+ "least %ld)\n"
+@@ -4188,14 +4183,14 @@
  msgstr "błąd podczas zwalniania deskryptora pod-ELF: %s"
  
  #: src/readelf.c:71
@@ -25,7 +139,7 @@
  
  #: src/readelf.c:75
  msgid "ELF output selection:"
-@@ -4184,15 +4185,14 @@
+@@ -4254,15 +4249,14 @@
  msgstr "Dodatkowy wybór wyjścia:"
  
  #: src/readelf.c:97
@@ -43,7 +157,7 @@
  
  #: src/readelf.c:101
  msgid "Dump the uninterpreted contents of SECTION, by number or name"
-@@ -4215,10 +4215,9 @@
+@@ -4285,10 +4279,9 @@
  msgstr "Bez odnajdywania nazw symboli dla adresów w danych DWARF"
  
  #: src/readelf.c:112
@@ -55,7 +169,7 @@
  
  #: src/readelf.c:114
  msgid "Ignored for compatibility (lines always wide)"
-@@ -4253,25 +4252,25 @@
+@@ -4323,25 +4316,25 @@
  msgstr "nie można uzyskać nagłówka sekcji: %s"
  
  #: src/readelf.c:562
@@ -65,8 +179,8 @@
 -msgstr "nie można uzyskać nagłówka sekcji\n"
 +msgstr "nie można uzyskać nazwy sekcji"
  
- #: src/readelf.c:571 src/readelf.c:5126 src/readelf.c:7299 src/readelf.c:7401
- #: src/readelf.c:7559
+ #: src/readelf.c:571 src/readelf.c:5207 src/readelf.c:7400 src/readelf.c:7502
+ #: src/readelf.c:7660
  #, c-format
  msgid "cannot get %s content: %s"
 -msgstr "nie można uzyskać zwartości %s: %s"
@@ -88,7 +202,7 @@
  
  #: src/readelf.c:602 src/readelf.c:619 src/readelf.c:648
  #, c-format
-@@ -4279,9 +4278,9 @@
+@@ -4349,9 +4342,9 @@
  msgstr "błąd podczas zamykania deskryptora ELF: %s"
  
  #: src/readelf.c:609
@@ -100,34 +214,46 @@
  
  #: src/readelf.c:643
  #, c-format
-@@ -4289,9 +4288,9 @@
+@@ -4359,9 +4352,9 @@
  msgstr "\"%s\" nie jest archiwum, nie można wyświetlić indeksu archiwum"
  
- #: src/readelf.c:728
+ #: src/readelf.c:742
 -#, fuzzy, c-format
 +#, c-format
  msgid "No such section '%s' in '%s'"
 -msgstr "nie można odczytać notatki sekcji [%zu] \"%s\" w \"%s\": %s"
 +msgstr "Brak sekcji \"%s\" w \"%s\""
  
- #: src/readelf.c:755
+ #: src/readelf.c:769
  #, c-format
-@@ -5126,9 +5125,9 @@
+@@ -4682,9 +4675,9 @@
+ 
+ #: src/readelf.c:1585 src/readelf.c:2188 src/readelf.c:2446 src/readelf.c:2516
+ #: src/readelf.c:2798 src/readelf.c:2871 src/readelf.c:4474
+-#, fuzzy, c-format
++#, c-format
+ msgid "invalid sh_link value in section %Zu"
+-msgstr "nieprawidłowa sekcja .debug_line"
++msgstr "nieprawidłowa wartość sh_link w sekcji %Zu"
+ 
+ #: src/readelf.c:1588
+ #, c-format
+@@ -5202,9 +5195,9 @@
  msgstr "%s %#<PRIx64> zostało użyte z różnymi rozmiarami offsetu"
  
- #: src/readelf.c:4206
+ #: src/readelf.c:4274
 -#, fuzzy, c-format
 +#, c-format
  msgid "%s %#<PRIx64> used with different base addresses"
 -msgstr "%s %#<PRIx64> zostało użyte z różnymi rozmiarami adresu"
 +msgstr "%s %#<PRIx64> zostało użyte z różnymi adresami bazowymi"
  
- #: src/readelf.c:4288
+ #: src/readelf.c:4356
  #, c-format
-@@ -5239,63 +5238,67 @@
+@@ -5315,63 +5308,67 @@
  msgstr "nieprawidłowe dane w sekcji [%zu] \"%s\""
  
- #: src/readelf.c:4497
+ #: src/readelf.c:4575
 -#, fuzzy, c-format
 +#, c-format
  msgid ""
@@ -138,41 +264,41 @@
 +"\n"
 +" Długość:          %6<PRIu64>\n"
  
- #: src/readelf.c:4509
+ #: src/readelf.c:4587
 -#, fuzzy, c-format
 +#, c-format
  msgid " DWARF version: %6<PRIuFAST16>\n"
 -msgstr " Wersja:            %<PRIu16>\n"
 +msgstr " Wersja DWARF:     %6<PRIuFAST16>\n"
  
- #: src/readelf.c:4513
+ #: src/readelf.c:4591
  #, c-format
  msgid "unsupported aranges version"
 -msgstr ""
 +msgstr "nieobsługiwana wersja aranges"
  
- #: src/readelf.c:4524
+ #: src/readelf.c:4602
 -#, fuzzy, c-format
 +#, c-format
  msgid " CU offset:     %6<PRIx64>\n"
 -msgstr " offset CU:       %#<PRIx32>\n"
 +msgstr " offset CU:        %6<PRIx64>\n"
  
- #: src/readelf.c:4530
+ #: src/readelf.c:4608
 -#, fuzzy, c-format
 +#, c-format
  msgid " Address size:  %6<PRIu64>\n"
 -msgstr " offset adresu:  %#<PRIx32>\n"
 +msgstr " Rozmiar adresu:   %6<PRIu64>\n"
  
- #: src/readelf.c:4534
+ #: src/readelf.c:4612
 -#, fuzzy, c-format
 +#, c-format
  msgid "unsupported address size"
 -msgstr "brak wartości adresu"
 +msgstr "nieobsługiwany rozmiar adresu"
  
- #: src/readelf.c:4539
+ #: src/readelf.c:4617
 -#, fuzzy, c-format
 +#, c-format
  msgid ""
@@ -183,60 +309,60 @@
 +" Rozmiar segmentu: %6<PRIu64>\n"
 +"\n"
  
- #: src/readelf.c:4543
+ #: src/readelf.c:4621
  #, c-format
  msgid "unsupported segment size"
 -msgstr ""
 +msgstr "nieobsługiwany rozmiar segmentu"
  
- #: src/readelf.c:4583
+ #: src/readelf.c:4661
 -#, fuzzy, c-format
 +#, c-format
  msgid "   %s..%s (%<PRIx64>)\n"
 -msgstr "      %s: %<PRId64>\n"
 +msgstr "   %s..%s (%<PRIx64>)\n"
  
- #: src/readelf.c:4586
+ #: src/readelf.c:4664
 -#, fuzzy, c-format
 +#, c-format
  msgid "   %s..%s\n"
 -msgstr " [%6tx]  %s...%s\n"
 +msgstr "   %s..%s\n"
  
- #: src/readelf.c:4595
+ #: src/readelf.c:4673
  #, c-format
  msgid "   %Zu padding bytes\n"
 -msgstr ""
 +msgstr "   %Zu bajtów wyrównania\n"
  
- #: src/readelf.c:4613
+ #: src/readelf.c:4691
  #, c-format
-@@ -5328,9 +5331,9 @@
+@@ -5404,9 +5401,9 @@
  msgstr "           %s...%s\n"
  
- #: src/readelf.c:5118
+ #: src/readelf.c:5196
 -#, fuzzy, c-format
 +#, c-format
  msgid "cannot get ELF: %s"
 -msgstr "nie można uzyskać nagłówka ELF: %s"
 +msgstr "nie można uzyskać ELF: %s"
  
- #: src/readelf.c:5133
+ #: src/readelf.c:5213
  #, c-format
-@@ -5455,7 +5458,7 @@
+@@ -5531,7 +5528,7 @@
  msgstr "nie można uzyskać następnego DIE: %s"
  
- #: src/readelf.c:5945
+ #: src/readelf.c:6045
 -#, fuzzy, c-format
 +#, c-format
  msgid ""
  "\n"
  "DWARF section [%2zu] '%s' at offset %#<PRIx64>:\n"
-@@ -5463,6 +5466,7 @@
+@@ -5539,6 +5536,7 @@
  msgstr ""
  "\n"
  "Sekcja DWARF [%2zu] \"%s\" pod offsetem %#<PRIx64>:\n"
 +"\n"
  
- #: src/readelf.c:6044
+ #: src/readelf.c:6144
  #, c-format
