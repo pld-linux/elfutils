@@ -24,7 +24,7 @@ URL:		https://fedorahosted.org/elfutils/
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.8
 BuildRequires:	gcc >= 5:3.4
-BuildRequires:	gettext-devel
+BuildRequires:	gettext-tools
 %ifarch %{x8664} alpha ia64 ppc64 s390x sparc64
 # PR*FAST{8,16} in <inttypes.h> were broken for 64-bit archs in older versions
 # also needed for nanosecond timestamps on alpha
