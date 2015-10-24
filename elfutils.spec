@@ -18,7 +18,7 @@ Patch3:		%{name}-align.patch
 Patch4:		%{name}-paxflags.patch
 Patch5:		%{name}-sparc.patch
 Patch6:		%{name}-inline.patch
-Patch9:		x32.patch
+Patch7:		%{name}-maps.patch
 URL:		https://fedorahosted.org/elfutils/
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.8
@@ -140,9 +140,7 @@ programowalny interfejs asemblera.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
-#%ifarch x32
-#%patch9 -p1
-#%endif
+%patch7 -p1
 
 %{__rm} po/stamp-po
 
