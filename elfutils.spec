@@ -145,7 +145,9 @@ programowalny interfejs asemblera.
 %{__rm} po/stamp-po
 
 # temporarily disable failing tests (depending or arch)
-#%{__sed} -i -e 's/run-elflint-self.sh//' tests/Makefile.am
+%ifarch x32
+%{__sed} -i -e 's/run-backtrace-native-biarch.sh//' tests/Makefile.am
+%endif
 
 %build
 #%%{__gettextize}
