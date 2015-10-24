@@ -5,32 +5,27 @@
 Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl.UTF-8):	Zestaw narzędzi i bibliotek do obsługi skompilowanych obiektów
 Name:		elfutils
-Version:	0.159
-Release:	3
+Version:	0.164
+Release:	1
 License:	GPL v2+ or LGPL v3+ (libraries), GPL v3+ (programs)
 Group:		Development/Tools
 Source0:	https://fedorahosted.org/releases/e/l/elfutils/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	1f45a18231c782ccd0966059e2e42ea9
+# Source0-md5:	2e4536c1c48034f188a80789a59114d8
 Patch0:		%{name}-pl.po.patch
 Patch1:		%{name}-debian-manpages.patch
-Patch2:		%{name}-portability.patch
+Patch2:		%{name}-awk.patch
 Patch3:		%{name}-align.patch
 Patch4:		%{name}-paxflags.patch
 Patch5:		%{name}-sparc.patch
 Patch6:		%{name}-inline.patch
-Patch7:		%{name}-scanf.patch
-Patch8:		%{name}-strings_c.patch
 Patch9:		x32.patch
 URL:		https://fedorahosted.org/elfutils/
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.8
-BuildRequires:	gcc >= 5:3.4
+BuildRequires:	gawk
+BuildRequires:	gcc >= 6:4.3
 BuildRequires:	gettext-tools
-%ifarch %{x8664} alpha ia64 ppc64 s390x sparc64
-# PR*FAST{8,16} in <inttypes.h> were broken for 64-bit archs in older versions
-# also needed for nanosecond timestamps on alpha
-BuildRequires:	glibc-devel >= 6:2.3.4
-%endif
+BuildRequires:	glibc-devel >= 6:2.7
 BuildRequires:	perl-tools-pod
 BuildRequires:	rpmbuild(macros) >= 1.315
 BuildRequires:	sharutils
@@ -145,19 +140,14 @@ programowalny interfejs asemblera.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
-%patch7 -p1
-%patch8 -p0
-%ifarch x32
-%patch9 -p1
-%endif
+#%ifarch x32
+#%patch9 -p1
+#%endif
 
 %{__rm} po/stamp-po
 
-# temporarily disable test failing on specific archs
-# - as for 0.155/binutils-2.23.52.0.1 this fails also on x86
-#ifarch alpha
-%{__perl} -pi -e 's/run-elflint-self.sh//' tests/Makefile.am
-#endif
+# temporarily disable failing tests (depending or arch)
+#%{__sed} -i -e 's/run-elflint-self.sh//' tests/Makefile.am
 
 %build
 #%%{__gettextize}
@@ -166,6 +156,7 @@ programowalny interfejs asemblera.
 %{__autoconf}
 %{__automake}
 %configure \
+	--disable-silent-rules \
 	--disable-werror \
 	--program-prefix=%{programprefix}
 
@@ -190,9 +181,9 @@ install -d $RPM_BUILD_ROOT{%{_mandir}/man1,/%{_lib}}
 
 install debian/man/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
 
-mv $RPM_BUILD_ROOT%{_libdir}/{libelf-*.so,libelf.so.*} $RPM_BUILD_ROOT/%{_lib}
+%{__mv} $RPM_BUILD_ROOT%{_libdir}/{libelf-*.so,libelf.so.*} $RPM_BUILD_ROOT/%{_lib}
 ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/libelf-*.so) \
-        $RPM_BUILD_ROOT%{_libdir}/libelf.so
+	$RPM_BUILD_ROOT%{_libdir}/libelf.so
 
 %find_lang %{name}
 

@@ -30,18 +30,18 @@
  	{
  	  return INTUSE(dwarf_line_file) (dwfl_line (line));
  	}
---- elfutils-0.159/libdwfl/elf-from-memory.c.orig	2014-06-14 14:34:49.631795359 +0200
-+++ elfutils-0.159/libdwfl/elf-from-memory.c	2014-06-14 14:35:58.288460597 +0200
-@@ -205,7 +205,7 @@ elf_from_remote_memory (GElf_Addr ehdr_v
+--- elfutils-0.164/libdwfl/elf-from-memory.c.orig	2015-10-12 12:22:58.000000000 +0200
++++ elfutils-0.164/libdwfl/elf-from-memory.c	2015-10-24 13:03:45.371641718 +0200
+@@ -223,7 +223,7 @@
  	 segments_end, segments_end_mem and loadbase (if not
  	 found_base yet).  Returns true if sanity checking failed,
  	 false otherwise.  */
 -      inline bool handle_segment (GElf_Addr vaddr, GElf_Off offset,
 +      __libdw_gnu_inline bool handle_segment (GElf_Addr vaddr, GElf_Off offset,
- 				  GElf_Xword filesz, GElf_Xword memsz,
- 				  GElf_Xword palign)
+ 				  GElf_Xword filesz, GElf_Xword memsz)
  	{
-@@ -286,7 +286,7 @@ elf_from_remote_memory (GElf_Addr ehdr_v
+ 	  /* Sanity check the segment load aligns with the pagesize.  */
+@@ -303,7 +303,7 @@
      {
        /* Reads the given segment.  Returns true if reading fails,
  	 false otherwise.  */
@@ -70,26 +70,6 @@
      {
        failure (dwfl, errnum, msg);
        return errnum == -1 ? EIO : errnum;
---- elfutils-0.130/libdwfl/linux-kernel-modules.c.orig	2007-10-16 07:21:41.000000000 +0200
-+++ elfutils-0.130/libdwfl/linux-kernel-modules.c	2007-11-03 15:49:26.814775289 +0100
-@@ -524,7 +524,7 @@
- {
-   Dwarf_Addr start;
-   Dwarf_Addr end;
--  inline Dwfl_Module *report (void)
-+  __libdw_gnu_inline Dwfl_Module *report (void)
-     {
-       return INTUSE(dwfl_report_module) (dwfl, KERNEL_MODNAME, start, end);
-     }
-@@ -611,7 +611,7 @@
-      only '_' and one only using '-'.  */
- 
-   char alternate_name[namelen + 1];
--  inline bool subst_name (char from, char to)
-+  __libdw_gnu_inline bool subst_name (char from, char to)
-     {
-       const char *n = memchr (module_name, from, namelen);
-       if (n == NULL)
 --- elfutils-0.127/libdwfl/linux-proc-maps.c.orig	2007-04-05 11:12:36.000000000 +0200
 +++ elfutils-0.127/libdwfl/linux-proc-maps.c	2007-05-19 16:09:02.093611158 +0200
 @@ -134,7 +134,7 @@
