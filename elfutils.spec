@@ -5,20 +5,19 @@
 Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl.UTF-8):	Zestaw narzędzi i bibliotek do obsługi skompilowanych obiektów
 Name:		elfutils
-Version:	0.164
+Version:	0.166
 Release:	1
 License:	GPL v2+ or LGPL v3+ (libraries), GPL v3+ (programs)
 Group:		Development/Tools
 Source0:	https://fedorahosted.org/releases/e/l/elfutils/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	2e4536c1c48034f188a80789a59114d8
+# Source0-md5:	d4e462b7891915dc5326bccefa2024ff
 Patch0:		%{name}-pl.po.patch
 Patch1:		%{name}-debian-manpages.patch
 Patch2:		%{name}-awk.patch
 Patch3:		%{name}-align.patch
 Patch4:		%{name}-paxflags.patch
 Patch5:		%{name}-sparc.patch
-Patch6:		%{name}-inline.patch
-Patch7:		%{name}-maps.patch
+Patch6:		%{name}-maps.patch
 URL:		https://fedorahosted.org/elfutils/
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.8
@@ -68,6 +67,9 @@ Summary:	Development part of libraries to handle compiled objects
 Summary(pl.UTF-8):	Część programistyczna bibliotek do obsługi skompilowanych obiektów
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	bzip2-devel
+Requires:	xz-devel
+Requires:	zlib-devel
 Obsoletes:	libelf-devel
 
 %description devel
@@ -140,7 +142,6 @@ programowalny interfejs asemblera.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
-%patch7 -p1
 
 %{__rm} po/stamp-po
 
@@ -219,6 +220,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/gelf.h
 %{_includedir}/libelf.h
 %{_includedir}/nlist.h
+%{_pkgconfigdir}/libdw.pc
+%{_pkgconfigdir}/libelf.pc
 
 %files libelf -f %{name}.lang
 %defattr(644,root,root,755)
