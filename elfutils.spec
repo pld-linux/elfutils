@@ -5,12 +5,12 @@
 Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl.UTF-8):	Zestaw narzędzi i bibliotek do obsługi skompilowanych obiektów
 Name:		elfutils
-Version:	0.166
+Version:	0.168
 Release:	1
 License:	GPL v2+ or LGPL v3+ (libraries), GPL v3+ (programs)
 Group:		Development/Tools
-Source0:	https://fedorahosted.org/releases/e/l/elfutils/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	d4e462b7891915dc5326bccefa2024ff
+Source0:	https://sourceware.org/elfutils/ftp/%{version}/%{name}-%{version}.tar.bz2
+# Source0-md5:	52adfa40758d0d39e5d5c57689bf38d6
 Patch0:		%{name}-pl.po.patch
 Patch1:		%{name}-debian-manpages.patch
 Patch2:		%{name}-awk.patch
@@ -18,16 +18,20 @@ Patch3:		%{name}-align.patch
 Patch4:		%{name}-paxflags.patch
 Patch5:		%{name}-sparc.patch
 Patch6:		%{name}-maps.patch
-URL:		https://fedorahosted.org/elfutils/
+URL:		https://sourceware.org/elfutils/
 BuildRequires:	autoconf >= 2.63
-BuildRequires:	automake >= 1:1.8
+BuildRequires:	automake >= 1:1.11
+BuildRequires:	bzip2-devel
 BuildRequires:	gawk
 BuildRequires:	gcc >= 6:4.3
 BuildRequires:	gettext-tools
 BuildRequires:	glibc-devel >= 6:2.7
+BuildRequires:	libstdc++-devel
 BuildRequires:	perl-tools-pod
 BuildRequires:	rpmbuild(macros) >= 1.315
 BuildRequires:	sharutils
+BuildRequires:	xz-devel
+BuildRequires:	zlib-devel
 %if %{with tests} && %(test -d /proc/self ; echo $?)
 # native test needs proc (for libdwfl -p PID to work)
 BuildRequires:	MOUNTED_PROC

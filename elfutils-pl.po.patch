@@ -1,26 +1,22 @@
---- elfutils-0.166/po/pl.po.orig	2016-04-05 16:15:29.546180944 +0200
-+++ elfutils-0.166/po/pl.po	2016-04-05 16:17:52.312841621 +0200
-@@ -4292,9 +4292,9 @@
- msgstr "%s: rozmiar sekcji %zd „%s” nie jest wielokrotnością rozmiaru wpisu"
+--- elfutils-0.168/po/pl.po.orig	2016-12-28 10:37:28.000000000 +0100
++++ elfutils-0.168/po/pl.po	2017-04-01 10:10:30.714095234 +0200
+@@ -3795,9 +3795,8 @@
+ msgstr "Wyświetla nagłówków sekcji"
  
- #: src/nm.c:1316
--#, fuzzy, c-format
-+#, c-format
- msgid "%s: entries (%zd) in section %zd `%s' is too large"
--msgstr "%s: rozmiar wpisu w sekcji %zd „%s” nie jest tym, czego oczekiwano"
-+msgstr "%s: liczba wpisów (%zd) w sekcji %zd „%s” jest zbyt duża"
+ #: src/readelf.c:88
+-#, fuzzy
+ msgid "Display the symbol table sections"
+-msgstr "Wyświetla tabelę symboli"
++msgstr "Wyświetla sekcje tabeli symboli"
  
- #: src/nm.c:1542
+ #: src/readelf.c:89
+ msgid "Display versioning information"
+@@ -6216,7 +6215,7 @@
+ #: src/strip.c:1383
  #, c-format
-@@ -4926,9 +4926,9 @@
- msgstr "Nie można dekompresować sekcji"
+ msgid "Cannot remove symbol [%zd] from allocated symbol table [%zd]"
+-msgstr ""
++msgstr "Nie można usunąć symbolu [%zd] z tabeli przydzielonych symboli [%zd]"
  
- #: src/readelf.c:1534 src/readelf.c:2248 src/readelf.c:3331
--#, fuzzy, c-format
-+#, c-format
- msgid "cannot get section [%zd] header: %s"
--msgstr "nie można uzyskać nagłówka sekcji: %s"
-+msgstr "nie można uzyskać nagłówka sekcji [%zd]: %s"
- 
- #: src/readelf.c:1678 src/readelf.c:2315 src/readelf.c:2573 src/readelf.c:2649
- #: src/readelf.c:2953 src/readelf.c:3027 src/readelf.c:4729
+ #: src/strip.c:1875
+ #, c-format
