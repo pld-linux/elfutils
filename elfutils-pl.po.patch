@@ -1,22 +1,84 @@
---- elfutils-0.168/po/pl.po.orig	2016-12-28 10:37:28.000000000 +0100
-+++ elfutils-0.168/po/pl.po	2017-04-01 10:10:30.714095234 +0200
-@@ -3795,9 +3795,8 @@
- msgstr "Wyświetla nagłówków sekcji"
+--- elfutils-0.170/po/pl.po.orig	2017-11-12 21:07:34.577573243 +0100
++++ elfutils-0.170/po/pl.po	2017-11-12 22:00:58.060869999 +0100
+@@ -261,9 +261,8 @@
+ msgstr "nie jest CU (jednostką) DIE"
  
- #: src/readelf.c:88
+ #: libdw/dwarf_error.c:98
 -#, fuzzy
- msgid "Display the symbol table sections"
--msgstr "Wyświetla tabelę symboli"
-+msgstr "Wyświetla sekcje tabeli symboli"
+ msgid "unknown language code"
+-msgstr " nieznana instrukcja"
++msgstr "nieznany kod języka"
  
- #: src/readelf.c:89
- msgid "Display versioning information"
-@@ -6216,7 +6215,7 @@
- #: src/strip.c:1383
+ #: libdwfl/argp-std.c:50 src/stack.c:636 src/unstrip.c:2374
+ msgid "Input selection options:"
+@@ -1537,7 +1536,7 @@
+ #: src/elflint.c:474
  #, c-format
- msgid "Cannot remove symbol [%zd] from allocated symbol table [%zd]"
+ msgid "Can only check %u headers, shnum was %u\n"
 -msgstr ""
-+msgstr "Nie można usunąć symbolu [%zd] z tabeli przydzielonych symboli [%zd]"
++msgstr "Można sprawdzić tylko %u nagłówków, shnum było %u\n"
  
- #: src/strip.c:1875
+ #: src/elflint.c:488
  #, c-format
+@@ -1547,7 +1546,7 @@
+ #: src/elflint.c:505
+ #, c-format
+ msgid "Can only check %u headers, phnum was %u\n"
+-msgstr ""
++msgstr "Można sprawdzić tylko %u nagłówków, phnum było %u\n"
+ 
+ #: src/elflint.c:510
+ #, c-format
+@@ -6123,12 +6122,14 @@
+ "Remove the named section.  SECTION is an extended wildcard pattern.  May be "
+ "given more than once.  Only non-allocated sections can be removed."
+ msgstr ""
++"Usuwa podaną sekcję. SEKCJA jest rozszerzonym wzorem. Może być podana więcej niż raz. Można usuwać tylko nieprzydzielone sekcje."
+ 
+ #: src/strip.c:89
+ msgid ""
+ "Keep the named section.  SECTION is an extended wildcard pattern.  May be "
+ "given more than once."
+ msgstr ""
++"Zachowuje podaną sekcję. SEKCJA jest rozszerzonym wzorem. Może być podana więcej niż raz."
+ 
+ #. Short description of program.
+ #: src/strip.c:96
+@@ -6156,9 +6157,9 @@
+ msgstr "Opcję -F podano dwukrotnie"
+ 
+ #: src/strip.c:347
+-#, fuzzy, c-format
++#, c-format
+ msgid "cannot both keep and remove .comment section"
+-msgstr "Usuwa sekcję .comment"
++msgstr "nie można jednocześnie zachować i usunąć sekcji .comment"
+ 
+ #: src/strip.c:372 src/strip.c:396
+ #, c-format
+@@ -6207,14 +6208,14 @@
+ msgstr "plik „%s” ma błędny format"
+ 
+ #: src/strip.c:696
+-#, fuzzy, c-format
++#, c-format
+ msgid "Cannot remove allocated section '%s'"
+-msgstr "nie można przydzielić danych sekcji: %s"
++msgstr "Nie można usunąć przydzielonej sekcji „%s”"
+ 
+ #: src/strip.c:705
+-#, fuzzy, c-format
++#, c-format
+ msgid "Cannot both keep and remove section '%s'"
+-msgstr "nie można dodać nowej sekcji: %s"
++msgstr "Nie można jednocześnie zachować i usunąć sekcji „%s”"
+ 
+ #: src/strip.c:1061 src/strip.c:1160
+ #, c-format
+@@ -6699,6 +6700,3 @@
+ #: tests/dwflmodtest.c:214
+ msgid "Show instances of inlined functions"
+ msgstr "Wyświetla wystąpienia wstawionych funkcji"
+-
+-#~ msgid "-R option supports only .comment section"
+-#~ msgstr "Opcja -R obsługuje tylko sekcję .comment"
