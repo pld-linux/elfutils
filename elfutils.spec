@@ -5,12 +5,12 @@
 Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl.UTF-8):	Zestaw narzędzi i bibliotek do obsługi skompilowanych obiektów
 Name:		elfutils
-Version:	0.170
-Release:	2
+Version:	0.171
+Release:	1
 License:	GPL v2+ or LGPL v3+ (libraries), GPL v3+ (programs)
 Group:		Development/Tools
 Source0:	https://sourceware.org/elfutils/ftp/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	03599aee98c9b726c7a732a2dd0245d5
+# Source0-md5:	3926422984f02a2e5f7242d22ab6e1fa
 Patch0:		%{name}-pl.po.patch
 Patch1:		%{name}-debian-manpages.patch
 Patch2:		%{name}-awk.patch
@@ -18,8 +18,6 @@ Patch3:		%{name}-align.patch
 Patch4:		%{name}-paxflags.patch
 Patch5:		%{name}-sparc.patch
 Patch6:		%{name}-maps.patch
-# https://sourceware.org/git/?p=elfutils.git;a=patch;h=8f0140ace401197beaed1df6a48f259756d8bbd9
-Patch7:		%{name}-tests.patch
 URL:		https://sourceware.org/elfutils/
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.11
@@ -148,11 +146,10 @@ programowalny interfejs asemblera.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
-%patch7 -p1
 
 %{__rm} po/stamp-po
 
-# temporarily disable failing tests (depending or arch)
+# temporarily disable failing tests (depending on arch)
 %ifarch x32
 %{__sed} -i -e 's/run-backtrace-native-biarch.sh//' tests/Makefile.am
 %endif
