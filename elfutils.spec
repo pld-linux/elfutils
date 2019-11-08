@@ -152,6 +152,11 @@ programowalny interfejs asemblera.
 %{__sed} -i -e 's/run-backtrace-native-biarch.sh//' tests/Makefile.am
 %endif
 
+# make sure this is not even tried on arch it has no chance to run
+%ifarch %{ix86}
+%{__sed} -i -e 's/run-disasm-x86-64.sh//' tests/Makefile.am
+%endif
+
 %build
 #%%{__gettextize}
 %{__aclocal} -I m4
