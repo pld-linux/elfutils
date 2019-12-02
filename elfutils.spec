@@ -1,22 +1,24 @@
 #
 # Conditional build:
+%bcond_without	debuginfod	# debuginfod server and client
 %bcond_without	tests	# do not perform tests
 #
 Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl.UTF-8):	Zestaw narzędzi i bibliotek do obsługi skompilowanych obiektów
 Name:		elfutils
-Version:	0.177
+Version:	0.178
 Release:	1
 License:	GPL v2+ or LGPL v3+ (libraries), GPL v3+ (programs)
 Group:		Development/Tools
 Source0:	https://sourceware.org/elfutils/ftp/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	0b583722f911e1632544718d502aab87
+# Source0-md5:	5480d0b7174446aba13a6adde107287f
 Patch0:		%{name}-pl.po.patch
 Patch1:		%{name}-debian-manpages.patch
 Patch2:		%{name}-awk.patch
 Patch3:		%{name}-align.patch
 Patch4:		%{name}-paxflags.patch
 Patch5:		%{name}-sparc.patch
+Patch6:		%{name}-cxx.patch
 URL:		https://sourceware.org/elfutils/
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.11
@@ -34,6 +36,12 @@ BuildRequires:	zlib-devel
 %if %{with tests} && %(test -d /proc/self ; echo $?)
 # native test needs proc (for libdwfl -p PID to work)
 BuildRequires:	MOUNTED_PROC
+%endif
+%if %{with debuginfod}
+BuildRequires:	curl-devel >= 7.29.0
+BuildRequires:	libarchive-devel >= 3.1.2
+BuildRequires:	libmicrohttpd-devel >= 0.9.33
+BuildRequires:	sqlite3-devel >= 3.7.17
 %endif
 Requires:	%{name}-libelf = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -79,19 +87,17 @@ Obsoletes:	libelf-devel
 The elfutils-devel package contains the development part of libraries
 to create applications for handling compiled objects. libelf allows
 you to access the internals of the ELF object file format, so you can
-see the different sections of an ELF file. libebl provides some
-higher-level ELF access functionality. libdwarf provides access to the
-DWARF debugging information. libasm provides a programmable assembler
-interface.
+see the different sections of an ELF file. libdw provides access to
+the DWARF debugging information. libasm provides a programmable
+assembler interface.
 
 %description devel -l pl.UTF-8
 Pakiet elfutils-devel zawiera część programistyczną bibliotek do
 tworzenia aplikacji obsługujących skompilowane obiekty. libelf pozwala
 na dostęp do wnętrzności formatu pliku obiektowego ELF, co pozwala na
-oglądanie różnych sekcji pliku ELF. libebl udostępnia funkcjonalność
-dostępu do plików ELF trochę wyższego poziomu. libdwarf pozwala na
-dostęp do informacji DWARF służących do odpluskwiania. libasm
-udostępnia programowalny interfejs asemblera.
+oglądanie różnych sekcji pliku ELF. libdw pozwala na dostęp do
+informacji DWARF służących do odpluskwiania. libasm udostępnia
+programowalny interfejs asemblera.
 
 %package libelf
 Summary:	Library to read and write ELF files
@@ -122,8 +128,7 @@ Obsoletes:	libelf-static
 The elfutils-static package contains the static libraries to create
 applications for handling compiled objects. libelf allows you to
 access the internals of the ELF object file format, so you can see the
-different sections of an ELF file. libebl provides some higher-level
-ELF access functionality. libdwarf provides access to the DWARF
+different sections of an ELF file. libdw provides access to the DWARF
 debugging information. libasm provides a programmable assembler
 interface.
 
@@ -131,10 +136,42 @@ interface.
 Pakiet elfutils-static zawiera statyczne biblioteki do tworzenia
 aplikacji obsługujących skompilowane obiekty. libelf pozwala na dostęp
 do wnętrzności formatu pliku obiektowego ELF, co pozwala na oglądanie
-różnych sekcji pliku ELF. libebl udostępnia funkcjonalność dostępu do
-plików ELF trochę wyższego poziomu. libdwarf pozwala na dostęp do
-informacji DWARF służących do odpluskwiania. libasm udostępnia
-programowalny interfejs asemblera.
+różnych sekcji pliku ELF. libdw pozwala na dostęp do informacji DWARF
+służących do odpluskwiania. libasm udostępnia programowalny interfejs
+asemblera.
+
+%package debuginfod
+Summary:	debuginfod library, server and client
+Summary(pl.UTF-8):	Biblioteka, serwer i klient debuginfod
+Group:		Libraries
+Requires:	%{name} = %{version}-%{release}
+%if %{with debuginfod}
+# for library
+Requires:	curl-libs >= 7.29.0
+# the rest for server
+Requires:	libarchive >= 3.1.2
+Requires:	libmicrohttpd >= 0.9.33
+Requires:	sqlite3 >= 3.7.17
+%endif
+
+%description debuginfod
+debuginfod library, server and client.
+
+%description debuginfod -l pl.UTF-8
+Biblioteka, serwer i klient debuginfod.
+
+%package debuginfod-devel
+Summary:	Header file for debuginfod library
+Summary(pl.UTF-8):	Plik nagłówkowy biblioteki debuginfod
+Group:		Development/Libraries
+Requires:	%{name}-debuginfod = %{version}-%{release}
+Requires:	%{name}-devel = %{version}-%{release}
+
+%description debuginfod-devel
+Header file for debuginfod library.
+
+%description debuginfod-devel -l pl.UTF-8
+Plik nagłówkowy biblioteki debuginfod.
 
 %prep
 %setup -q
@@ -144,6 +181,7 @@ programowalny interfejs asemblera.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %{__rm} po/stamp-po
 
@@ -204,6 +242,9 @@ rm -rf $RPM_BUILD_ROOT
 %post	libelf -p /sbin/ldconfig
 %postun	libelf -p /sbin/ldconfig
 
+%post	debuginfod -p /sbin/ldconfig
+%postun	debuginfod -p /sbin/ldconfig
+
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS CONTRIBUTING ChangeLog NEWS NOTES README THANKS TODO
@@ -212,8 +253,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %ghost %{_libdir}/libasm.so.1
 %attr(755,root,root) %{_libdir}/libdw-*.so
 %attr(755,root,root) %ghost %{_libdir}/libdw.so.1
-%dir %{_libdir}/elfutils
-%attr(755,root,root) %{_libdir}/elfutils/lib*.so
 %{_mandir}/man1/eu-*.1*
 
 %files devel
@@ -221,14 +260,24 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libasm.so
 %attr(755,root,root) %{_libdir}/libdw.so
 %attr(755,root,root) %{_libdir}/libelf.so
-%{_libdir}/libebl.a
-%{_includedir}/elfutils
 %{_includedir}/dwarf.h
 %{_includedir}/gelf.h
 %{_includedir}/libelf.h
 %{_includedir}/nlist.h
+%dir %{_includedir}/elfutils
+%{_includedir}/elfutils/elf-knowledge.h
+%{_includedir}/elfutils/known-dwarf.h
+%{_includedir}/elfutils/libasm.h
+%{_includedir}/elfutils/libdw.h
+%{_includedir}/elfutils/libdwelf.h
+%{_includedir}/elfutils/libdwfl.h
+%{_includedir}/elfutils/version.h
 %{_pkgconfigdir}/libdw.pc
 %{_pkgconfigdir}/libelf.pc
+%{_mandir}/man3/elf_begin.3*
+%{_mandir}/man3/elf_clone.3*
+%{_mandir}/man3/elf_getdata.3*
+%{_mandir}/man3/elf_update.3*
 
 %files libelf -f %{name}.lang
 %defattr(644,root,root,755)
@@ -240,3 +289,19 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libasm.a
 %{_libdir}/libdw.a
 %{_libdir}/libelf.a
+
+%files debuginfod
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libdebuginfod-*.so
+%attr(755,root,root) %ghost %{_libdir}/libdebuginfod.so.1
+%attr(755,root,root) %{_bindir}/debuginfod
+%attr(755,root,root) %{_bindir}/debuginfod-find
+%{_mandir}/man1/debuginfod-find.1*
+%{_mandir}/man8/debuginfod.8*
+
+%files debuginfod-devel
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libdebuginfod.so
+%{_includedir}/elfutils/debuginfod.h
+%{_pkgconfigdir}/libdebuginfod.pc
+%{_mandir}/man3/debuginfod_*.3*
