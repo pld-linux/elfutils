@@ -19,6 +19,7 @@ Patch3:		%{name}-align.patch
 Patch4:		%{name}-paxflags.patch
 Patch5:		%{name}-sparc.patch
 Patch6:		%{name}-cxx.patch
+Patch7:		x32.patch
 URL:		https://sourceware.org/elfutils/
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.11
@@ -182,13 +183,9 @@ Plik nagłówkowy biblioteki debuginfod.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 %{__rm} po/stamp-po
-
-# temporarily disable failing tests (depending on arch)
-%ifarch x32
-%{__sed} -i -e 's/run-backtrace-native-biarch.sh//' tests/Makefile.am
-%endif
 
 # make sure this is not even tried on arch it has no chance to run
 %ifarch %{ix86}

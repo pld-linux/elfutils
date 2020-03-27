@@ -1,0 +1,63 @@
+diff -ur elfutils-0.178/debuginfod/debuginfod-client.c elfutils-0.178-x32/debuginfod/debuginfod-client.c
+--- elfutils-0.178/debuginfod/debuginfod-client.c	2019-11-26 23:48:42.000000000 +0100
++++ elfutils-0.178-x32/debuginfod/debuginfod-client.c	2020-03-27 22:47:53.398098750 +0100
+@@ -170,7 +170,11 @@
+   if (fd < 0)
+     return -errno;
+ 
++#if defined(__x86_64__) && defined(__ILP32__)
++  if (dprintf(fd, "%lld", cache_clean_default_interval_s) < 0)
++#else
+   if (dprintf(fd, "%ld", cache_clean_default_interval_s) < 0)
++#endif
+     return -errno;
+ 
+   /* init max age config file.  */
+@@ -178,7 +178,11 @@
+       && (fd = open(maxage_path, O_CREAT | O_RDWR, 0666)) < 0)
+     return -errno;
+ 
++#if defined(__x86_64__) && defined(__ILP32__)
++  if (dprintf(fd, "%lld", cache_default_max_unused_age_s) < 0)
++#else
+   if (dprintf(fd, "%ld", cache_default_max_unused_age_s) < 0)
++#endif
+     return -errno;
+ 
+   return 0;
+@@ -204,7 +204,11 @@
+       if (interval_file == NULL)
+         return -errno;
+ 
++#if defined(__x86_64__) && defined(__ILP32__)
++      int rc = fprintf(interval_file, "%lld", cache_clean_default_interval_s);
++#else
+       int rc = fprintf(interval_file, "%ld", cache_clean_default_interval_s);
++#endif
+       fclose(interval_file);
+ 
+       if (rc < 0)
+@@ -214,7 +214,11 @@
+   /* Check timestamp of interval file to see whether cleaning is necessary.  */
+   time_t clean_interval;
+   interval_file = fopen(interval_path, "r");
++#if defined(__x86_64__) && defined(__ILP32__)
++  if (fscanf(interval_file, "%lld", &clean_interval) != 1)
++#else
+   if (fscanf(interval_file, "%ld", &clean_interval) != 1)
++#endif
+     clean_interval = cache_clean_default_interval_s;
+   fclose(interval_file);
+ 
+@@ -227,7 +227,11 @@
+   max_unused_file = fopen(max_unused_path, "r");
+   if (max_unused_file)
+     {
++#if defined(__x86_64__) && defined(__ILP32__)
++      if (fscanf(max_unused_file, "%lld", &max_unused_age) != 1)
++#else
+       if (fscanf(max_unused_file, "%ld", &max_unused_age) != 1)
++#endif
+         max_unused_age = cache_default_max_unused_age_s;
+       fclose(max_unused_file);
+     }
