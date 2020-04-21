@@ -206,6 +206,7 @@ Plik nagłówkowy biblioteki debuginfod.
 %configure \
 	--disable-silent-rules \
 	--disable-werror \
+	%{__enable_disable debuginfod} \
 	--program-prefix=%{programprefix}
 
 # make check depends on test-nlist not stripped
@@ -292,6 +293,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libdw.a
 %{_libdir}/libelf.a
 
+%if %{with debuginfod}
 %files debuginfod
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libdebuginfod-*.so
@@ -307,3 +309,4 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/elfutils/debuginfod.h
 %{_pkgconfigdir}/libdebuginfod.pc
 %{_mandir}/man3/debuginfod_*.3*
+%endif
