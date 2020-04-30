@@ -1,10 +1,11 @@
---- elfutils-0.115/src/elflint.c.orig	2005-10-31 19:29:49.455859000 +0100
-+++ elfutils-0.115/src/elflint.c	2005-10-31 22:40:58.172349544 +0100
-@@ -3125,6 +3125,7 @@
+--- elfutils-0.179/src/elflint.c.orig	2020-04-30 19:57:32.691481687 +0200
++++ elfutils-0.179/src/elflint.c	2020-04-30 19:58:43.287765900 +0200
+@@ -4493,7 +4493,7 @@
  
        if (phdr->p_type >= PT_NUM && phdr->p_type != PT_GNU_EH_FRAME
  	  && phdr->p_type != PT_GNU_STACK && phdr->p_type != PT_GNU_RELRO
-+	  && phdr->p_type != PT_PAX_FLAGS
+-	  && phdr->p_type != PT_GNU_PROPERTY
++	  && phdr->p_type != PT_GNU_PROPERTY && phdr->p_type != PT_PAX_FLAGS
  	  /* Check for a known machine-specific type.  */
  	  && ebl_segment_type_name (ebl, phdr->p_type, NULL, 0) == NULL)
  	ERROR (gettext ("\
@@ -18,12 +19,12 @@
  #define PT_LOSUNW	0x6ffffffa
  #define PT_SUNWBSS	0x6ffffffa	/* Sun Specific segment */
  #define PT_SUNWSTACK	0x6ffffffb	/* Stack segment */
---- elfutils-0.115/libebl/eblsegmenttypename.c.orig	2005-07-26 07:01:10.000000000 +0200
-+++ elfutils-0.115/libebl/eblsegmenttypename.c	2005-10-31 22:40:18.018453864 +0100
-@@ -54,6 +54,8 @@
- 	res = "GNU_STACK";
-       else if (segment == PT_GNU_RELRO)
+--- elfutils-0.179/libebl/eblsegmenttypename.c.orig	2020-04-30 19:57:32.728148155 +0200
++++ elfutils-0.179/libebl/eblsegmenttypename.c	2020-04-30 19:59:30.120845517 +0200
+@@ -71,6 +71,8 @@
  	res = "GNU_RELRO";
+       else if (segment == PT_GNU_PROPERTY)
+ 	res = "GNU_PROPERTY";
 +      else if (segment == PT_PAX_FLAGS)
 +	res = "PAX_FLAGS";
        else if (segment == PT_SUNWBSS)

@@ -1,11 +1,11 @@
---- elfutils-0.164/tests/run-lfs-symbols.sh.orig	2015-10-24 15:08:52.191485252 +0200
-+++ elfutils-0.164/tests/run-lfs-symbols.sh	2015-10-24 15:09:04.021485005 +0200
-@@ -46,7 +46,7 @@
- }
- 
+--- elfutils-0.179/tests/run-lfs-symbols.sh.orig	2020-04-30 19:56:23.935187505 +0200
++++ elfutils-0.179/tests/run-lfs-symbols.sh	2020-04-30 19:57:13.321586623 +0200
+@@ -48,7 +48,7 @@
  testrun_lfs() {
--  bad=$(testrun ${abs_top_builddir}/src/nm -u "$1" | awk "$LFS")
-+  bad=$(testrun ${abs_top_builddir}/src/nm -u "$1" | gawk "$LFS")
-   if [ -n "$bad" ]; then
-     echo "$1 contains non-lfs symbols:" $bad
-     exit_status=1
+   echo "checking $1"
+   if [ -e "$1" ]; then
+-    bad=$(testrun ${abs_top_builddir}/src/nm -u "$1" | awk "$LFS")
++    bad=$(testrun ${abs_top_builddir}/src/nm -u "$1" | gawk "$LFS")
+     if [ -n "$bad" ]; then
+       echo "$1 contains non-lfs symbols:" $bad
+       exit_status=1

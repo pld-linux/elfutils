@@ -6,20 +6,19 @@
 Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl.UTF-8):	Zestaw narzędzi i bibliotek do obsługi skompilowanych obiektów
 Name:		elfutils
-Version:	0.178
+Version:	0.179
 Release:	1
 License:	GPL v2+ or LGPL v3+ (libraries), GPL v3+ (programs)
 Group:		Development/Tools
 Source0:	https://sourceware.org/elfutils/ftp/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	5480d0b7174446aba13a6adde107287f
+# Source0-md5:	8ee56b371b5a7ea081284c44e5164600
 Patch0:		%{name}-pl.po.patch
 Patch1:		%{name}-debian-manpages.patch
 Patch2:		%{name}-awk.patch
 Patch3:		%{name}-align.patch
 Patch4:		%{name}-paxflags.patch
 Patch5:		%{name}-sparc.patch
-Patch6:		%{name}-cxx.patch
-Patch7:		x32.patch
+Patch6:		x32.patch
 URL:		https://sourceware.org/elfutils/
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.11
@@ -28,7 +27,7 @@ BuildRequires:	gawk
 BuildRequires:	gcc >= 6:4.3
 BuildRequires:	gettext-tools
 BuildRequires:	glibc-devel >= 6:2.7
-BuildRequires:	libstdc++-devel
+BuildRequires:	libstdc++-devel >= 6:4.7
 BuildRequires:	perl-tools-pod
 BuildRequires:	rpmbuild(macros) >= 1.315
 BuildRequires:	sharutils
@@ -183,7 +182,6 @@ Plik nagłówkowy biblioteki debuginfod.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
-%patch7 -p1
 
 %{__rm} po/stamp-po
 
@@ -200,8 +198,8 @@ Plik nagłówkowy biblioteki debuginfod.
 %build
 #%%{__gettextize}
 %{__aclocal} -I m4
-%{__autoheader}
 %{__autoconf}
+%{__autoheader}
 %{__automake}
 %configure \
 	--disable-silent-rules \
