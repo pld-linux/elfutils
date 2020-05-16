@@ -29,7 +29,7 @@ BuildRequires:	gettext-tools
 BuildRequires:	glibc-devel >= 6:2.7
 BuildRequires:	libstdc++-devel >= 6:4.7
 BuildRequires:	perl-tools-pod
-BuildRequires:	rpmbuild(macros) >= 1.315
+BuildRequires:	rpmbuild(macros) >= 1.527
 BuildRequires:	sharutils
 BuildRequires:	xz-devel
 BuildRequires:	zlib-devel
