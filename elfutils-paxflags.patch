@@ -9,12 +9,12 @@
  	  /* Check for a known machine-specific type.  */
  	  && ebl_segment_type_name (ebl, phdr->p_type, NULL, 0) == NULL)
  	ERROR (gettext ("\
---- elfutils-0.115/libelf/elf.h.orig	2005-08-07 09:53:25.000000000 +0200
-+++ elfutils-0.115/libelf/elf.h	2005-10-31 22:39:47.125150360 +0100
-@@ -568,6 +568,7 @@
- #define PT_GNU_EH_FRAME	0x6474e550	/* GCC .eh_frame_hdr segment */
+--- elfutils-0.181/libelf/elf.h.orig	2020-10-16 19:17:55.185201231 +0200
++++ elfutils-0.181/libelf/elf.h	2020-10-16 19:19:57.797870314 +0200
+@@ -722,6 +722,7 @@
  #define PT_GNU_STACK	0x6474e551	/* Indicates stack executability */
  #define PT_GNU_RELRO	0x6474e552	/* Read-only after relocation */
+ #define PT_GNU_PROPERTY	0x6474e553	/* GNU property */
 +#define PT_PAX_FLAGS	0x65041580	/* PaX flags */
  #define PT_LOSUNW	0x6ffffffa
  #define PT_SUNWBSS	0x6ffffffa	/* Sun Specific segment */
