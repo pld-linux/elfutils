@@ -203,7 +203,6 @@ Plik nagłówkowy biblioteki debuginfod.
 %{__automake}
 %configure \
 	--disable-silent-rules \
-	--disable-werror \
 	%{__enable_disable debuginfod} \
 	--program-prefix=%{programprefix}
 
