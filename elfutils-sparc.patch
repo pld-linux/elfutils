@@ -6,7 +6,7 @@
 --- elfutils-0.123/src/elflint.c.orig	2006-08-25 16:20:46.000000000 +0000
 +++ elfutils-0.123/src/elflint.c	2006-08-25 18:57:09.000000000 +0000
 @@ -3214,7 +3214,11 @@
- 	      }
+ 	    gcc_except_table_scnndx = cnt;
  	}
  
 -      if (shdr->sh_entsize != 0 && shdr->sh_size % shdr->sh_entsize)
@@ -15,6 +15,6 @@
 +      if (!strcmp (scnname, ".plt") && (ehdr->e_machine == EM_SPARC))
 +	      scnsize -= 4;
 +      if (shdr->sh_entsize != 0 && scnsize % shdr->sh_entsize)
- 	ERROR (gettext ("\
+ 	ERROR (_("\
  section [%2zu] '%s': size not multiple of entry size\n"),
  	       cnt, section_name (ebl, cnt));

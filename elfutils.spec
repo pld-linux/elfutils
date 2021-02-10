@@ -6,12 +6,12 @@
 Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl.UTF-8):	Zestaw narzędzi i bibliotek do obsługi skompilowanych obiektów
 Name:		elfutils
-Version:	0.181
-Release:	1
+Version:	0.183
+Release:	0.1
 License:	GPL v2+ or LGPL v3+ (libraries), GPL v3+ (programs)
 Group:		Development/Tools
 Source0:	https://sourceware.org/elfutils/ftp/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	773921f368bde876bb9ea14675c99abc
+# Source0-md5:	6f58aa1b9af1a5681b1cbf63e0da2d67
 Patch0:		%{name}-pl.po.patch
 Patch1:		%{name}-debian-manpages.patch
 Patch2:		%{name}-awk.patch
@@ -25,7 +25,7 @@ BuildRequires:	automake >= 1:1.11
 BuildRequires:	bzip2-devel
 BuildRequires:	gawk
 BuildRequires:	gcc >= 6:4.3
-BuildRequires:	gettext-tools
+BuildRequires:	gettext-tools >= 0.19.6
 BuildRequires:	glibc-devel >= 6:2.7
 BuildRequires:	libstdc++-devel >= 6:4.7
 BuildRequires:	perl-tools-pod
@@ -33,6 +33,7 @@ BuildRequires:	rpmbuild(macros) >= 1.527
 BuildRequires:	sharutils
 BuildRequires:	xz-devel
 BuildRequires:	zlib-devel
+BuildRequires:	zstd-devel
 %if %{with tests} && %(test -d /proc/self ; echo $?)
 # native test needs proc (for libdwfl -p PID to work)
 BuildRequires:	MOUNTED_PROC
@@ -299,6 +300,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/debuginfod-find
 %{_mandir}/man1/debuginfod-find.1*
 %{_mandir}/man8/debuginfod.8*
+%attr(755,root,root) /etc/profile.d/debuginfod.sh
+%attr(755,root,root) /etc/profile.d/debuginfod.csh
 
 %files debuginfod-devel
 %defattr(644,root,root,755)
