@@ -1,6 +1,7 @@
---- elfutils-0.181/debuginfod/debuginfod-client.c.orig	2020-09-08 13:45:06.000000000 +0200
-+++ elfutils-0.181/debuginfod/debuginfod-client.c	2020-10-16 19:21:30.944032365 +0200
-@@ -222,7 +222,11 @@
+diff -urNp -x '*.orig' elfutils-0.183.org/debuginfod/debuginfod-client.c elfutils-0.183/debuginfod/debuginfod-client.c
+--- elfutils-0.183.org/debuginfod/debuginfod-client.c	2021-02-07 18:54:39.000000000 +0100
++++ elfutils-0.183/debuginfod/debuginfod-client.c	2021-05-05 21:02:38.910503052 +0200
+@@ -229,7 +229,11 @@ debuginfod_init_cache (char *cache_path,
    if (fd < 0)
      return -errno;
  
@@ -12,8 +13,8 @@
      return -errno;
  
    /* init max age config file.  */
-@@ -230,7 +234,11 @@
-       && (fd = open(maxage_path, O_CREAT | O_RDWR, 0666)) < 0)
+@@ -237,7 +241,11 @@ debuginfod_init_cache (char *cache_path,
+       && (fd = open(maxage_path, O_CREAT | O_RDWR, DEFFILEMODE)) < 0)
      return -errno;
  
 +#if defined(__x86_64__) && defined(__ILP32__)
@@ -24,7 +25,7 @@
      return -errno;
  
    return 0;
-@@ -256,7 +264,11 @@
+@@ -263,7 +271,11 @@ debuginfod_clean_cache(debuginfod_client
        if (interval_file == NULL)
          return -errno;
  
@@ -36,7 +37,7 @@
        fclose(interval_file);
  
        if (rc < 0)
-@@ -268,7 +280,11 @@
+@@ -275,7 +287,11 @@ debuginfod_clean_cache(debuginfod_client
    interval_file = fopen(interval_path, "r");
    if (interval_file)
      {
@@ -48,7 +49,7 @@
          clean_interval = cache_clean_default_interval_s;
        fclose(interval_file);
      }
-@@ -284,7 +300,11 @@
+@@ -291,7 +307,11 @@ debuginfod_clean_cache(debuginfod_client
    max_unused_file = fopen(max_unused_path, "r");
    if (max_unused_file)
      {

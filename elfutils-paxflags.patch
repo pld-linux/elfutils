@@ -1,27 +1,7 @@
---- elfutils-0.179/src/elflint.c.orig	2020-04-30 19:57:32.691481687 +0200
-+++ elfutils-0.179/src/elflint.c	2020-04-30 19:58:43.287765900 +0200
-@@ -4493,7 +4493,7 @@
- 
-       if (phdr->p_type >= PT_NUM && phdr->p_type != PT_GNU_EH_FRAME
- 	  && phdr->p_type != PT_GNU_STACK && phdr->p_type != PT_GNU_RELRO
--	  && phdr->p_type != PT_GNU_PROPERTY
-+	  && phdr->p_type != PT_GNU_PROPERTY && phdr->p_type != PT_PAX_FLAGS
- 	  /* Check for a known machine-specific type.  */
- 	  && ebl_segment_type_name (ebl, phdr->p_type, NULL, 0) == NULL)
- 	ERROR (gettext ("\
---- elfutils-0.181/libelf/elf.h.orig	2020-10-16 19:17:55.185201231 +0200
-+++ elfutils-0.181/libelf/elf.h	2020-10-16 19:19:57.797870314 +0200
-@@ -722,6 +722,7 @@
- #define PT_GNU_STACK	0x6474e551	/* Indicates stack executability */
- #define PT_GNU_RELRO	0x6474e552	/* Read-only after relocation */
- #define PT_GNU_PROPERTY	0x6474e553	/* GNU property */
-+#define PT_PAX_FLAGS	0x65041580	/* PaX flags */
- #define PT_LOSUNW	0x6ffffffa
- #define PT_SUNWBSS	0x6ffffffa	/* Sun Specific segment */
- #define PT_SUNWSTACK	0x6ffffffb	/* Stack segment */
---- elfutils-0.179/libebl/eblsegmenttypename.c.orig	2020-04-30 19:57:32.728148155 +0200
-+++ elfutils-0.179/libebl/eblsegmenttypename.c	2020-04-30 19:59:30.120845517 +0200
-@@ -71,6 +71,8 @@
+diff -urNp -x '*.orig' elfutils-0.183.org/libebl/eblsegmenttypename.c elfutils-0.183/libebl/eblsegmenttypename.c
+--- elfutils-0.183.org/libebl/eblsegmenttypename.c	2021-02-07 18:54:39.000000000 +0100
++++ elfutils-0.183/libebl/eblsegmenttypename.c	2021-05-05 21:02:25.910006052 +0200
+@@ -67,6 +67,8 @@ ebl_segment_type_name (Ebl *ebl, int seg
  	res = "GNU_RELRO";
        else if (segment == PT_GNU_PROPERTY)
  	res = "GNU_PROPERTY";
@@ -30,3 +10,26 @@
        else if (segment == PT_SUNWBSS)
  	res = "SUNWBSS";
        else if (segment == PT_SUNWSTACK)
+diff -urNp -x '*.orig' elfutils-0.183.org/libelf/elf.h elfutils-0.183/libelf/elf.h
+--- elfutils-0.183.org/libelf/elf.h	2021-02-07 18:54:39.000000000 +0100
++++ elfutils-0.183/libelf/elf.h	2021-05-05 21:02:25.910006052 +0200
+@@ -719,6 +719,7 @@ typedef struct
+ #define PT_GNU_STACK	0x6474e551	/* Indicates stack executability */
+ #define PT_GNU_RELRO	0x6474e552	/* Read-only after relocation */
+ #define PT_GNU_PROPERTY	0x6474e553	/* GNU property */
++#define PT_PAX_FLAGS	0x65041580	/* PaX flags */
+ #define PT_LOSUNW	0x6ffffffa
+ #define PT_SUNWBSS	0x6ffffffa	/* Sun Specific segment */
+ #define PT_SUNWSTACK	0x6ffffffb	/* Stack segment */
+diff -urNp -x '*.orig' elfutils-0.183.org/src/elflint.c elfutils-0.183/src/elflint.c
+--- elfutils-0.183.org/src/elflint.c	2021-02-07 18:54:39.000000000 +0100
++++ elfutils-0.183/src/elflint.c	2021-05-05 21:02:25.909005552 +0200
+@@ -4510,7 +4510,7 @@ only executables, shared objects, and co
+ 
+       if (phdr->p_type >= PT_NUM && phdr->p_type != PT_GNU_EH_FRAME
+ 	  && phdr->p_type != PT_GNU_STACK && phdr->p_type != PT_GNU_RELRO
+-	  && phdr->p_type != PT_GNU_PROPERTY
++	  && phdr->p_type != PT_GNU_PROPERTY && phdr->p_type != PT_PAX_FLAGS
+ 	  /* Check for a known machine-specific type.  */
+ 	  && ebl_segment_type_name (ebl, phdr->p_type, NULL, 0) == NULL)
+ 	ERROR (_("\
