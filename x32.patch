@@ -1,7 +1,6 @@
-diff -urNp -x '*.orig' elfutils-0.183.org/debuginfod/debuginfod-client.c elfutils-0.183/debuginfod/debuginfod-client.c
---- elfutils-0.183.org/debuginfod/debuginfod-client.c	2021-02-07 18:54:39.000000000 +0100
-+++ elfutils-0.183/debuginfod/debuginfod-client.c	2021-05-05 21:02:38.910503052 +0200
-@@ -229,7 +229,11 @@ debuginfod_init_cache (char *cache_path,
+--- elfutils-0.185/debuginfod/debuginfod-client.c.orig	2021-05-22 20:25:24.000000000 +0200
++++ elfutils-0.185/debuginfod/debuginfod-client.c	2021-06-11 19:22:31.611417051 +0200
+@@ -267,7 +267,11 @@ debuginfod_init_cache (char *cache_path,
    if (fd < 0)
      return -errno;
  
@@ -13,7 +12,7 @@ diff -urNp -x '*.orig' elfutils-0.183.org/debuginfod/debuginfod-client.c elfutil
      return -errno;
  
    /* init max age config file.  */
-@@ -237,7 +241,11 @@ debuginfod_init_cache (char *cache_path,
+@@ -275,7 +279,11 @@ debuginfod_init_cache (char *cache_path,
        && (fd = open(maxage_path, O_CREAT | O_RDWR, DEFFILEMODE)) < 0)
      return -errno;
  
@@ -25,39 +24,3 @@ diff -urNp -x '*.orig' elfutils-0.183.org/debuginfod/debuginfod-client.c elfutil
      return -errno;
  
    return 0;
-@@ -263,7 +271,11 @@ debuginfod_clean_cache(debuginfod_client
-       if (interval_file == NULL)
-         return -errno;
- 
-+#if defined(__x86_64__) && defined(__ILP32__)
-+      int rc = fprintf(interval_file, "%lld", cache_clean_default_interval_s);
-+#else
-       int rc = fprintf(interval_file, "%ld", cache_clean_default_interval_s);
-+#endif
-       fclose(interval_file);
- 
-       if (rc < 0)
-@@ -275,7 +287,11 @@ debuginfod_clean_cache(debuginfod_client
-   interval_file = fopen(interval_path, "r");
-   if (interval_file)
-     {
-+#if defined(__x86_64__) && defined(__ILP32__)
-+      if (fscanf(interval_file, "%lld", &clean_interval) != 1)
-+#else
-       if (fscanf(interval_file, "%ld", &clean_interval) != 1)
-+#endif
-         clean_interval = cache_clean_default_interval_s;
-       fclose(interval_file);
-     }
-@@ -291,7 +307,11 @@ debuginfod_clean_cache(debuginfod_client
-   max_unused_file = fopen(max_unused_path, "r");
-   if (max_unused_file)
-     {
-+#if defined(__x86_64__) && defined(__ILP32__)
-+      if (fscanf(max_unused_file, "%lld", &max_unused_age) != 1)
-+#else
-       if (fscanf(max_unused_file, "%ld", &max_unused_age) != 1)
-+#endif
-         max_unused_age = cache_default_max_unused_age_s;
-       fclose(max_unused_file);
-     }
