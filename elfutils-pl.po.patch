@@ -3,7 +3,7 @@
 @@ -4016,29 +4016,27 @@
  "\n"
  
- #: src/nm.c:776
+ #: src/nm.c:775
 -#, fuzzy
 -#| msgid " Name: "
  msgctxt "sysv"
@@ -12,36 +12,36 @@
 +msgstr "Nazwa"
  
  #. TRANS: the "sysv|" parts makes the string unique.
- #: src/nm.c:778
+ #: src/nm.c:777
  msgctxt "sysv"
  msgid "Value"
 -msgstr ""
 +msgstr "Wartość"
  
  #. TRANS: the "sysv|" parts makes the string unique.
- #: src/nm.c:780
+ #: src/nm.c:779
  msgctxt "sysv"
  msgid "Size"
 -msgstr ""
 +msgstr "Rozmiar"
  
  #. TRANS: the "sysv|" parts makes the string unique.
- #: src/nm.c:782
+ #: src/nm.c:781
  msgctxt "sysv"
  msgid "Line"
 -msgstr ""
 +msgstr "Linia"
  
- #: src/nm.c:1250
+ #: src/nm.c:1249
  #, c-format
 @@ -6075,7 +6073,7 @@
- #: src/readelf.c:10386
+ #: src/readelf.c:10456
  msgctxt "debugstr"
  msgid "Offset"
 -msgstr ""
 +msgstr "Offset"
  
- #: src/readelf.c:10396
+ #: src/readelf.c:10466
  #, c-format
 @@ -6471,32 +6469,32 @@
  #: src/size.c:328
