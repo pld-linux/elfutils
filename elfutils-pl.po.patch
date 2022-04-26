@@ -1,9 +1,9 @@
---- elfutils-0.185/po/pl.po.orig	2021-05-22 20:30:10.000000000 +0200
-+++ elfutils-0.185/po/pl.po	2021-06-11 19:21:49.024981095 +0200
-@@ -4016,29 +4016,27 @@
+--- elfutils-0.187/po/pl.po.orig	2022-04-26 19:30:26.817433885 +0200
++++ elfutils-0.187/po/pl.po	2022-04-26 19:39:49.240453198 +0200
+@@ -4015,29 +4015,27 @@
  "\n"
  
- #: src/nm.c:775
+ #: src/nm.c:773
 -#, fuzzy
 -#| msgid " Name: "
  msgctxt "sysv"
@@ -12,38 +12,38 @@
 +msgstr "Nazwa"
  
  #. TRANS: the "sysv|" parts makes the string unique.
- #: src/nm.c:777
+ #: src/nm.c:775
  msgctxt "sysv"
  msgid "Value"
 -msgstr ""
 +msgstr "Wartość"
  
  #. TRANS: the "sysv|" parts makes the string unique.
- #: src/nm.c:779
+ #: src/nm.c:777
  msgctxt "sysv"
  msgid "Size"
 -msgstr ""
 +msgstr "Rozmiar"
  
  #. TRANS: the "sysv|" parts makes the string unique.
- #: src/nm.c:781
+ #: src/nm.c:779
  msgctxt "sysv"
  msgid "Line"
 -msgstr ""
 +msgstr "Linia"
  
- #: src/nm.c:1249
+ #: src/nm.c:1246
  #, c-format
-@@ -6075,7 +6073,7 @@
- #: src/readelf.c:10456
+@@ -6082,7 +6080,7 @@
+ #: src/readelf.c:10455
  msgctxt "debugstr"
  msgid "Offset"
 -msgstr ""
 +msgstr "Offset"
  
- #: src/readelf.c:10466
+ #: src/readelf.c:10465
  #, c-format
-@@ -6471,32 +6469,32 @@
+@@ -6478,32 +6476,32 @@
  #: src/size.c:328
  msgctxt "bsd"
  msgid "text"
@@ -80,12 +80,12 @@
 -msgstr ""
 +msgstr "nazwa pliku"
  
- #: src/size.c:418 src/size.c:560
+ #: src/size.c:417 src/size.c:558
  #, c-format
-@@ -6504,26 +6502,24 @@
+@@ -6511,26 +6509,24 @@
  msgstr " (ex %s)"
  
- #: src/size.c:420
+ #: src/size.c:419
 -#, fuzzy
 -#| msgid "invalid section"
  msgctxt "sysv"
@@ -93,23 +93,23 @@
 -msgstr "nieprawidłowa sekcja"
 +msgstr "sekcja"
  
- #: src/size.c:421
+ #: src/size.c:420
  msgctxt "sysv"
  msgid "size"
 -msgstr ""
 +msgstr "rozmiar"
  
- #: src/size.c:422
+ #: src/size.c:421
  msgctxt "sysv"
  msgid "addr"
 -msgstr ""
 +msgstr "adres"
  
- #: src/size.c:451 src/size.c:454 src/size.c:457
+ #: src/size.c:450 src/size.c:453 src/size.c:456
  msgctxt "sysv"
  msgid "Total"
 -msgstr ""
 +msgstr "Razem"
  
- #: src/size.c:482
- #, c-format
+ #: src/size.c:480
+ msgid "cannot get section header"
