@@ -83,7 +83,8 @@ Requires:	%{name} = %{version}-%{release}
 Requires:	bzip2-devel
 Requires:	xz-devel
 Requires:	zlib-devel
-Obsoletes:	libelf-devel
+Obsoletes:	libelf-devel < 0.8.14
+Obsoletes:	libelf0-devel < 0.8.14
 
 %description devel
 The elfutils-devel package contains the development part of libraries
@@ -124,7 +125,7 @@ Summary:	Static libraries to handle compiled objects
 Summary(pl.UTF-8):	Statyczne biblioteki do obsługi skompilowanych obiektów
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
-Obsoletes:	libelf-static
+Obsoletes:	libelf-static < 0.8.14
 
 %description static
 The elfutils-static package contains the static libraries to create
