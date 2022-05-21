@@ -22,6 +22,7 @@ Patch6:		disable-tests.patch
 URL:		https://sourceware.org/elfutils/
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.11
+%{?with_tests:BuildRequires:	bsdtar}
 BuildRequires:	bzip2-devel
 BuildRequires:	gawk
 BuildRequires:	gcc >= 6:4.3
