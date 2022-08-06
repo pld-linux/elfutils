@@ -7,7 +7,7 @@ Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl.UTF-8):	Zestaw narzędzi i bibliotek do obsługi skompilowanych obiektów
 Name:		elfutils
 Version:	0.187
-Release:	2
+Release:	3
 License:	GPL v2+ or LGPL v3+ (libraries), GPL v3+ (programs)
 Group:		Development/Tools
 Source0:	https://sourceware.org/elfutils/ftp/%{version}/%{name}-%{version}.tar.bz2
@@ -144,30 +144,39 @@ służących do odpluskwiania. libasm udostępnia programowalny interfejs
 asemblera.
 
 %package debuginfod
-Summary:	debuginfod library, server and client
-Summary(pl.UTF-8):	Biblioteka, serwer i klient debuginfod
+Summary:	debuginfod server and client
+Summary(pl.UTF-8):	Serwer i klient debuginfod
 Group:		Libraries
 Requires:	%{name} = %{version}-%{release}
-%if %{with debuginfod}
-# for library
-Requires:	curl-libs >= 7.29.0
-# the rest for server
+Requires:	%{name}-debuginfod-libs = %{version}-%{release}
 Requires:	libarchive >= 3.1.2
 Requires:	libmicrohttpd >= 0.9.33
 Requires:	sqlite3 >= 3.7.17
-%endif
 
 %description debuginfod
-debuginfod library, server and client.
+debuginfod server and client.
 
 %description debuginfod -l pl.UTF-8
-Biblioteka, serwer i klient debuginfod.
+Serwer i klient debuginfod.
+
+%package debuginfod-libs
+Summary:	debuginfod library
+Summary(pl.UTF-8):	Biblioteka debuginfod
+Group:		Libraries
+Requires:	curl-libs >= 7.29.0
+Conflicts:	elfutils-debuginfod < 0.187-3
+
+%description debuginfod-libs
+debuginfod library.
+
+%description debuginfod-libs -l pl.UTF-8
+Biblioteka debuginfod.
 
 %package debuginfod-devel
 Summary:	Header file for debuginfod library
 Summary(pl.UTF-8):	Plik nagłówkowy biblioteki debuginfod
 Group:		Development/Libraries
-Requires:	%{name}-debuginfod = %{version}-%{release}
+Requires:	%{name}-debuginfod-libs = %{version}-%{release}
 Requires:	%{name}-devel = %{version}-%{release}
 
 %description debuginfod-devel
@@ -245,8 +254,8 @@ rm -rf $RPM_BUILD_ROOT
 %post	libelf -p /sbin/ldconfig
 %postun	libelf -p /sbin/ldconfig
 
-%post	debuginfod -p /sbin/ldconfig
-%postun	debuginfod -p /sbin/ldconfig
+%post	debuginfod-libs -p /sbin/ldconfig
+%postun	debuginfod-libs -p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
@@ -296,8 +305,6 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with debuginfod}
 %files debuginfod
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libdebuginfod-*.so
-%attr(755,root,root) %ghost %{_libdir}/libdebuginfod.so.1
 %attr(755,root,root) %{_bindir}/debuginfod
 %attr(755,root,root) %{_bindir}/debuginfod-find
 %{_mandir}/man1/debuginfod-find.1*
@@ -305,6 +312,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/debuginfod.8*
 %attr(755,root,root) /etc/profile.d/debuginfod.sh
 %attr(755,root,root) /etc/profile.d/debuginfod.csh
+
+%files debuginfod-libs
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libdebuginfod-*.so
+%attr(755,root,root) %ghost %{_libdir}/libdebuginfod.so.1
 
 %files debuginfod-devel
 %defattr(644,root,root,755)
