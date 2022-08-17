@@ -1,0 +1,32 @@
+From b661e39349a89a47793c4d15e9ca8df016c3871b Mon Sep 17 00:00:00 2001
+From: Sergei Trofimovich via Elfutils-devel <elfutils-devel@sourceware.org>
+Date: Sat, 6 Aug 2022 09:55:06 +0100
+Subject: [PATCH] tests: run-low_high_pc.sh: drop redundant 'lx' suffix
+
+Noticed when debugged test failure:
+
+    lowpc: 8049000, highpc: 8049000lx
+    ../sysdeps/i386/crti.S: [2def] '_init' highpc <= lowpc
+
+Signed-off-by: Sergei Trofimovich <slyich@gmail.com>
+---
+ tests/ChangeLog     | 4 ++++
+ tests/low_high_pc.c | 2 +-
+ 2 files changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/tests/low_high_pc.c b/tests/low_high_pc.c
+index 78b6ad08d..cd022b1cc 100644
+--- a/tests/low_high_pc.c
++++ b/tests/low_high_pc.c
+@@ -72,7 +72,7 @@ handle_die (Dwarf_Die *die, void *arg)
+       && highpc <= lowpc
+       && ! (dwarf_tag (die) == DW_TAG_compile_unit && highpc == lowpc))
+     {
+-      printf("lowpc: %" PRIx64 ", highpc: %" PRIx64 "lx\n", lowpc, highpc);
++      printf("lowpc: %" PRIx64 ", highpc: %" PRIx64 "\n", lowpc, highpc);
+       fail (off, name, "highpc <= lowpc");
+     }
+ 
+-- 
+2.31.1
+
