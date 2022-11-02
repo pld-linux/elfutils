@@ -3,7 +3,7 @@
 @@ -4015,29 +4015,27 @@
  "\n"
  
- #: src/nm.c:773
+ #: src/nm.c:772
 -#, fuzzy
 -#| msgid " Name: "
  msgctxt "sysv"
@@ -12,80 +12,80 @@
 +msgstr "Nazwa"
  
  #. TRANS: the "sysv|" parts makes the string unique.
- #: src/nm.c:775
+ #: src/nm.c:774
  msgctxt "sysv"
  msgid "Value"
 -msgstr ""
 +msgstr "Wartość"
  
  #. TRANS: the "sysv|" parts makes the string unique.
- #: src/nm.c:777
+ #: src/nm.c:776
  msgctxt "sysv"
  msgid "Size"
 -msgstr ""
 +msgstr "Rozmiar"
  
  #. TRANS: the "sysv|" parts makes the string unique.
- #: src/nm.c:779
+ #: src/nm.c:778
  msgctxt "sysv"
  msgid "Line"
 -msgstr ""
 +msgstr "Linia"
  
- #: src/nm.c:1246
+ #: src/nm.c:1245
  #, c-format
 @@ -6082,7 +6080,7 @@
- #: src/readelf.c:10455
+ #: src/readelf.c:10629
  msgctxt "debugstr"
  msgid "Offset"
 -msgstr ""
 +msgstr "Offset"
  
- #: src/readelf.c:10465
+ #: src/readelf.c:10639
  #, c-format
 @@ -6478,32 +6476,32 @@
- #: src/size.c:328
+ #: src/size.c:327
  msgctxt "bsd"
  msgid "text"
 -msgstr ""
 +msgstr "text"
  
- #: src/size.c:329
+ #: src/size.c:328
  msgctxt "bsd"
  msgid "data"
 -msgstr ""
 +msgstr "data"
  
- #: src/size.c:330
+ #: src/size.c:329
  msgctxt "bsd"
  msgid "bss"
 -msgstr ""
 +msgstr "bss"
  
- #: src/size.c:331
+ #: src/size.c:330
  msgctxt "bsd"
  msgid "dec"
 -msgstr ""
 +msgstr "dec"
  
- #: src/size.c:332
+ #: src/size.c:331
  msgctxt "bsd"
  msgid "hex"
 -msgstr ""
 +msgstr "hex"
  
- #: src/size.c:333
+ #: src/size.c:332
  msgctxt "bsd"
  msgid "filename"
 -msgstr ""
 +msgstr "nazwa pliku"
  
- #: src/size.c:417 src/size.c:558
+ #: src/size.c:416 src/size.c:557
  #, c-format
 @@ -6511,26 +6509,24 @@
  msgstr " (ex %s)"
  
- #: src/size.c:419
+ #: src/size.c:418
 -#, fuzzy
 -#| msgid "invalid section"
  msgctxt "sysv"
@@ -93,23 +93,23 @@
 -msgstr "nieprawidłowa sekcja"
 +msgstr "sekcja"
  
- #: src/size.c:420
+ #: src/size.c:419
  msgctxt "sysv"
  msgid "size"
 -msgstr ""
 +msgstr "rozmiar"
  
- #: src/size.c:421
+ #: src/size.c:420
  msgctxt "sysv"
  msgid "addr"
 -msgstr ""
 +msgstr "adres"
  
- #: src/size.c:450 src/size.c:453 src/size.c:456
+ #: src/size.c:449 src/size.c:452 src/size.c:455
  msgctxt "sysv"
  msgid "Total"
 -msgstr ""
 +msgstr "Razem"
  
- #: src/size.c:480
+ #: src/size.c:479
  msgid "cannot get section header"

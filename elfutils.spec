@@ -1,3 +1,5 @@
+# TODO:
+# - package debuginfod.service
 #
 # Conditional build:
 %bcond_without	debuginfod	# debuginfod server and client
@@ -6,12 +8,12 @@
 Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl.UTF-8):	Zestaw narzędzi i bibliotek do obsługi skompilowanych obiektów
 Name:		elfutils
-Version:	0.187
-Release:	5
+Version:	0.188
+Release:	1
 License:	GPL v2+ or LGPL v3+ (libraries), GPL v3+ (programs)
 Group:		Development/Tools
 Source0:	https://sourceware.org/elfutils/ftp/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	cc04f07b53a71616b22553c0a458cf4b
+# Source0-md5:	efb25a91873b2eec4df9f31e6a4f4e5c
 Patch0:		%{name}-pl.po.patch
 Patch1:		%{name}-debian-manpages.patch
 Patch2:		%{name}-awk.patch
@@ -19,7 +21,6 @@ Patch3:		%{name}-align.patch
 Patch4:		%{name}-paxflags.patch
 Patch5:		%{name}-sparc.patch
 Patch6:		disable-tests.patch
-Patch7:		tests.patch
 URL:		https://sourceware.org/elfutils/
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.11
@@ -195,7 +196,6 @@ Plik nagłówkowy biblioteki debuginfod.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
-%patch7 -p1
 
 %{__rm} po/stamp-po
 
