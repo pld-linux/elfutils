@@ -312,6 +312,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/debuginfod-find.1*
 %{_mandir}/man7/debuginfod-client-config.7*
 %{_mandir}/man8/debuginfod.8*
+# uncomment after packaging debuginfod.service
+#%{_mandir}/man8/debuginfod.service.8*
 %attr(755,root,root) /etc/profile.d/debuginfod.sh
 %attr(755,root,root) /etc/profile.d/debuginfod.csh
 
