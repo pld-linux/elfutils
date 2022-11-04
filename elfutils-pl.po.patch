@@ -1,6 +1,42 @@
---- elfutils-0.187/po/pl.po.orig	2022-04-26 19:30:26.817433885 +0200
-+++ elfutils-0.187/po/pl.po	2022-04-26 19:39:49.240453198 +0200
-@@ -4015,29 +4015,27 @@
+--- elfutils-0.188/po/pl.po.orig	2022-11-02 15:40:22.000000000 +0100
++++ elfutils-0.188/po/pl.po	2022-11-04 06:39:31.342628463 +0100
+@@ -481,10 +481,8 @@ msgid "Invalid register"
+ msgstr "Nieprawidłowy rejestr"
+ 
+ #: libdwfl/libdwflP.h:84
+-#, fuzzy
+-#| msgid "no reference value"
+ msgid "Unknown register value"
+-msgstr "brak wartości odwołania"
++msgstr "Nieznana wartości rejestru"
+ 
+ #: libdwfl/libdwflP.h:85
+ msgid "Error reading process memory"
+@@ -810,10 +808,8 @@ msgid "Show only base names of source fi
+ msgstr "Wyświetla tylko podstawowe nazwy plików źródłowych"
+ 
+ #: src/addr2line.c:66
+-#, fuzzy
+-#| msgid "Show absolute file names using compilation directory"
+ msgid "Show absolute file names using compilation directory (default)"
+-msgstr "Wyświetla bezwzględne nazwy plików używając katalogu kompilacji"
++msgstr "Wyświetla bezwzględne nazwy plików używając katalogu kompilacji (domyślne)"
+ 
+ #: src/addr2line.c:67
+ msgid "Also show function names"
+@@ -849,10 +845,8 @@ msgid "Print all information on one line
+ msgstr "Wyświetla wszystkie informacje w jednym wierszy i wyrównuje wstawki"
+ 
+ #: src/addr2line.c:79
+-#, fuzzy
+-#| msgid "Show absolute file names using compilation directory"
+ msgid "Show relative file names without compilation directory"
+-msgstr "Wyświetla bezwzględne nazwy plików używając katalogu kompilacji"
++msgstr "Wyświetla względne nazwy plików bez katalogu kompilacji"
+ 
+ #: src/addr2line.c:81 src/elfcmp.c:69 src/findtextrel.c:65 src/nm.c:99
+ #: src/strings.c:77
+@@ -4021,29 +4015,27 @@ msgstr ""
  "\n"
  
  #: src/nm.c:772
@@ -34,7 +70,83 @@
  
  #: src/nm.c:1245
  #, c-format
-@@ -6082,7 +6080,7 @@
+@@ -4277,7 +4269,7 @@ msgstr "Wyświetla indeks symboli archiw
+ 
+ #: src/readelf.c:141
+ msgid "Use the dynamic segment when possible for displaying info"
+-msgstr ""
++msgstr "Użycie segmentu dynamicznego przy wyświetlaniu informacji, kiedy możliwe"
+ 
+ #: src/readelf.c:143
+ msgid "Output control:"
+@@ -4791,15 +4783,7 @@ msgstr[2] ""
+ "'%s'\n"
+ 
+ #: src/readelf.c:1867
+-#, fuzzy, c-format
+-#| msgid ""
+-#| "\n"
+-#| "Dynamic segment contains %lu entry:\n"
+-#| " Addr: %#0*<PRIx64>  Offset: %#08<PRIx64>  Link to section: [%2u] '%s'\n"
+-#| msgid_plural ""
+-#| "\n"
+-#| "Dynamic segment contains %lu entries:\n"
+-#| " Addr: %#0*<PRIx64>  Offset: %#08<PRIx64>  Link to section: [%2u] '%s'\n"
++#, c-format
+ msgid ""
+ "\n"
+ "Dynamic segment contains %lu entry:\n"
+@@ -4811,28 +4795,23 @@ msgid_plural ""
+ msgstr[0] ""
+ "\n"
+ "Segment dynamiczny zawiera %lu wpis:\n"
+-" Adres: %#0*<PRIx64>  Offset: %#08<PRIx64>  Dowiązanie do sekcji: [%2u] "
+-"'%s'\n"
++" Adres: %#0*<PRIx64>  Offset: %#08<PRIx64>\n"
+ msgstr[1] ""
+ "\n"
+ "Segment dynamiczny zawiera %lu wpisy:\n"
+-" Adres: %#0*<PRIx64>  Offset: %#08<PRIx64>  Dowiązanie do sekcji: [%2u] "
+-"'%s'\n"
++" Adres: %#0*<PRIx64>  Offset: %#08<PRIx64>\n"
+ msgstr[2] ""
+ "\n"
+ "Segment dynamiczny zawiera %lu wpisów:\n"
+-" Adres: %#0*<PRIx64>  Offset: %#08<PRIx64>  Dowiązanie do sekcji: [%2u] "
+-"'%s'\n"
++" Adres: %#0*<PRIx64>  Offset: %#08<PRIx64>\n"
+ 
+ #: src/readelf.c:1877
+ msgid "  Type              Value\n"
+ msgstr "  Typ               Wartość\n"
+ 
+ #: src/readelf.c:1886
+-#, fuzzy
+-#| msgid "cannot get string section data: %s"
+ msgid "cannot get string table by using dynamic segment"
+-msgstr "nie można uzyskać danych sekcji ciągów: %s"
++msgstr "nie można uzyskać tablicy łańcuchów przy użyciu segmentu dynamicznego"
+ 
+ #: src/readelf.c:1925
+ #, c-format
+@@ -5934,13 +5913,12 @@ msgstr " ustawienie dyskryminatora na %u
+ #: src/readelf.c:9108
+ #, c-format
+ msgid " set inlined context %u, function name %s (0x%x)\n"
+-msgstr ""
++msgstr " ustawienie kontekstu inline %u, nazwa funkcji %s (0x%x)\n"
+ 
+ #: src/readelf.c:9132
+-#, fuzzy, c-format
+-#| msgid "Also show function names"
++#, c-format
+ msgid " set function name %s (0x%x)\n"
+-msgstr "Wyświetla także nazwy funkcji"
++msgstr " ustawienie nazwy funkcji %s (0x%x)\n"
+ 
+ #. Unknown, ignore it.
+ #: src/readelf.c:9139
+@@ -6132,7 +6110,7 @@ msgstr ""
  #: src/readelf.c:10629
  msgctxt "debugstr"
  msgid "Offset"
@@ -43,7 +155,7 @@
  
  #: src/readelf.c:10639
  #, c-format
-@@ -6478,32 +6476,32 @@
+@@ -6528,32 +6506,32 @@ msgstr "%s: nie rozpoznano formatu pliku
  #: src/size.c:327
  msgctxt "bsd"
  msgid "text"
@@ -82,7 +194,7 @@
  
  #: src/size.c:416 src/size.c:557
  #, c-format
-@@ -6511,26 +6509,24 @@
+@@ -6561,26 +6539,24 @@ msgid " (ex %s)"
  msgstr " (ex %s)"
  
  #: src/size.c:418
@@ -113,3 +225,53 @@
  
  #: src/size.c:479
  msgid "cannot get section header"
+@@ -7201,7 +7177,7 @@ msgstr "nie można zaktualizować nagł�
+ #: src/unstrip.c:464
+ #, c-format
+ msgid "gelf_getrel failed: %s"
+-msgstr ""
++msgstr "gelf_getrel nie powiodło się: %s"
+ 
+ #: src/unstrip.c:467 src/unstrip.c:482
+ #, c-format
+@@ -7211,7 +7187,7 @@ msgstr "nie można zaktualizować reloka
+ #: src/unstrip.c:479
+ #, c-format
+ msgid "gelf_getrela failed: %s"
+-msgstr ""
++msgstr "gelf_getrela nie powiodło się: %s"
+ 
+ #: src/unstrip.c:580
+ #, c-format
+@@ -7511,14 +7487,6 @@ msgstr "Żąda zawartość powiązaną z
+ 
+ #. Strings for arguments in help texts.
+ #: debuginfod/debuginfod-find.c:46
+-#, fuzzy
+-#| msgid ""
+-#| "debuginfo BUILDID\n"
+-#| "debuginfo PATH\n"
+-#| "executable BUILDID\n"
+-#| "executable PATH\n"
+-#| "source BUILDID /FILENAME\n"
+-#| "source PATH /FILENAME\n"
+ msgid ""
+ "debuginfo BUILDID\n"
+ "debuginfo PATH\n"
+@@ -7535,6 +7503,8 @@ msgstr ""
+ "executable ŚCIEŻKA\n"
+ "source IDENTYFIKATOR-KOPII /NAZWA-PLIKU\n"
+ "source ŚCIEŻKA /NAZWA-PLIKU\n"
++"section IDENTYFIKATOR-KOPII NAZWA-SEKCJI\n"
++"section ŚCIEŻKA NAZWA-SEKCJI\n"
+ 
+ #: tests/backtrace.c:483
+ msgid "Run executable"
+@@ -7547,7 +7517,3 @@ msgstr "Dodatkowo wyświetla nazwy funkc
+ #: tests/dwflmodtest.c:210
+ msgid "Show instances of inlined functions"
+ msgstr "Wyświetla wystąpienia wstawionych funkcji"
+-
+-#, c-format
+-#~ msgid "cannot allocate memory"
+-#~ msgstr "nie można przydzielić pamięci"
