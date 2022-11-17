@@ -9,7 +9,7 @@ Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl.UTF-8):	Zestaw narzędzi i bibliotek do obsługi skompilowanych obiektów
 Name:		elfutils
 Version:	0.188
-Release:	2
+Release:	3
 License:	GPL v2+ or LGPL v3+ (libraries), GPL v3+ (programs)
 Group:		Development/Tools
 Source0:	https://sourceware.org/elfutils/ftp/%{version}/%{name}-%{version}.tar.bz2
@@ -153,7 +153,7 @@ Requires:	%{name} = %{version}-%{release}
 Requires:	%{name}-debuginfod-libs = %{version}-%{release}
 Requires:	libarchive >= 3.1.2
 Requires:	libmicrohttpd >= 0.9.33
-Requires:	sqlite3 >= 3.7.17
+Requires:	sqlite3-libs >= 3.7.17
 
 %description debuginfod
 debuginfod server and client.
