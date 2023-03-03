@@ -3,14 +3,14 @@
 @@ -481,10 +481,8 @@ msgid "Invalid register"
  msgstr "Nieprawidłowy rejestr"
  
- #: libdwfl/libdwflP.h:84
+ #: libdwfl/libdwflP.h:80
 -#, fuzzy
 -#| msgid "no reference value"
  msgid "Unknown register value"
 -msgstr "brak wartości odwołania"
 +msgstr "Nieznana wartości rejestru"
  
- #: libdwfl/libdwflP.h:85
+ #: libdwfl/libdwflP.h:81
  msgid "Error reading process memory"
 @@ -810,10 +808,8 @@ msgid "Show only base names of source fi
  msgstr "Wyświetla tylko podstawowe nazwy plików źródłowych"
@@ -27,14 +27,14 @@
 @@ -849,10 +845,8 @@ msgid "Print all information on one line
  msgstr "Wyświetla wszystkie informacje w jednym wierszy i wyrównuje wstawki"
  
- #: src/addr2line.c:79
+ #: src/addr2line.c:80
 -#, fuzzy
 -#| msgid "Show absolute file names using compilation directory"
  msgid "Show relative file names without compilation directory"
 -msgstr "Wyświetla bezwzględne nazwy plików używając katalogu kompilacji"
 +msgstr "Wyświetla względne nazwy plików bez katalogu kompilacji"
  
- #: src/addr2line.c:81 src/elfcmp.c:69 src/findtextrel.c:65 src/nm.c:99
+ #: src/addr2line.c:82 src/elfcmp.c:69 src/findtextrel.c:65 src/nm.c:99
  #: src/strings.c:77
 @@ -4021,29 +4015,27 @@ msgstr ""
  "\n"
@@ -82,7 +82,7 @@
 @@ -4791,15 +4783,7 @@ msgstr[2] ""
  "'%s'\n"
  
- #: src/readelf.c:1867
+ #: src/readelf.c:1880
 -#, fuzzy, c-format
 -#| msgid ""
 -#| "\n"
@@ -116,27 +116,27 @@
 -"'%s'\n"
 +" Adres: %#0*<PRIx64>  Offset: %#08<PRIx64>\n"
  
- #: src/readelf.c:1877
+ #: src/readelf.c:1890
  msgid "  Type              Value\n"
  msgstr "  Typ               Wartość\n"
  
- #: src/readelf.c:1886
+ #: src/readelf.c:1899
 -#, fuzzy
 -#| msgid "cannot get string section data: %s"
  msgid "cannot get string table by using dynamic segment"
 -msgstr "nie można uzyskać danych sekcji ciągów: %s"
 +msgstr "nie można uzyskać tablicy łańcuchów przy użyciu segmentu dynamicznego"
  
- #: src/readelf.c:1925
+ #: src/readelf.c:1938
  #, c-format
 @@ -5934,13 +5913,12 @@ msgstr " ustawienie dyskryminatora na %u
- #: src/readelf.c:9108
+ #: src/readelf.c:9157
  #, c-format
  msgid " set inlined context %u, function name %s (0x%x)\n"
 -msgstr ""
 +msgstr " ustawienie kontekstu inline %u, nazwa funkcji %s (0x%x)\n"
  
- #: src/readelf.c:9132
+ #: src/readelf.c:9181
 -#, fuzzy, c-format
 -#| msgid "Also show function names"
 +#, c-format
@@ -145,15 +145,15 @@
 +msgstr " ustawienie nazwy funkcji %s (0x%x)\n"
  
  #. Unknown, ignore it.
- #: src/readelf.c:9139
+ #: src/readelf.c:9188
 @@ -6132,7 +6110,7 @@ msgstr ""
- #: src/readelf.c:10629
+ #: src/readelf.c:10668
  msgctxt "debugstr"
  msgid "Offset"
 -msgstr ""
 +msgstr "Offset"
  
- #: src/readelf.c:10639
+ #: src/readelf.c:10678
  #, c-format
 @@ -6528,32 +6506,32 @@ msgstr "%s: nie rozpoznano formatu pliku
  #: src/size.c:327
@@ -267,10 +267,42 @@
  
  #: tests/backtrace.c:483
  msgid "Run executable"
-@@ -7547,7 +7517,3 @@ msgstr "Dodatkowo wyświetla nazwy funkc
+@@ -7538,39 +7508,3 @@
  #: tests/dwflmodtest.c:210
  msgid "Show instances of inlined functions"
  msgstr "Wyświetla wystąpienia wstawionych funkcji"
+-
+-#, c-format
+-#~ msgid "cannot get .debug_addr section data: %s"
+-#~ msgstr "nie można uzyskać danych sekcji .debug_addr: %s"
+-
+-#, c-format
+-#~ msgid "cannot get .debug_rnglists content: %s"
+-#~ msgstr "nie można uzyskać zawartości .debug_rnglists: %s"
+-
+-#, c-format
+-#~ msgid "cannot get .debug_ranges content: %s"
+-#~ msgstr "nie można uzyskać zawartości .debug_ranges: %s"
+-
+-#, c-format
+-#~ msgid "cannot get line data section data: %s"
+-#~ msgstr "nie można uzyskać danych sekcji danych wiersza: %s"
+-
+-#, c-format
+-#~ msgid "cannot get .debug_loclists content: %s"
+-#~ msgstr "nie można uzyskać zawartości .debug_loclists: %s"
+-
+-#, c-format
+-#~ msgid "cannot get .debug_loc content: %s"
+-#~ msgstr "nie można uzyskać zawartości .debug_log: %s"
+-
+-#, c-format
+-#~ msgid "cannot get macro information section data: %s"
+-#~ msgstr "nie można uzyskać danych sekcji informacji o makrach: %s"
+-
+-#, c-format
+-#~ msgid "cannot get .debug_str_offsets section data: %s"
+-#~ msgstr "nie można uzyskać danych sekcji .debug_str_offsets: %s"
 -
 -#, c-format
 -#~ msgid "cannot allocate memory"

@@ -8,12 +8,12 @@
 Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl.UTF-8):	Zestaw narzędzi i bibliotek do obsługi skompilowanych obiektów
 Name:		elfutils
-Version:	0.188
-Release:	3
+Version:	0.189
+Release:	1
 License:	GPL v2+ or LGPL v3+ (libraries), GPL v3+ (programs)
 Group:		Development/Tools
 Source0:	https://sourceware.org/elfutils/ftp/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	efb25a91873b2eec4df9f31e6a4f4e5c
+# Source0-md5:	5cfaa711a90cb670406cd495aeaa6030
 Patch0:		%{name}-pl.po.patch
 Patch1:		%{name}-debian-manpages.patch
 Patch2:		%{name}-awk.patch
@@ -32,11 +32,12 @@ BuildRequires:	gettext-tools >= 0.19.6
 BuildRequires:	glibc-devel >= 6:2.7
 BuildRequires:	libstdc++-devel >= 6:4.7
 BuildRequires:	perl-tools-pod
+BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.527
 BuildRequires:	sharutils
 BuildRequires:	xz-devel
 BuildRequires:	zlib-devel
-BuildRequires:	zstd-devel
+BuildRequires:	zstd-devel >= 1.4.0
 %if %{with tests} && %(test -d /proc/self ; echo $?)
 # native test needs proc (for libdwfl -p PID to work)
 BuildRequires:	MOUNTED_PROC
@@ -48,6 +49,7 @@ BuildRequires:	libmicrohttpd-devel >= 0.9.33
 BuildRequires:	sqlite3-devel >= 3.7.17
 %endif
 Requires:	%{name}-libelf = %{version}-%{release}
+Requires:	zstd >= 1.4.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 # fails to build with -Wl,-s
@@ -85,6 +87,7 @@ Requires:	%{name} = %{version}-%{release}
 Requires:	bzip2-devel
 Requires:	xz-devel
 Requires:	zlib-devel
+Requires:	zstd-devel >= 1.4.0
 Obsoletes:	libelf-devel < 0.8.14
 Obsoletes:	libelf0-devel < 0.8.14
 
@@ -127,6 +130,7 @@ Summary:	Static libraries to handle compiled objects
 Summary(pl.UTF-8):	Statyczne biblioteki do obsługi skompilowanych obiektów
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
+Requires:	zstd >= 1.4.0
 Obsoletes:	libelf-static < 0.8.14
 
 %description static
