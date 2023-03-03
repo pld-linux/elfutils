@@ -225,7 +225,7 @@
  
  #: src/size.c:479
  msgid "cannot get section header"
-@@ -7201,7 +7177,7 @@ msgstr "nie można zaktualizować nagł�
+@@ -7201,7 +7177,7 @@ msgstr "nie można zaktualizować nagł
  #: src/unstrip.c:464
  #, c-format
  msgid "gelf_getrel failed: %s"
