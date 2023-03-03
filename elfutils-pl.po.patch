@@ -1,5 +1,5 @@
---- elfutils-0.188/po/pl.po.orig	2022-11-02 15:40:22.000000000 +0100
-+++ elfutils-0.188/po/pl.po	2022-11-04 06:39:31.342628463 +0100
+--- elfutils-0.189/po/pl.po.orig	2023-03-03 16:42:55.000000000 +0100
++++ elfutils-0.189/po/pl.po	2023-03-03 20:22:54.127546013 +0100
 @@ -481,10 +481,8 @@ msgid "Invalid register"
  msgstr "Nieprawidłowy rejestr"
  
@@ -24,7 +24,19 @@
  
  #: src/addr2line.c:67
  msgid "Also show function names"
-@@ -849,10 +845,8 @@ msgid "Print all information on one line
+@@ -845,21 +841,16 @@ msgstr ""
+ "Wyświetla symbole z usuniętym dekorowaniem (PARAMETR jest zawsze ignorowany)"
+ 
+ #: src/addr2line.c:76
+-#, fuzzy
+-#| msgid "Show demangled symbols (ARG is always ignored)"
+ msgid "Show demangled symbols"
+-msgstr ""
+-"Wyświetla symbole z usuniętym dekorowaniem (PARAMETR jest zawsze ignorowany)"
++msgstr "Wyświetla symbole z usuniętym dekorowaniem"
+ 
+ #: src/addr2line.c:78
+ msgid "Print all information on one line, and indent inlines"
  msgstr "Wyświetla wszystkie informacje w jednym wierszy i wyrównuje wstawki"
  
  #: src/addr2line.c:80
@@ -36,7 +48,39 @@
  
  #: src/addr2line.c:82 src/elfcmp.c:69 src/findtextrel.c:65 src/nm.c:99
  #: src/strings.c:77
-@@ -4021,29 +4015,27 @@ msgstr ""
+@@ -1691,7 +1682,7 @@ msgstr "Opcję -t podano dwukrotnie"
+ #: src/elfcompress.c:147
+ #, c-format
+ msgid "ZSTD support is not enabled"
+-msgstr ""
++msgstr "Obsługa ZSTD nie jest włączona"
+ 
+ #: src/elfcompress.c:150
+ #, c-format
+@@ -1714,11 +1705,6 @@ msgid "Place (de)compressed output into
+ msgstr "Umieszcza zdekompresowane wyjście w PLIKU"
+ 
+ #: src/elfcompress.c:1408
+-#, fuzzy
+-#| msgid ""
+-#| "What type of compression to apply. TYPE can be 'none' (decompress), "
+-#| "'zlib' (ELF ZLIB compression, the default, 'zlib-gabi' is an alias) or "
+-#| "'zlib-gnu' (.zdebug GNU style compression, 'gnu' is an alias)"
+ msgid ""
+ "What type of compression to apply. TYPE can be 'none' (decompress), "
+ "'zlib' (ELF ZLIB compression, the default, 'zlib-gabi' is an alias), 'zlib-"
+@@ -1726,8 +1712,8 @@ msgid ""
+ "compression)"
+ msgstr ""
+ "Typ stosowanej kompresji. TYP może wynosić „none” (dekompresja), "
+-"„zlib” (kompresja zlib ELF, domyślna, „zlib-gabi” to alias) lub „zlib-"
+-"gnu” (kompresja .zdebug w stylu GNU, „gnu” to alias)"
++"„zlib” (kompresja zlib ELF, domyślna, „zlib-gabi” to alias), „zlib-"
++"gnu” (kompresja .zdebug w stylu GNU, „gnu” to alias) lub „zstd” (kompresja ELF ZSTD)"
+ 
+ #: src/elfcompress.c:1412
+ msgid ""
+@@ -4039,29 +4025,27 @@ msgstr ""
  "\n"
  
  #: src/nm.c:772
@@ -70,7 +114,7 @@
  
  #: src/nm.c:1245
  #, c-format
-@@ -4277,7 +4269,7 @@ msgstr "Wyświetla indeks symboli archiw
+@@ -4295,7 +4279,7 @@ msgstr "Wyświetla indeks symboli archiw
  
  #: src/readelf.c:141
  msgid "Use the dynamic segment when possible for displaying info"
@@ -79,7 +123,19 @@
  
  #: src/readelf.c:143
  msgid "Output control:"
-@@ -4791,15 +4783,7 @@ msgstr[2] ""
+@@ -4445,10 +4429,8 @@ msgid "cannot read ELF: %s"
+ msgstr "nie można odczytać danych ELF: %s"
+ 
+ #: src/readelf.c:1050
+-#, fuzzy
+-#| msgid "cannot get section: %s"
+ msgid "cannot find section"
+-msgstr "nie można uzyskać sekcji: %s"
++msgstr "nie można odnaleźć sekcji"
+ 
+ #: src/readelf.c:1087
+ msgid "NONE (None)"
+@@ -4816,15 +4798,7 @@ msgstr[2] ""
  "'%s'\n"
  
  #: src/readelf.c:1880
@@ -96,7 +152,7 @@
  msgid ""
  "\n"
  "Dynamic segment contains %lu entry:\n"
-@@ -4811,28 +4795,23 @@ msgid_plural ""
+@@ -4836,28 +4810,23 @@ msgid_plural ""
  msgstr[0] ""
  "\n"
  "Segment dynamiczny zawiera %lu wpis:\n"
@@ -129,7 +185,19 @@
  
  #: src/readelf.c:1938
  #, c-format
-@@ -5934,13 +5913,12 @@ msgstr " ustawienie dyskryminatora na %u
+@@ -5301,10 +5270,8 @@ msgid "      %u: %s\n"
+ msgstr "      %u: %s\n"
+ 
+ #: src/readelf.c:3890
+-#, fuzzy
+-#| msgid "couldn't get shdr for group section: %s"
+ msgid "Couldn't get data from section"
+-msgstr "nie można uzyskać shdr dla sekcji grupy: %s"
++msgstr "Nie można uzyskać danych z sekcji"
+ 
+ #: src/readelf.c:3955
+ msgid "sprintf failure"
+@@ -5945,13 +5912,12 @@ msgstr " ustawienie dyskryminatora na %u
  #: src/readelf.c:9157
  #, c-format
  msgid " set inlined context %u, function name %s (0x%x)\n"
@@ -146,7 +214,7 @@
  
  #. Unknown, ignore it.
  #: src/readelf.c:9188
-@@ -6132,7 +6110,7 @@ msgstr ""
+@@ -6128,7 +6094,7 @@ msgstr ""
  #: src/readelf.c:10668
  msgctxt "debugstr"
  msgid "Offset"
@@ -155,7 +223,7 @@
  
  #: src/readelf.c:10678
  #, c-format
-@@ -6528,32 +6506,32 @@ msgstr "%s: nie rozpoznano formatu pliku
+@@ -6519,32 +6485,32 @@ msgstr "%s: nie rozpoznano formatu pliku
  #: src/size.c:327
  msgctxt "bsd"
  msgid "text"
@@ -194,7 +262,7 @@
  
  #: src/size.c:416 src/size.c:557
  #, c-format
-@@ -6561,26 +6539,24 @@ msgid " (ex %s)"
+@@ -6552,26 +6518,24 @@ msgid " (ex %s)"
  msgstr " (ex %s)"
  
  #: src/size.c:418
@@ -225,7 +293,7 @@
  
  #: src/size.c:479
  msgid "cannot get section header"
-@@ -7201,7 +7177,7 @@ msgstr "nie można zaktualizować nagł
+@@ -7192,7 +7156,7 @@ msgstr "nie można zaktualizować nagł
  #: src/unstrip.c:464
  #, c-format
  msgid "gelf_getrel failed: %s"
@@ -234,7 +302,7 @@
  
  #: src/unstrip.c:467 src/unstrip.c:482
  #, c-format
-@@ -7211,7 +7187,7 @@ msgstr "nie można zaktualizować reloka
+@@ -7202,7 +7166,7 @@ msgstr "nie można zaktualizować reloka
  #: src/unstrip.c:479
  #, c-format
  msgid "gelf_getrela failed: %s"
@@ -243,7 +311,7 @@
  
  #: src/unstrip.c:580
  #, c-format
-@@ -7511,14 +7487,6 @@ msgstr "Żąda zawartość powiązaną z
+@@ -7502,14 +7466,6 @@ msgstr "Żąda zawartość powiązaną z
  
  #. Strings for arguments in help texts.
  #: debuginfod/debuginfod-find.c:46
@@ -258,7 +326,7 @@
  msgid ""
  "debuginfo BUILDID\n"
  "debuginfo PATH\n"
-@@ -7535,6 +7503,8 @@ msgstr ""
+@@ -7526,6 +7482,8 @@ msgstr ""
  "executable ŚCIEŻKA\n"
  "source IDENTYFIKATOR-KOPII /NAZWA-PLIKU\n"
  "source ŚCIEŻKA /NAZWA-PLIKU\n"
@@ -267,7 +335,7 @@
  
  #: tests/backtrace.c:483
  msgid "Run executable"
-@@ -7538,39 +7508,3 @@
+@@ -7538,39 +7496,3 @@ msgstr "Dodatkowo wyświetla nazwy funkc
  #: tests/dwflmodtest.c:210
  msgid "Show instances of inlined functions"
  msgstr "Wyświetla wystąpienia wstawionych funkcji"
