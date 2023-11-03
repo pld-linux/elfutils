@@ -60,7 +60,7 @@
 @@ -1714,11 +1705,6 @@ msgid "Place (de)compressed output into
  msgstr "Umieszcza zdekompresowane wyjście w PLIKU"
  
- #: src/elfcompress.c:1408
+ #: src/elfcompress.c:1411
 -#, fuzzy
 -#| msgid ""
 -#| "What type of compression to apply. TYPE can be 'none' (decompress), "
@@ -78,7 +78,7 @@
 +"„zlib” (kompresja zlib ELF, domyślna, „zlib-gabi” to alias), „zlib-"
 +"gnu” (kompresja .zdebug w stylu GNU, „gnu” to alias) lub „zstd” (kompresja ELF ZSTD)"
  
- #: src/elfcompress.c:1412
+ #: src/elfcompress.c:1415
  msgid ""
 @@ -4039,29 +4025,27 @@ msgstr ""
  "\n"
@@ -116,29 +116,29 @@
  #, c-format
 @@ -4295,7 +4279,7 @@ msgstr "Wyświetla indeks symboli archiw
  
- #: src/readelf.c:141
+ #: src/readelf.c:142
  msgid "Use the dynamic segment when possible for displaying info"
 -msgstr ""
 +msgstr "Użycie segmentu dynamicznego przy wyświetlaniu informacji, kiedy możliwe"
  
- #: src/readelf.c:143
+ #: src/readelf.c:144
  msgid "Output control:"
 @@ -4445,10 +4429,8 @@ msgid "cannot read ELF: %s"
  msgstr "nie można odczytać danych ELF: %s"
  
- #: src/readelf.c:1050
+ #: src/readelf.c:1072
 -#, fuzzy
 -#| msgid "cannot get section: %s"
  msgid "cannot find section"
 -msgstr "nie można uzyskać sekcji: %s"
 +msgstr "nie można odnaleźć sekcji"
  
- #: src/readelf.c:1087
+ #: src/readelf.c:1109
  msgid "NONE (None)"
 @@ -4816,15 +4798,7 @@ msgstr[2] ""
  "'%s'\n"
  
- #: src/readelf.c:1880
+ #: src/readelf.c:1902
 -#, fuzzy, c-format
 -#| msgid ""
 -#| "\n"
@@ -172,39 +172,39 @@
 -"'%s'\n"
 +" Adres: %#0*<PRIx64>  Offset: %#08<PRIx64>\n"
  
- #: src/readelf.c:1890
+ #: src/readelf.c:1912
  msgid "  Type              Value\n"
  msgstr "  Typ               Wartość\n"
  
- #: src/readelf.c:1899
+ #: src/readelf.c:1921
 -#, fuzzy
 -#| msgid "cannot get string section data: %s"
  msgid "cannot get string table by using dynamic segment"
 -msgstr "nie można uzyskać danych sekcji ciągów: %s"
 +msgstr "nie można uzyskać tablicy łańcuchów przy użyciu segmentu dynamicznego"
  
- #: src/readelf.c:1938
+ #: src/readelf.c:1960
  #, c-format
 @@ -5301,10 +5270,8 @@ msgid "      %u: %s\n"
  msgstr "      %u: %s\n"
  
- #: src/readelf.c:3890
+ #: src/readelf.c:4221
 -#, fuzzy
 -#| msgid "couldn't get shdr for group section: %s"
  msgid "Couldn't get data from section"
 -msgstr "nie można uzyskać shdr dla sekcji grupy: %s"
 +msgstr "Nie można uzyskać danych z sekcji"
  
- #: src/readelf.c:3955
+ #: src/readelf.c:4286
  msgid "sprintf failure"
 @@ -5945,13 +5912,12 @@ msgstr " ustawienie dyskryminatora na %u
- #: src/readelf.c:9157
+ #: src/readelf.c:9500
  #, c-format
  msgid " set inlined context %u, function name %s (0x%x)\n"
 -msgstr ""
 +msgstr " ustawienie kontekstu inline %u, nazwa funkcji %s (0x%x)\n"
  
- #: src/readelf.c:9181
+ #: src/readelf.c:9524
 -#, fuzzy, c-format
 -#| msgid "Also show function names"
 +#, c-format
@@ -213,15 +213,15 @@
 +msgstr " ustawienie nazwy funkcji %s (0x%x)\n"
  
  #. Unknown, ignore it.
- #: src/readelf.c:9188
+ #: src/readelf.c:9531
 @@ -6128,7 +6094,7 @@ msgstr ""
- #: src/readelf.c:10668
+ #: src/readelf.c:11011
  msgctxt "debugstr"
  msgid "Offset"
 -msgstr ""
 +msgstr "Offset"
  
- #: src/readelf.c:10678
+ #: src/readelf.c:11021
  #, c-format
 @@ -6519,32 +6485,32 @@ msgstr "%s: nie rozpoznano formatu pliku
  #: src/size.c:327
@@ -333,12 +333,17 @@
 +"section IDENTYFIKATOR-KOPII NAZWA-SEKCJI\n"
 +"section ŚCIEŻKA NAZWA-SEKCJI\n"
  
- #: tests/backtrace.c:483
+ #: tests/backtrace.c:491
  msgid "Run executable"
-@@ -7538,39 +7496,3 @@ msgstr "Dodatkowo wyświetla nazwy funkc
+@@ -7538,44 +7496,3 @@ msgstr "Dodatkowo wyświetla nazwy funkc
  #: tests/dwflmodtest.c:210
  msgid "Show instances of inlined functions"
  msgstr "Wyświetla wystąpienia wstawionych funkcji"
+-
+-#, c-format
+-#~ msgid "section [%2d] '%s': section entry size does not match ElfXX_Rela\n"
+-#~ msgstr ""
+-#~ "sekcja [%2d] „%s”: rozmiar wpisu sekcji nie zgadza się z ElfXX_Rela\n"
 -
 -#, c-format
 -#~ msgid "cannot get .debug_addr section data: %s"

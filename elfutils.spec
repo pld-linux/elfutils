@@ -8,15 +8,14 @@
 Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl.UTF-8):	Zestaw narzędzi i bibliotek do obsługi skompilowanych obiektów
 Name:		elfutils
-Version:	0.189
+Version:	0.190
 Release:	1
 License:	GPL v2+ or LGPL v3+ (libraries), GPL v3+ (programs)
 Group:		Development/Tools
 Source0:	https://sourceware.org/elfutils/ftp/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	5cfaa711a90cb670406cd495aeaa6030
+# Source0-md5:	79ad698e61a052bea79e77df6a08bc4b
 Patch0:		%{name}-pl.po.patch
 Patch1:		%{name}-debian-manpages.patch
-Patch2:		%{name}-awk.patch
 Patch3:		%{name}-align.patch
 Patch4:		%{name}-paxflags.patch
 Patch5:		%{name}-sparc.patch
@@ -196,7 +195,6 @@ Plik nagłówkowy biblioteki debuginfod.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
