@@ -1,6 +1,18 @@
---- elfutils-0.189/po/pl.po.orig	2023-03-03 16:42:55.000000000 +0100
-+++ elfutils-0.189/po/pl.po	2023-03-03 20:22:54.127546013 +0100
-@@ -481,10 +481,8 @@ msgid "Invalid register"
+--- elfutils-0.191/po/pl.po.orig	2024-03-01 21:12:33.000000000 +0100
++++ elfutils-0.191/po/pl.po	2024-03-02 19:06:14.640036609 +0100
+@@ -303,10 +303,8 @@ msgid ".debug_addr section missing"
+ msgstr "brak sekcji .debug_addr"
+ 
+ #: libdw/dwarf_error.c:105
+-#, fuzzy
+-#| msgid "unknown version"
+ msgid "unknown section"
+-msgstr "nieznana wersja"
++msgstr "nieznana sekcja"
+ 
+ #: libdwfl/argp-std.c:45 src/stack.c:643 src/unstrip.c:2598
+ msgid "Input selection options:"
+@@ -487,10 +485,8 @@ msgid "Invalid register"
  msgstr "Nieprawidłowy rejestr"
  
  #: libdwfl/libdwflP.h:80
@@ -12,7 +24,7 @@
  
  #: libdwfl/libdwflP.h:81
  msgid "Error reading process memory"
-@@ -810,10 +808,8 @@ msgid "Show only base names of source fi
+@@ -816,10 +812,8 @@ msgid "Show only base names of source fi
  msgstr "Wyświetla tylko podstawowe nazwy plików źródłowych"
  
  #: src/addr2line.c:66
@@ -24,7 +36,7 @@
  
  #: src/addr2line.c:67
  msgid "Also show function names"
-@@ -845,21 +841,16 @@ msgstr ""
+@@ -851,21 +845,16 @@ msgstr ""
  "Wyświetla symbole z usuniętym dekorowaniem (PARAMETR jest zawsze ignorowany)"
  
  #: src/addr2line.c:76
@@ -48,7 +60,7 @@
  
  #: src/addr2line.c:82 src/elfcmp.c:69 src/findtextrel.c:65 src/nm.c:99
  #: src/strings.c:77
-@@ -1691,7 +1682,7 @@ msgstr "Opcję -t podano dwukrotnie"
+@@ -1697,7 +1686,7 @@ msgstr "Opcję -t podano dwukrotnie"
  #: src/elfcompress.c:147
  #, c-format
  msgid "ZSTD support is not enabled"
@@ -57,7 +69,7 @@
  
  #: src/elfcompress.c:150
  #, c-format
-@@ -1714,11 +1705,6 @@ msgid "Place (de)compressed output into
+@@ -1720,11 +1709,6 @@ msgid "Place (de)compressed output into
  msgstr "Umieszcza zdekompresowane wyjście w PLIKU"
  
  #: src/elfcompress.c:1411
@@ -69,7 +81,7 @@
  msgid ""
  "What type of compression to apply. TYPE can be 'none' (decompress), "
  "'zlib' (ELF ZLIB compression, the default, 'zlib-gabi' is an alias), 'zlib-"
-@@ -1726,8 +1712,8 @@ msgid ""
+@@ -1732,8 +1716,8 @@ msgid ""
  "compression)"
  msgstr ""
  "Typ stosowanej kompresji. TYP może wynosić „none” (dekompresja), "
@@ -80,7 +92,7 @@
  
  #: src/elfcompress.c:1415
  msgid ""
-@@ -4039,29 +4025,27 @@ msgstr ""
+@@ -4040,29 +4024,27 @@ msgstr ""
  "\n"
  
  #: src/nm.c:772
@@ -114,7 +126,7 @@
  
  #: src/nm.c:1245
  #, c-format
-@@ -4295,7 +4279,7 @@ msgstr "Wyświetla indeks symboli archiw
+@@ -4296,7 +4278,7 @@ msgstr "Wyświetla indeks symboli archiw
  
  #: src/readelf.c:142
  msgid "Use the dynamic segment when possible for displaying info"
@@ -123,7 +135,7 @@
  
  #: src/readelf.c:144
  msgid "Output control:"
-@@ -4445,10 +4429,8 @@ msgid "cannot read ELF: %s"
+@@ -4446,10 +4428,8 @@ msgid "cannot read ELF: %s"
  msgstr "nie można odczytać danych ELF: %s"
  
  #: src/readelf.c:1072
@@ -135,7 +147,7 @@
  
  #: src/readelf.c:1109
  msgid "NONE (None)"
-@@ -4816,15 +4798,7 @@ msgstr[2] ""
+@@ -4817,15 +4797,7 @@ msgstr[2] ""
  "'%s'\n"
  
  #: src/readelf.c:1902
@@ -152,7 +164,7 @@
  msgid ""
  "\n"
  "Dynamic segment contains %lu entry:\n"
-@@ -4836,28 +4810,23 @@ msgid_plural ""
+@@ -4837,28 +4809,23 @@ msgid_plural ""
  msgstr[0] ""
  "\n"
  "Segment dynamiczny zawiera %lu wpis:\n"
@@ -185,7 +197,16 @@
  
  #: src/readelf.c:1960
  #, c-format
-@@ -5301,10 +5270,8 @@ msgid "      %u: %s\n"
+@@ -5011,7 +4978,7 @@ msgstr "  Numer:          Wartość Rozm
+ 
+ #: src/readelf.c:3002
+ msgid "Dynamic symbol information is not available for displaying symbols."
+-msgstr ""
++msgstr "Informacje o symbolach dynamicznych nie są dostępne do wyświetlania symboli."
+ 
+ #: src/readelf.c:3102
+ msgid "none"
+@@ -5307,10 +5274,8 @@ msgid "      %u: %s\n"
  msgstr "      %u: %s\n"
  
  #: src/readelf.c:4222
@@ -197,7 +218,7 @@
  
  #: src/readelf.c:4287
  msgid "sprintf failure"
-@@ -5945,13 +5912,12 @@ msgstr " ustawienie dyskryminatora na %u
+@@ -5951,13 +5916,12 @@ msgstr " ustawienie dyskryminatora na %u
  #: src/readelf.c:9501
  #, c-format
  msgid " set inlined context %u, function name %s (0x%x)\n"
@@ -214,7 +235,7 @@
  
  #. Unknown, ignore it.
  #: src/readelf.c:9532
-@@ -6128,7 +6094,7 @@ msgstr ""
+@@ -6134,7 +6098,7 @@ msgstr ""
  #: src/readelf.c:11012
  msgctxt "debugstr"
  msgid "Offset"
@@ -223,7 +244,76 @@
  
  #: src/readelf.c:11022
  #, c-format
-@@ -6519,32 +6485,32 @@ msgstr "%s: nie rozpoznano formatu pliku
+@@ -6232,7 +6196,7 @@ msgstr ""
+ #: src/readelf.c:11537
+ #, c-format
+ msgid " Version:         %<PRId32>\n"
+-msgstr " Wersja:         %<PRId32>\n"
++msgstr " Wersja:          %<PRId32>\n"
+ 
+ #: src/readelf.c:11556
+ #, c-format
+@@ -6247,23 +6211,22 @@ msgstr " offset TU:       %#<PRIx32>\n"
+ #: src/readelf.c:11570
+ #, c-format
+ msgid " address offset:  %#<PRIx32>\n"
+-msgstr " offset adresu:  %#<PRIx32>\n"
++msgstr " offset adresu:   %#<PRIx32>\n"
+ 
+ #: src/readelf.c:11577
+ #, c-format
+ msgid " symbol offset:   %#<PRIx32>\n"
+-msgstr " offset symbolu:   %#<PRIx32>\n"
++msgstr " offset symbolu:  %#<PRIx32>\n"
+ 
+ #: src/readelf.c:11587
+-#, fuzzy, c-format
+-#| msgid " constant offset: %#<PRIx32>\n"
++#, c-format
+ msgid " shortcut offset: %#<PRIx32>\n"
+-msgstr " offset stałej: %#<PRIx32>\n"
++msgstr "   offset skrótu: %#<PRIx32>\n"
+ 
+ #: src/readelf.c:11595
+ #, c-format
+ msgid " constant offset: %#<PRIx32>\n"
+-msgstr " offset stałej: %#<PRIx32>\n"
++msgstr " offset stałej:   %#<PRIx32>\n"
+ 
+ #: src/readelf.c:11609
+ #, c-format
+@@ -6302,26 +6265,23 @@ msgstr ""
+ " Tabela symboli pod offsetem %#<PRIx32> zawiera %zu gniazd:\n"
+ 
+ #: src/readelf.c:11791
+-#, fuzzy, c-format
+-#| msgid ""
+-#| "\n"
+-#| " Symbol table at offset %#<PRIx32> contains %zu slots:\n"
++#, c-format
+ msgid ""
+ "\n"
+ "Shortcut table at offset %#<PRIx32> contains %zu slots:\n"
+ msgstr ""
+ "\n"
+-" Tabela symboli pod offsetem %#<PRIx32> zawiera %zu gniazd:\n"
++" Tabela skrótów pod offsetem %#<PRIx32> zawiera %zu gniazd:\n"
+ 
+ #: src/readelf.c:11803
+ #, c-format
+ msgid "Language of main: %s\n"
+-msgstr ""
++msgstr "Język funkcji głównej: %s\n"
+ 
+ #: src/readelf.c:11804
+ #, c-format
+ msgid "Name of main: "
+-msgstr ""
++msgstr "Nazwa funkcji głównej: "
+ 
+ #: src/readelf.c:11887
+ #, c-format
+@@ -6553,32 +6513,32 @@ msgstr "%s: nie rozpoznano formatu pliku
  #: src/size.c:327
  msgctxt "bsd"
  msgid "text"
@@ -262,7 +352,7 @@
  
  #: src/size.c:416 src/size.c:557
  #, c-format
-@@ -6552,26 +6518,24 @@ msgid " (ex %s)"
+@@ -6586,26 +6546,24 @@ msgid " (ex %s)"
  msgstr " (ex %s)"
  
  #: src/size.c:418
@@ -293,7 +383,7 @@
  
  #: src/size.c:479
  msgid "cannot get section header"
-@@ -7192,7 +7156,7 @@ msgstr "nie można zaktualizować nagł
+@@ -7226,7 +7184,7 @@ msgstr "nie można zaktualizować nagł�
  #: src/unstrip.c:464
  #, c-format
  msgid "gelf_getrel failed: %s"
@@ -302,7 +392,7 @@
  
  #: src/unstrip.c:467 src/unstrip.c:482
  #, c-format
-@@ -7202,7 +7166,7 @@ msgstr "nie można zaktualizować reloka
+@@ -7236,7 +7194,7 @@ msgstr "nie można zaktualizować reloka
  #: src/unstrip.c:479
  #, c-format
  msgid "gelf_getrela failed: %s"
@@ -311,7 +401,29 @@
  
  #: src/unstrip.c:580
  #, c-format
-@@ -7502,14 +7466,6 @@ msgstr "Żąda zawartość powiązaną z
+@@ -7265,18 +7223,15 @@ msgstr "nieprawidłowy offset ciągu w 
+ 
+ #: src/unstrip.c:939
+ msgid "found two identical index map positions."
+-msgstr ""
++msgstr "znaleziono dwie identyczne pozycje mapy indeksów"
+ 
+ #: src/unstrip.c:990
+ msgid "section symbols in unexpected order"
+-msgstr ""
++msgstr "symbole w sekcji w niespodziewanej kolejności"
+ 
+ #: src/unstrip.c:996
+-#, fuzzy
+-#| msgid "Show demangled symbols (ARG is always ignored)"
+ msgid "found two identical symbols"
+-msgstr ""
+-"Wyświetla symbole z usuniętym dekorowaniem (PARAMETR jest zawsze ignorowany)"
++msgstr "znaleziono dwa identyczne symbole"
+ 
+ #: src/unstrip.c:1066 src/unstrip.c:1474
+ #, c-format
+@@ -7551,14 +7506,6 @@ msgstr "Żąda zawartość powiązaną z
  
  #. Strings for arguments in help texts.
  #: debuginfod/debuginfod-find.c:46
@@ -326,7 +438,7 @@
  msgid ""
  "debuginfo BUILDID\n"
  "debuginfo PATH\n"
-@@ -7526,6 +7482,8 @@ msgstr ""
+@@ -7575,6 +7522,8 @@ msgstr ""
  "executable ŚCIEŻKA\n"
  "source IDENTYFIKATOR-KOPII /NAZWA-PLIKU\n"
  "source ŚCIEŻKA /NAZWA-PLIKU\n"
@@ -335,7 +447,7 @@
  
  #: tests/backtrace.c:491
  msgid "Run executable"
-@@ -7538,44 +7496,3 @@ msgstr "Dodatkowo wyświetla nazwy funkc
+@@ -7587,44 +7536,3 @@ msgstr "Dodatkowo wyświetla nazwy funkc
  #: tests/dwflmodtest.c:210
  msgid "Show instances of inlined functions"
  msgstr "Wyświetla wystąpienia wstawionych funkcji"
