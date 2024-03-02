@@ -188,23 +188,23 @@
 @@ -5301,10 +5270,8 @@ msgid "      %u: %s\n"
  msgstr "      %u: %s\n"
  
- #: src/readelf.c:4221
+ #: src/readelf.c:4222
 -#, fuzzy
 -#| msgid "couldn't get shdr for group section: %s"
  msgid "Couldn't get data from section"
 -msgstr "nie można uzyskać shdr dla sekcji grupy: %s"
 +msgstr "Nie można uzyskać danych z sekcji"
  
- #: src/readelf.c:4286
+ #: src/readelf.c:4287
  msgid "sprintf failure"
 @@ -5945,13 +5912,12 @@ msgstr " ustawienie dyskryminatora na %u
- #: src/readelf.c:9500
+ #: src/readelf.c:9501
  #, c-format
  msgid " set inlined context %u, function name %s (0x%x)\n"
 -msgstr ""
 +msgstr " ustawienie kontekstu inline %u, nazwa funkcji %s (0x%x)\n"
  
- #: src/readelf.c:9524
+ #: src/readelf.c:9525
 -#, fuzzy, c-format
 -#| msgid "Also show function names"
 +#, c-format
@@ -213,15 +213,15 @@
 +msgstr " ustawienie nazwy funkcji %s (0x%x)\n"
  
  #. Unknown, ignore it.
- #: src/readelf.c:9531
+ #: src/readelf.c:9532
 @@ -6128,7 +6094,7 @@ msgstr ""
- #: src/readelf.c:11011
+ #: src/readelf.c:11012
  msgctxt "debugstr"
  msgid "Offset"
 -msgstr ""
 +msgstr "Offset"
  
- #: src/readelf.c:11021
+ #: src/readelf.c:11022
  #, c-format
 @@ -6519,32 +6485,32 @@ msgstr "%s: nie rozpoznano formatu pliku
  #: src/size.c:327
