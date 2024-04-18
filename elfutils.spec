@@ -9,7 +9,7 @@ Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl.UTF-8):	Zestaw narzędzi i bibliotek do obsługi skompilowanych obiektów
 Name:		elfutils
 Version:	0.191
-Release:	1
+Release:	2
 License:	GPL v2+ or LGPL v3+ (libraries), GPL v3+ (programs)
 Group:		Development/Tools
 Source0:	https://sourceware.org/elfutils/ftp/%{version}/%{name}-%{version}.tar.bz2
@@ -47,8 +47,7 @@ BuildRequires:	libarchive-devel >= 3.1.2
 BuildRequires:	libmicrohttpd-devel >= 0.9.33
 BuildRequires:	sqlite3-devel >= 3.7.17
 %endif
-Requires:	%{name}-libelf = %{version}-%{release}
-Requires:	zstd >= 1.4.0
+Requires:	%{name}-libs = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 # fails to build with -Wl,-s
@@ -65,24 +64,35 @@ Elfutils is a collection of utilities, including ld (a linker), nm
 (for listing symbols from object files), size (for listing the section
 sizes of an object or archive file), strip (for discarding symbols),
 readline (the see the raw ELF file structures), and elflint (to check
-for well-formed ELF files). Also included are numerous helper
-libraries which implement DWARF, ELF, and machine-specific ELF
-handling.
+for well-formed ELF files).
 
 %description -l pl.UTF-8
 Elfutils to zestaw narzędzi, składający się z ld (linkera), nm (do
 listowania symboli z plików obiektów), size (do listowania rozmiarów
 sekcji plików obiektów lub archiwów), strip (do usuwania symboli),
 readline (do oglądania surowych struktur plików ELF) oraz elflint (do
-sprawdzania poprawności plików ELF). Dołączone są także liczne
-biblioteki pomocnicze z zaimplementowaną obsługą DWARF, ELF i ELF
-specyficznych dla architektury.
+sprawdzania poprawności plików ELF).
+
+%package libs
+Summary:	Libraries to handle compiled objects
+Summary(pl.UTF-8):	Biblioteki do obsługi skompilowanych obiektów
+Group:		Libraries
+Requires:	%{name}-libelf = %{version}-%{release}
+Requires:	zstd >= 1.4.0
+
+%description libs
+Libraries which implement DWARF, ELF, and machine-specific ELF
+handling.
+
+%description libs -l pl.UTF-8
+Biblioteki z zaimplementowaną obsługą DWARF, ELF i ELF specyficznych
+dla architektury.
 
 %package devel
 Summary:	Development part of libraries to handle compiled objects
 Summary(pl.UTF-8):	Część programistyczna bibliotek do obsługi skompilowanych obiektów
 Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}-libs = %{version}-%{release}
 Requires:	bzip2-devel
 Requires:	xz-devel
 Requires:	zlib-devel
@@ -152,7 +162,7 @@ asemblera.
 Summary:	debuginfod server and client
 Summary(pl.UTF-8):	Serwer i klient debuginfod
 Group:		Libraries
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}-libs = %{version}-%{release}
 Requires:	%{name}-debuginfod-libs = %{version}-%{release}
 Requires:	libarchive >= 3.1.2
 Requires:	libmicrohttpd >= 0.9.33
@@ -253,8 +263,8 @@ ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/libelf-*.so) \
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post	-p /sbin/ldconfig
-%postun	-p /sbin/ldconfig
+%post	libs -p /sbin/ldconfig
+%postun	libs -p /sbin/ldconfig
 
 %post	libelf -p /sbin/ldconfig
 %postun	libelf -p /sbin/ldconfig
@@ -266,11 +276,14 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS CONTRIBUTING ChangeLog NEWS NOTES README THANKS TODO
 %attr(755,root,root) %{_bindir}/eu-*
+%{_mandir}/man1/eu-*.1*
+
+%files libs
+%defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libasm-*.so
 %attr(755,root,root) %ghost %{_libdir}/libasm.so.1
 %attr(755,root,root) %{_libdir}/libdw-*.so
 %attr(755,root,root) %ghost %{_libdir}/libdw.so.1
-%{_mandir}/man1/eu-*.1*
 
 %files devel
 %defattr(644,root,root,755)
