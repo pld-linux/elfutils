@@ -1,8 +1,8 @@
 --- elfutils-0.187/tests/Makefile.am.orig	2022-04-25 22:56:39.000000000 +0200
 +++ elfutils-0.187/tests/Makefile.am	2022-04-27 00:07:17.549585252 +0200
 @@ -151,8 +151,8 @@
- 	run-addr2line-i-test.sh run-addr2line-i-lex-test.sh \
  	run-addr2line-i-demangle-test.sh run-addr2line-alt-debugpath.sh \
+ 	run-funcretval-struct.sh \
  	run-varlocs.sh run-exprlocs.sh run-varlocs-vars.sh run-funcretval.sh \
 -	run-backtrace-native.sh run-backtrace-data.sh run-backtrace-dwarf.sh \
 -	run-backtrace-native-biarch.sh run-backtrace-native-core.sh \

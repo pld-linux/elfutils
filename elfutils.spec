@@ -8,12 +8,12 @@
 Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl.UTF-8):	Zestaw narzędzi i bibliotek do obsługi skompilowanych obiektów
 Name:		elfutils
-Version:	0.191
-Release:	2
+Version:	0.192
+Release:	1
 License:	GPL v2+ or LGPL v3+ (libraries), GPL v3+ (programs)
 Group:		Development/Tools
 Source0:	https://sourceware.org/elfutils/ftp/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	636547248fb3fae58ec48030298d3ef7
+# Source0-md5:	a6bb1efc147302cfc15b5c2b827f186a
 Patch0:		%{name}-pl.po.patch
 Patch1:		%{name}-debian-manpages.patch
 Patch3:		%{name}-align.patch
@@ -43,6 +43,7 @@ BuildRequires:	MOUNTED_PROC
 %endif
 %if %{with debuginfod}
 BuildRequires:	curl-devel >= 7.29.0
+BuildRequires:	json-c-devel >= 0.11
 BuildRequires:	libarchive-devel >= 3.1.2
 BuildRequires:	libmicrohttpd-devel >= 0.9.33
 BuildRequires:	sqlite3-devel >= 3.7.17
@@ -164,6 +165,7 @@ Summary(pl.UTF-8):	Serwer i klient debuginfod
 Group:		Libraries
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	%{name}-debuginfod-libs = %{version}-%{release}
+Requires:	json-c >= 0.11
 Requires:	libarchive >= 3.1.2
 Requires:	libmicrohttpd >= 0.9.33
 Requires:	sqlite3-libs >= 3.7.17
@@ -180,6 +182,7 @@ Summary(pl.UTF-8):	Biblioteka debuginfod
 Group:		Libraries
 Requires:	%{name}-libelf = %{version}-%{release}
 Requires:	curl-libs >= 7.29.0
+Requires:	json-c >= 0.11
 Conflicts:	elfutils-debuginfod < 0.187-3
 
 %description debuginfod-libs
@@ -304,10 +307,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/elfutils/version.h
 %{_pkgconfigdir}/libdw.pc
 %{_pkgconfigdir}/libelf.pc
-%{_mandir}/man3/elf_begin.3*
-%{_mandir}/man3/elf_clone.3*
-%{_mandir}/man3/elf_getdata.3*
-%{_mandir}/man3/elf_update.3*
+%{_mandir}/man3/elf*.3*
+%{_mandir}/man3/libelf.3*
 
 %files libelf -f %{name}.lang
 %defattr(644,root,root,755)
