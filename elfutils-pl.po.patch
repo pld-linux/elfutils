@@ -1,5 +1,5 @@
---- elfutils-0.191/po/pl.po.orig	2024-03-01 21:12:33.000000000 +0100
-+++ elfutils-0.191/po/pl.po	2024-03-02 19:06:14.640036609 +0100
+--- elfutils-0.192/po/pl.po.orig	2024-10-18 21:04:02.000000000 +0200
++++ elfutils-0.192/po/pl.po	2024-10-25 17:02:21.811229805 +0200
 @@ -303,10 +303,8 @@ msgid ".debug_addr section missing"
  msgstr "brak sekcji .debug_addr"
  
@@ -383,7 +383,24 @@
  
  #: src/size.c:479
  msgid "cannot get section header"
-@@ -7226,7 +7184,7 @@ msgstr "nie można zaktualizować nagł
+@@ -6710,6 +6668,7 @@ msgstr "Wyświetla identyfikator kopii m
+ msgid ""
+ "Show the backtrace method for each frame (eh_frame, dwarf, inline, or ebl)"
+ msgstr ""
++"Wyświetla metodę śladu stosu dla każdej ramki (eh_frame, dwarf, inline lub ebl)"
+ 
+ #: src/stack.c:696
+ msgid "Show the backtrace of only one thread"
+@@ -6729,7 +6688,7 @@ msgstr ""
+ 
+ #: src/stack.c:702
+ msgid "Set the sysroot to search for libraries referenced from the core file"
+-msgstr ""
++msgstr "Ustawia główny katalog systemowy do wyszukiwania bibliotek wskazanych w pliku core"
+ 
+ #: src/stack.c:710
+ msgid ""
+@@ -7235,7 +7194,7 @@ msgstr "nie można zaktualizować nagł
  #: src/unstrip.c:464
  #, c-format
  msgid "gelf_getrel failed: %s"
@@ -392,7 +409,7 @@
  
  #: src/unstrip.c:467 src/unstrip.c:482
  #, c-format
-@@ -7236,7 +7194,7 @@ msgstr "nie można zaktualizować reloka
+@@ -7245,7 +7204,7 @@ msgstr "nie można zaktualizować reloka
  #: src/unstrip.c:479
  #, c-format
  msgid "gelf_getrela failed: %s"
@@ -401,7 +418,7 @@
  
  #: src/unstrip.c:580
  #, c-format
-@@ -7265,18 +7223,15 @@ msgstr "nieprawidłowy offset ciągu w 
+@@ -7274,18 +7233,15 @@ msgstr "nieprawidłowy offset ciągu w 
  
  #: src/unstrip.c:939
  msgid "found two identical index map positions."
@@ -423,7 +440,7 @@
  
  #: src/unstrip.c:1066 src/unstrip.c:1474
  #, c-format
-@@ -7551,14 +7506,6 @@ msgstr "Żąda zawartość powiązaną z
+@@ -7560,14 +7516,6 @@ msgstr "Żąda zawartość powiązaną z
  
  #. Strings for arguments in help texts.
  #: debuginfod/debuginfod-find.c:48
@@ -438,7 +455,7 @@
  msgid ""
  "debuginfo BUILDID\n"
  "debuginfo PATH\n"
-@@ -7575,6 +7522,8 @@ msgstr ""
+@@ -7585,6 +7533,8 @@ msgstr ""
  "executable ŚCIEŻKA\n"
  "source IDENTYFIKATOR-KOPII /NAZWA-PLIKU\n"
  "source ŚCIEŻKA /NAZWA-PLIKU\n"
@@ -447,7 +464,7 @@
  
  #: tests/backtrace.c:491
  msgid "Run executable"
-@@ -7587,44 +7536,3 @@ msgstr "Dodatkowo wyświetla nazwy funkc
+@@ -7597,44 +7547,3 @@ msgstr "Dodatkowo wyświetla nazwy funkc
  #: tests/dwflmodtest.c:210
  msgid "Show instances of inlined functions"
  msgstr "Wyświetla wystąpienia wstawionych funkcji"

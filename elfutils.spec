@@ -333,6 +333,8 @@ rm -rf $RPM_BUILD_ROOT
 #%{_mandir}/man8/debuginfod.service.8*
 %attr(755,root,root) /etc/profile.d/debuginfod.sh
 %attr(755,root,root) /etc/profile.d/debuginfod.csh
+# TODO: (but dir owned by fish currently)
+#%{_datadir}/fish/vendor_conf.d/debuginfod.fish
 
 %files debuginfod-libs
 %defattr(644,root,root,755)
