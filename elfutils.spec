@@ -8,12 +8,12 @@
 Summary:	A collection of utilities and DSOs to handle compiled objects
 Summary(pl.UTF-8):	Zestaw narzędzi i bibliotek do obsługi skompilowanych obiektów
 Name:		elfutils
-Version:	0.192
+Version:	0.193
 Release:	1
 License:	GPL v2+ or LGPL v3+ (libraries), GPL v3+ (programs)
 Group:		Development/Tools
 Source0:	https://sourceware.org/elfutils/ftp/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	a6bb1efc147302cfc15b5c2b827f186a
+# Source0-md5:	ceefa052ded950a4c523688799193a44
 Patch0:		%{name}-pl.po.patch
 Patch1:		%{name}-debian-manpages.patch
 Patch3:		%{name}-align.patch
@@ -21,7 +21,7 @@ Patch4:		%{name}-paxflags.patch
 Patch5:		%{name}-sparc.patch
 Patch6:		disable-tests.patch
 URL:		https://sourceware.org/elfutils/
-BuildRequires:	autoconf >= 2.63
+BuildRequires:	autoconf >= 2.69
 BuildRequires:	automake >= 1:1.11
 %{?with_tests:BuildRequires:	bsdtar}
 BuildRequires:	bzip2-devel
@@ -304,6 +304,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/elfutils/libdw.h
 %{_includedir}/elfutils/libdwelf.h
 %{_includedir}/elfutils/libdwfl.h
+%{_includedir}/elfutils/libdwfl_stacktrace.h
 %{_includedir}/elfutils/version.h
 %{_pkgconfigdir}/libdw.pc
 %{_pkgconfigdir}/libelf.pc

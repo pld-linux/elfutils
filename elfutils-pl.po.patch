@@ -80,7 +80,7 @@
 -#| "'zlib-gnu' (.zdebug GNU style compression, 'gnu' is an alias)"
  msgid ""
  "What type of compression to apply. TYPE can be 'none' (decompress), 'zlib' "
- "(ELF ZLIB compression, the default, 'zlib-gabi' is an alias), 'zlib-gnu' (."
+ "(ELF ZLIB compression, the default, 'zlib-gabi' is an alias), 'zlib-gnu' "
 @@ -1732,8 +1716,8 @@ msgid ""
  "compression)"
  msgstr ""
@@ -138,19 +138,19 @@
 @@ -4446,10 +4428,8 @@ msgid "cannot read ELF: %s"
  msgstr "nie można odczytać danych ELF: %s"
  
- #: src/readelf.c:1072
+ #: src/readelf.c:1073
 -#, fuzzy
 -#| msgid "cannot get section: %s"
  msgid "cannot find section"
 -msgstr "nie można uzyskać sekcji: %s"
 +msgstr "nie można odnaleźć sekcji"
  
- #: src/readelf.c:1109
+ #: src/readelf.c:1110
  msgid "NONE (None)"
 @@ -4817,15 +4797,7 @@ msgstr[2] ""
  "'%s'\n"
  
- #: src/readelf.c:1902
+ #: src/readelf.c:1913
 -#, fuzzy, c-format
 -#| msgid ""
 -#| "\n"
@@ -184,48 +184,48 @@
 -"'%s'\n"
 +" Adres: %#0*<PRIx64>  Offset: %#08<PRIx64>\n"
  
- #: src/readelf.c:1912
+ #: src/readelf.c:1923
  msgid "  Type              Value\n"
  msgstr "  Typ               Wartość\n"
  
- #: src/readelf.c:1921
+ #: src/readelf.c:1932
 -#, fuzzy
 -#| msgid "cannot get string section data: %s"
  msgid "cannot get string table by using dynamic segment"
 -msgstr "nie można uzyskać danych sekcji ciągów: %s"
 +msgstr "nie można uzyskać tablicy łańcuchów przy użyciu segmentu dynamicznego"
  
- #: src/readelf.c:1960
+ #: src/readelf.c:1971
  #, c-format
 @@ -5011,7 +4978,7 @@ msgstr "  Numer:          Wartość Rozm
  
- #: src/readelf.c:3002
+ #: src/readelf.c:3039
  msgid "Dynamic symbol information is not available for displaying symbols."
 -msgstr ""
 +msgstr "Informacje o symbolach dynamicznych nie są dostępne do wyświetlania symboli."
  
- #: src/readelf.c:3102
+ #: src/readelf.c:3139
  msgid "none"
 @@ -5307,10 +5274,8 @@ msgid "      %u: %s\n"
  msgstr "      %u: %s\n"
  
- #: src/readelf.c:4223
+ #: src/readelf.c:4260
 -#, fuzzy
 -#| msgid "couldn't get shdr for group section: %s"
  msgid "Couldn't get data from section"
 -msgstr "nie można uzyskać shdr dla sekcji grupy: %s"
 +msgstr "Nie można uzyskać danych z sekcji"
  
- #: src/readelf.c:4288
+ #: src/readelf.c:4325
  msgid "sprintf failure"
 @@ -5951,13 +5916,12 @@ msgstr " ustawienie dyskryminatora na %u
- #: src/readelf.c:9503
+ #: src/readelf.c:9566
  #, c-format
  msgid " set inlined context %u, function name %s (0x%x)\n"
 -msgstr ""
 +msgstr " ustawienie kontekstu inline %u, nazwa funkcji %s (0x%x)\n"
  
- #: src/readelf.c:9527
+ #: src/readelf.c:9590
 -#, fuzzy, c-format
 -#| msgid "Also show function names"
 +#, c-format
@@ -234,39 +234,39 @@
 +msgstr " ustawienie nazwy funkcji %s (0x%x)\n"
  
  #. Unknown, ignore it.
- #: src/readelf.c:9534
+ #: src/readelf.c:9597
 @@ -6134,7 +6098,7 @@ msgstr ""
- #: src/readelf.c:11006
+ #: src/readelf.c:11069
  msgctxt "debugstr"
  msgid "Offset"
 -msgstr ""
 +msgstr "Offset"
  
- #: src/readelf.c:11016
+ #: src/readelf.c:11079
  #, c-format
 @@ -6232,7 +6196,7 @@ msgstr ""
- #: src/readelf.c:11531
+ #: src/readelf.c:11594
  #, c-format
  msgid " Version:         %<PRId32>\n"
 -msgstr " Wersja:         %<PRId32>\n"
 +msgstr " Wersja:          %<PRId32>\n"
  
- #: src/readelf.c:11550
+ #: src/readelf.c:11613
  #, c-format
 @@ -6247,23 +6211,22 @@ msgstr " offset TU:       %#<PRIx32>\n"
- #: src/readelf.c:11564
+ #: src/readelf.c:11627
  #, c-format
  msgid " address offset:  %#<PRIx32>\n"
 -msgstr " offset adresu:  %#<PRIx32>\n"
 +msgstr " offset adresu:   %#<PRIx32>\n"
  
- #: src/readelf.c:11571
+ #: src/readelf.c:11634
  #, c-format
  msgid " symbol offset:   %#<PRIx32>\n"
 -msgstr " offset symbolu:   %#<PRIx32>\n"
 +msgstr " offset symbolu:  %#<PRIx32>\n"
  
- #: src/readelf.c:11581
+ #: src/readelf.c:11644
 -#, fuzzy, c-format
 -#| msgid " constant offset: %#<PRIx32>\n"
 +#, c-format
@@ -274,18 +274,18 @@
 -msgstr " offset stałej: %#<PRIx32>\n"
 +msgstr "   offset skrótu: %#<PRIx32>\n"
  
- #: src/readelf.c:11589
+ #: src/readelf.c:11652
  #, c-format
  msgid " constant offset: %#<PRIx32>\n"
 -msgstr " offset stałej: %#<PRIx32>\n"
 +msgstr " offset stałej:   %#<PRIx32>\n"
  
- #: src/readelf.c:11603
+ #: src/readelf.c:11666
  #, c-format
 @@ -6302,26 +6265,23 @@ msgstr ""
  " Tabela symboli pod offsetem %#<PRIx32> zawiera %zu gniazd:\n"
  
- #: src/readelf.c:11785
+ #: src/readelf.c:11848
 -#, fuzzy, c-format
 -#| msgid ""
 -#| "\n"
@@ -299,19 +299,19 @@
 -" Tabela symboli pod offsetem %#<PRIx32> zawiera %zu gniazd:\n"
 +" Tabela skrótów pod offsetem %#<PRIx32> zawiera %zu gniazd:\n"
  
- #: src/readelf.c:11797
+ #: src/readelf.c:11860
  #, c-format
  msgid "Language of main: %s\n"
 -msgstr ""
 +msgstr "Język funkcji głównej: %s\n"
  
- #: src/readelf.c:11798
+ #: src/readelf.c:11861
  #, c-format
  msgid "Name of main: "
 -msgstr ""
 +msgstr "Nazwa funkcji głównej: "
  
- #: src/readelf.c:11881
+ #: src/readelf.c:11944
  #, c-format
 @@ -6553,32 +6513,32 @@ msgstr "%s: nie rozpoznano formatu pliku
  #: src/size.c:327
