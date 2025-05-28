@@ -1,5 +1,5 @@
---- elfutils-0.192/po/pl.po.orig	2024-10-18 21:04:02.000000000 +0200
-+++ elfutils-0.192/po/pl.po	2024-10-25 17:02:21.811229805 +0200
+--- elfutils-0.193/po/pl.po.orig	2025-04-25 22:16:40.000000000 +0200
++++ elfutils-0.193/po/pl.po	2025-05-28 18:32:32.844524796 +0200
 @@ -303,10 +303,8 @@ msgid ".debug_addr section missing"
  msgstr "brak sekcji .debug_addr"
  
@@ -400,7 +400,16 @@
  
  #: src/stack.c:710
  msgid ""
-@@ -7235,7 +7194,7 @@ msgstr "nie można zaktualizować nagł
+@@ -6977,7 +6936,7 @@ msgstr "nie można utworzyć nowego phdr
+ #: src/strip.c:1153
+ #, c-format
+ msgid "Ignoring --reloc-debug-sections-only for non-ET_REL file '%s'"
+-msgstr ""
++msgstr "Ignorowanie --reloc-debug-sections-only dla pliku nie-ET_REL '%s'"
+ 
+ #: src/strip.c:1263
+ #, c-format
+@@ -7241,7 +7200,7 @@ msgstr "nie można zaktualizować nagł�
  #: src/unstrip.c:464
  #, c-format
  msgid "gelf_getrel failed: %s"
@@ -409,7 +418,7 @@
  
  #: src/unstrip.c:467 src/unstrip.c:482
  #, c-format
-@@ -7245,7 +7204,7 @@ msgstr "nie można zaktualizować reloka
+@@ -7251,7 +7210,7 @@ msgstr "nie można zaktualizować reloka
  #: src/unstrip.c:479
  #, c-format
  msgid "gelf_getrela failed: %s"
@@ -418,7 +427,7 @@
  
  #: src/unstrip.c:580
  #, c-format
-@@ -7274,18 +7233,15 @@ msgstr "nieprawidłowy offset ciągu w 
+@@ -7280,18 +7239,15 @@ msgstr "nieprawidłowy offset ciągu w 
  
  #: src/unstrip.c:939
  msgid "found two identical index map positions."
@@ -440,7 +449,7 @@
  
  #: src/unstrip.c:1066 src/unstrip.c:1474
  #, c-format
-@@ -7560,14 +7516,6 @@ msgstr "Żąda zawartość powiązaną z
+@@ -7566,14 +7522,6 @@ msgstr "Żąda zawartość powiązaną z
  
  #. Strings for arguments in help texts.
  #: debuginfod/debuginfod-find.c:48
@@ -455,7 +464,7 @@
  msgid ""
  "debuginfo BUILDID\n"
  "debuginfo PATH\n"
-@@ -7585,6 +7533,8 @@ msgstr ""
+@@ -7591,6 +7539,8 @@ msgstr ""
  "executable ŚCIEŻKA\n"
  "source IDENTYFIKATOR-KOPII /NAZWA-PLIKU\n"
  "source ŚCIEŻKA /NAZWA-PLIKU\n"
@@ -464,7 +473,7 @@
  
  #: tests/backtrace.c:491
  msgid "Run executable"
-@@ -7597,44 +7547,3 @@ msgstr "Dodatkowo wyświetla nazwy funkc
+@@ -7603,44 +7553,3 @@ msgstr "Dodatkowo wyświetla nazwy funkc
  #: tests/dwflmodtest.c:210
  msgid "Show instances of inlined functions"
  msgstr "Wyświetla wystąpienia wstawionych funkcji"
