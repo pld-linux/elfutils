@@ -58,6 +58,8 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		specflags	-g
 %endif
 
+%define		filterout_cpp	-DNDEBUG
+
 %define		programprefix	eu-
 
 %description
