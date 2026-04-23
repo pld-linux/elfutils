@@ -48,7 +48,7 @@ BuildRequires:	libarchive-devel >= 3.1.2
 BuildRequires:	libmicrohttpd-devel >= 0.9.33
 BuildRequires:	sqlite3-devel >= 3.7.17
 %endif
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 # fails to build with -Wl,-s
@@ -80,8 +80,8 @@ sprawdzania poprawności plików ELF).
 Summary:	Libraries to handle compiled objects
 Summary(pl.UTF-8):	Biblioteki do obsługi skompilowanych obiektów
 Group:		Libraries
-Requires:	%{name}-libelf = %{version}-%{release}
-Requires:	zstd >= 1.4.0
+Requires:	%{name}-libelf%{?_isa} = %{version}-%{release}
+Requires:	zstd%{?_isa} >= 1.4.0
 
 %description libs
 Libraries which implement DWARF, ELF, and machine-specific ELF
@@ -95,11 +95,11 @@ dla architektury.
 Summary:	Development part of libraries to handle compiled objects
 Summary(pl.UTF-8):	Część programistyczna bibliotek do obsługi skompilowanych obiektów
 Group:		Development/Libraries
-Requires:	%{name}-libs = %{version}-%{release}
-Requires:	bzip2-devel
-Requires:	xz-devel
-Requires:	zlib-devel
-Requires:	zstd-devel >= 1.4.0
+Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
+Requires:	bzip2-devel%{?_isa}
+Requires:	xz-devel%{?_isa}
+Requires:	zlib-devel%{?_isa}
+Requires:	zstd-devel%{?_isa} >= 1.4.0
 Obsoletes:	libelf-devel < 0.8.14
 Obsoletes:	libelf0-devel < 0.8.14
 
@@ -141,8 +141,8 @@ pakietu elfutils używają jej także do generowania nowych plików ELF.
 Summary:	Static libraries to handle compiled objects
 Summary(pl.UTF-8):	Statyczne biblioteki do obsługi skompilowanych obiektów
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}-%{release}
-Requires:	zstd >= 1.4.0
+Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
+Requires:	zstd%{?_isa} >= 1.4.0
 Obsoletes:	libelf-static < 0.8.14
 
 %description static
@@ -165,12 +165,12 @@ asemblera.
 Summary:	debuginfod server and client
 Summary(pl.UTF-8):	Serwer i klient debuginfod
 Group:		Libraries
-Requires:	%{name}-libs = %{version}-%{release}
-Requires:	%{name}-debuginfod-libs = %{version}-%{release}
-Requires:	json-c >= 0.11
-Requires:	libarchive >= 3.1.2
-Requires:	libmicrohttpd >= 0.9.33
-Requires:	sqlite3-libs >= 3.7.17
+Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
+Requires:	%{name}-debuginfod-libs%{?_isa} = %{version}-%{release}
+Requires:	json-c%{?_isa} >= 0.11
+Requires:	libarchive%{?_isa} >= 3.1.2
+Requires:	libmicrohttpd%{?_isa} >= 0.9.33
+Requires:	sqlite3-libs%{?_isa} >= 3.7.17
 
 %description debuginfod
 debuginfod server and client.
@@ -182,9 +182,9 @@ Serwer i klient debuginfod.
 Summary:	debuginfod library
 Summary(pl.UTF-8):	Biblioteka debuginfod
 Group:		Libraries
-Requires:	%{name}-libelf = %{version}-%{release}
-Requires:	curl-libs >= 7.29.0
-Requires:	json-c >= 0.11
+Requires:	%{name}-libelf%{?_isa} = %{version}-%{release}
+Requires:	curl-libs%{?_isa} >= 7.29.0
+Requires:	json-c%{?_isa} >= 0.11
 Conflicts:	elfutils-debuginfod < 0.187-3
 
 %description debuginfod-libs
@@ -197,8 +197,8 @@ Biblioteka debuginfod.
 Summary:	Header file for debuginfod library
 Summary(pl.UTF-8):	Plik nagłówkowy biblioteki debuginfod
 Group:		Development/Libraries
-Requires:	%{name}-debuginfod-libs = %{version}-%{release}
-Requires:	%{name}-devel = %{version}-%{release}
+Requires:	%{name}-debuginfod-libs%{?_isa} = %{version}-%{release}
+Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
 
 %description debuginfod-devel
 Header file for debuginfod library.
