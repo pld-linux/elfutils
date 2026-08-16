@@ -1,42 +1,42 @@
---- elfutils-0.194/po/pl.po.orig	2025-10-25 03:33:26.000000000 +0200
-+++ elfutils-0.194/po/pl.po	2025-11-01 11:12:07.054966369 +0100
-@@ -6452,7 +6249,7 @@ msgstr ""
- #: src/readelf.c:11940
+--- elfutils-0.196/po/pl.po.orig	2026-08-14 22:17:07.000000000 +0200
++++ elfutils-0.196/po/pl.po	2026-08-16 19:25:17.427469933 +0200
+@@ -6281,7 +6281,7 @@ msgstr ""
+ #: src/readelf.c:11941
  #, c-format
  msgid " Version:         %<PRId32>\n"
 -msgstr " Wersja:         %<PRId32>\n"
 +msgstr " Wersja:          %<PRId32>\n"
  
- #: src/readelf.c:11959
+ #: src/readelf.c:11960
  #, c-format
-@@ -6467,22 +6264,22 @@ msgstr " offset TU:       %#<PRIx32>\n"
- #: src/readelf.c:11973
+@@ -6296,22 +6296,22 @@ msgstr " offset TU:       %#<PRIx32>\n"
+ #: src/readelf.c:11974
  #, c-format
  msgid " address offset:  %#<PRIx32>\n"
 -msgstr " offset adresu:  %#<PRIx32>\n"
 +msgstr " offset adresu:   %#<PRIx32>\n"
  
- #: src/readelf.c:11980
+ #: src/readelf.c:11981
  #, c-format
  msgid " symbol offset:   %#<PRIx32>\n"
 -msgstr " offset symbolu:   %#<PRIx32>\n"
 +msgstr " offset symbolu:  %#<PRIx32>\n"
  
- #: src/readelf.c:11990
+ #: src/readelf.c:11991
  #, c-format
  msgid " shortcut offset: %#<PRIx32>\n"
 -msgstr " offset skrótu: %#<PRIx32>\n"
 +msgstr "   offset skrótu: %#<PRIx32>\n"
  
- #: src/readelf.c:11998
+ #: src/readelf.c:11999
  #, c-format
  msgid " constant offset: %#<PRIx32>\n"
 -msgstr " offset stałej: %#<PRIx32>\n"
 +msgstr " offset stałej:   %#<PRIx32>\n"
  
- #: src/readelf.c:12012
+ #: src/readelf.c:12013
  #, c-format
-@@ -7792,17 +7579,6 @@ msgstr "Żąda zawartość powiązaną z
+@@ -7812,17 +7812,6 @@ msgstr "Żąda zawartość powiązaną z
  
  #. Strings for arguments in help texts.
  #: debuginfod/debuginfod-find.c:49
@@ -54,10 +54,134 @@
  msgid ""
  "debuginfo BUILDID\n"
  "debuginfo PATH\n"
-@@ -7829,7 +7610,3 @@ msgstr "Dodatkowo wyświetla nazwy funkc
+@@ -7855,131 +7844,3 @@ msgstr "Dodatkowo wyświetla nazwy funkc
  #: tests/dwflmodtest.c:210
  msgid "Show instances of inlined functions"
  msgstr "Wyświetla wystąpienia wstawionych funkcji"
+-
+-#, c-format
+-#~ msgid "Resized Dwfl table from %ld to %ld, copied %ld entries\n"
+-#~ msgstr "Zmieniono rozmiar tabeli Dwfl z %ld na %ld, skopiowano %ld wpisów\n"
+-
+-#, c-format
+-#~ msgid "Write error to file or FIFO '%s'"
+-#~ msgstr "Błąd zapisu do pliku lub FIFO „%s”"
+-
+-#, c-format
+-#~ msgid "sysprof_unwind_frame_cb: sample exceeded maxframes %d\n"
+-#~ msgstr ""
+-#~ "sysprof_unwind_frame_cb: próbka przekroczyła maksymalna liczbę ramek %d\n"
+-
+-#, c-format
+-#~ msgid "sysprof_unwind_cb pid %lld (%s): callchain sample with %d frames\n"
+-#~ msgstr ""
+-#~ "sysprof_unwind_cb PID %lld (%s): próbka łańcucha wywołań z %d ramkami\n"
+-
+-#, c-format
+-#~ msgid "sysprof_unwind_cb pid %lld (%s): could not create Dwfl table entry\n"
+-#~ msgstr ""
+-#~ "sysprof_unwind_cb PID %lld (%s): nie można utworzyć wpisu tabeli Dwfl\n"
+-
+-#, c-format
+-#~ msgid "sysprof_unwind_cb pid %lld (%s)%s: unwound %d frames\n"
+-#~ msgstr "sysprof_unwind_cb PID %lld (%s)%s: odwinięto %d ramek\n"
+-
+-#, c-format
+-#~ msgid "sysprof_unwind_cb frame size %ld is too large (max %d)\n"
+-#~ msgstr "sysprof_unwind_cb rozmiar ramki %ld jest za duży (maksymalnie %d)\n"
+-
+-#~ msgid "Waiting for input to finish. Press twice more ^C to force exit."
+-#~ msgstr ""
+-#~ "Oczekiwanie na ukończenie wejścia. Naciśnięcie ^C jeszcze dwa razy wymusi "
+-#~ "wyjście."
+-
+-#, c-format
+-#~ msgid "Unsupported -m '%s', should be "
+-#~ msgstr "Nieobsługiwane -m „%s”, powinno być "
+-
+-#, c-format
+-#~ msgid "Unsupported -f '%s', should be "
+-#~ msgstr "Nieobsługiwane -f „%s”, powinno być "
+-
+-#~ msgid "Input and output selection options:"
+-#~ msgstr "Opcje wyboru wejścia i wyjścia:"
+-
+-#~ msgid "File or FIFO to read stack samples from"
+-#~ msgstr "Plik lub FIFO, z którego odczytywać próbki stosu"
+-
+-#~ msgid "File or FIFO to send stack traces to"
+-#~ msgstr "Plik lub FIFO, do którego wysyłać ślady stosu"
+-
+-#~ msgid "Processing options:"
+-#~ msgstr "Opcje przetwarzania:"
+-
+-#~ msgid "Processing mode, default 'naive'"
+-#~ msgstr "Tryb przetwarzania, domyślnie „naive”"
+-
+-#~ msgid "Show additional information for each unwound sample"
+-#~ msgstr "Wyświetla dodatkowe informacje o każdej odwiniętej próbce"
+-
+-#~ msgid "Show additional information for each unwound frame"
+-#~ msgstr "Wyświetla dodatkowe informacje o każdej odwiniętej ramce"
+-
+-#~ msgid "Input data format, default 'sysprof'"
+-#~ msgstr "Format danych wejścia, domyślnie „sysprof”"
+-
+-#~ msgid ""
+-#~ "Process a stream of stack samples into stack traces.\n"
+-#~ "\n"
+-#~ "Experimental tool, see README.eu-stacktrace in the development branch:\n"
+-#~ "https://sourceware.org/cgit/elfutils/tree/README.eu-stacktrace?h=users/"
+-#~ "serhei/eu-stacktrace\n"
+-#~ msgstr ""
+-#~ "Przetwarza strumień próbek stosu na ślady stosu.\n"
+-#~ "\n"
+-#~ "Narzędzie eksperymentalne, README.eu-stacktrace w gałęzi rozwojowej "
+-#~ "zawiera więcej informacji:\n"
+-#~ "https://sourceware.org/cgit/elfutils/tree/README.eu-stacktrace?h=users/"
+-#~ "serhei/eu-stacktrace\n"
+-
+-#, c-format
+-#~ msgid "WARNING: Unknown value '%s' in environment variable %s, ignoring\n"
+-#~ msgstr ""
+-#~ "OSTRZEŻENIE: nieznana wartość „%s” w zmiennej środowiskowej %s, "
+-#~ "ignorowanie\n"
+-
+-#, c-format
+-#~ msgid "Cannot open input file or FIFO '%s'"
+-#~ msgstr "Nie można otworzyć pliku wejściowego lub FIFO „%s”"
+-
+-#, c-format
+-#~ msgid "Cannot open output file or FIFO '%s'"
+-#~ msgstr "Nie można otworzyć pliku wyjściowego lub FIFO „%s”"
+-
+-#, c-format
+-#~ msgid "Cannot set signal handler for SIGINT"
+-#~ msgstr "Nie można ustawić programu obsługującego dla SIGINT"
+-
+-#, c-format
+-#~ msgid "Sysprof support is not available in this version."
+-#~ msgstr "Obsługa Sysprof nie jest dostępna w tej wersji."
+-
+-#, c-format
+-#~ msgid "Could not initialize Dwfl table"
+-#~ msgstr "Nie można zainicjować tabeli Dwfl"
+-
+-#, fuzzy, c-format
+-#~| msgid "Unwinding not supported for this architecture"
+-#~ msgid "Unsupported architecture: %s"
+-#~ msgstr "Odwijanie nie jest obsługiwane dla tej architektury"
+-
+-#, c-format
+-#~ msgid "No frames in file or FIFO '%s'"
+-#~ msgstr "Brak ramek w pliku lub FIFO „%s”"
+-
+-#, c-format
+-#~ msgid ""
+-#~ "Error processing file or FIFO '%s' at input offset %ld, output offset %ld"
+-#~ msgstr ""
+-#~ "Błąd podczas przetwarzania pliku lub FIFO „%s” na offsecie wejścia %ld, "
+-#~ "offsecie wyjścia %ld"
 -
 -#, c-format
 -#~ msgid "%s %#<PRIx64> used with different base addresses"
