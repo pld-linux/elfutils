@@ -285,16 +285,16 @@ rm -rf $RPM_BUILD_ROOT
 
 %files libs
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libasm-*.so
-%attr(755,root,root) %ghost %{_libdir}/libasm.so.1
-%attr(755,root,root) %{_libdir}/libdw-*.so
-%attr(755,root,root) %ghost %{_libdir}/libdw.so.1
+%{_libdir}/libasm-*.so
+%ghost %{_libdir}/libasm.so.1
+%{_libdir}/libdw-*.so
+%ghost %{_libdir}/libdw.so.1
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libasm.so
-%attr(755,root,root) %{_libdir}/libdw.so
-%attr(755,root,root) %{_libdir}/libelf.so
+%{_libdir}/libasm.so
+%{_libdir}/libdw.so
+%{_libdir}/libelf.so
 %{_includedir}/dwarf.h
 %{_includedir}/gelf.h
 %{_includedir}/libelf.h
@@ -316,8 +316,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files libelf -f %{name}.lang
 %defattr(644,root,root,755)
-%attr(755,root,root) /%{_lib}/libelf-*.so
-%attr(755,root,root) %ghost /%{_lib}/libelf.so.1
+/%{_lib}/libelf-*.so
+%ghost /%{_lib}/libelf.so.1
 
 %files static
 %defattr(644,root,root,755)
@@ -342,12 +342,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %files debuginfod-libs
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libdebuginfod-*.so
-%attr(755,root,root) %ghost %{_libdir}/libdebuginfod.so.1
+%{_libdir}/libdebuginfod-*.so
+%ghost %{_libdir}/libdebuginfod.so.1
 
 %files debuginfod-devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libdebuginfod.so
+%{_libdir}/libdebuginfod.so
 %{_includedir}/elfutils/debuginfod.h
 %{_pkgconfigdir}/libdebuginfod.pc
 %{_mandir}/man3/debuginfod_*.3*
