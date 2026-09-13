@@ -1,6 +1,75 @@
 --- elfutils-0.196/po/pl.po.orig	2026-08-14 22:17:07.000000000 +0200
-+++ elfutils-0.196/po/pl.po	2026-08-16 19:25:17.427469933 +0200
-@@ -6281,7 +6281,7 @@ msgstr ""
++++ elfutils-0.196/po/pl.po	2026-09-13 08:18:41.904015464 +0200
+@@ -3657,7 +3657,7 @@
+ #: src/elflint.c:4611
+ #, c-format
+ msgid "LOAD segments not sorted by vaddr\n"
+-msgstr ""
++msgstr "Segmenty LOAD nie posortowane po vaddr\n"
+ 
+ #: src/elflint.c:4623
+ #, c-format
+@@ -3667,7 +3667,7 @@
+ #: src/elflint.c:4627
+ #, c-format
+ msgid "INTERP entry is preceded by a loadable segment in program header\n"
+-msgstr ""
++msgstr "Wpis INTERP poprzedzony segmentem ładowalnym w nagłówku programu\n"
+ 
+ #: src/elflint.c:4634
+ #, c-format
+@@ -3717,10 +3717,9 @@
+ msgstr "segment %s nie zawiera się we wczytywalnym segmencie\n"
+ 
+ #: src/elflint.c:4725
+-#, fuzzy, c-format
+-#| msgid "more than one TLS entry in program header\n"
++#, c-format
+ msgid "more than one PHDR entry in program header\n"
+-msgstr "więcej niż jeden wpis TLS w nagłówku programu\n"
++msgstr "więcej niż jeden wpis PHDR w nagłówku programu\n"
+ 
+ #: src/elflint.c:4751
+ #, c-format
+@@ -4339,18 +4338,13 @@
+ msgstr "Dodatkowy wybór wyjścia:"
+ 
+ #: src/readelf.c:143
+-#, fuzzy
+-#| msgid ""
+-#| "Display DWARF section content.  SECTION can be one of abbrev, addr, "
+-#| "aranges, decodedaranges, frame, gdb_index, info, info+, loc, line, "
+-#| "decodedline, ranges, pubnames, str, macinfo, macro or exception"
+ msgid ""
+ "Display DWARF section content.  SECTION can be one of abbrev, addr, aranges, "
+ "cu_index, decodedaranges, frame, gdb_index, info, info+, loc, line, "
+ "decodedline, ranges, pubnames, str, macinfo, macro or exception"
+ msgstr ""
+ "Wyświetla zawartość sekcji DWARF. SEKCJA może być jednym z abbrev, addr, "
+-"aranges, decodedaranges, frame, gdb_index, info, info+, loc, line, "
++"aranges, cu_index, decodedaranges, frame, gdb_index, info, info+, loc, line, "
+ "decodedline, ranges, pubnames, str, macinfo, macro lub exception"
+ 
+ #: src/readelf.c:148
+@@ -6240,16 +6234,12 @@
+ msgstr " Kodowanie strony wywołania:  %#x "
+ 
+ #: src/readelf.c:11795
+-#, fuzzy
+-#| msgid ""
+-#| "\n"
+-#| " Call site table:"
+ msgid ""
+ "\n"
+ " Call site table:\n"
+ msgstr ""
+ "\n"
+-" Tabela strony wywołania:"
++" Tabela strony wywołania:\n"
+ 
+ #: src/readelf.c:11811
+ #, c-format
+@@ -6281,7 +6271,7 @@
  #: src/readelf.c:11941
  #, c-format
  msgid " Version:         %<PRId32>\n"
@@ -9,7 +78,7 @@
  
  #: src/readelf.c:11960
  #, c-format
-@@ -6296,22 +6296,22 @@ msgstr " offset TU:       %#<PRIx32>\n"
+@@ -6296,22 +6286,22 @@
  #: src/readelf.c:11974
  #, c-format
  msgid " address offset:  %#<PRIx32>\n"
@@ -36,7 +105,239 @@
  
  #: src/readelf.c:12013
  #, c-format
-@@ -7812,17 +7812,6 @@ msgstr "Żąda zawartość powiązaną z
+@@ -6369,82 +6359,71 @@
+ msgstr "Nazwa głównego: "
+ 
+ #: src/readelf.c:12236
+-#, fuzzy, c-format
+-#| msgid ""
+-#| "\n"
+-#| "GDB section [%2zu] '%s' at offset %#<PRIx64> contains %<PRId64> bytes :\n"
++#, c-format
+ msgid ""
+ "\n"
+ "DWARF section [%2zu] '%s' at offset %#<PRIx64> contains %<PRId64> bytes :\n"
+ msgstr ""
+ "\n"
+-"Sekcja GDB [%2zu] „%s” pod offsetem %#<PRIx64> zawiera %<PRId64> B:\n"
++"Sekcja DWARF [%2zu] „%s” pod offsetem %#<PRIx64> zawiera %<PRId64> B:\n"
+ 
+ #: src/readelf.c:12267
+-#, fuzzy, c-format
+-#| msgid " Version:         %<PRId32>\n"
++#, c-format
+ msgid " Version: %8<PRId32>\n"
+-msgstr " Wersja:         %<PRId32>\n"
++msgstr " Wersja: %8<PRId32>\n"
+ 
+ #: src/readelf.c:12277
+-#, fuzzy, c-format
+-#| msgid "  unknown version, cannot parse section\n"
++#, c-format
+ msgid "unknown version, cannot parse section"
+-msgstr "  nieznana wersja, nie można przetworzyć sekcji\n"
++msgstr "nieznana wersja, nie można przeanalizować sekcji"
+ 
+ #: src/readelf.c:12289
+-#, fuzzy, c-format
+-#| msgid " Offset size:   %8<PRIu8>\n"
++#, c-format
+ msgid " Offset Size: %4<PRIu8>\n"
+-msgstr " Rozmiar offsetu: %8<PRIu8>\n"
++msgstr " Rozmiar offsetu: %4<PRIu8>\n"
+ 
+ #: src/readelf.c:12300
+-#, fuzzy, c-format
+-#| msgid " Version:         %<PRId32>\n"
++#, c-format
+ msgid " Columns: %8<PRId32>\n"
+-msgstr " Wersja:         %<PRId32>\n"
++msgstr " Kolumny: %8<PRId32>\n"
+ 
+ #: src/readelf.c:12306
+-#, fuzzy, c-format
+-#| msgid "    File: %11<PRIu32>\n"
++#, c-format
+ msgid " Entries: %8<PRId32>\n"
+-msgstr "    Plik: %11<PRIu32>\n"
++msgstr " Wpisy:   %8<PRId32>\n"
+ 
+ #: src/readelf.c:12312
+-#, fuzzy, c-format
+-#| msgid " symbol offset:   %#<PRIx32>\n"
++#, c-format
+ msgid " Slots:   %8<PRId32>\n"
+-msgstr " offset symbolu:   %#<PRIx32>\n"
++msgstr " Gniazda:  %8<PRId32>\n"
+ 
+ #: src/readelf.c:12318
+ #, c-format
+ msgid "Must have at least as many slots as entries"
+-msgstr ""
++msgstr "Musi mieć przynajmniej tyle gniazd, co wpisów"
+ 
+ #: src/readelf.c:12357
+-#, fuzzy, c-format
+-#| msgid "Offset entries"
++#, c-format
+ msgid ""
+ "\n"
+ " Offset table\n"
+-msgstr "Wpisy offsetu"
++msgstr ""
++"\n"
++" Tabela offsetów\n"
+ 
+ #: src/readelf.c:12383 src/readelf.c:12433
+ #, c-format
+ msgid "Row (%<PRIu32>) larger than unit count (%<PRIu32>)"
+-msgstr ""
++msgstr "Wiersz (%<PRIu32>) większy, niż liczba jednostek (%<PRIu32>)"
+ 
+ #: src/readelf.c:12407
+-#, fuzzy, c-format
+-#| msgid ""
+-#| "\n"
+-#| " Call site table:"
++#, c-format
+ msgid ""
+ "\n"
+ " Size table\n"
+ msgstr ""
+ "\n"
+-" Tabela strony wywołania:"
++" Tabela rozmiarów\n"
+ 
+ #: src/readelf.c:12590
+ #, c-format
+@@ -6882,102 +6861,94 @@
+ 
+ #: src/stackprof.cxx:399
+ msgid "Increase verbosity of logging messages (modules/samples/frames/more)."
+-msgstr ""
++msgstr "Zwiększenie szczegółowości komunikatów w logu (moduły/próbki/ramki/więcej)."
+ 
+ #. TODO: Add "quiet" option suppressing summary table.
+ #: src/stackprof.cxx:401
+ msgid "Generate gmon.BUILDID.out files for each binary."
+-msgstr ""
++msgstr "Generowanie plików gmon.BUILDID.out dla każdej binarki."
+ 
+ #: src/stackprof.cxx:402
+ msgid ""
+ "Split gmon histogram output into even or flexible chunks, default 'even'."
+-msgstr ""
++msgstr "Dzielenie wyjścia histogramu gmon na równe („even”) lub elastyczne („flexible”) części, domyślnie równe"
+ 
+ #: src/stackprof.cxx:403
+ msgid ""
+ "Maximum number of frames to unwind, default 1 with --gmon, 256 otherwise."
+-msgstr ""
++msgstr "Maksymalna liczba ramek do rozwinięcia, domyślnie 1 z --gmon, bez 256."
+ 
+ #: src/stackprof.cxx:404
+ msgid "Output directory for gmon.BUILDID.out files."
+-msgstr ""
++msgstr "Katalog wyjściowy dla plików gmon.BUILDID.out."
+ 
+ #: src/stackprof.cxx:405
+ msgid "Unlink output files to force writing as new."
+-msgstr ""
++msgstr "Usunięcie plików wyjściowych, aby wymusić ich zapis jako nowych."
+ 
+ #: src/stackprof.cxx:406
+ msgid "Profile given PID, and its future children."
+-msgstr ""
++msgstr "Profilowanie podanego PID-u i jego przyszłych potomków."
+ 
+ #: src/stackprof.cxx:408 src/stackprof.cxx:410
+ msgid "Sample given LIBPFM event specification."
+-msgstr ""
++msgstr "Próbkowanie według podanej specyfikacji zdarzeń LIBPFM."
+ 
+ #: src/stackprof.cxx:418
+ msgid "Collect systemwide stack-trace profiles."
+-msgstr ""
++msgstr "Zebranie profili śladów stosu z całego systemu."
+ 
+ #: src/stackprof.cxx:1161
+-#, fuzzy, c++-format
+-#| msgid ""
+-#| "%d %s -- max %d frames, received %d samples, lost %d samples (%.1f%%) "
+-#| "(last %s, worst %s)\n"
++#, c++-format
+ msgid ""
+ "{} {} -- max {} frames, received {} samples, lost {} samples ({:.1f}%) (last "
+ "{}, worst {})\n"
+ msgstr ""
+-"%d %s — maksymalnie %d ramek, otrzymano %d próbek, utracono %d próbek (%.1f%"
+-"%) (ostatnia %s, najgorsza %s)\n"
++"{} {} — maksymalnie {} ramek, otrzymano {} próbek, utracono {} próbek ({:.1f}%"
++") (ostatnia {}, najgorsza {})\n"
+ 
+ #: src/stackprof.cxx:1171
+-#, fuzzy, c++-format
+-#| msgid ""
+-#| "TOTAL -- received %d samples, lost %d samples, loaded %ld processes\n"
++#, c++-format
+ msgid "TOTAL -- received {} samples, lost {} samples, loaded {} processes\n"
+ msgstr ""
+-"RAZEM — otrzymano %d próbek, utracono %d próbek, wczytano %ld procesów\n"
++"RAZEM — otrzymano {} próbek, utracono {} próbek, wczytano {} procesów\n"
+ 
+ #: src/stackprof.cxx:1268
+-#, fuzzy, c++-format
+-#| msgid "find_procfile pid %lld: elf not found"
++#, c++-format
+ msgid "WARNING: find_procfile pid {}: elf not found\n"
+-msgstr "find_procfile PID %lld: nie odnaleziono ELF"
++msgstr "UWAGA: find_procfile PID {}: nie odnaleziono ELF\n"
+ 
+ #: src/stackprof.cxx:1315
+-#, fuzzy, c++-format
+-#| msgid "sysprof_find_dwfl: n_regs=%d, expected %ld\n"
++#, c++-format
+ msgid "WARNING: find_dwfl: nregs={}, expected at least {}\n"
+-msgstr "sysprof_find_dwfl: n_regs=%d, oczekiwano %ld\n"
++msgstr "UWAGA: find_dwfl: nregs={}, oczekiwano przynajmniej {}\n"
+ 
+ #: src/stackprof.cxx:1402
+-#, fuzzy, c++-format
+-#| msgid "* frame %d: pc_adjusted=%lx sp=%lx+(%lx) [dwfl_ent not found]\n"
++#, c++-format
+ msgid ""
+ "* frame {:d}: rel_pc={:x} raw_pc={:x} sp={:x}+{:x} [dwfl_ent not found]\n"
+-msgstr "* ramka %d: pc_adjusted=%lx sp=%lx+(%lx) [nie odnaleziono dwfl_ent]\n"
++msgstr "* ramka {:d}: rel_pc={:x} raw_pc={:x} sp={:x}+{:x} [nie odnaleziono dwfl_ent]\n"
+ 
+ #: src/stackprof.cxx:1788
+ #, c++-format
+ msgid "ERROR: buildid {} -- could not open '{}' for writing\n"
+-msgstr ""
++msgstr "UWAGA: buildid {} - nie udało się otworzyć „{}” do zapisu\n"
+ 
+ #: src/stackprof.cxx:1963
+ #, c++-format
+ msgid "buildid {} ({}{}{}) -- received {} distinct pcs, {} callgraph arcs\n"
+-msgstr ""
++msgstr "buildid {} ({}{}{}) - otrzymano {} różnych pc, {} krawędzi grafu wywołań\n"
+ 
+ #: src/stackprof.cxx:1975
+ #, c++-format
+ msgid "TOTAL -- received {} buildids\n"
+-msgstr ""
++msgstr "RAZEM - otrzymano {} buildid\n"
+ 
+ #: src/stackprof.cxx:2038 src/stackprof.cxx:2055
+ #, c++-format
+ msgid ""
+ "{}: Skipping pc={:x} raw_pc={:x} outside module range start={:x}..end={:x}\n"
+-msgstr ""
++msgstr "{}: Pominięto pc={:x} raw_pc={:x} poza zakresem modułu początek={:x}..koniec={:x}\n"
+ 
+ #: src/strings.c:64
+ msgid "Output Selection:"
+@@ -7812,17 +7783,6 @@
  
  #. Strings for arguments in help texts.
  #: debuginfod/debuginfod-find.c:49
@@ -54,7 +355,7 @@
  msgid ""
  "debuginfo BUILDID\n"
  "debuginfo PATH\n"
-@@ -7855,131 +7844,3 @@ msgstr "Dodatkowo wyświetla nazwy funkc
+@@ -7855,131 +7815,3 @@
  #: tests/dwflmodtest.c:210
  msgid "Show instances of inlined functions"
  msgstr "Wyświetla wystąpienia wstawionych funkcji"

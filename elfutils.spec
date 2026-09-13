@@ -257,7 +257,7 @@ install -d $RPM_BUILD_ROOT{%{_mandir}/man1,/%{_lib}}
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install debian/man/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
+cp -p debian/man/*.1 $RPM_BUILD_ROOT%{_mandir}/man1
 
 %{__mv} $RPM_BUILD_ROOT%{_libdir}/{libelf-*.so,libelf.so.*} $RPM_BUILD_ROOT/%{_lib}
 ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/libelf-*.so) \
